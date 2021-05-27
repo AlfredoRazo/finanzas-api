@@ -2,3 +2,29 @@
 <app-user></app-user>
 <h3>Clientes</h3>
 <hr class="red">
+<div class="row">
+    <div class="col-md-12">
+      <p>
+        Seleccione la opción deseada:
+      </p>
+      <br>
+    </div>
+  </div>
+  <div class="row">
+    <ng-container *ngFor="let menu of dash">
+      <div class="col-md-4">
+        <div class="panel panel-default" >
+          <div class="panel-body">
+            <div style="min-height: 150px;">
+  
+              <div style="text-align: center">
+                <span class="{{menu.icono}} acentuado" aria-hidden="true" style="font-size: 70px"></span>
+                <h5>{{menu.titulo}}</h5>
+              </div>
+            </div>
+            <a class="btn btn-primary btn-sm btn-block active" routerLink="{{menu.link}}">Ir <span style="margin-left: 10px;" class="glyphicon glyphicon-arrow-right"></span></a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>

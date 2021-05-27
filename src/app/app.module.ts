@@ -17,6 +17,9 @@ import { OperacionesComponent } from './pages/operaciones/operaciones.component'
 import { ProteccionPortuariaComponent } from './pages/proteccion-portuaria/proteccion-portuaria.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RecintoNuevaSolicitudComponent } from './pages/recinto/recinto-nueva-solicitud/recinto-nueva-solicitud.component';
+import { ManiobristaComponent } from './pages/clientes/maniobrista/maniobrista.component';
+import { AgenteAduanalComponent } from './pages/clientes/agente-aduanal/agente-aduanal.component';
+import { NavieraComponent } from './pages/clientes/naviera/naviera.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { RecintoNuevaSolicitudComponent } from './pages/recinto/recinto-nueva-so
     EstadisticaComponent,
     OperacionesComponent,
     ProteccionPortuariaComponent,
-    RecintoNuevaSolicitudComponent
+    RecintoNuevaSolicitudComponent,
+    ManiobristaComponent,
+    AgenteAduanalComponent,
+    NavieraComponent
   ],
   imports: [
     BrowserModule,

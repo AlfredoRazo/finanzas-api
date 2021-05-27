@@ -10,11 +10,17 @@ import { EstadisticaComponent } from './pages/estadistica/estadistica.component'
 import { OperacionesComponent } from './pages/operaciones/operaciones.component';
 import { ProteccionPortuariaComponent } from './pages/proteccion-portuaria/proteccion-portuaria.component';
 import { RecintoNuevaSolicitudComponent } from './pages/recinto/recinto-nueva-solicitud/recinto-nueva-solicitud.component';
+import { AgenteAduanalComponent } from './pages/clientes/agente-aduanal/agente-aduanal.component';
+import { ManiobristaComponent } from './pages/clientes/maniobrista/maniobrista.component';
+import { NavieraComponent } from './pages/clientes/naviera/naviera.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'main', component: MainComponent, canActivate: [GuardService] },
   { path: 'clientes', component: ClientesComponent, canActivate: [GuardService] },
+  { path: 'clientes/maniobrista', component: ManiobristaComponent, canActivate: [GuardService] },
+  { path: 'clientes/agente-aduanal', component: AgenteAduanalComponent, canActivate: [GuardService] },
+  { path: 'clientes/naviera', component: NavieraComponent, canActivate: [GuardService] },
   { path: 'facturacion', component: FacturacionComponent, canActivate: [GuardService] },
   { path: 'recinto', component: RecintoComponent, canActivate: [GuardService] },
   { path: 'recinto/nueva-solicitud', component: RecintoNuevaSolicitudComponent, canActivate: [GuardService] },

@@ -1,0 +1,138 @@
+<app-nav></app-nav>
+<app-user></app-user>
+<h3>Maniobrista</h3>
+<hr class="red">
+<ul class="nav nav-tabs">
+  <li [class.active]="submenu==1" ><a [routerLink]="" (click)="submenu=1">Estado de hechos</a></li>
+  <li [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">2da y 3er maniobra</a></li>
+  <li [class.active]="submenu==3"><a [routerLink]="" (click)="submenu=3">Pagos</a></li>
+  <li [class.active]="submenu==4"><a routerLink="/main" (click)="submenu=4">Salir</a></li>
+</ul>
+<br>
+<container-element [ngSwitch]="submenu">
+    <div *ngSwitchCase="1">
+        <br>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Archivo</label>
+                <input type="file" id="exampleInputFile">
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-primary" type="button">Cargar <span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>
+            </div>
+        </div>
+        <br>
+        <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Buque</th>
+                <th>Tipo de buque</th>
+                <th>Viaje</th>
+                <th>Tipo de tráfico</th>
+                <th>Tipo de maniobra</th>
+                <th>Producto</th>
+                <th>Tipo de producto</th>
+                <th>Tramo</th>
+                <th>Tráfico</th>
+                <th>Imp</th>
+                <th>Exp</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of dataHechos">
+                <td>{{item.codigo}}</td>
+                <td>{{item.buque}}</td>
+                <td>{{item.tipoBuque}}</td>
+                <td>{{item.viaje}}</td>
+                <td>{{item.tipoTrafico}}</td>
+                <td>{{item.tipoManiobra}}</td>
+                <td>{{item.producto}}</td>
+                <td>{{item.tipoProducto}}</td>
+                <td>{{item.tramo}}</td>
+                <td>{{item.trafico}}</td>
+                <td>{{item.imp}}</td>
+                <td>{{item.exp}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+          <ngb-pagination [collectionSize]="10" [(page)]="pageHechos"></ngb-pagination>
+    </div>
+    <div *ngSwitchCase="2">
+        <br>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Archivo</label>
+                <input type="file" id="exampleInputFile">
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-primary" type="button">Cargar <span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>
+            </div>
+        </div>
+        <br>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Buque</th>
+                    <th>Viaje</th>
+                    <th>Tipo de tráfico</th>
+                    <th>Recinto de entrada / salida</th>
+                    <th>T. maniobra</th>
+                    <th>Producto</th>
+                    <th>Embalaje</th>
+                    <th># Bulto</th>
+                    <th>T. prod</th>
+                    <th>Tramo</th>
+                    <th>Tráfico</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of dataManiobra">
+                    <td>{{item.buque}}</td>
+                    <td>{{item.viaje}}</td>
+                    <td>{{item.tipoTrafico}}</td>
+                    <td>{{item.recintoES}}</td>
+                    <td>{{item.tipoManiobra}}</td>
+                    <td>{{item.producto}}</td>
+                    <td>{{item.embalaje}}</td>
+                    <td>{{item.bulto}}</td>
+                    <td>{{item.tipoProducto}}</td>
+                    <td>{{item.tramo}}</td>
+                    <td>{{item.trafico}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+              <ngb-pagination [collectionSize]="10" [(page)]="pageManiobra"></ngb-pagination>
+    </div>
+    <div *ngSwitchCase="3">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Concepto</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>CFDI</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of dataPagos">
+                        <td>{{item.id}}</td>
+                        <td>{{item.fecha}}</td>
+                        <td>{{item.concepto}}</td>
+                        <td>{{item.total | currency}}</td>
+                        <td>{{item.estado}}</td>
+                        <td>{{item.cfdi}}</td>
+                      </tr>
+                </tbody>
+              </table>
+            </div>
+            <ngb-pagination [collectionSize]="10" [(page)]="pagePagos"></ngb-pagination>
+    </div>
+ </container-element>

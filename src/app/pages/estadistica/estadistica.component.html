@@ -2,3 +2,28 @@
 <app-user></app-user>
 <h3>Estadística</h3>
 <hr class="red">
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Fecha</th>
+      <th>Empresa</th>
+      <th>Tipo</th>
+      <th>Estado</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of data">
+      <td>{{item.id}}</td>
+      <td>{{item.fecha}}</td>
+      <td>{{item.empresa}}</td>
+      <td>{{item.tipo}}</td>
+      <td>{{item.estado}}</td>
+      <td><button class="btn btn-danger btn-sm">Ver detalle</button></td>
+    </tr>
+  </tbody>
+</table>
+
+<ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>
