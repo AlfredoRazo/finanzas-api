@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  endpoint: 'https://zzone.cloudapp.net/sicrefis/api/'
+  endpoint: 'http://zzone.cloudapp.net/sicrefis/api/'
 };
 
 /*
