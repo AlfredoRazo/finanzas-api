@@ -13,6 +13,7 @@ import { RecintoNuevaSolicitudComponent } from './pages/recinto/recinto-nueva-so
 import { AgenteAduanalComponent } from './pages/clientes/agente-aduanal/agente-aduanal.component';
 import { ManiobristaComponent } from './pages/clientes/maniobrista/maniobrista.component';
 import { NavieraComponent } from './pages/clientes/naviera/naviera.component';
+import { AgenteNuevaSolicitudComponent } from './pages/clientes/agente-aduanal/agente-nueva-solicitud/agente-nueva-solicitud.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'clientes', component: ClientesComponent, canActivate: [GuardService] },
   { path: 'clientes/maniobrista', component: ManiobristaComponent, canActivate: [GuardService] },
   { path: 'clientes/agente-aduanal', component: AgenteAduanalComponent, canActivate: [GuardService] },
+  { path: 'clientes/agente-aduanal/nueva-solicitud', component: AgenteNuevaSolicitudComponent, canActivate: [GuardService] },
   { path: 'clientes/naviera', component: NavieraComponent, canActivate: [GuardService] },
   { path: 'facturacion', component: FacturacionComponent, canActivate: [GuardService] },
   { path: 'recinto', component: RecintoComponent, canActivate: [GuardService] },

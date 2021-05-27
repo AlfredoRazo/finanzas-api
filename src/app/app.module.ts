@@ -20,6 +20,7 @@ import { RecintoNuevaSolicitudComponent } from './pages/recinto/recinto-nueva-so
 import { ManiobristaComponent } from './pages/clientes/maniobrista/maniobrista.component';
 import { AgenteAduanalComponent } from './pages/clientes/agente-aduanal/agente-aduanal.component';
 import { NavieraComponent } from './pages/clientes/naviera/naviera.component';
+import { AgenteNuevaSolicitudComponent } from './pages/clientes/agente-aduanal/agente-nueva-solicitud/agente-nueva-solicitud.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { NavieraComponent } from './pages/clientes/naviera/naviera.component';
     RecintoNuevaSolicitudComponent,
     ManiobristaComponent,
     AgenteAduanalComponent,
-    NavieraComponent
+    NavieraComponent,
+    AgenteNuevaSolicitudComponent
   ],
   imports: [
     BrowserModule,

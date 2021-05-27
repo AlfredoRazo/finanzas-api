@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 declare var $: any;
 
 @Component({
-  selector: 'app-recinto-nueva-solicitud',
-  templateUrl: './recinto-nueva-solicitud.component.html',
-  styleUrls: ['./recinto-nueva-solicitud.component.css']
+  selector: 'app-agente-nueva-solicitud',
+  templateUrl: './agente-nueva-solicitud.component.html',
+  styleUrls: ['./agente-nueva-solicitud.component.css']
 })
-export class RecintoNuevaSolicitudComponent implements OnInit {
+export class AgenteNuevaSolicitudComponent implements OnInit {
   page = 1;
   data = [
     {
