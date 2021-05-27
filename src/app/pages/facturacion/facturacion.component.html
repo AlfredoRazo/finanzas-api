@@ -6,7 +6,6 @@
   <li role="presentation" class="active"><a >Consultas</a></li>
   <li role="presentation"><a >Clientes</a></li>
   <li role="presentation"><a >Reportes</a></li>
-  <li role="presentation"><a routerLink="/main">Salir</a></li>
 </ul>
 <br>
 <br>
@@ -55,4 +54,5 @@
   </tbody>
 </table>
 
-<ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>
+<ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
+<button type="button" class="btn btn-default" routerLink="/main">Regresar</button>
