@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {environment} from '@env/environment';
 declare var $: any;
 
 @Component({
@@ -7,7 +9,10 @@ declare var $: any;
   styleUrls: ['./recinto-nueva-solicitud.component.css']
 })
 export class RecintoNuevaSolicitudComponent implements OnInit {
+  loading = false;
+  manifiesto = '';
   page = 1;
+  manifiestoData: any = [];
   data = [
     {
       manifiesto: 123412,
@@ -18,14 +23,26 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       unidades: '1000'
     }
   ];
+  man: any = {};
 
-  constructor() { }
+  constructor(public http: HttpClient) { }
 
   ngOnInit(): void {
     $('#fecha-servicio').datepicker();
     $('#fecha-arribo').datepicker();
     $('#fecha-inicio-operaciones').datepicker();
     $('#fecha-zarpe').datepicker();
+  }
+
+  consulta(): void {
+    this.loading = true;
+    this.http.post<any>(environment.endpoint + 'sicrefis', { manifiesto: this.manifiesto , buque : '' }).subscribe(res => {
+              this.loading = false;
+              this.manifiestoData = res.manifiestos;
+              this.man = res.man;
+        },error => {
+          this.loading = false;
+        })
   }
 
 }
