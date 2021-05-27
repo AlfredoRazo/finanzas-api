@@ -1,0 +1,35 @@
+<div class="panel panel-default login">
+    <div class="panel-body">
+        <img src="assets/img/logoAPI.png" class="img-responsive" >
+        <h3 class="text-center">Inicio de sesión</h3>
+        <form class="form-horizontal" #login="ngForm" (ngSubmit)="onSubmit(login)">
+            <div class="form-group" [class.has-error]="usuario.invalid && (usuario.dirty || usuario.touched)">
+              <label class="col-sm-3 control-label">Usuario</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="usuario"  #usuario="ngModel" ngModel placeholder="Usuario" required>
+              </div>
+              <span class="col-sm-3"></span>
+              <span class="help-block col-sm-9" *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)">El usuario es requerido</span>
+            </div>
+            <div class="form-group" [class.has-error]="password.invalid && (password.dirty || password.touched)">
+              <label class="col-sm-3 control-label">Contraseña</label>
+              <div class="col-sm-9">
+                <input type="password" class="form-control" name="password" #password="ngModel" ngModel placeholder="Contraseña" required>
+              </div>
+              <span class="col-sm-3"></span>
+              <span class="help-block col-sm-9" *ngIf="password.invalid && (password.touched || password.dirty)">La contraseña es requerida</span>
+            </div>
+            <br>
+            <div class="form-group text-right" >
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary" [disabled]="login.invalid">Enviar</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="alert alert-danger" *ngIf="hasError">
+              {{errorMsj}}
+          </div>
+        
+    </div>
+</div>

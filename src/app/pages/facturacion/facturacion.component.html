@@ -1,0 +1,58 @@
+<app-nav></app-nav>
+<app-user></app-user>
+<h3>Facturación</h3>
+<hr class="red">
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a >Consultas</a></li>
+  <li role="presentation"><a >Clientes</a></li>
+  <li role="presentation"><a >Reportes</a></li>
+  <li role="presentation"><a routerLink="/main">Salir</a></li>
+</ul>
+<br>
+<br>
+<form class="form-horizontal">
+  <div class="form-group">
+    <label class="col-sm-2 control-label" style="text-align: left !important;">Filtrar por: </label>
+    <div class="col-sm-3">
+    <select class="form-control">
+      <option>Opciones</option>
+    </select>
+  </div>
+  <div class="col-sm-5">
+    <input type="email" class="form-control" placeholder="Criterio">
+  </div>
+  <div class="col-sm-2"> 
+    <button class="btn btn-danger btn-block btn-sm" type="button">Buscar <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+  </div>
+  </div>
+</form>
+<br>
+<button type="button" class="btn btn-primary btn-sm">Nueva consulta</button>
+<br>
+<br>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Fecha</th>
+      <th>Empresa</th>
+      <th>Concepto</th>
+      <th>Total</th>
+      <th>Estado</th>
+      <th>CFDI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of data">
+      <td>{{item.id}}</td>
+      <td>{{item.fecha}}</td>
+      <td>{{item.empresa}}</td>
+      <td>{{item.concepto}}</td>
+      <td>{{item.total | currency}}</td>
+      <td>{{item.estado}}</td>
+      <td>{{item.cfdi}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>
