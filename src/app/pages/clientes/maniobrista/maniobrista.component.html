@@ -22,8 +22,8 @@
         </div>
         <br>
         <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
+        <table class="table table-bordered" >
+            <thead style="white-space: nowrap;">
               <tr>
                 <th>Código</th>
                 <th>Buque</th>
@@ -72,7 +72,7 @@
         </div>
         <br>
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered" style="white-space: nowrap;">
                 <thead>
                   <tr>
                     <th>Buque</th>
@@ -118,6 +118,7 @@
                     <th>Total</th>
                     <th>Estado</th>
                     <th>CFDI</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -128,6 +129,7 @@
                         <td>{{item.total | currency}}</td>
                         <td>{{item.estado}}</td>
                         <td>{{item.cfdi}}</td>
+                        <td><button class="btn btn-danger btn-sm" style="margin-right: 10px;">Ver detalle</button> <button class="btn btn-primary btn-sm">Completar pago</button></td>
                       </tr>
                 </tbody>
               </table>
