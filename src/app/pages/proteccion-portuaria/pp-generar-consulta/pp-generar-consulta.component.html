@@ -1,0 +1,33 @@
+<app-nav></app-nav>
+<app-user></app-user>
+<h3>Nueva consulta</h3>
+<hr class="red">
+<form role="form">
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">ID Empresa</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="form-group col-md-8">
+            <label class="control-label">Empresa</label>
+            <input type="text" class="form-control">
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">Concepto</label>
+            <select class="form-control">
+                <option>Contenedores</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary pull-right">Generar</button>
+            <button type="button" routerLink="/proteccion-portuaria" style="margin-right: 15px;" class="btn btn-default pull-right">Cancelar</button>
+        </div>
+
+    </div>
+</form>

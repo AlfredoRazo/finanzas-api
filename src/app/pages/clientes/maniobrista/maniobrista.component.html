@@ -6,7 +6,6 @@
   <li [class.active]="submenu==1" ><a [routerLink]="" (click)="submenu=1">Estado de hechos</a></li>
   <li [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">2da y 3er maniobra</a></li>
   <li [class.active]="submenu==3"><a [routerLink]="" (click)="submenu=3">Pagos</a></li>
-  <li [class.active]="submenu==4"><a routerLink="/clientes" (click)="submenu=4">Salir</a></li>
 </ul>
 <br>
 <container-element [ngSwitch]="submenu">
@@ -136,3 +135,4 @@
             <ngb-pagination [collectionSize]="10" [(page)]="pagePagos"></ngb-pagination>
     </div>
  </container-element>
+ <button type="button" class="btn btn-default" routerLink="/clientes">Regresar</button>

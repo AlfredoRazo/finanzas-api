@@ -14,6 +14,8 @@ import { AgenteAduanalComponent } from './pages/clientes/agente-aduanal/agente-a
 import { ManiobristaComponent } from './pages/clientes/maniobrista/maniobrista.component';
 import { NavieraComponent } from './pages/clientes/naviera/naviera.component';
 import { AgenteNuevaSolicitudComponent } from './pages/clientes/agente-aduanal/agente-nueva-solicitud/agente-nueva-solicitud.component';
+import { OperacionesNuevoPagoComponent } from './pages/operaciones/operaciones-nuevo-pago/operaciones-nuevo-pago.component';
+import { PpGenerarConsultaComponent } from './pages/proteccion-portuaria/pp-generar-consulta/pp-generar-consulta.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -28,7 +30,9 @@ const routes: Routes = [
   { path: 'recinto/nueva-solicitud', component: RecintoNuevaSolicitudComponent, canActivate: [GuardService] },
   { path: 'estadistica', component: EstadisticaComponent, canActivate: [GuardService] },
   { path: 'operaciones', component: OperacionesComponent, canActivate: [GuardService] },
+  { path: 'operaciones/nuevo-pago', component: OperacionesNuevoPagoComponent, canActivate: [GuardService] },
   { path: 'proteccion-portuaria', component: ProteccionPortuariaComponent, canActivate: [GuardService] },
+  { path: 'proteccion-portuaria/generar-consulta', component: PpGenerarConsultaComponent, canActivate: [GuardService] },
   { path: '**', redirectTo: '/', pathMatch: 'full' }
 ];
 

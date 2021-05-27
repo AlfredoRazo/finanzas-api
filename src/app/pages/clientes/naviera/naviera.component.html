@@ -2,11 +2,6 @@
 <app-user></app-user>
 <h3>Naviera</h3>
 <hr class="red">
-<ul class="nav nav-tabs">
-
-    <li><a routerLink="/clientes">Salir</a></li>
-</ul>
-<br>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -28,4 +23,5 @@
     </tbody>
 </table>
 
-<ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>
+<ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
+<button type="button" class="btn btn-default" routerLink="/clientes">Regresar</button>

@@ -22,6 +22,9 @@ import { AgenteAduanalComponent } from './pages/clientes/agente-aduanal/agente-a
 import { NavieraComponent } from './pages/clientes/naviera/naviera.component';
 import { AgenteNuevaSolicitudComponent } from './pages/clientes/agente-aduanal/agente-nueva-solicitud/agente-nueva-solicitud.component';
 
+import { OperacionesNuevoPagoComponent } from './pages/operaciones/operaciones-nuevo-pago/operaciones-nuevo-pago.component';
+import { PpGenerarConsultaComponent } from './pages/proteccion-portuaria/pp-generar-consulta/pp-generar-consulta.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +42,9 @@ import { AgenteNuevaSolicitudComponent } from './pages/clientes/agente-aduanal/a
     ManiobristaComponent,
     AgenteAduanalComponent,
     NavieraComponent,
-    AgenteNuevaSolicitudComponent
+    AgenteNuevaSolicitudComponent,
+    OperacionesNuevoPagoComponent,
+    PpGenerarConsultaComponent
   ],
   imports: [
     BrowserModule,

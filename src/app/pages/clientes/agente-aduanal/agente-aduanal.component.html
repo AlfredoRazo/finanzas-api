@@ -5,7 +5,6 @@
 
   <ul class="nav nav-tabs">
     <li role="presentation" class="active"><a >Solicitudes de servicio</a></li>
-    <li role="presentation"><a routerLink="/clientes">Salir</a></li>
   </ul>
   <br>
   <br>
@@ -50,4 +49,5 @@
     </tbody>
   </table>
   
-  <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>
+  <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
+  <button type="button" class="btn btn-default" routerLink="/clientes">Regresar</button>
