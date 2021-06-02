@@ -3,78 +3,117 @@
 <h3>Nuevo pago</h3>
 <hr class="red">
 <form role="form">
-    <div class="row">
-        <div class="form-group col-md-6">
-            <label class="control-label">Naviera</label>
-            <input type="text" class="form-control">
-        </div>
-        <div class="form-group col-md-6">
-            <label class="control-label">Buque</label>
-            <input type="text" class="form-control">
-        </div>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label class="control-label">Tipo de Arribo</label>
+      <select class="form-control">
+        <option *ngFor="let option of tipoArribo" value="{{option.id}}">{{option.descripcion}}</option>
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <label class="control-label">Tipo de Tráfico</label>
+      <select class="form-control">
+        <option *ngFor="let option of tipoTrafico" value="{{option.id}}">{{option.descripcion}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label class="control-label">Tipo de Actividad</label>
+      <select class="form-control">
+        <option *ngFor="let option of tipoActividad" value="{{option.id}}">{{option.descripcion}}</option>
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <label class="control-label">Tipo de Arancel</label>
+      <select class="form-control">
+        <option *ngFor="let option of tipoArancel" value="{{option.id}}">{{option.descripcion}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label class="control-label">Tramo</label>
+      <input type="text" class="form-control">
+    </div>
+    <div class="form-group col-md-6">
+      <label class="control-label">Número de Viaje</label>
+      <input type="text" class="form-control">
+    </div>
 
+  </div>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label class="control-label">Naviera</label>
+      <input type="text" class="form-control">
     </div>
-    <div class="row">
-        <div class="form-group col-md-6">
-            <label class="control-label">Primer cabo</label>
-            <input type="text" class="form-control">
-        </div>
-        <div class="form-group col-md-6">
-            <label class="control-label">Último cabo</label>
-            <input type="text" class="form-control">
-        </div>
+    <div class="form-group col-md-6">
+      <label class="control-label">Buque</label>
+      <input type="text" class="form-control">
+    </div>
 
+  </div>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label class="control-label">Primer cabo</label>
+      <input type="text" class="form-control">
     </div>
-    <div class="row">
-        <div class="form-group col-md-12">
-            <label class="control-label">Descripción</label>
-            <input type="text" class="form-control">
-        </div>
+    <div class="form-group col-md-6">
+      <label class="control-label">Último cabo</label>
+      <input type="text" class="form-control">
     </div>
-    <button class="btn btn-primary pull-right">Aceptar</button>
+
+  </div>
+  <div class="row">
+    <div class="form-group col-md-12">
+      <label class="control-label">Descripción</label>
+      <input type="text" class="form-control">
+    </div>
+  </div>
+  <button class="btn btn-primary pull-right">Aceptar</button>
 </form>
 <br>
 <h4>Atraque</h4>
 <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Fecha</th>
-        <th>Concepto</th>
-        <th>Total</th>
-        <th>Estado</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of dataAtraque">
-        <td>{{item.id}}</td>
-        <td>{{item.fecha}}</td>
-        <td>{{item.concepto}}</td>
-        <td>{{item.total | currency}}</td>
-        <td>{{item.estado}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Fecha</th>
+      <th>Concepto</th>
+      <th>Total</th>
+      <th>Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of dataAtraque">
+      <td>{{item.id}}</td>
+      <td>{{item.fecha}}</td>
+      <td>{{item.concepto}}</td>
+      <td>{{item.total | currency}}</td>
+      <td>{{item.estado}}</td>
+    </tr>
+  </tbody>
+</table>
 
 <h4>Puerto</h4>
 <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Fecha</th>
-        <th>Concepto</th>
-        <th>Total</th>
-        <th>Estado</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of dataPuerto">
-        <td>{{item.id}}</td>
-        <td>{{item.fecha}}</td>
-        <td>{{item.concepto}}</td>
-        <td>{{item.total | currency}}</td>
-        <td>{{item.estado}}</td>
-      </tr>
-    </tbody>
-  </table>
-  <button type="button" class="btn btn-default" routerLink="/operaciones">Regresar</button>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Fecha</th>
+      <th>Concepto</th>
+      <th>Total</th>
+      <th>Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of dataPuerto">
+      <td>{{item.id}}</td>
+      <td>{{item.fecha}}</td>
+      <td>{{item.concepto}}</td>
+      <td>{{item.total | currency}}</td>
+      <td>{{item.estado}}</td>
+    </tr>
+  </tbody>
+</table>
+<button type="button" class="btn btn-default" routerLink="/operaciones">Regresar</button>
