@@ -14,7 +14,7 @@
         <div class="row">
             <div class="form-group col-md-6">
                 <label>Archivo</label>
-                <input type="file" id="exampleInputFile">
+                <input type="file" id="hechos" (change)="loadHechos($event)" accept=".xlsx">
             </div>
             <div class="col-md-6">
                 <button class="btn btn-primary" type="button">Cargar <span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>
@@ -64,7 +64,7 @@
         <div class="row">
             <div class="form-group col-md-6">
                 <label>Archivo</label>
-                <input type="file" id="exampleInputFile">
+                <input type="file" id="maniobra" (change)="loadManiobras($event)" accept=".xlsx">
             </div>
             <div class="col-md-6">
                 <button class="btn btn-primary" type="button">Cargar <span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>
