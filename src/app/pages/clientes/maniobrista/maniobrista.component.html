@@ -17,10 +17,16 @@
                 <input type="file" id="hechos" (change)="loadHechos($event)" accept=".xlsx">
             </div>
             <div class="col-md-6">
-                <button class="btn btn-primary" type="button">Cargar <span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>
+                <button class="btn btn-primary" type="button" [disabled]="dataHechos.length < 1 || loading" (click)="uploadDataHechos()">Cargar <span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>
             </div>
         </div>
         <br>
+        <div class="alert alert-success" *ngIf="hasSuccess">
+            {{successMsj}}
+        </div>
+        <div class="alert alert-danger" *ngIf="hasError">
+            {{errorMsj}}
+        </div>
         <div class="table-responsive">
         <table class="table table-bordered" >
             <thead style="white-space: nowrap;">
@@ -43,16 +49,16 @@
               <tr *ngFor="let item of dataHechos">
                 <td>{{item.codigo}}</td>
                 <td>{{item.buque}}</td>
-                <td>{{item.tipoBuque}}</td>
+                <td>{{item.tipobuque}}</td>
                 <td>{{item.viaje}}</td>
-                <td>{{item.tipoTrafico}}</td>
-                <td>{{item.tipoManiobra}}</td>
+                <td>{{item.tipotrafico}}</td>
+                <td>{{item.tipomaniobra}}</td>
                 <td>{{item.producto}}</td>
-                <td>{{item.tipoProducto}}</td>
+                <td>{{item.tipoproducto}}</td>
                 <td>{{item.tramo}}</td>
                 <td>{{item.trafico}}</td>
-                <td>{{item.imp}}</td>
-                <td>{{item.exp}}</td>
+                <td>{{item.importacion}}</td>
+                <td>{{item.exportacion}}</td>
               </tr>
             </tbody>
           </table>

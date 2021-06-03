@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '@env/environment';
+import { AuthService } from '@serv/auth.service';
 
 @Component({
   selector: 'app-maniobrista',
@@ -7,6 +10,11 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./maniobrista.component.css']
 })
 export class ManiobristaComponent implements OnInit {
+  loading = false;
+  errorMsj = '';
+  hasError = false;
+  hasSuccess = false;
+  successMsj = '';
   arrayBuffer: any;
   filelist: any;
   pageHechos = 1;
@@ -29,7 +37,8 @@ export class ManiobristaComponent implements OnInit {
       cfdi: ''
     }
   ]
-  constructor() { }
+  constructor(private http: HttpClient,
+    private auth: AuthService) { }
 
   ngOnInit(): void {
   }
@@ -54,31 +63,66 @@ export class ManiobristaComponent implements OnInit {
      
       var arraylist = XLSX.utils.sheet_to_json(worksheet, { raw: true });
       arraylist.splice(-1,1);
-      /*arraylist.forEach(element => {
-        if()
-        
-      });*/
       this.dataHechos = arraylist.map((item: any)=> {
         
         return  { 
           codigo: item['Código'], 
           buque: item['Buque'], 
-          tipoBuque:item['Tipo de Buque'], 
+          tipobuque:item['Tipo de Buque'], 
           viaje: item['Viaje'], 
-          tipoTrafico: item['Tipo de Tráfico'], 
-          tipoManiobra: item['T. Maniobra'], 
+          operadora: '',
+          tipotrafico: item['Tipo de Tráfico'], 
+          tipomaniobra: item['T. Maniobra'], 
           producto: item['Producto'], 
-          tipoProducto: item['T.Producto'], 
+          tipoproducto: item['T.Producto'], 
           tramo:item['Tramo'], 
           trafico: item['Tráfico'], 
-          imp: item['Importación'], 
-          exp: item['Exportación'] };
+          importacion: item['Importación'], 
+          exportacion: item['Exportación'],
+          altentrada : 0,
+          altsalida : 0,
+          caboentrada : item['Entrada'],
+          cabosalida : item['Salida'],
+          transentrada : item['Entrada_1'],
+          transsalida : item['Salida_1'],
+          total : item['Total']
+         };
       });
-
-
     }
-
   }
+
+  uploadDataHechos(): void{
+    const user = this.auth.getSession();
+
+    this.loading = true;
+    const payload = {
+      appkey : environment.appKey,
+      usuariokey : '',
+      idusuario : user.userData.idusuario,
+      registros : this.dataHechos
+    }
+    this.http.post(environment.endpointApi + 'estadodehechos', payload).subscribe((res: any) => {
+      this.loading = false;
+      console.log(res);
+      if(res.length === 1){
+        this.hasSuccess = false;
+        this.successMsj = ''
+        this.hasError = true;
+        this.errorMsj = res[0].errorDesc;
+      }else{
+        this.hasError = false;
+        this.errorMsj = '';
+        this.hasSuccess = true;
+        this.successMsj = '';
+        console.log(res);
+      }
+    },error => {
+      this.loading = false;
+      this.hasError = true;
+      this.errorMsj = error.error.Message;
+    })
+  }
+
   loadManiobras(event: any): void {
     const file = event.target.files[0];
     let fileReader = new FileReader();

@@ -109,12 +109,9 @@
     <div class="row">
         <div class="form-group col-md-4">
             <label class="control-label">B/L</label>
-            <input type="text" class="form-control" [(ngModel)]="manifiesto" name="manifiesto">
+            <input type="text" class="form-control" >
         </div>
-        <div class="col-md-8">
-            <button class="btn btn-primary btn-sm" style="margin-top: 30px;" (click)="consulta()" [disabled]="!manifiesto || loading" [class.spinner]="loading">Buscar</button>
-
-        </div>
+       
     </div>
     <div class="row">
         <div class="form-group col-md-4">
@@ -134,7 +131,17 @@
 
 <br>
 <br>
+<div class="row">
+    <div class="form-group col-md-4">
+        <label class="control-label">Buscar Manifiesto</label>
+        <input type="text" class="form-control" [(ngModel)]="manifiesto" name="manifiesto">
+    </div>
+    <div class="col-md-8">
+        <button class="btn btn-primary btn-sm" style="margin-top: 30px;" (click)="consulta()" [disabled]="!manifiesto || loading" [class.spinner]="loading">Buscar</button>
 
+    </div>
+</div>
+<div class="table-responsive">
     <table class="table table-bordered" >
         <thead>
             <tr>
@@ -143,9 +150,24 @@
                 <th>Transporte</th>
                 <th>Buque</th>
                 <th>Número Viaje</th>
+                <th>Tipo Operación</th>
                 <th>Fecha estimada</th>
                 <th>Linea Naviera</th>
+                <th>Firma</th>
                 <th>Fecha Recibe</th>
+                <th>País</th>
+                <th>Puerto</th>
+                <th>Entidad Man</th>
+                <th>Número de Transacción Orig</th>
+                <th>Aduana Orig</th>
+                <th>cu Aduana</th>
+                <th>Nom Aduana</th>
+                <th>cu País</th>
+                <th>nom País</th>
+                <th>cu Puerto</th>
+                <th>cu Entidad Man</th>
+                <th>nom Entidad Man</th>
+             
             </tr>
         </thead>
         <tbody>
@@ -155,13 +177,27 @@
                 <td>{{item.cTransp}}</td>
                 <td>{{item.nomBuque}}</td>
                 <td>{{item.numviaje}}</td>
+                <td>{{item.tipoOper}}</td>
                 <td>{{item.fecEstimada}}</td>
                 <td>{{item.lineaNaviera}}</td>
+                <td>{{item.firma}}</td>
                 <td>{{item.fecRecibe}}</td>
-                
+                <td>{{item.pais}}</td>
+                <td>{{item.puerto}}</td>
+                <td>{{item.entidadMan}}</td>
+                <td>{{item.nTransOrig}}</td>
+                <td>{{item.cAduanaOrig}}</td>
+                <td>{{item.cuAduana}}</td>
+                <td>{{item.nomAduana}}</td>
+                <td>{{item.cuPais}}</td>
+                <td>{{item.nomPais}}</td>
+                <td>{{item.cuPuerto}}</td>
+                <td>{{item.cuEntidadMan}}</td>
+                <td>{{item.nomEntidadMan}}</td>
             </tr>
         </tbody>
     </table>
+</div>
 
     
   <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>

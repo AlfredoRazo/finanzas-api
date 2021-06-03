@@ -37,12 +37,9 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    $('#fecha-primer-cabo').datetimepicker({
-      locale: 'es'
-  });
-    $('#fecha-ultimo-cabo').datetimepicker({
-      locale: 'es'
-  });
+      $('#fecha-primer-cabo').datepicker();
+      $('#fecha-ultimo-cabo').datepicker();
+      $('.clockpicker').clockpicker({donetext: 'Aceptar'});
   }
 
 }

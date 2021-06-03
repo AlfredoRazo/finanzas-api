@@ -31,11 +31,10 @@
             ],
             "styles": [
               "src/styles.css",
-              "src/tempusdominus-bootstrap-3.min.css"
+              "src/third_party/bootstrap-clockpicker.min.css"
             ],
             "scripts": [
-              "src/es-mx.js",
-              "src/tempusdominus-bootstrap-3.min.js"
+              "src/third_party/bootstrap-clockpicker.min.js"
             ],
             "allowedCommonJsDependencies": [
               "xlsx"

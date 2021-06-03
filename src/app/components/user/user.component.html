@@ -3,7 +3,7 @@
     <div class="col-md-4">
         <div class="panel panel-default">
             <div class="panel-body">
-              {{user.nombre}} {{user.primerApellido}} <br> <span style="font-size: smaller;">{{user.rol}}</span>
+              {{user.nombre}} <br> {{user.tipo}}<br><span style="font-size: smaller;">{{user.rol}}</span> <br><span style="font-size: smaller;">{{user.empresa}}</span>
               <hr>
               <button type="button" class="btn btn-default btn-xs pull-right" (click)="closeSession()">Cerrar sesión</button>
             </div>
