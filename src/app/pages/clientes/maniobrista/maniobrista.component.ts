@@ -44,7 +44,11 @@ export class ManiobristaComponent implements OnInit {
   }
 
   loadHechos(event: any): void {
+    this.hasError = false;
+    this.errorMsj = '';
     const file = event.target.files[0];
+    const ext = event.target.files[0].name.split('.').pop().toUpperCase() ;
+    if(ext === 'XLSX'){
     let fileReader = new FileReader();
     fileReader.readAsArrayBuffer(file);
     fileReader.onload = (e) => {
@@ -60,11 +64,11 @@ export class ManiobristaComponent implements OnInit {
       this.delete_row(worksheet, 0);
       this.delete_row(worksheet, 0);
       this.delete_row(worksheet, 0);
-     
+      let error = 0;
       var arraylist = XLSX.utils.sheet_to_json(worksheet, { raw: true });
       arraylist.splice(-1,1);
       this.dataHechos = arraylist.map((item: any)=> {
-        
+      
         return  { 
           codigo: item['Código'], 
           buque: item['Buque'], 
@@ -88,6 +92,16 @@ export class ManiobristaComponent implements OnInit {
           total : item['Total']
          };
       });
+      if(error > 0){
+        this.dataHechos = [];
+        this.hasError = true;
+        this.errorMsj = 'No se encuentra en el formato requerido su archivo, favor de verificar';
+
+      }
+    }
+    }else{
+      this.hasError = true;
+      this.errorMsj = 'Archivo no valido, requiere ingresar un archivo xlsx';
     }
   }
 
