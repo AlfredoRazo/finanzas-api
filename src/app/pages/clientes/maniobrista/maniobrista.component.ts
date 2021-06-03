@@ -103,8 +103,7 @@ export class ManiobristaComponent implements OnInit {
     }
     this.http.post(environment.endpointApi + 'estadodehechos', payload).subscribe((res: any) => {
       this.loading = false;
-      console.log(res);
-      if(res.length === 1){
+      if(res[0].error !== 0){
         this.hasSuccess = false;
         this.successMsj = ''
         this.hasError = true;
@@ -113,8 +112,8 @@ export class ManiobristaComponent implements OnInit {
         this.hasError = false;
         this.errorMsj = '';
         this.hasSuccess = true;
-        this.successMsj = '';
-        console.log(res);
+        this.dataHechos = [];
+        this.successMsj = res[0].message ?res[0].message : 'Se guardó correctamente su documento';
       }
     },error => {
       this.loading = false;
