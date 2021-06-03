@@ -4,72 +4,86 @@
 <hr class="red">
 <form role="form">
   <div class="row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-3">
       <label class="control-label">Tipo de Arribo</label>
       <select class="form-control">
         <option *ngFor="let option of tipoArribo" value="{{option.id}}">{{option.descripcion}}</option>
       </select>
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-3">
       <label class="control-label">Tipo de Tráfico</label>
       <select class="form-control">
         <option *ngFor="let option of tipoTrafico" value="{{option.id}}">{{option.descripcion}}</option>
       </select>
     </div>
-  </div>
-  <div class="row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-3">
       <label class="control-label">Tipo de Actividad</label>
       <select class="form-control">
         <option *ngFor="let option of tipoActividad" value="{{option.id}}">{{option.descripcion}}</option>
       </select>
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-3">
       <label class="control-label">Tipo de Arancel</label>
       <select class="form-control">
         <option *ngFor="let option of tipoArancel" value="{{option.id}}">{{option.descripcion}}</option>
       </select>
     </div>
   </div>
+ 
   <div class="row">
-    <div class="form-group col-md-6">
+    
+    <div class="form-group col-md-3">
       <label class="control-label">Tramo</label>
       <input type="text" class="form-control">
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-3">
       <label class="control-label">Número de Viaje</label>
       <input type="text" class="form-control">
     </div>
-
-  </div>
-  <div class="row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-3">
       <label class="control-label">Naviera</label>
       <input type="text" class="form-control">
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-3">
       <label class="control-label">Buque</label>
       <input type="text" class="form-control">
     </div>
 
   </div>
   <div class="row">
-    <div class="form-group col-md-6">
-      <label class="control-label">Primer cabo</label>
-      <input type="text" class="form-control">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="control-label">Primer cabo</label>
+        <div class="input-group date" id="fecha-primer-cabo" data-target-input="nearest">
+        <input type="text" class="form-control" data-target="#fecha-primer-cabo">
+        <span class="input-group-addon" data-target="#fecha-primer-cabo" data-toggle="datetimepicker">
+          <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </span>
+        </div>
+      </div>
     </div>
-    <div class="form-group col-md-6">
-      <label class="control-label">Último cabo</label>
-      <input type="text" class="form-control">
+   
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="control-label">Último cabo</label>
+        <div class="input-group date" id="fecha-ultimo-cabo" data-target-input="nearest">
+          <input type="text" class="form-control" data-target="#fecha-ultmo-cabo">
+          <span class="input-group-addon" data-target="#fecha-ultimo-cabo" data-toggle="datetimepicker">
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+          </span>
+          </div>
+      </div>
     </div>
-
   </div>
   <div class="row">
+    
+    
     <div class="form-group col-md-12">
       <label class="control-label">Descripción</label>
       <input type="text" class="form-control">
     </div>
   </div>
+  
   <button class="btn btn-primary pull-right">Aceptar</button>
 </form>
 <br>

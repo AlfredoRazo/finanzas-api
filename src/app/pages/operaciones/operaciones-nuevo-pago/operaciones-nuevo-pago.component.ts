@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare var $: any;
 
 @Component({
   selector: 'app-operaciones-nuevo-pago',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./operaciones-nuevo-pago.component.css']
 })
 export class OperacionesNuevoPagoComponent implements OnInit {
+  time: any;
+  time1: any;
   tipoArribo = [{id: 1, descripcion : 'Regular'},{id: 2, descripcion : 'Forzoso'},{id: 3, descripcion : 'Combustible'},{id: 4, descripcion : 'Imprevisto'},{id: 5, descripcion : 'Reparación'}];
   tipoTrafico = [{id: 1, descripcion : 'Alta'},{id: 2, descripcion : 'Cabotaje'}];
   tipoActividad = [{id: 1, descripcion : 'Comercial'},{id: 2, descripcion : 'Pesquera'},{id: 3, descripcion : 'Riberño'}];
@@ -34,6 +37,12 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    $('#fecha-primer-cabo').datetimepicker({
+      locale: 'es'
+  });
+    $('#fecha-ultimo-cabo').datetimepicker({
+      locale: 'es'
+  });
   }
 
 }

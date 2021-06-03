@@ -30,9 +30,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/tempusdominus-bootstrap-3.min.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "src/es-mx.js",
+              "src/tempusdominus-bootstrap-3.min.js"
+            ],
             "allowedCommonJsDependencies": [
               "xlsx"
            ]
