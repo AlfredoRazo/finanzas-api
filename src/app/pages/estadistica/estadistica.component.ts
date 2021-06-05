@@ -1,4 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { environment } from '@env/environment';
+import { AuthService } from '@serv/auth.service';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-estadistica',
@@ -7,19 +11,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EstadisticaComponent implements OnInit {
   page = 1;
-  data = [
-    {
-      id: 123,
-      fecha: '28/05/2021',
-      empresa: 'La junta',
-      tipo: 'Pago de aranceles',
-      estado: 'Pendiente'
-    }
-  ]
+  data: any = [];
+  detalle: any;
 
-  constructor() { }
+  constructor(
+    private auth: AuthService,
+    private spinner: NgxSpinnerService, 
+    private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.spinner.show();
+    const user = this.auth.getSession();
+    this.http.get(environment.endpointApi + 'estadodehechos?idEmpresa=' + user.userData.empresaid).subscribe((res: any) => {
+      this.spinner.hide();
+      if(res[0].error){
+
+      }else{
+        this.data = res[0];
+      }
+    }, error => {
+      this.spinner.hide();
+
+    });
+  }
+
+  setEntries(item: any): void{
+    this.detalle = Object.entries(item);
   }
 
 }

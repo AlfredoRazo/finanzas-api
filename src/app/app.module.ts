@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,10 +22,12 @@ import { ManiobristaComponent } from './pages/clientes/maniobrista/maniobrista.c
 import { AgenteAduanalComponent } from './pages/clientes/agente-aduanal/agente-aduanal.component';
 import { NavieraComponent } from './pages/clientes/naviera/naviera.component';
 import { AgenteNuevaSolicitudComponent } from './pages/clientes/agente-aduanal/agente-nueva-solicitud/agente-nueva-solicitud.component';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 import { OperacionesNuevoPagoComponent } from './pages/operaciones/operaciones-nuevo-pago/operaciones-nuevo-pago.component';
 import { PpGenerarConsultaComponent } from './pages/proteccion-portuaria/pp-generar-consulta/pp-generar-consulta.component';
-
+import { NgxCaptchaModule } from 'ngx-captcha';
+import { SortDirective } from './directive/sort.directive';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,15 +47,20 @@ import { PpGenerarConsultaComponent } from './pages/proteccion-portuaria/pp-gene
     NavieraComponent,
     AgenteNuevaSolicitudComponent,
     OperacionesNuevoPagoComponent,
-    PpGenerarConsultaComponent
+    PpGenerarConsultaComponent,
+    SortDirective
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    NgxCaptchaModule,
+    NgxSpinnerModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

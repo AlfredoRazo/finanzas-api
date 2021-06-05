@@ -30,19 +30,19 @@
         <div class="table-responsive">
         <table class="table table-bordered" >
             <thead style="white-space: nowrap;">
-              <tr>
-                <th>Código</th>
-                <th>Buque</th>
-                <th>Tipo de buque</th>
-                <th>Viaje</th>
-                <th>Tipo de tráfico</th>
-                <th>Tipo de maniobra</th>
-                <th>Producto</th>
-                <th>Tipo de producto</th>
-                <th>Tramo</th>
-                <th>Tráfico</th>
-                <th>Imp</th>
-                <th>Exp</th>
+              <tr style="cursor: pointer;">
+                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="codigo">Código <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="buque">Buque<span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="tipobuque">Tipo de buque<span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="viaje">Viaje<span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="tipotrafico">Tipo de tráfico<span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="tipomaniobra">Tipo de maniobra<span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="producto">Producto<span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="tipoproducto">Tipo de producto<span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="tramo">Tramo<span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="trafico">Tráfico<span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="importacion">Imp<span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="exportacion">Exp<span class="glyphicon glyphicon-sort"></span></th>
               </tr>
             </thead>
             <tbody>
@@ -78,20 +78,20 @@
         </div>
         <br>
         <div class="table-responsive">
-            <table class="table table-bordered" style="white-space: nowrap;">
+            <table class="table table-bordered table-striped" style="white-space: nowrap;">
                 <thead>
-                  <tr>
-                    <th>Buque</th>
-                    <th>Viaje</th>
-                    <th>Tipo de tráfico</th>
-                    <th>Recinto de entrada / salida</th>
-                    <th>T. maniobra</th>
-                    <th>Producto</th>
-                    <th>Embalaje</th>
-                    <th># Bulto</th>
-                    <th>T. prod</th>
-                    <th>Tramo</th>
-                    <th>Tráfico</th>
+                  <tr style="cursor: pointer;">
+                    <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="buque">Buque <span class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="viaje">Viaje <span class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="tipoTrafico">Tipo de tráfico <span class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="recintoES">Recinto de entrada / salida <span class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="tipoManiobra">T. maniobra <span class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="producto">Producto <span class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="embalaje">Embalaje <span class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="bulto"># Bulto <span class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="tipoProducto">T. prod <span class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="tramo">Tramo <span class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="trafico">Tráfico <span class="glyphicon glyphicon-sort"></span></th>
                   </tr>
                 </thead>
                 <tbody>

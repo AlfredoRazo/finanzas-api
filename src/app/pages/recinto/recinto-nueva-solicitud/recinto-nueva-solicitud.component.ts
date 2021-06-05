@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {environment} from '@env/environment';
+import { environment } from '@env/environment';
+import { NgxSpinnerService } from "ngx-spinner";
 declare var $: any;
 
 @Component({
@@ -9,7 +10,6 @@ declare var $: any;
   styleUrls: ['./recinto-nueva-solicitud.component.css']
 })
 export class RecintoNuevaSolicitudComponent implements OnInit {
-  loading = false;
   manifiesto = '';
   page = 1;
   manifiestoData: any = [];
@@ -25,7 +25,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   ];
   man: any = {};
 
-  constructor(public http: HttpClient) { }
+  constructor(
+    private spinner: NgxSpinnerService,
+    public http: HttpClient) { }
 
   ngOnInit(): void {
     $('#fecha-servicio').datepicker();
@@ -35,14 +37,14 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   }
 
   consulta(): void {
-    this.loading = true;
-    this.http.post<any>(environment.endpoint + 'sicrefis', { manifiesto: this.manifiesto , buque : '' }).subscribe(res => {
-              this.loading = false;
-              this.manifiestoData = res.manifiestos;
-              this.man = res.man;
-        },error => {
-          this.loading = false;
-        })
+    this.spinner.show();
+    this.http.post<any>(environment.endpoint + 'sicrefis', { manifiesto: this.manifiesto, buque: '' }).subscribe(res => {
+      this.spinner.hide();
+      this.manifiestoData = res.manifiestos;
+      this.man = res.man;
+    }, error => {
+      this.spinner.hide();
+    })
   }
 
 }

@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '@env/environment';
-import {Md5} from 'ts-md5/dist/md5';
+import { Md5 } from 'ts-md5/dist/md5';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,9 @@ import {Md5} from 'ts-md5/dist/md5';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  siteKey = environment.googleCaptchaKey;
+  access = !environment.production;
+  token = '';
   hasError = false;
   errorMsj = '';
   user = {
@@ -20,6 +24,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private spinner: NgxSpinnerService,
     private authService: AuthService,
     private http: HttpClient,
   ) { }
@@ -27,27 +32,34 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  handleSuccess(evt: any): void {
+    this.token = evt;
+    this.access = true;
+  }
+
   onSubmit(form: any): void {
-      const payload = 
-        {
-          appkey: environment.appKey,
-          username: form.value.usuario,
-          password:  Md5.hashStr(form.value.password) 
-      }
-      
-      this.http.post(environment.endpointApi + 'usuarios', payload).subscribe((res: any) => {
-        if(res.length === 1){
-          this.hasError = true;
-          this.errorMsj = res[0].errorDesc;
-        }else{
-          this.authService.setSession({token: environment.appKey , userData: res[0]});
-          this.router.navigate(['/main']);
-        }
-      },error => {
+    const payload =
+    {
+      appkey: environment.appKey,
+      username: form.value.usuario,
+      password: Md5.hashStr(form.value.password)
+    }
+    this.spinner.show();
+    this.http.post(environment.endpointApi + 'usuarios', payload).subscribe((res: any) => {
+      this.spinner.hide();
+      if (res.length === 1) {
         this.hasError = true;
-        this.errorMsj = error.error.Message;
-      });
- 
+        this.errorMsj = res[0].errorDesc;
+      } else {
+        this.authService.setSession({ token: environment.appKey, userData: res[0] });
+        this.router.navigate(['/main']);
+      }
+    }, error => {
+      this.spinner.hide();
+      this.hasError = true;
+      this.errorMsj = error.error.Message;
+    });
+
 
   }
 

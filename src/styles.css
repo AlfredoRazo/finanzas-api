@@ -25,3 +25,8 @@
     border-top-color: #000000;
     animation: spinner .8s linear infinite;
   }
+
+  th > span {
+    margin-right: 10px;
+    margin-left: 10px;
+  }

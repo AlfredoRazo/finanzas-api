@@ -137,36 +137,36 @@
         <input type="text" class="form-control" [(ngModel)]="manifiesto" name="manifiesto">
     </div>
     <div class="col-md-8">
-        <button class="btn btn-primary btn-sm" style="margin-top: 30px;" (click)="consulta()" [disabled]="!manifiesto || loading" [class.spinner]="loading">Buscar</button>
+        <button class="btn btn-primary btn-sm" style="margin-top: 30px;" (click)="consulta()" [disabled]="!manifiesto">Buscar</button>
 
     </div>
 </div>
 <div class="table-responsive">
-    <table class="table table-bordered" >
+    <table class="table table-bordered" style="white-space: nowrap;">
         <thead>
-            <tr>
-                <th>Manifiesto</th>
-                <th>cAduana</th>
-                <th>Transporte</th>
-                <th>Buque</th>
-                <th>Número Viaje</th>
-                <th>Tipo Operación</th>
-                <th>Fecha estimada</th>
-                <th>Linea Naviera</th>
-                <th>Firma</th>
-                <th>Fecha Recibe</th>
-                <th>País</th>
-                <th>Puerto</th>
-                <th>Entidad Man</th>
-                <th>Número de Transacción Orig</th>
-                <th>Aduana Orig</th>
-                <th>cu Aduana</th>
-                <th>Nom Aduana</th>
-                <th>cu País</th>
-                <th>nom País</th>
-                <th>cu Puerto</th>
-                <th>cu Entidad Man</th>
-                <th>nom Entidad Man</th>
+            <tr style="cursor: pointer">
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="nTrans">Manifiesto <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cAduana">cAduana <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cTransp">Transporte <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="nomBuque">Buque <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="numviaje">Número Viaje <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="tipoOper">Tipo Operación <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="fecEstimada">Fecha estimada <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="lineaNaviera">Linea Naviera <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="firma">Firma <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="fecRecibe">Fecha Recibe <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="pais">País <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="puerto">Puerto <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="entidadMan">Entidad Man <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="nTransOrig">Número de Transacción Orig <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cAduanaOrig">Aduana Orig <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cuAduana">cu Aduana <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="nomAduana">Nom Aduana <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cuPais">cu País <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="nomPais">nom País <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cuPuerto">cu Puerto <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cuEntidadMan">cu Entidad Man <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="nomEntidadMan">nom Entidad Man <span class="glyphicon glyphicon-sort"></span></th>
              
             </tr>
         </thead>

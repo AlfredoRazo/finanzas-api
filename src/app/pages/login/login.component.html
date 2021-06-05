@@ -2,7 +2,7 @@
     <div class="panel-body">
         <img src="assets/img/logoAPI.png" class="img-responsive" >
         <h3 class="text-center">Inicio de sesión</h3>
-        <form class="form-horizontal" #login="ngForm" (ngSubmit)="onSubmit(login)">
+        <form class="form-horizontal" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
             <div class="form-group" [class.has-error]="usuario.invalid && (usuario.dirty || usuario.touched)">
               <label class="col-sm-3 control-label">Usuario</label>
               <div class="col-sm-9">
@@ -20,9 +20,17 @@
               <span class="help-block col-sm-9" *ngIf="password.invalid && (password.touched || password.dirty)">La contraseña es requerida</span>
             </div>
             <br>
+            <div style="text-align: center;">
+
+              <ngx-recaptcha2 style="display: inline-block;" #captchaElem
+              [siteKey]="siteKey"
+              (success)="handleSuccess($event)"
+              formControlName="recaptcha">
+            </ngx-recaptcha2>
+          </div>
             <div class="form-group text-right" >
               <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary" [disabled]="login.invalid">Enviar</button>
+                <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid || !access">Enviar</button>
               </div>
             </div>
           </form>

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Directive, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment';
 import { AuthService } from '@serv/auth.service';
+
 
 @Component({
   selector: 'app-maniobrista',
@@ -10,6 +11,7 @@ import { AuthService } from '@serv/auth.service';
   styleUrls: ['./maniobrista.component.css']
 })
 export class ManiobristaComponent implements OnInit {
+
   loading = false;
   errorMsj = '';
   hasError = false;
@@ -38,10 +40,12 @@ export class ManiobristaComponent implements OnInit {
     }
   ]
   constructor(private http: HttpClient,
+
     private auth: AuthService) { }
 
   ngOnInit(): void {
   }
+
 
   loadHechos(event: any): void {
     this.hasError = false;
@@ -92,6 +96,7 @@ export class ManiobristaComponent implements OnInit {
           total : item['Total']
          };
       });
+    
       if(error > 0){
         this.dataHechos = [];
         this.hasError = true;
