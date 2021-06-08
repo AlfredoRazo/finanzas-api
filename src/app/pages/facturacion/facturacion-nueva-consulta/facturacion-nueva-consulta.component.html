@@ -1,0 +1,140 @@
+<app-nav></app-nav>
+<app-user></app-user>
+<h3>Facturación</h3>
+<hr class="red">
+<form #formFacturacionNC="ngForm" (ngSubmit)="submit(formFacturacionNC)">
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">Nombre del Buque</label>
+            <input type="text" class="form-control" name="nombreBuque" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Canal de Distribución</label>
+            <input type="text" class="form-control" name="canalDistribucion" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Sector</label>
+            <input type="text" class="form-control" name="sector" ngModel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">Clase de consulta</label>
+            <input type="text" class="form-control" name="claseConsulta" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Número de viaje</label>
+            <input type="text" class="form-control" name="numeroViaje" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Número de item</label>
+            <input type="text" class="form-control" name="numeroItem" ngModel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">Material</label>
+            <input type="text" class="form-control" name="material" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Centro</label>
+            <input type="text" class="form-control" name="centro" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Cantidad</label>
+            <input type="text" class="form-control" name="cantidad" ngModel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">Unidad de medida</label>
+            <input type="text" class="form-control" name="unidadMedida" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Lista de precios</label>
+            <input type="text" class="form-control" name="listaPrecios" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Peso</label>
+            <input type="text" class="form-control" name="peso" ngModel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">Unidad de peso</label>
+            <input type="text" class="form-control" name="unidadPeso" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Volumen</label>
+            <input type="text" class="form-control" name="volumen" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Unidad de volumen</label>
+            <input type="text" class="form-control" name="unidadVolumen" ngModel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">Concepto</label>
+            <input type="text" class="form-control" name="concepto" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Solicitante</label>
+            <input type="text" class="form-control" name="solicitante" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Agente aduanal</label>
+            <input type="text" class="form-control" name="agenteAduanal" ngModel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">Grupo de vendedores</label>
+            <input type="text" class="form-control" name="grupoVendedores" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Oficina de venta</label>
+            <input type="text" class="form-control" name="oficinaVenta" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Organización de venta</label>
+            <input type="text" class="form-control" name="organizacionVenta" ngModel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">Workorder</label>
+            <input type="text" class="form-control" name="workorder" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Val 1</label>
+            <input type="text" class="form-control" name="val1" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Val 2</label>
+            <input type="text" class="form-control" name="val2" ngModel>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">Val 3</label>
+            <input type="text" class="form-control" name="val3" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Val 1</label>
+            <input type="text" class="form-control" name="val4" ngModel>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Val 2</label>
+            <input type="text" class="form-control" name="val5" ngModel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-primary pull-right" type="submit">Enviar</button>
+
+        </div>
+
+    </div>
+</form>

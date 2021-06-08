@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -8,20 +8,45 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  user : any;
+  rutas: any = [];
+  user: any;
   constructor(
     private router: Router,
+    private activedRouter: ActivatedRoute,
     private authService: AuthService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
+    let aux = '';
+    this.router.url.split('/').forEach((item, index, array) => {
+      if (index != 0) {
+        if(item !== 'main'){
+        aux += '/' + item;
+        this.rutas.push({
+          url: aux, name: this.toTitleCase(
+            item
+            .replace('-', ' ')
+            .replace('facturacion', 'facturación')
+            .replace('proteccion', 'protección')
+            )
+        });
+      }
+    }
+    });
     this.user = this.authService.getSession().userData;
   }
 
   closeSession(): void {
     this.authService.closeSession();
     this.router.navigate(['/']);
-
   }
 
+  toTitleCase(str: string): string {
+    return str.replace(
+      /\w\S*/g,
+      function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
+    );
+  }
 }

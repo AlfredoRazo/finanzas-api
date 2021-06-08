@@ -29,7 +29,8 @@ import { PpGenerarConsultaComponent } from './pages/proteccion-portuaria/pp-gene
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { SortDirective } from './directive/sort.directive';
 import { CesionarioComponent } from './pages/clientes/cesionario/cesionario.component';
-import { NuevaConsultaComponent } from './pages/facturacion/nueva-consulta/nueva-consulta.component';
+import { FacturacionNuevaConsultaComponent } from './pages/facturacion/facturacion-nueva-consulta/facturacion-nueva-consulta.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +53,7 @@ import { NuevaConsultaComponent } from './pages/facturacion/nueva-consulta/nueva
     PpGenerarConsultaComponent,
     SortDirective,
     CesionarioComponent,
-    NuevaConsultaComponent
+    FacturacionNuevaConsultaComponent,
   ],
   imports: [
     BrowserAnimationsModule,
