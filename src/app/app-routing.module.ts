@@ -16,6 +16,7 @@ import { NavieraComponent } from './pages/clientes/naviera/naviera.component';
 import { AgenteNuevaSolicitudComponent } from './pages/clientes/agente-aduanal/agente-nueva-solicitud/agente-nueva-solicitud.component';
 import { OperacionesNuevoPagoComponent } from './pages/operaciones/operaciones-nuevo-pago/operaciones-nuevo-pago.component';
 import { PpGenerarConsultaComponent } from './pages/proteccion-portuaria/pp-generar-consulta/pp-generar-consulta.component';
+import { CesionarioComponent } from './pages/clientes/cesionario/cesionario.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'clientes/agente-aduanal', component: AgenteAduanalComponent, canActivate: [GuardService] },
   { path: 'clientes/agente-aduanal/nueva-solicitud', component: AgenteNuevaSolicitudComponent, canActivate: [GuardService] },
   { path: 'clientes/naviera', component: NavieraComponent, canActivate: [GuardService] },
+  { path: 'clientes/cesionario', component: CesionarioComponent, canActivate: [GuardService] },
   { path: 'facturacion', component: FacturacionComponent, canActivate: [GuardService] },
   { path: 'recinto', component: RecintoComponent, canActivate: [GuardService] },
   { path: 'recinto/nueva-solicitud', component: RecintoNuevaSolicitudComponent, canActivate: [GuardService] },

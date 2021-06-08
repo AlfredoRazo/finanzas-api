@@ -28,6 +28,7 @@ import { OperacionesNuevoPagoComponent } from './pages/operaciones/operaciones-n
 import { PpGenerarConsultaComponent } from './pages/proteccion-portuaria/pp-generar-consulta/pp-generar-consulta.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { SortDirective } from './directive/sort.directive';
+import { CesionarioComponent } from './pages/clientes/cesionario/cesionario.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +49,8 @@ import { SortDirective } from './directive/sort.directive';
     AgenteNuevaSolicitudComponent,
     OperacionesNuevoPagoComponent,
     PpGenerarConsultaComponent,
-    SortDirective
+    SortDirective,
+    CesionarioComponent
   ],
   imports: [
     BrowserAnimationsModule,

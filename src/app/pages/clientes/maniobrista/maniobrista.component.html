@@ -3,69 +3,14 @@
 <h3>Maniobrista</h3>
 <hr class="red">
 <ul class="nav nav-tabs">
-  <li [class.active]="submenu==1" ><a [routerLink]="" (click)="submenu=1">Estado de hechos</a></li>
-  <li [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">2da y 3er maniobra</a></li>
-  <li [class.active]="submenu==3"><a [routerLink]="" (click)="submenu=3">Pagos</a></li>
+  <!--li [class.active]="submenu==1" ><a [routerLink]="" (click)="submenu=1">Estado de hechos</a></li-->
+  <li [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">2da y 3er maniobra</a></li>
+  <li [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">Pagos</a></li>
 </ul>
 <br>
 <container-element [ngSwitch]="submenu">
+    
     <div *ngSwitchCase="1">
-        <br>
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label>Archivo</label>
-                <input type="file" id="hechos" (change)="loadHechos($event)" accept=".xlsx">
-            </div>
-            <div class="col-md-6">
-                <button class="btn btn-primary" type="button" [disabled]="dataHechos.length < 1 || loading" (click)="uploadDataHechos()">Cargar <span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>
-            </div>
-        </div>
-        <br>
-        <div class="alert alert-success" *ngIf="hasSuccess">
-            {{successMsj}}
-        </div>
-        <div class="alert alert-danger" *ngIf="hasError">
-            {{errorMsj}}
-        </div>
-        <div class="table-responsive">
-        <table class="table table-bordered" >
-            <thead style="white-space: nowrap;">
-              <tr style="cursor: pointer;">
-                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="codigo">Código <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="buque">Buque<span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="tipobuque">Tipo de buque<span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="viaje">Viaje<span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="tipotrafico">Tipo de tráfico<span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="tipomaniobra">Tipo de maniobra<span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="producto">Producto<span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="tipoproducto">Tipo de producto<span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="tramo">Tramo<span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="trafico">Tráfico<span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="importacion">Imp<span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataHechos" data-order="desc" data-name="exportacion">Exp<span class="glyphicon glyphicon-sort"></span></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of dataHechos">
-                <td>{{item.codigo}}</td>
-                <td>{{item.buque}}</td>
-                <td>{{item.tipobuque}}</td>
-                <td>{{item.viaje}}</td>
-                <td>{{item.tipotrafico}}</td>
-                <td>{{item.tipomaniobra}}</td>
-                <td>{{item.producto}}</td>
-                <td>{{item.tipoproducto}}</td>
-                <td>{{item.tramo}}</td>
-                <td>{{item.trafico}}</td>
-                <td>{{item.importacion}}</td>
-                <td>{{item.exportacion}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-          <ngb-pagination [collectionSize]="10" [(page)]="pageHechos"></ngb-pagination>
-    </div>
-    <div *ngSwitchCase="2">
         <br>
         <div class="row">
             <div class="form-group col-md-6">
@@ -113,7 +58,7 @@
             </div>
               <ngb-pagination [collectionSize]="10" [(page)]="pageManiobra"></ngb-pagination>
     </div>
-    <div *ngSwitchCase="3">
+    <div *ngSwitchCase="2">
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
