@@ -2,6 +2,12 @@
 <app-user></app-user>
 <h3>Facturación</h3>
 <hr class="red">
+<div class="alert alert-success" *ngIf="hasSuccess">
+    {{successMsj}}
+</div>
+<div class="alert alert-danger" *ngIf="hasError">
+    {{errorMsj}}
+</div>
 <form #formFacturacionNC="ngForm" (ngSubmit)="submit(formFacturacionNC)">
     <div class="row">
         <div class="form-group col-md-4">
