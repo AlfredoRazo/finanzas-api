@@ -12,19 +12,19 @@
         <div class="form-group col-md-4">
             <label class="control-label">Tipo de servicio</label>
             <select class="form-control">
-                <option>Contenedores</option>
+                <option *ngFor="let item of tipoServicio" [value]="item.id">{{item.descripcion}}</option>
             </select>
         </div>
         <div class="form-group col-md-4">
             <label class="control-label">Tipo de trámite</label>
             <select class="form-control">
-                <option>Importación</option>
+                <option *ngFor="let item of tipoTramite" [value]="item.id">{{item.descripcion}}</option>
             </select>
         </div>
         <div class="form-group col-md-4">
             <label class="control-label">Tipo de solicitud</label>
             <select class="form-control">
-                <option>Entrada</option>
+                <option *ngFor="let item of tipoSolicitud" [value]="item.id">{{item.descripcion}}</option>
             </select>
         </div>
 
@@ -33,7 +33,7 @@
         <div class="form-group col-md-4">
             <label class="control-label">Tipo de transporte</label>
             <select class="form-control">
-                <option>Carretera</option>
+                <option *ngFor="let item of medioTransporte" [value]="item.id">{{item.descripcion}}</option>
             </select>
         </div>
     </div>
@@ -47,17 +47,17 @@
         </div>
         <div class="form-group col-md-8">
             <label class="control-label">Agencia aduanal</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" name="agenciaAduanal" [(ngModel)]="agenciaAduanal">
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-4">
-            <label class="control-label">Cliente para facturar</label>
-            <input type="text" class="form-control">
+            <label class="control-label">Cliente para facturar (RFC)</label>
+            <input type="text" class="form-control" name="rfcCliente" (blur)="searchName()" [(ngModel)]="rfcCliente">
         </div>
         <div class="form-group col-md-8">
-            <label class="control-label"></label>
-            <input type="text" class="form-control">
+            <label class="control-label">Nombre</label>
+            <input type="text" class="form-control" name="nombreCliente" [(ngModel)]="nombreCliente">
         </div>
     </div>
     <hr>
