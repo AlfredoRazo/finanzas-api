@@ -29,12 +29,12 @@
   <br>
   <table class="table table-bordered">
     <thead>
-      <tr>
-        <th>ID</th>
-        <th>Fecha</th>
-        <th>Cliente</th>
-        <th>Tipo de solicitud</th>
-        <th>Estado</th>
+      <tr style="cursor: pointer;">
+        <th scope="col" [appSort]="data" data-order="desc" data-name="id">ID <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="fecha">Fecha <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="cliente">Cliente <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="tipoSolicitud">Tipo de solicitud <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="estado">Estado <span class="glyphicon glyphicon-sort"></span></th>
       </tr>
     </thead>
     <tbody>

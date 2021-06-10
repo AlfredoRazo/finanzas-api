@@ -138,13 +138,13 @@
 <br>
 <table class="table table-bordered">
     <thead>
-      <tr>
-        <th>Manifiesto</th>
-        <th>Marca</th>
-        <th>Embalaje</th>
-        <th>Piezas</th>
-        <th>Peso</th>
-        <th>Unidades</th>
+      <tr style="cursor: pointer;">
+        <th scope="col" [appSort]="data" data-order="desc" data-name="id">Manifiesto<span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="marca">Marca<span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="embalaje">Embalaje<span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="piezas">Piezas<span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="peso">Peso<span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="unidades">Unidades<span class="glyphicon glyphicon-sort"></span></th>
       </tr>
     </thead>
     <tbody>
@@ -161,3 +161,5 @@
   </table>
   
   <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>
+  <br>
+  <button type="button" class="btn btn-default" routerLink="/clientes">Regresar</button>

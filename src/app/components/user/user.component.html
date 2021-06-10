@@ -4,7 +4,7 @@
         <li><a routerLink="/main"><i class="icon icon-home"></i></a></li>
         <li><a routerLink="/main">Inicio</a></li>
         <li  *ngFor="let ruta of rutas; let ultimo = last" [class.active]="ultimo">
-          <a [href]="ruta.url">{{ruta.name}}</a>
+          <a [routerLink]="ruta.url">{{ruta.name}}</a>
         </li>
       </ol>
     </div>

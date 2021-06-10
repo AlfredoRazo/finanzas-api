@@ -14,6 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class LoginComponent implements OnInit {
   siteKey = environment.googleCaptchaKey;
   access = !environment.production;
+  recaptcha: any;
   token = '';
   hasError = false;
   errorMsj = '';

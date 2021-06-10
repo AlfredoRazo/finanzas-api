@@ -4,11 +4,11 @@
 <hr class="red">
 <table class="table table-bordered">
     <thead>
-        <tr>
-            <th>ID</th>
-            <th>Fecha</th>
-            <th>Concepto</th>
-            <th>Estado</th>
+        <tr style="cursor: pointer;">
+            <th scope="col" [appSort]="data" data-order="desc" data-name="id">ID <span class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="fecha">Fecha <span class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="concepto">Concepto <span class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="estado">Estado <span class="glyphicon glyphicon-sort"></span></th>
             <th></th>
         </tr>
     </thead>
