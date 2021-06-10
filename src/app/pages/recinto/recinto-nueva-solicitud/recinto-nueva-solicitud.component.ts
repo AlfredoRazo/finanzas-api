@@ -75,7 +75,14 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   }
 
   searchName(): void{
-    this.nombreCliente = 'PRUEBA CLIENTE';
+    this.spinner.show();
+    this.http.get<any>(environment.endpoint + 'clientes?rfc=' + this.rfcCliente).subscribe(res =>{
+      this.spinner.hide();
+      console.log(res);
+      this.nombreCliente = res.nombre;
+    },error =>{
+      this.spinner.hide();
+    });
   }
 
 }
