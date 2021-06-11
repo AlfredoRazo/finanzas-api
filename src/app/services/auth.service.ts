@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 export interface AuthData {
   token: string;
   userData: any;
@@ -8,7 +9,7 @@ export interface AuthData {
 })
 export class AuthService {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   setSession(session: AuthData): void {
     localStorage.setItem('sessionData', JSON.stringify(session));
@@ -26,5 +27,6 @@ export class AuthService {
   
   public closeSession(): void {
     localStorage.removeItem('sessionData');
+    this.router.navigate(['/']);
   }
 }

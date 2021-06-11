@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '@env/environment';
 import { NgxSpinnerService } from "ngx-spinner";
 import { AuthService } from '@serv/auth.service';
+import {Observable, OperatorFunction} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+import buques from 'src/assets/buques.json';
 declare var $: any;
 
 @Component({
@@ -17,6 +20,18 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   rfcCliente = '';
   nombreCliente = '';
   manifiestoData: any = [];
+  public buque: any;
+  
+  search:any = (text$: Observable<any>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(term => 
+        term.length < 2 ? []
+        : buques.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+        )
+    );
+    formatter = (x: {nombre: string}) => x.nombre;
   data = [
     {
       manifiesto: 123412,
@@ -61,6 +76,17 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     $('#fecha-arribo').datepicker();
     $('#fecha-inicio-operaciones').datepicker();
     $('#fecha-zarpe').datepicker();
+    
+      /*const header = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${res.valor}`
+      });*/
+      /*this.http.get(environment.endpointCat + 'transportes/tipos',{headers: header}).subscribe((res: any) => {
+        console.log(res.valor);
+
+      },error =>{});*/
+      //this.http.get(environment.endpointCat,{headers: header}).subscribe((res: any) => {},error =>{});
+
   }
 
   consulta(): void {

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@serv/auth.service';
+import {Observable, OperatorFunction} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+import buques from 'src/assets/buques.json';
 declare var $: any;
 
 @Component({
@@ -8,6 +11,19 @@ declare var $: any;
   styleUrls: ['./agente-nueva-solicitud.component.css']
 })
 export class AgenteNuevaSolicitudComponent implements OnInit {
+
+  public buque: any;
+  
+  search:any = (text$: Observable<any>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(term => 
+        term.length < 2 ? []
+        : buques.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+        )
+    );
+    formatter = (x: {nombre: string}) => x.nombre;
   page = 1;
   data = [
     {
@@ -52,6 +68,7 @@ export class AgenteNuevaSolicitudComponent implements OnInit {
     $('#fecha-arribo').datepicker();
     $('#fecha-inicio-operaciones').datepicker();
     $('#fecha-zarpe').datepicker();
+    
   }
   
   searchName(): void{

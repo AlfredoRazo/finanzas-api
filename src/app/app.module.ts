@@ -30,6 +30,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 import { SortDirective } from './directive/sort.directive';
 import { CesionarioComponent } from './pages/clientes/cesionario/cesionario.component';
 import { FacturacionNuevaConsultaComponent } from './pages/facturacion/facturacion-nueva-consulta/facturacion-nueva-consulta.component';
+import { BnNgIdleService } from 'bn-ng-idle';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,7 @@ import { FacturacionNuevaConsultaComponent } from './pages/facturacion/facturaci
     NgxSpinnerModule,
     
   ],
-  providers: [],
+  providers: [BnNgIdleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

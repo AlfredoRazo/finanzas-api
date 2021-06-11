@@ -38,7 +38,6 @@ export class UserComponent implements OnInit {
 
   closeSession(): void {
     this.authService.closeSession();
-    this.router.navigate(['/']);
   }
 
   toTitleCase(str: string): string {

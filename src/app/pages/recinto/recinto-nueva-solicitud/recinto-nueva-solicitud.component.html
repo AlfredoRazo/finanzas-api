@@ -61,10 +61,14 @@
         </div>
     </div>
     <hr>
+    <ng-template #rt let-r="result" let-t="term">
+        <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
+      </ng-template>
+
     <div class="row">
         <div class="form-group col-md-12">
             <label class="control-label">Nombre de buque</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" [(ngModel)]="buque" name="buque" [ngbTypeahead]="search" [inputFormatter]="formatter" [resultTemplate]="rt">
         </div>
     </div>
     <div class="row">
