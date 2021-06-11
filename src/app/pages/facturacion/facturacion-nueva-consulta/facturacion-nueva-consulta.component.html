@@ -11,16 +11,25 @@
 <form #formFacturacionNC="ngForm" (ngSubmit)="submit(formFacturacionNC)">
     <div class="row">
         <div class="form-group col-md-4">
+            <ng-template #rt let-r="result" let-t="term">
+                <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
+              </ng-template>
             <label class="control-label">Nombre del Buque</label>
-            <input type="text" class="form-control" name="nombreBuque" ngModel>
+        
+            <input type="text" class="form-control" name="nombreBuque" [(ngModel)]="buque" [ngbTypeahead]="search" [inputFormatter]="formatter" [resultTemplate]="rt">
         </div>
         <div class="form-group col-md-4">
             <label class="control-label">Canal de Distribución</label>
-            <input type="text" class="form-control" name="canalDistribucion" ngModel>
+            <select class="form-control" name="canalDistribucion" ngModel>
+                <option *ngFor="let item of canaldistribucion" [value]="item.clave"> {{item.valor1}}</option>
+            </select>
         </div>
         <div class="form-group col-md-4">
             <label class="control-label">Sector</label>
-            <input type="text" class="form-control" name="sector" ngModel>
+           
+            <select class="form-control" name="sector" ngModel>
+                <option *ngFor="let item of sectores" [value]="item.clave"> {{item.valor1}}</option>
+            </select>
         </div>
     </div>
     <div class="row">
@@ -40,7 +49,9 @@
     <div class="row">
         <div class="form-group col-md-4">
             <label class="control-label">Material</label>
-            <input type="text" class="form-control" name="material" ngModel>
+            <select class="form-control" name="material" ngModel>
+                <option *ngFor="let item of materiales" [value]="item.clave"> {{item.valor1}}</option>
+            </select>
         </div>
         <div class="form-group col-md-4">
             <label class="control-label">Centro</label>
@@ -54,11 +65,15 @@
     <div class="row">
         <div class="form-group col-md-4">
             <label class="control-label">Unidad de medida</label>
-            <input type="text" class="form-control" name="unidadMedida" ngModel>
+            <select class="form-control" name="unidadMedida" ngModel>
+                <option *ngFor="let item of unidadesmedida" [value]="item.clave"> {{item.valor1}}</option>
+            </select>
         </div>
         <div class="form-group col-md-4">
             <label class="control-label">Lista de precios</label>
-            <input type="text" class="form-control" name="listaPrecios" ngModel>
+            <select class="form-control" name="listaPrecios" ngModel>
+                <option *ngFor="let item of listaprecios" [value]="item.clave"> {{item.valor1}}</option>
+            </select>
         </div>
         <div class="form-group col-md-4">
             <label class="control-label">Peso</label>
@@ -96,11 +111,16 @@
     <div class="row">
         <div class="form-group col-md-4">
             <label class="control-label">Grupo de vendedores</label>
-            <input type="text" class="form-control" name="grupoVendedores" ngModel>
+            <select class="form-control" name="grupoVendedores" ngModel>
+                <option *ngFor="let item of grupovendedores" [value]="item.clave"> {{item.valor1}}</option>
+            </select>
         </div>
         <div class="form-group col-md-4">
             <label class="control-label">Oficina de venta</label>
-            <input type="text" class="form-control" name="oficinaVenta" ngModel>
+            <select class="form-control" name="oficinaVenta" ngModel>
+                <option *ngFor="let item of oficinaventa" [value]="item.clave"> {{item.valor1}} - {{item.valor2}} -{{item.valor3}} - {{item.valor4}}</option>
+            </select>
+            
         </div>
         <div class="form-group col-md-4">
             <label class="control-label">Organización de venta</label>
