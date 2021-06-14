@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Observable, OperatorFunction} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+import buques from 'src/assets/buques.json';
 declare var $: any;
 
 @Component({
@@ -33,6 +36,17 @@ export class OperacionesNuevoPagoComponent implements OnInit {
       estado: 'Pendiente'
     }
   ];
+  buque: any;
+  search:any = (text$: Observable<any>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(term => 
+        term.length < 2 ? []
+        : buques.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+        )
+    );
+    formatter = (x: {nombre: string}) => x.nombre;
 
   constructor() { }
 
