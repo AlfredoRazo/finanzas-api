@@ -8,7 +8,7 @@
 <div class="alert alert-danger" *ngIf="hasError">
     {{errorMsj}}
 </div>
-<form #formFacturacionNC="ngForm" (ngSubmit)="submit(formFacturacionNC)">
+<form #formFacturacionNC="ngForm" (ngSubmit)="submit(formFacturacionNC)" autocomplete="off">
     <div class="row">
         <div class="form-group col-md-4">
             <ng-template #rt let-r="result" let-t="term">
@@ -139,27 +139,34 @@
             <input type="text" class="form-control" name="workorder" ngModel>
         </div>
         <div class="form-group col-md-4">
-            <label class="control-label">Val 1</label>
-            <input type="text" class="form-control" name="val1" ngModel>
+            <label class="control-label">Aduana</label>
+            <input type="text" class="form-control" name="zzaduana" ngModel>
         </div>
         <div class="form-group col-md-4">
-            <label class="control-label">Val 2</label>
-            <input type="text" class="form-control" name="val2" ngModel>
+            <label class="control-label">BL</label>
+            <input type="text" class="form-control" name="zzbl" ngModel>
         </div>
     </div>
 
     <div class="row">
         <div class="form-group col-md-4">
-            <label class="control-label">Val 3</label>
-            <input type="text" class="form-control" name="val3" ngModel>
+            <label class="control-label">Pedimento</label>
+            <input type="text" class="form-control" name="zzpedimento" ngModel>
         </div>
-        <div class="form-group col-md-4">
-            <label class="control-label">Val 1</label>
-            <input type="text" class="form-control" name="val4" ngModel>
+        
+        <div class="col-md-4">
+            <div class="form-group datepicker-group">
+              <label class="control-label">Fecha de entrada</label>
+              <input type="text" class="form-control" id="fecha-entrada" name="zzfechaentrada" ngModel>
+              <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+          </div>
         </div>
-        <div class="form-group col-md-4">
-            <label class="control-label">Val 2</label>
-            <input type="text" class="form-control" name="val5" ngModel>
+          <div class="col-md-4">
+            <div class="form-group datepicker-group">
+              <label class="control-label">Fecha de sálida</label>
+              <input type="text" class="form-control" id="fecha-salida" name="zzfechasalida" ngModel>
+              <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+          </div>
         </div>
     </div>
     <div class="row">

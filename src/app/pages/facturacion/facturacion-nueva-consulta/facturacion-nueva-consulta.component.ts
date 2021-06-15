@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import buques from 'src/assets/buques.json';
-
+declare var $: any;
 @Component({
   selector: 'app-facturacion-nueva-consulta',
   templateUrl: './facturacion-nueva-consulta.component.html',
@@ -26,6 +26,8 @@ export class FacturacionNuevaConsultaComponent implements OnInit {
   sectores : any[] = [];
   unidadesmedida : any[] = [];
   buque: any;
+  fechaEntrada: string = '';
+  fechaSalida: string = '';
   search:any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -63,9 +65,18 @@ export class FacturacionNuevaConsultaComponent implements OnInit {
     this.http.get( this.catalogos + 'unidadesmedida').subscribe((res: any) =>{
       this.unidadesmedida = res.valores;
     });
+    $('#fecha-entrada').datepicker({ dateFormat: 'yy-mm-dd', onSelect : (date: any)=>{this.fechaEntrada = date}  });
+    $('#fecha-salida').datepicker({ dateFormat: 'yy-mm-dd', onSelect : (date: any)=>{this.fechaSalida = date} });
   }
 
   submit(form : any): void{
+    let aux: any;
+    if(form.value.nombreBuque !== undefined){
+      aux = form.value.nombreBuque;
+      form.value.nombreBuque = form.value.nombreBuque.nombre;
+    }
+    form.value.zzfechaentrada = this.fechaEntrada;
+    form.value.zzfechasalida = this.fechaSalida;
     this.spinner.show();
     this.http.post<any>(environment.endpoint + 'consultasap', form.value).subscribe(res => {
       this.spinner.hide();
@@ -75,6 +86,7 @@ export class FacturacionNuevaConsultaComponent implements OnInit {
         this.successMsj = ''
         this.hasError = true;
         this.errorMsj = res[0].errorStr;
+        form.value.nombreBuque = aux;
       }else{
         form.reset();
         form.resetForm();
@@ -84,6 +96,7 @@ export class FacturacionNuevaConsultaComponent implements OnInit {
         this.successMsj = 'Se guardó correctamente, número de consulta : ' + res[0].noConsulta;
       }
     }, error => {
+      form.value.nombreBuque = aux;
       this.spinner.hide();
     })
 
