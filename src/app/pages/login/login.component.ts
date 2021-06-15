@@ -47,16 +47,20 @@ export class LoginComponent implements OnInit {
     }
     this.spinner.show();
     this.http.post(environment.endpointApi + 'usuarios', payload).subscribe((res: any) => {
-      this.spinner.hide();
+      
       if (res.length === 1) {
+        this.spinner.hide();
         this.hasError = true;
         this.errorMsj = res[0].errorDesc;
       } else {
         this.http.post(environment.endpointCat +'login',environment.catlogin).subscribe((rescat: any) =>{
+          this.spinner.hide();
           res[0].catToken = rescat.valor;
           this.authService.setSession({ token: environment.appKey, userData: res[0] });
           this.router.navigate(['/main']);
-        },error=>{});
+        },error=>{
+          this.spinner.hide();
+        });
         
       }
     }, error => {
