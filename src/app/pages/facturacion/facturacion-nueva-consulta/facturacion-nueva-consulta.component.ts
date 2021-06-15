@@ -72,15 +72,18 @@ export class FacturacionNuevaConsultaComponent implements OnInit {
   submit(form : any): void{
     let aux: any;
     if(form.value.nombreBuque !== undefined){
+      if( form.value.nombreBuque.nombre){
       aux = form.value.nombreBuque;
       form.value.nombreBuque = form.value.nombreBuque.nombre;
+      }else{
+        aux = form.value.nombreBuque;
+      }
     }
     form.value.zzfechaentrada = this.fechaEntrada;
     form.value.zzfechasalida = this.fechaSalida;
     this.spinner.show();
     this.http.post<any>(environment.endpoint + 'consultasap', form.value).subscribe(res => {
       this.spinner.hide();
-      console.log(res);
       if(res[0].error){
         this.hasSuccess = false;
         this.successMsj = ''
