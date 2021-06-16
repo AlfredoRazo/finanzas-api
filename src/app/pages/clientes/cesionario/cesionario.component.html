@@ -80,6 +80,52 @@
     <ngb-pagination [collectionSize]="10" [(page)]="pageHechos"></ngb-pagination>
   </div>
   <div *ngSwitchCase="2">
+  
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label>Archivo</label>
+            <input type="file" id="maniobra" (change)="loadManiobras($event)" accept=".xlsx">
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-primary" type="button" [disabled]="dataManiobra.length < 1 || loading">Cargar <span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>
+        </div>
+    </div>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" style="white-space: nowrap;">
+            <thead>
+              <tr style="cursor: pointer;">
+                <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="buque">Buque <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="viaje">Viaje <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="tipoTrafico">Tipo de tráfico <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="recintoES">Recinto de entrada / salida <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="tipoManiobra">T. maniobra <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="producto">Producto <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="embalaje">Embalaje <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="bulto"># Bulto <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="tipoProducto">T. prod <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="tramo">Tramo <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataManiobra" data-order="desc" data-name="trafico">Tráfico <span class="glyphicon glyphicon-sort"></span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of dataManiobra">
+                <td>{{item.buque}}</td>
+                <td>{{item.viaje}}</td>
+                <td>{{item.tipoTrafico}}</td>
+                <td>{{item.recintoES}}</td>
+                <td>{{item.tipoManiobra}}</td>
+                <td>{{item.producto}}</td>
+                <td>{{item.embalaje}}</td>
+                <td>{{item.bulto}}</td>
+                <td>{{item.tipoProducto}}</td>
+                <td>{{item.tramo}}</td>
+                <td>{{item.trafico}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+          <ngb-pagination [collectionSize]="10" [(page)]="pageManiobra"></ngb-pagination>
 
   </div>
 </container-element>
