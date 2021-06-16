@@ -11,6 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./cesionario.component.css']
 })
 export class CesionarioComponent implements OnInit {
+  submenu = 1;
   loading = false;
   errorMsj = '';
   hasError = false;
