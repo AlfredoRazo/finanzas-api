@@ -7,8 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FacturacionComponent implements OnInit {
   page = 1;
-  data = [
-    {
+  data : any = [
+  /* {
       id: 123,
       fecha: '28/05/2021',
       empresa: 'La junta',
@@ -16,7 +16,7 @@ export class FacturacionComponent implements OnInit {
       total: '38987',
       estado: 'Pendiente',
       cfdi: ''
-    }
+    }*/
   ]
 
   constructor() { }

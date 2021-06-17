@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
+import { RoleService } from './role.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,14 +10,29 @@ import { Router } from '@angular/router';
 export class GuardService implements CanActivate {
 
   constructor(
-    public auth: AuthService, 
+    public auth: AuthService,
+    public role: RoleService, 
     public router : Router) { }
 
-  canActivate(): boolean {
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    
     if(!this.auth.isAuthenticated()){
       this.router.navigate(['/']);
     }
-    return this.auth.isAuthenticated();
+    switch (this.auth.getSession().userData.rol) {
+      case 'FINANZAS':
+        if(route.url[0].path == 'main' || route.url[0].path == 'facturacion'){
+          return this.auth.isAuthenticated();
+        }else{
+          this.role.reditecByRole(this.auth.getSession().userData.rol);
+          return false;
+        }
+        break;
+      default:
+        return this.auth.isAuthenticated();
+        break;
+    }
+    
   }
 
 }

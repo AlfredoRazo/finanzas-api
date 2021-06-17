@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '@env/environment';
 import { Md5 } from 'ts-md5/dist/md5';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { RoleService } from '@serv/role.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit {
   };
 
   constructor(
-    private router: Router,
+
+    private role: RoleService,
     private spinner: NgxSpinnerService,
     private authService: AuthService,
     private http: HttpClient,
@@ -47,7 +48,7 @@ export class LoginComponent implements OnInit {
     }
     this.spinner.show();
     this.http.post(environment.endpointApi + 'usuarios', payload).subscribe((res: any) => {
-      
+
       if (res.length === 1) {
         this.spinner.hide();
         this.hasError = true;
@@ -57,7 +58,7 @@ export class LoginComponent implements OnInit {
           this.spinner.hide();
           res[0].catToken = rescat.valor;
           this.authService.setSession({ token: environment.appKey, userData: res[0] });
-          this.router.navigate(['/main']);
+          this.role.reditecByRole(res[0].rol);
         },error=>{
           this.spinner.hide();
         });

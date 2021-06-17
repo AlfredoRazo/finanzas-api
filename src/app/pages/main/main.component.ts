@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '@serv/auth.service';
+import { RoleService } from '@serv/role.service';
 export interface CardMenu {
   titulo: string;
   icono: string;
@@ -11,18 +13,15 @@ export interface CardMenu {
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  
   dash: CardMenu[] = [
-    {titulo: 'Clientes', icono: 'glyphicon glyphicon-user', link: '/clientes'},
-    {titulo: 'Facturación', icono: 'glyphicon glyphicon-briefcase', link: '/facturacion'},
-    {titulo: 'Recinto', icono: 'glyphicon glyphicon-tower', link: '/recinto'},
-    {titulo: 'Estadística', icono: 'glyphicon glyphicon-stats', link: '/estadistica'},
-    {titulo: 'Operaciones', icono: 'glyphicon glyphicon-list-alt', link: '/operaciones'},
-    {titulo: 'Protección Portuaria', icono: 'glyphicon glyphicon-lock', link: '/proteccion-portuaria'},
+   
    ];
 
-  constructor() { }
+  constructor(private auth: AuthService, private role: RoleService) { }
 
   ngOnInit(): void {
+    this.dash = this.role.getMenuByRole(this.auth.getSession().userData.rol);
   }
 
 }
