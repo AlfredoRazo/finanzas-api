@@ -21,10 +21,10 @@ export class GuardService implements CanActivate {
     }
     switch (this.auth.getSession().userData.rol) {
       case 'FINANZAS':
-        if(route.url[0].path == 'main' || route.url[0].path == 'facturacion'){
+        if(route.url[0].path == 'facturacion'){
           return this.auth.isAuthenticated();
         }else{
-          this.router.navigate(['/main']);
+          this.router.navigate(['/facturacion']);
           return false;
         }
         break;
