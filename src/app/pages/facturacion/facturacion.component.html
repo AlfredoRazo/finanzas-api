@@ -29,28 +29,29 @@
 <button type="button" class="btn btn-primary btn-sm" routerLink="nueva-consulta">Nueva consulta</button>
 <br>
 <br>
+<div class="table-responsive">
 <table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Estatus</th>
-      <th>Consulta de pago</th>
-      <th>Fecha de la consulta</th>
-      <th>Factura</th>
-      <th>Fecha de la factura</th>
-      <th>UUID</th>
-      <th>Tipo de servicio</th>
-      <th>Solicitante</th>
-      <th>Cliente</th>
-      <th>Referencia del servicio</th>
-      <th>Subtotal</th>
-      <th>Descuentos</th>
-      <th>IVA</th>
-      <th>Total</th>
-      <th>Fecha de pago</th>
-      <th>Saldo deudor</th>
-      <th>PDF</th>
-      <th>XML</th>
-      <th>Liga de pago</th>
+  <thead style="white-space: nowrap;">
+    <tr style="cursor: pointer;">
+      <th>Estatus <span class="glyphicon glyphicon-sort"></span></th>
+      <th>Consulta de pago <span class="glyphicon glyphicon-sort"></span></th>
+      <th>Fecha de la consulta <span class="glyphicon glyphicon-sort"></span></th>
+      <th>Factura <span class="glyphicon glyphicon-sort"></span></th>
+      <th>Fecha de la factura <span class="glyphicon glyphicon-sort"></span></th>
+      <th>UUID <span class="glyphicon glyphicon-sort"></span></th>
+      <th>Tipo de servicio <span class="glyphicon glyphicon-sort"></span></th>
+      <th>Solicitante <span class="glyphicon glyphicon-sort"></span></th>
+      <th>Cliente <span class="glyphicon glyphicon-sort"></span></th>
+      <th>Referencia del servicio <span class="glyphicon glyphicon-sort"></span></th>
+      <th>Subtotal <span class="glyphicon glyphicon-sort"></span></th>
+      <th>Descuentos <span class="glyphicon glyphicon-sort"></span></th>
+      <th>IVA <span class="glyphicon glyphicon-sort"></span></th>
+      <th>Total <span class="glyphicon glyphicon-sort"></span></th>
+      <th>Fecha de pago <span class="glyphicon glyphicon-sort"></span></th>
+      <th>Saldo deudor <span class="glyphicon glyphicon-sort"></span></th>
+      <th>PDF <span class="glyphicon glyphicon-sort"></span></th>
+      <th>XML <span class="glyphicon glyphicon-sort"></span></th>
+      <th>Liga de pago <span class="glyphicon glyphicon-sort"></span></th>
     </tr>
   </thead>
   <tbody>
@@ -65,6 +66,6 @@
     </tr-->
   </tbody>
 </table>
-
+</div>
 <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
 <button type="button" class="btn btn-default" routerLink="/main">Regresar</button>
