@@ -24,7 +24,7 @@ export class GuardService implements CanActivate {
         if(route.url[0].path == 'main' || route.url[0].path == 'facturacion'){
           return this.auth.isAuthenticated();
         }else{
-          this.role.reditecByRole(this.auth.getSession().userData.rol);
+          this.router.navigate(['/main']);
           return false;
         }
         break;
