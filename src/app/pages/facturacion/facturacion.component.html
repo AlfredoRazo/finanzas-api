@@ -32,17 +32,28 @@
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Fecha</th>
-      <th>Empresa</th>
-      <th>Concepto</th>
+      <th>Estatus</th>
+      <th>Consulta de pago</th>
+      <th>Fecha de la consulta</th>
+      <th>Factura</th>
+      <th>Fecha de la factura</th>
+      <th>UUID</th>
+      <th>Tipo de servicio</th>
+      <th>Solicitante</th>
+      <th>Cliente</th>
+      <th>Referencia del servicio</th>
+      <th>Subtotal</th>
+      <th>Descuentos</th>
+      <th>IVA</th>
       <th>Total</th>
-      <th>Estado</th>
-      <th>CFDI</th>
+      <th>Fecha de pago</th>
+      <th>Saldo deudor</th>
+      <th>PDF</th>
+      <th>XML</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of data">
+    <!--tr *ngFor="let item of data">
       <td>{{item.id}}</td>
       <td>{{item.fecha}}</td>
       <td>{{item.empresa}}</td>
@@ -50,7 +61,7 @@
       <td>{{item.total | currency}}</td>
       <td>{{item.estado}}</td>
       <td>{{item.cfdi}}</td>
-    </tr>
+    </tr-->
   </tbody>
 </table>
 
