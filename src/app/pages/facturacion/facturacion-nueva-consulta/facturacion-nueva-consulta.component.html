@@ -16,19 +16,19 @@
             </ng-template>
             <label class="control-label">Nombre del Buque</label>
             <input type="text" class="form-control" name="nombreBuque" #nombreBuque="ngModel" [(ngModel)]="buque" [ngbTypeahead]="search"
-                [inputFormatter]="formatter" [resultTemplate]="rt" required>
+                [inputFormatter]="formatter" [resultTemplate]="rt" >
                 <span class="help-block" *ngIf="nombreBuque.invalid && (nombreBuque.dirty || nombreBuque.touched)">Este campo es requerido</span>
         </div>
         <div class="form-group col-md-4" [class.has-error]="canalDistribucion.invalid && (canalDistribucion.dirty || canalDistribucion.touched)">
             <label class="control-label">Canal de Distribución</label>
-            <select class="form-control" name="canalDistribucion" #canalDistribucion="ngModel" ngModel required>
+            <select class="form-control" name="canalDistribucion" #canalDistribucion="ngModel" ngModel >
                 <option *ngFor="let item of canaldistribucion" [value]="item.clave"> {{item.valor1}}</option>
             </select>
             <span class="help-block" *ngIf="canalDistribucion.invalid && (canalDistribucion.dirty || canalDistribucion.touched)">Este campo es requerido</span>
         </div>
         <div class="form-group col-md-4" [class.has-error]="sector.invalid && (sector.dirty || sector.touched)">
             <label class="control-label">Sector</label>
-            <select class="form-control" name="sector" #sector="ngModel" ngModel required>
+            <select class="form-control" name="sector" #sector="ngModel" ngModel >
                 <option *ngFor="let item of sectores" [value]="item.clave"> {{item.valor1}}</option>
             </select>
             <span class="help-block" *ngIf="sector.invalid && (sector.dirty || sector.touched)">Este campo es requerido</span>
@@ -37,76 +37,76 @@
     <div class="row">
         <div class="form-group col-md-4" [class.has-error]="claseConsulta.invalid && (claseConsulta.dirty || claseConsulta.touched)">
             <label class="control-label">Clase de consulta</label>
-            <input type="text" class="form-control" name="claseConsulta"  #claseConsulta="ngModel" ngModel required>
+            <input type="text" class="form-control" name="claseConsulta"  #claseConsulta="ngModel" ngModel >
             <span class="help-block" *ngIf="claseConsulta.invalid && (claseConsulta.dirty || claseConsulta.touched)">Este campo es requerido</span>
         </div>
         <div class="form-group col-md-4" [class.has-error]="numeroViaje.invalid && (numeroViaje.dirty || numeroViaje.touched)">
             <label class="control-label">Número de viaje</label>
-            <input type="text" class="form-control" name="numeroViaje"  #numeroViaje="ngModel" ngModel required>
+            <input type="text" class="form-control" name="numeroViaje"  #numeroViaje="ngModel" ngModel >
             <span class="help-block" *ngIf="numeroViaje.invalid && (numeroViaje.dirty || numeroViaje.touched)">Este campo es requerido</span>
         </div>
         <div class="form-group col-md-4" [class.has-error]="numeroItem.invalid && (numeroItem.dirty || numeroItem.touched)">
             <label class="control-label">Número de item</label>
-            <input type="text" class="form-control" name="numeroItem"  #numeroItem="ngModel" ngModel required>
+            <input type="text" class="form-control" name="numeroItem"  #numeroItem="ngModel" ngModel >
             <span class="help-block" *ngIf="numeroItem.invalid && (numeroItem.dirty || numeroItem.touched)">Este campo es requerido</span>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-4" [class.has-error]="material.invalid && (material.dirty || material.touched)">
             <label class="control-label">Material</label>
-            <select class="form-control" name="material" #material="ngModel" ngModel required>
+            <select class="form-control" name="material" #material="ngModel" ngModel >
                 <option *ngFor="let item of materiales" [value]="item.clave"> {{item.valor1}}</option>
             </select>
             <span class="help-block" *ngIf="material.invalid && (material.dirty || material.touched)">Este campo es requerido</span>
         </div>
         <div class="form-group col-md-4" [class.has-error]="centro.invalid && (centro.dirty || centro.touched)">
             <label class="control-label">Centro</label>
-            <input type="text" class="form-control" name="centro" #centro="ngModel" ngModel required>
+            <input type="text" class="form-control" name="centro" #centro="ngModel" ngModel >
             <span class="help-block" *ngIf="centro.invalid && (centro.dirty || centro.touched)">Este campo es requerido</span> 
         </div>
         <div class="form-group col-md-4" [class.has-error]="cantidad.invalid && (cantidad.dirty || cantidad.touched)">
             <label class="control-label">Cantidad</label>
-            <input type="text" class="form-control" name="cantidad" #cantidad="ngModel" ngModel required>
+            <input type="text" class="form-control" name="cantidad" #cantidad="ngModel" ngModel >
             <span class="help-block" *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)">Este campo es requerido</span>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-4" [class.has-error]="unidadMedida.invalid && (unidadMedida.dirty || unidadMedida.touched)">
             <label class="control-label">Unidad de medida</label>
-            <select class="form-control" name="unidadMedida" #unidadMedida="ngModel" ngModel required>
+            <select class="form-control" name="unidadMedida" #unidadMedida="ngModel" ngModel >
                 <option *ngFor="let item of unidadesmedida" [value]="item.clave"> {{item.valor1}} - {{item.valor2}}</option>
             </select>
             <span class="help-block" *ngIf="unidadMedida.invalid && (unidadMedida.dirty || unidadMedida.touched)">Este campo es requerido</span>
         </div>
         <div class="form-group col-md-4" [class.has-error]="listaPrecios.invalid && (listaPrecios.dirty || listaPrecios.touched)">
             <label class="control-label">Lista de precios</label>
-            <select class="form-control" name="listaPrecios" #listaPrecios="ngModel" ngModel required>
+            <select class="form-control" name="listaPrecios" #listaPrecios="ngModel" ngModel >
                 <option *ngFor="let item of listaprecios" [value]="item.clave"> {{item.valor1}}</option>
             </select>
             <span class="help-block" *ngIf="listaPrecios.invalid && (listaPrecios.dirty || listaPrecios.touched)">Este campo es requerido</span>
         </div>
         <div class="form-group col-md-4" [class.has-error]="peso.invalid && (peso.dirty || peso.touched)">
             <label class="control-label">Peso</label>
-            <input type="text" class="form-control" name="peso" #peso="ngModel" ngModel required>
+            <input type="text" class="form-control" name="peso" #peso="ngModel" ngModel >
             <span class="help-block" *ngIf="peso.invalid && (peso.dirty || peso.touched)">Este campo es requerido</span>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-4" [class.has-error]="unidadPeso.invalid && (unidadPeso.dirty || unidadPeso.touched)">
             <label class="control-label">Unidad de peso</label>
-            <select class="form-control" name="unidadPeso" #unidadPeso="ngModel" ngModel required>
+            <select class="form-control" name="unidadPeso" #unidadPeso="ngModel" ngModel >
                 <option *ngFor="let item of unidadesmedida" [value]="item.clave"> {{item.valor1}} - {{item.valor2}}</option>
             </select>
             <span class="help-block" *ngIf="unidadPeso.invalid && (unidadPeso.dirty || unidadPeso.touched)">Este campo es requerido</span>
         </div>
         <div class="form-group col-md-4" [class.has-error]="volumen.invalid && (volumen.dirty || volumen.touched)">
             <label class="control-label">Volumen</label>
-            <input type="text" class="form-control" name="volumen" #volumen="ngModel" ngModel required>
+            <input type="text" class="form-control" name="volumen" #volumen="ngModel" ngModel >
             <span class="help-block" *ngIf="volumen.invalid && (volumen.dirty || volumen.touched)">Este campo es requerido</span>
         </div>
         <div class="form-group col-md-4" [class.has-error]="unidadVolumen.invalid && (unidadVolumen.dirty || unidadVolumen.touched)">
             <label class="control-label">Unidad de volumen</label>
-            <select class="form-control" name="unidadVolumen" #unidadVolumen="ngModel" ngModel required>
+            <select class="form-control" name="unidadVolumen" #unidadVolumen="ngModel" ngModel >
                 <option *ngFor="let item of unidadesmedida" [value]="item.clave"> {{item.valor1}} - {{item.valor2}}</option>
             </select>
             <span class="help-block" *ngIf="unidadVolumen.invalid && (unidadVolumen.dirty || unidadVolumen.touched)">Este campo es requerido</span>
@@ -115,31 +115,31 @@
     <div class="row">
         <div class="form-group col-md-4" [class.has-error]="concepto.invalid && (concepto.dirty || concepto.touched)">
             <label class="control-label">Concepto</label>
-            <input type="text" class="form-control" name="concepto" #concepto="ngModel" ngModel required>
+            <input type="text" class="form-control" name="concepto" #concepto="ngModel" ngModel >
             <span class="help-block" *ngIf="concepto.invalid && (concepto.dirty || concepto.touched)">Este campo es requerido</span>
         </div>
         <div class="form-group col-md-4" [class.has-error]="solicitante.invalid && (solicitante.dirty || solicitante.touched)">
             <label class="control-label">Solicitante</label>
-            <input type="text" class="form-control" name="solicitante" #solicitante="ngModel" ngModel required>
+            <input type="text" class="form-control" name="solicitante" #solicitante="ngModel" ngModel >
             <span class="help-block" *ngIf="solicitante.invalid && (solicitante.dirty || solicitante.touched)">Este campo es requerido</span>
         </div>
         <div class="form-group col-md-4" [class.has-error]="agenteAduanal.invalid && (agenteAduanal.dirty || agenteAduanal.touched)">
             <label class="control-label">Agente aduanal</label>
-            <input type="text" class="form-control" name="agenteAduanal" #agenteAduanal="ngModel" ngModel required>
+            <input type="text" class="form-control" name="agenteAduanal" #agenteAduanal="ngModel" ngModel >
             <span class="help-block" *ngIf="agenteAduanal.invalid && (agenteAduanal.dirty || agenteAduanal.touched)">Este campo es requerido</span>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-4"  [class.has-error]="grupoVendedores.invalid && (grupoVendedores.dirty || grupoVendedores.touched)">
             <label class="control-label">Grupo de vendedores</label>
-            <select class="form-control" name="grupoVendedores" #grupoVendedores="ngModel" ngModel required>
+            <select class="form-control" name="grupoVendedores" #grupoVendedores="ngModel" ngModel >
                 <option *ngFor="let item of grupovendedores" [value]="item.clave"> {{item.valor1}}</option>
             </select>
             <span class="help-block" *ngIf="grupoVendedores.invalid && (grupoVendedores.dirty || grupoVendedores.touched)">Este campo es requerido</span>
         </div>
         <div class="form-group col-md-4"  [class.has-error]="oficinaVenta.invalid && (oficinaVenta.dirty || oficinaVenta.touched)">
             <label class="control-label">Oficina de venta</label>
-            <select class="form-control" name="oficinaVenta" #oficinaVenta="ngModel" ngModel required>
+            <select class="form-control" name="oficinaVenta" #oficinaVenta="ngModel" ngModel >
                 <option *ngFor="let item of oficinaventa" [value]="item.clave"> {{item.valor1}} - {{item.valor2}}
                     -{{item.valor3}} - {{item.valor4}}</option>
             </select>
@@ -147,24 +147,24 @@
         </div>
         <div class="form-group col-md-4"  [class.has-error]="organizacionVenta.invalid && (organizacionVenta.dirty || organizacionVenta.touched)">
             <label class="control-label">Organización de venta</label>
-            <input type="text" class="form-control" name="organizacionVenta" #organizacionVenta="ngModel" ngModel required>
+            <input type="text" class="form-control" name="organizacionVenta" #organizacionVenta="ngModel" ngModel >
             <span class="help-block" *ngIf="organizacionVenta.invalid && (organizacionVenta.dirty || organizacionVenta.touched)">Este campo es requerido</span>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-4" [class.has-error]="workorder.invalid && (workorder.dirty || workorder.touched)">
             <label class="control-label">Workorder</label>
-            <input type="text" class="form-control" name="workorder" #workorder="ngModel" ngModel required>
+            <input type="text" class="form-control" name="workorder" #workorder="ngModel" ngModel >
             <span class="help-block" *ngIf="workorder.invalid && (workorder.dirty || workorder.touched)">Este campo es requerido</span>
         </div>
         <div class="form-group col-md-4" [class.has-error]="zzaduana.invalid && (zzaduana.dirty || zzaduana.touched)">
             <label class="control-label">Aduana</label>
-            <input type="text" class="form-control" name="zzaduana" #zzaduana="ngModel" ngModel required>
+            <input type="text" class="form-control" name="zzaduana" #zzaduana="ngModel" ngModel >
             <span class="help-block" *ngIf="zzaduana.invalid && (zzaduana.dirty || zzaduana.touched)">Este campo es requerido</span>
         </div>
         <div class="form-group col-md-4" [class.has-error]="zzbl.invalid && (zzbl.dirty || zzbl.touched)">
             <label class="control-label">BL</label>
-            <input type="text" class="form-control" name="zzbl" #zzbl="ngModel" ngModel required>
+            <input type="text" class="form-control" name="zzbl" #zzbl="ngModel" ngModel >
             <span class="help-block" *ngIf="zzbl.invalid && (zzbl.dirty || zzbl.touched)">Este campo es requerido</span>
         </div>
     </div>
@@ -172,14 +172,14 @@
     <div class="row">
         <div class="form-group col-md-4" [class.has-error]="zzpedimento.invalid && (zzpedimento.dirty || zzpedimento.touched)">
             <label class="control-label">Pedimento</label>
-            <input type="text" class="form-control" name="zzpedimento"  #zzpedimento="ngModel" ngModel required>
+            <input type="text" class="form-control" name="zzpedimento"  #zzpedimento="ngModel" ngModel >
             <span class="help-block" *ngIf="zzpedimento.invalid && (zzpedimento.dirty || zzpedimento.touched)">Este campo es requerido</span>
         </div>
         
         <div class="col-md-4">
             <div class="form-group datepicker-group" [class.has-error]="zzfechaentrada.invalid && (zzfechaentrada.dirty || zzfechaentrada.touched)">
               <label class="control-label">Fecha de entrada</label>
-              <input type="text" class="form-control" id="fecha-entrada" name="zzfechaentrada"  #zzfechaentrada="ngModel" [(ngModel)]="fechaEntrada" required>
+              <input type="text" class="form-control" id="fecha-entrada" name="zzfechaentrada"  #zzfechaentrada="ngModel" [(ngModel)]="fechaEntrada" >
               <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
               <span class="help-block" *ngIf="zzfechaentrada.invalid && (zzfechaentrada.dirty || zzfechaentrada.touched)">Este campo es requerido</span>
           </div>
@@ -187,7 +187,7 @@
           <div class="col-md-4">
             <div class="form-group datepicker-group" [class.has-error]="zzfechasalida.invalid && (zzfechasalida.dirty || zzfechasalida.touched)">
               <label class="control-label">Fecha de sálida</label>
-              <input type="text" class="form-control" id="fecha-salida" name="zzfechasalida"  #zzfechasalida="ngModel" [(ngModel)]="fechaSalida" required>
+              <input type="text" class="form-control" id="fecha-salida" name="zzfechasalida"  #zzfechasalida="ngModel" [(ngModel)]="fechaSalida" >
               <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
               <span class="help-block" *ngIf="zzfechasalida.invalid && (zzfechasalida.dirty || zzfechasalida.touched)">Este campo es requerido</span>
           </div>
@@ -196,8 +196,35 @@
     <div class="row">
         <div class="form-group col-md-4" [class.has-error]="zzrecinto.invalid && (zzrecinto.dirty || zzrecinto.touched)">
             <label class="control-label">Recinto</label>
-            <input type="text" class="form-control" name="zzrecinto"  #zzrecinto="ngModel" ngModel  required>
+            <input type="text" class="form-control" name="zzrecinto"  #zzrecinto="ngModel" ngModel  >
             <span class="help-block" *ngIf="zzrecinto.invalid && (zzrecinto.dirty || zzrecinto.touched)">Este campo es requerido</span>
+        </div>
+        <div class="form-group col-md-4" [class.has-error]="valor1.invalid && (valor1.dirty || valor1.touched)">
+            <label class="control-label">Valor 1</label>
+            <input type="text" class="form-control" name="valor1"  #valor1="ngModel" ngModel  >
+            <span class="help-block" *ngIf="valor1.invalid && (valor1.dirty || valor1.touched)">Este campo es requerido</span>
+        </div>
+        <div class="form-group col-md-4" [class.has-error]="valor2.invalid && (valor2.dirty || valor2.touched)">
+            <label class="control-label">Valor 2</label>
+            <input type="text" class="form-control" name="valor2"  #valor2="ngModel" ngModel  >
+            <span class="help-block" *ngIf="valor2.invalid && (valor2.dirty || valor2.touched)">Este campo es requerido</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4" [class.has-error]="valor3.invalid && (valor3.dirty || valor3.touched)">
+            <label class="control-label">Valor 3</label>
+            <input type="text" class="form-control" name="valor3"  #valor3="ngModel" ngModel  >
+            <span class="help-block" *ngIf="valor3.invalid && (valor3.dirty || valor3.touched)">Este campo es requerido</span>
+        </div>
+        <div class="form-group col-md-4" [class.has-error]="valor4.invalid && (valor4.dirty || valor4.touched)">
+            <label class="control-label">Valor 4</label>
+            <input type="text" class="form-control" name="valor4"  #valor4="ngModel" ngModel  >
+            <span class="help-block" *ngIf="valor4.invalid && (valor4.dirty || valor4.touched)">Este campo es requerido</span>
+        </div>
+        <div class="form-group col-md-4" [class.has-error]="valor5.invalid && (valor5.dirty || valor5.touched)">
+            <label class="control-label">Valor 5</label>
+            <input type="text" class="form-control" name="valor5"  #valor5="ngModel" ngModel  >
+            <span class="help-block" *ngIf="valor5.invalid && (valor5.dirty || valor5.touched)">Este campo es requerido</span>
         </div>
     </div>
     <div class="row">
