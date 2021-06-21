@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './pages/main/main.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
-import { FacturacionComponent } from './pages/facturacion/facturacion.component';
 import { RecintoComponent } from './pages/recinto/recinto.component';
 import { EstadisticaComponent } from './pages/estadistica/estadistica.component';
 import { OperacionesComponent } from './pages/operaciones/operaciones.component';
@@ -17,7 +16,9 @@ import { AgenteNuevaSolicitudComponent } from './pages/clientes/agente-aduanal/a
 import { OperacionesNuevoPagoComponent } from './pages/operaciones/operaciones-nuevo-pago/operaciones-nuevo-pago.component';
 import { PpGenerarConsultaComponent } from './pages/proteccion-portuaria/pp-generar-consulta/pp-generar-consulta.component';
 import { CesionarioComponent } from './pages/clientes/cesionario/cesionario.component';
+import { FacturacionComponent } from './pages/facturacion/facturacion.component';
 import { FacturacionNuevaConsultaComponent } from './pages/facturacion/facturacion-nueva-consulta/facturacion-nueva-consulta.component';
+import { FacturacionConsultaTipoComponent } from './pages/facturacion/facturacion-consulta-tipo/facturacion-consulta-tipo.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -28,8 +29,13 @@ const routes: Routes = [
   { path: 'clientes/agente-aduanal/nueva-solicitud', component: AgenteNuevaSolicitudComponent, canActivate: [GuardService] },
   { path: 'clientes/naviera', component: NavieraComponent, canActivate: [GuardService] },
   { path: 'clientes/cesionario', component: CesionarioComponent, canActivate: [GuardService] },
+  
+ /* { path: 'facturacion',
+  loadChildren: () => import('./pages/facturacion/facturacion.module').then(m => m.FacturacionModule),
+  canActivate: [GuardService] },*/
   { path: 'facturacion', component: FacturacionComponent, canActivate: [GuardService] },
   { path: 'facturacion/nueva-consulta', component: FacturacionNuevaConsultaComponent, canActivate: [GuardService] },
+  { path: 'facturacion/consulta-por-tipo', component: FacturacionConsultaTipoComponent, canActivate: [GuardService] },
   { path: 'recinto', component: RecintoComponent, canActivate: [GuardService] },
   { path: 'recinto/nueva-solicitud', component: RecintoNuevaSolicitudComponent, canActivate: [GuardService] },
   { path: 'estadistica', component: EstadisticaComponent, canActivate: [GuardService] },

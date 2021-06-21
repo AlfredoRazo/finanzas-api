@@ -25,7 +25,7 @@ export class UserComponent implements OnInit {
         this.rutas.push({
           url: aux, name: this.toTitleCase(
             item
-            .replace('-', ' ')
+            .split('-').join(' ')
             .replace('facturacion', 'facturación')
             .replace('proteccion', 'protección')
             )

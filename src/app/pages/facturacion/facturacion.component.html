@@ -3,9 +3,9 @@
 <h3>Facturación</h3>
 <hr class="red">
 <ul class="nav nav-tabs">
-  <li role="presentation" class="active"><a >Consultas</a></li>
-  <li role="presentation"><a >Clientes</a></li>
-  <li role="presentation"><a >Reportes</a></li>
+  <li role="presentation" class="active"><a>Consultas</a></li>
+  <li role="presentation"><a>Clientes</a></li>
+  <li role="presentation"><a>Reportes</a></li>
 </ul>
 <br>
 <br>
@@ -13,59 +13,65 @@
   <div class="form-group">
     <label class="col-sm-2 control-label" style="text-align: left !important;">Filtrar por: </label>
     <div class="col-sm-3">
-    <select class="form-control">
-      <option>Opciones</option>
-    </select>
-  </div>
-  <div class="col-sm-5">
-    <input type="email" class="form-control" placeholder="Criterio">
-  </div>
-  <div class="col-sm-2"> 
-    <button class="btn btn-danger btn-block btn-sm" type="button">Buscar <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-  </div>
+      <select class="form-control">
+        <option *ngFor="let item of filter" [value]="item">{{item}}</option>
+      </select>
+    </div>
+    <div class="col-sm-5">
+      <input type="email" class="form-control" placeholder="Criterio">
+    </div>
+    <div class="col-sm-2">
+      <button class="btn btn-danger btn-block btn-sm" type="button">Buscar <span class="glyphicon glyphicon-search"
+          aria-hidden="true"></span></button>
+    </div>
   </div>
 </form>
 <br>
 <button type="button" class="btn btn-primary btn-sm" routerLink="nueva-consulta">Nueva consulta</button>
+<button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;" routerLink="consulta-por-tipo">Consulta por tipo</button>
 <br>
 <br>
 <div class="table-responsive">
-<table class="table table-bordered">
-  <thead style="white-space: nowrap;">
-    <tr style="cursor: pointer;">
-      <th>Estatus <span class="glyphicon glyphicon-sort"></span></th>
-      <th>Consulta de pago <span class="glyphicon glyphicon-sort"></span></th>
-      <th>Fecha de la consulta <span class="glyphicon glyphicon-sort"></span></th>
-      <th>Factura <span class="glyphicon glyphicon-sort"></span></th>
-      <th>Fecha de la factura <span class="glyphicon glyphicon-sort"></span></th>
-      <th>UUID <span class="glyphicon glyphicon-sort"></span></th>
-      <th>Tipo de servicio <span class="glyphicon glyphicon-sort"></span></th>
-      <th>Solicitante <span class="glyphicon glyphicon-sort"></span></th>
-      <th>Cliente <span class="glyphicon glyphicon-sort"></span></th>
-      <th>Referencia del servicio <span class="glyphicon glyphicon-sort"></span></th>
-      <th>Subtotal <span class="glyphicon glyphicon-sort"></span></th>
-      <th>Descuentos <span class="glyphicon glyphicon-sort"></span></th>
-      <th>IVA <span class="glyphicon glyphicon-sort"></span></th>
-      <th>Total <span class="glyphicon glyphicon-sort"></span></th>
-      <th>Fecha de pago <span class="glyphicon glyphicon-sort"></span></th>
-      <th>Saldo deudor <span class="glyphicon glyphicon-sort"></span></th>
-      <th>PDF <span class="glyphicon glyphicon-sort"></span></th>
-      <th>XML <span class="glyphicon glyphicon-sort"></span></th>
-      <th>Liga de pago <span class="glyphicon glyphicon-sort"></span></th>
+  <table class="table table-bordered">
+    <thead style="white-space: nowrap;">
+      <tr style="cursor: pointer;">
+        <th scope="col" [appSort]="data" data-order="desc" data-name="estatus">Estatus <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="noConsulta">Consulta de pago <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="fechaConsulta">Fecha de la consulta <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="tipoServicio">Tipo de servicio <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="factura">Factura <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="fechafactura">Fecha de la factura <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="cliente">Cliente <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="solicitante">Solicitante <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="UUID">UUID <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="subtotal">Subtotal <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="descuentos">Descuentos <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="iva">IVA <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="total">Total <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="fechaPago">Fecha de pago <span class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="referenciaPa">Referencia de pago <span class="glyphicon glyphicon-sort"></span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data">
+      <td>{{item.estatus}}</td>
+      <td>{{item.noConsulta}}</td>
+      <td>{{item.fechaConsulta}}</td>
+      <td>{{item.tipoServicio}}</td>
+      <td>{{item.factura}}</td>
+      <td>{{item.fechafactura}}</td>
+      <td>{{item.cliente}}</td>
+      <td>{{item.solicitante}}</td>
+      <td>{{item.UUID}}</td>
+      <td>{{item.subtotal}}</td>
+      <td>{{item.descuentos}}</td>
+      <td>{{item.iva}}</td>
+      <td>{{item.total}}</td>
+      <td>{{item.fechaPago}}</td>
+      <td>{{item.referenciaPago}}</td>
     </tr>
-  </thead>
-  <tbody>
-    <!--tr *ngFor="let item of data">
-      <td>{{item.id}}</td>
-      <td>{{item.fecha}}</td>
-      <td>{{item.empresa}}</td>
-      <td>{{item.concepto}}</td>
-      <td>{{item.total | currency}}</td>
-      <td>{{item.estado}}</td>
-      <td>{{item.cfdi}}</td>
-    </tr-->
-  </tbody>
-</table>
+    </tbody>
+  </table>
 </div>
 <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
 <button type="button" class="btn btn-default" routerLink="/main">Regresar</button>

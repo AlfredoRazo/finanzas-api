@@ -25,9 +25,9 @@ export class FacturacionNuevaConsultaComponent implements OnInit {
   oficinaventa : any[] = [];
   sectores : any[] = [];
   unidadesmedida : any[] = [];
-  buque: any;
   fechaEntrada: string = '';
   fechaSalida: string = '';
+  buque: any;
   search:any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
