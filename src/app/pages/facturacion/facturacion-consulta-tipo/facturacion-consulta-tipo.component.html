@@ -131,7 +131,10 @@
             </div>
             <div class="form-group col-md-6">
                 <label class="control-label">Cantidad Unidad</label>
-                <input type="text" class="form-control" [(ngModel)]="tabledat.cantidadunidad">
+                <select class="form-control" [(ngModel)]="tabledat.cantidadunidad">
+                    <option *ngFor="let item of unidadesmedida" [value]="item.clave"> {{item.valor1}} - {{item.valor2}}</option>
+                </select>
+                
             </div>
         </div>
         <div class="row">
@@ -142,7 +145,10 @@
             </div>
             <div class="form-group col-md-6">
                 <label class="control-label">Volumen Unidad</label>
-                <input type="text" class="form-control" [(ngModel)]="tabledat.volumenunidad">
+                <select class="form-control" [(ngModel)]="tabledat.volumenunidad">
+                    <option *ngFor="let item of unidadesmedida" [value]="item.clave"> {{item.valor1}} - {{item.valor2}}</option>
+                </select>
+               
             </div>
         </div>
         <div class="row">
@@ -153,7 +159,9 @@
             </div>
             <div class="form-group col-md-6">
                 <label class="control-label">Peso Unidad</label>
-                <input type="text" class="form-control" [(ngModel)]="tabledat.pesounidad">
+                <select class="form-control" [(ngModel)]="tabledat.pesounidad">
+                    <option *ngFor="let item of unidadesmedida" [value]="item.clave"> {{item.valor1}} - {{item.valor2}}</option>
+                </select>
             </div>
         </div>
         <div class="row">

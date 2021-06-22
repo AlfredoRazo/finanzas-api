@@ -20,9 +20,11 @@ export interface FacturaForm {
   styleUrls: ['./facturacion-consulta-tipo.component.css']
 })
 export class FacturacionConsultaTipoComponent implements OnInit {
+  catalogos = environment.endpoint + 'sapCatalogos?catalogo='
   tabledat: FacturaForm = {} as FacturaForm;
   clientes : any[] = [];
   conceptos : any[] = [];
+  unidadesmedida : any[] = [];
   data: any[] = [];
   buque: any;
   search:any = (text$: Observable<any>) =>
@@ -53,6 +55,7 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   ngOnInit(): void {
     this.getClientes();
     this.getConceptos();
+    this.getUnidadesMedida();
     
   }
   getClientes(): void{
@@ -69,6 +72,11 @@ export class FacturacionConsultaTipoComponent implements OnInit {
       this.conceptos = res;
       this.spinner.hide();
     },err =>{this.spinner.hide()});
+  }
+  getUnidadesMedida(): void{
+    this.http.get( this.catalogos + 'unidadesmedida').subscribe((res: any) =>{
+      this.unidadesmedida = res.valores;
+    });
   }
   guardarData(): void{
     this.data.push(this.tabledat);
