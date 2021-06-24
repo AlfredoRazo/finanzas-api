@@ -127,8 +127,10 @@
                 class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="dataCFDI"  data-order="desc" data-name="factura">Factura <span
                 class="glyphicon glyphicon-sort"></span></th>
-            <th scope="col" [appSort]="dataCFDI"  data-order="desc" data-name="fecha">Receptor <span
+            <th scope="col" [appSort]="dataCFDI"  data-order="desc" data-name="fecha">Fecha <span
                 class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="dataCFDI"  data-order="desc" data-name="receptor">Receptor <span
+                  class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="dataCFDI"  data-order="desc" data-name="total">Total <span
                 class="glyphicon glyphicon-sort"></span></th>
                 <th></th>
@@ -139,6 +141,7 @@
             <td>{{item.consulta}}</td>
             <td>{{item.factura}}</td>
             <td>{{item.fecha | date:'yy-MM-dd HH:ss'}}</td>
+            <td>{{item.receptor}}</td>
             <td>{{item.total}}</td>
             <td><a class="btn btn-primary btn-xs" target="_blank" [href]="item.pdf">PDF <span class="glyphicon glyphicon-download" aria-hidden="true"></span></a> 
               <a class="btn btn-primary btn-xs" style="margin-left: 10px;" target="_blank" [href]="item.xml">XML <span class="glyphicon glyphicon-download" aria-hidden="true"></span></a></td>
