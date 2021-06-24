@@ -66,7 +66,7 @@ export class FacturacionComponent implements OnInit {
 
   getCFDI(): void{
     this.spinner.show();
-    this.http.get(`${environment.endpointApi}cfdi?fechaini=${this.fechaini}&fechafin=${this.fechafin}`).subscribe((res: any) => {
+    this.http.get(`${environment.endpointApi}cfdi?rfc=API&fechaini=${this.fechaini}&fechafin=${this.fechafin}`).subscribe((res: any) => {
       this.pageCFDI = 1;
       this.spinner.hide();
       this.totalCFDI =res[0].length;
