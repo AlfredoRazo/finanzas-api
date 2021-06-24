@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
+import { AuthService } from '@serv/auth.service';
 import { HelpersService } from '@serv/helpers.service';
 import { PaginateService } from '@serv/paginate.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -45,6 +46,7 @@ export class FacturacionComponent implements OnInit {
   constructor(private http:HttpClient,
     private pagina:PaginateService,
     private help:HelpersService,
+    private auth: AuthService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
@@ -66,7 +68,7 @@ export class FacturacionComponent implements OnInit {
 
   getCFDI(): void{
     this.spinner.show();
-    this.http.get(`${environment.endpointApi}cfdi?rfc=API&fechaini=${this.fechaini}&fechafin=${this.fechafin}`).subscribe((res: any) => {
+    this.http.get(`${environment.endpointApi}cfdi?rfc=${this.auth.getSession().userData.rfc}&fechaini=${this.fechaini}&fechafin=${this.fechafin}`).subscribe((res: any) => {
       this.pageCFDI = 1;
       this.spinner.hide();
       this.totalCFDI =res[0].length;
