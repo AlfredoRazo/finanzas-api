@@ -1,8 +1,9 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { environment } from '@env/environment';
 import { AuthService } from '@serv/auth.service';
 import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
-import buques from 'src/assets/buques.json';
 declare var $: any;
 
 @Component({
@@ -13,14 +14,14 @@ declare var $: any;
 export class AgenteNuevaSolicitudComponent implements OnInit {
 
   public buque: any;
-  
+  buques: any[] = [];
   search:any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
       map(term => 
         term.length < 2 ? []
-        : buques.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+        : this.buques.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
         )
     );
     formatter = (x: {nombre: string}) => x.nombre;
@@ -59,10 +60,12 @@ export class AgenteNuevaSolicitudComponent implements OnInit {
   rfcCliente = '';
   nombreCliente = '';
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
     const user = this.auth.getSession().userData;
+    this.getBuques();
     this.agenciaAduanal = user.empresa;
     $('#fecha-servicio').datepicker();
     $('#fecha-arribo').datepicker();
@@ -73,6 +76,16 @@ export class AgenteNuevaSolicitudComponent implements OnInit {
   
   searchName(): void{
     this.nombreCliente = 'PRUEBA CLIENTE';
+  }
+
+  getBuques(): void {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().userData.catToken}`
+    });
+    this.http.get(environment.endpointCat + 'buques',{headers: header}).subscribe((res: any) => {
+      this.buques = res.valor;
+    },error =>{});
   }
 
 }

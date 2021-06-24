@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
+import { AuthService } from '@serv/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
-import buques from 'src/assets/buques.json';
+
 declare var $: any;
 @Component({
   selector: 'app-facturacion-nueva-consulta',
@@ -19,7 +20,7 @@ export class FacturacionNuevaConsultaComponent implements OnInit {
   catalogos = environment.endpoint + 'sapCatalogos?catalogo='
   canaldistribucion : any[] = [];
   grupovendedores : any[] = [];
-
+  buques: any[] = [];
   materiales : any[] = [];
   listaprecios : any[] = [];
   oficinaventa : any[] = [];
@@ -34,16 +35,18 @@ export class FacturacionNuevaConsultaComponent implements OnInit {
       distinctUntilChanged(),
       map(term => 
         term.length < 2 ? []
-        : buques.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+        : this.buques.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
         )
     );
     formatter = (x: {nombre: string}) => x.nombre;
 
   constructor(
     private spinner: NgxSpinnerService,
+    private auth: AuthService,
     public http: HttpClient) { }
 
   ngOnInit(): void {
+    this.getBuques();
     this.http.get( this.catalogos + 'canaldistribucion').subscribe((res: any) =>{
       this.canaldistribucion = res.valores;
     });
@@ -104,6 +107,15 @@ export class FacturacionNuevaConsultaComponent implements OnInit {
       this.spinner.hide();
     })
 
+  }
+  getBuques(): void {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().userData.catToken}`
+    });
+    this.http.get(environment.endpointCat + 'buques',{headers: header}).subscribe((res: any) => {
+      this.buques = res.valor;
+    },error =>{});
   }
 
 }

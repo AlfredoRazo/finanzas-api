@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
+import { AuthService } from '@serv/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
-import buques from 'src/assets/buques.json';
 export interface FacturaForm {
   cantidad: string;
   cantidadunidad: string;
@@ -27,13 +27,14 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   unidadesmedida : any[] = [];
   data: any[] = [];
   buque: any;
+  buques: any[] = [];
   search:any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
       map(term => 
         term.length < 2 ? []
-        : buques.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+        : this.buques.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
         )
     );
     formatter = (x: {nombre: string}) => x.nombre;
@@ -50,12 +51,14 @@ export class FacturacionConsultaTipoComponent implements OnInit {
     );
 
   constructor(private http: HttpClient,
+    private auth: AuthService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.getClientes();
     this.getConceptos();
     this.getUnidadesMedida();
+    this.getBuques();
     
   }
   getClientes(): void{
@@ -84,6 +87,16 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   }
   removeData(index: any): void{
     this.data.splice(index,1);
+  }
+  
+  getBuques(): void {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().userData.catToken}`
+    });
+    this.http.get(environment.endpointCat + 'buques',{headers: header}).subscribe((res: any) => {
+      this.buques = res.valor;
+    },error =>{});
   }
 
 }

@@ -5,7 +5,6 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { AuthService } from '@serv/auth.service';
 import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
-import buques from 'src/assets/buques.json';
 declare var $: any;
 
 @Component({
@@ -21,6 +20,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   nombreCliente = '';
   manifiestoData: any = [];
   public buque: any;
+  buques: any[] = [];
   
   search:any = (text$: Observable<any>) =>
     text$.pipe(
@@ -28,7 +28,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       distinctUntilChanged(),
       map(term => 
         term.length < 2 ? []
-        : buques.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+        : this.buques.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
         )
     );
     formatter = (x: {nombre: string}) => x.nombre;
@@ -71,22 +71,12 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
 
   ngOnInit(): void {
     const user = this.auth.getSession().userData;
+    this.getBuques();
     this.agenciaAduanal = user.empresa;
     $('#fecha-servicio').datepicker();
     $('#fecha-arribo').datepicker();
     $('#fecha-inicio-operaciones').datepicker();
     $('#fecha-zarpe').datepicker();
-    
-      /*const header = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${res.valor}`
-      });*/
-      /*this.http.get(environment.endpointCat + 'transportes/tipos',{headers: header}).subscribe((res: any) => {
-        console.log(res.valor);
-
-      },error =>{});*/
-      //this.http.get(environment.endpointCat,{headers: header}).subscribe((res: any) => {},error =>{});
-
   }
 
   consulta(): void {
@@ -109,6 +99,15 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     },error =>{
       this.spinner.hide();
     });
+  }
+  getBuques(): void {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().userData.catToken}`
+    });
+    this.http.get(environment.endpointCat + 'buques',{headers: header}).subscribe((res: any) => {
+      this.buques = res.valor;
+    },error =>{});
   }
 
 }
