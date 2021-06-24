@@ -31,3 +31,7 @@
     margin-left: 10px;
   }
  
+  .pagination>.active>a{
+    background-color: #bc9868 !important;
+    border-color: #bc9868 !important;
+  }

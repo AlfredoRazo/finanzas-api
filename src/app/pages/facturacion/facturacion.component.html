@@ -3,76 +3,150 @@
 <h3>Facturación</h3>
 <hr class="red">
 <ul class="nav nav-tabs">
-  <li role="presentation" class="active"><a>Consultas</a></li>
-  <li role="presentation"><a>Clientes</a></li>
-  <li role="presentation"><a>Reportes</a></li>
-  <li role="presentation"><a>CFDI</a></li>
+  <li role="presentation" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Consultas</a></li>
+  <li role="presentation" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">Clientes</a></li>
+  <li role="presentation" [class.active]="submenu==3"><a [routerLink]="" (click)="submenu=3">Reportes</a></li>
+  <li role="presentation" [class.active]="submenu==4"><a [routerLink]="" (click)="submenu=4; getCFDI()">CFDI</a></li>
 </ul>
 <br>
 <br>
-<form class="form-horizontal">
-  <div class="form-group">
-    <label class="col-sm-2 control-label" style="text-align: left !important;">Filtrar por: </label>
-    <div class="col-sm-3">
-      <select class="form-control">
-        <option *ngFor="let item of filter" [value]="item">{{item}}</option>
-      </select>
+<container-element [ngSwitch]="submenu">
+  <div *ngSwitchCase="1">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-2 control-label" style="text-align: left !important;">Filtrar por: </label>
+        <div class="col-sm-3">
+          <select class="form-control">
+            <option *ngFor="let item of filter" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        <div class="col-sm-5">
+          <input type="email" class="form-control" placeholder="Criterio">
+        </div>
+        <div class="col-sm-2">
+          <button class="btn btn-danger btn-block btn-sm" type="button">Buscar <span class="glyphicon glyphicon-search"
+              aria-hidden="true"></span></button>
+        </div>
+      </div>
+    </form>
+    <br>
+    <button type="button" class="btn btn-primary btn-sm" routerLink="nueva-consulta">Nueva consulta</button>
+    <button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;"
+      routerLink="consulta-por-tipo">Consulta por tipo</button>
+    <br>
+    <br>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead style="white-space: nowrap;">
+          <tr style="cursor: pointer;">
+            <th scope="col" [appSort]="data" data-order="desc" data-name="estatus">Estatus <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="noConsulta">Consulta de pago <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="fechaConsulta">Fecha de la consulta <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="tipoServicio">Tipo de servicio <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="factura">Factura <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="fechafactura">Fecha de la factura <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="cliente">Cliente <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="solicitante">Solicitante <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="UUID">UUID <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="subtotal">Subtotal <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="descuentos">Descuentos <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="iva">IVA <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="total">Total <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="fechaPago">Fecha de pago <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="referenciaPa">Referencia de pago <span
+                class="glyphicon glyphicon-sort"></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data">
+            <td>{{item.estatus}}</td>
+            <td>{{item.noConsulta}}</td>
+            <td>{{item.fechaConsulta}}</td>
+            <td>{{item.tipoServicio}}</td>
+            <td>{{item.factura}}</td>
+            <td>{{item.fechafactura}}</td>
+            <td>{{item.cliente}}</td>
+            <td>{{item.solicitante}}</td>
+            <td>{{item.UUID}}</td>
+            <td>{{item.subtotal}}</td>
+            <td>{{item.descuentos}}</td>
+            <td>{{item.iva}}</td>
+            <td>{{item.total}}</td>
+            <td>{{item.fechaPago}}</td>
+            <td>{{item.referenciaPago}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="col-sm-5">
-      <input type="email" class="form-control" placeholder="Criterio">
-    </div>
-    <div class="col-sm-2">
-      <button class="btn btn-danger btn-block btn-sm" type="button">Buscar <span class="glyphicon glyphicon-search"
-          aria-hidden="true"></span></button>
-    </div>
+    <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
   </div>
-</form>
-<br>
-<button type="button" class="btn btn-primary btn-sm" routerLink="nueva-consulta">Nueva consulta</button>
-<button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;" routerLink="consulta-por-tipo">Consulta por tipo</button>
-<br>
-<br>
-<div class="table-responsive">
-  <table class="table table-bordered">
-    <thead style="white-space: nowrap;">
-      <tr style="cursor: pointer;">
-        <th scope="col" [appSort]="data" data-order="desc" data-name="estatus">Estatus <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="noConsulta">Consulta de pago <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="fechaConsulta">Fecha de la consulta <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="tipoServicio">Tipo de servicio <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="factura">Factura <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="fechafactura">Fecha de la factura <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="cliente">Cliente <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="solicitante">Solicitante <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="UUID">UUID <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="subtotal">Subtotal <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="descuentos">Descuentos <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="iva">IVA <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="total">Total <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="fechaPago">Fecha de pago <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="referenciaPa">Referencia de pago <span class="glyphicon glyphicon-sort"></span></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of data">
-      <td>{{item.estatus}}</td>
-      <td>{{item.noConsulta}}</td>
-      <td>{{item.fechaConsulta}}</td>
-      <td>{{item.tipoServicio}}</td>
-      <td>{{item.factura}}</td>
-      <td>{{item.fechafactura}}</td>
-      <td>{{item.cliente}}</td>
-      <td>{{item.solicitante}}</td>
-      <td>{{item.UUID}}</td>
-      <td>{{item.subtotal}}</td>
-      <td>{{item.descuentos}}</td>
-      <td>{{item.iva}}</td>
-      <td>{{item.total}}</td>
-      <td>{{item.fechaPago}}</td>
-      <td>{{item.referenciaPago}}</td>
-    </tr>
-    </tbody>
-  </table>
-</div>
-<ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
+  <div *ngSwitchCase="2"></div>
+  <div *ngSwitchCase="3"></div>
+  <div [hidden]="submenu !== 4">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-1 control-label" style="text-align: left !important;">Filtrar: </label>
+        <div class="col-md-4">
+          <div class="form-group datepicker-group col-md-12">
+            <input type="text" class="form-control" id="fecha-inis" placeholder="Fecha Inicio" [(ngModel)]="fechaini" name="fechaini">
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group datepicker-group col-md-12">
+            <input type="text" class="form-control" id="fecha-fins" placeholder="Fecha Fin" [(ngModel)]="fechafin" name="fechafin">
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </div>
+        </div>
+        <div class="col-sm-2">
+          <button class="btn btn-danger btn-block btn-sm" type="button" (click)="getCFDI()">Buscar <span class="glyphicon glyphicon-search"
+              aria-hidden="true"></span></button>
+        </div>
+      </div>
+    </form>
+    <br>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead style="white-space: nowrap;">
+          <tr style="cursor: pointer;">
+            <th scope="col" [appSort]="dataCFDI" data-order="desc" data-name="consulta">Consulta <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="dataCFDI"  data-order="desc" data-name="factura">Factura <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="dataCFDI"  data-order="desc" data-name="fecha">Receptor <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="dataCFDI"  data-order="desc" data-name="total">Total <span
+                class="glyphicon glyphicon-sort"></span></th>
+                <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of dataCFDI">
+            <td>{{item.consulta}}</td>
+            <td>{{item.factura}}</td>
+            <td>{{item.fecha | date:'yy-MM-dd HH:ss'}}</td>
+            <td>{{item.total}}</td>
+            <td><a class="btn btn-primary btn-xs" target="_blank" [href]="item.pdf">PDF <span class="glyphicon glyphicon-download" aria-hidden="true"></span></a> 
+              <a class="btn btn-primary btn-xs" style="margin-left: 10px;" target="_blank" [href]="item.xml">XML <span class="glyphicon glyphicon-download" aria-hidden="true"></span></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ngb-pagination [collectionSize]="totalCFDI" [collectionSize]="10" [(page)]="pageCFDI"  (pageChange)="paginado($event)" [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
+  </div>
+</container-element>
 <button type="button" class="btn btn-default" routerLink="/main">Regresar</button>
