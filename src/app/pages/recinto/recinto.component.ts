@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recinto.component.css']
 })
 export class RecintoComponent implements OnInit {
+  submenu = 1;
   page = 1;
   data = [
     {

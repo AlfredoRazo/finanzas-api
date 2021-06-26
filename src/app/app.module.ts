@@ -32,6 +32,7 @@ import { CesionarioComponent } from './pages/clientes/cesionario/cesionario.comp
 import { FacturacionNuevaConsultaComponent } from './pages/facturacion/facturacion-nueva-consulta/facturacion-nueva-consulta.component';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { FacturacionConsultaTipoComponent } from './pages/facturacion/facturacion-consulta-tipo/facturacion-consulta-tipo.component';
+import { CfdiComponent } from './components/cfdi/cfdi.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { FacturacionConsultaTipoComponent } from './pages/facturacion/facturacio
     FacturacionComponent,
     FacturacionNuevaConsultaComponent,
     FacturacionConsultaTipoComponent,
+    CfdiComponent,
   ],
   imports: [
     BrowserAnimationsModule,

@@ -28,6 +28,15 @@ export class GuardService implements CanActivate {
           return false;
         }
         break;
+        case 'RECINTO':
+        if(route.url[0].path == 'recinto'){
+          return this.auth.isAuthenticated();
+        }else{
+          this.router.navigate(['/recinto']);
+          return false;
+        }
+        break;
+        
       default:
         return this.auth.isAuthenticated();
         break;

@@ -1,0 +1,53 @@
+<form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-1 control-label" style="text-align: left !important;">Filtrar: </label>
+      <div class="col-md-4">
+        <div class="form-group datepicker-group col-md-12">
+          <input type="text" class="form-control" id="fecha-inis" placeholder="Fecha Inicio" [(ngModel)]="fechaini" name="fechaini">
+          <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+      </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group datepicker-group col-md-12">
+          <input type="text" class="form-control" id="fecha-fins" placeholder="Fecha Fin" [(ngModel)]="fechafin" name="fechafin">
+          <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+      </div>
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-danger btn-block btn-sm" type="button" (click)="getCFDI()">Buscar <span class="glyphicon glyphicon-search"
+            aria-hidden="true"></span></button>
+      </div>
+    </div>
+  </form>
+  <br>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead style="white-space: nowrap;">
+        <tr style="cursor: pointer;">
+          <th scope="col" [appSort]="dataCFDI" data-order="desc" data-name="consulta">Consulta <span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="dataCFDI"  data-order="desc" data-name="factura">Factura <span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="dataCFDI"  data-order="desc" data-name="fecha">Fecha <span
+              class="glyphicon glyphicon-sort"></span></th>
+              <th scope="col" [appSort]="dataCFDI"  data-order="desc" data-name="receptor">Receptor <span
+                class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="dataCFDI"  data-order="desc" data-name="total">Total <span
+              class="glyphicon glyphicon-sort"></span></th>
+              <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of dataCFDI">
+          <td>{{item.consulta}}</td>
+          <td>{{item.factura}}</td>
+          <td>{{item.fecha}}</td>
+          <td>{{item.receptor}}</td>
+          <td>{{item.total}}</td>
+          <td><a class="btn btn-primary btn-xs" target="_blank" [href]="item.pdf">PDF <span class="glyphicon glyphicon-download" aria-hidden="true"></span></a> 
+            <a class="btn btn-primary btn-xs" style="margin-left: 10px;" target="_blank" [href]="item.xml">XML <span class="glyphicon glyphicon-download" aria-hidden="true"></span></a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ngb-pagination [collectionSize]="totalCFDI" [collectionSize]="10" [(page)]="pageCFDI"  (pageChange)="paginado($event)" [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
