@@ -13,7 +13,31 @@ export class RoleService {
     switch (role) {
       case 'FINANZAS':
         this.router.navigate(['/facturacion']);
-        break;
+      break;
+      case 'RECINTO':
+        this.router.navigate(['/recinto']);
+      break;
+      case 'ESTADISTICA':
+        this.router.navigate(['/estadistica']);
+      break;
+      case 'OPERACIONES':
+        this.router.navigate(['/operaciones']);
+      break;
+      case 'PPORTUARIA':
+        this.router.navigate(['/proteccion-portuaria']);
+      break;
+      case 'MANIOBRISTA':
+        this.router.navigate(['/clientes/maniobrista']);
+      break;
+      case 'AGENTEADUANAL':
+        this.router.navigate(['/clientes/agente-aduanal']);
+      break;
+      case 'NAVIERA':
+        this.router.navigate(['/clientes/naviera']);
+      break;
+      case 'CESIONARIO':
+        this.router.navigate(['/clientes/cesionario']);
+      break;
       default:
         this.router.navigate(['/main']);
         break;
