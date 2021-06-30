@@ -51,6 +51,6 @@
     </table>
   </div>
   <p [innerHtml]="descPaginado"></p>
-  <p>Total : <b>{{totalCFDI}}</b></p>
+  <p>Registros encontrados : <b>{{totalCFDI}}</b></p>
   
   <ngb-pagination [collectionSize]="totalCFDI" [collectionSize]="collSize" [(page)]="pageCFDI"  (pageChange)="paginado($event)" [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
