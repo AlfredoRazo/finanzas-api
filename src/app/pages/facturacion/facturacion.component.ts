@@ -13,6 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class FacturacionComponent implements OnInit {
   page = 1;
+  total = 0;
   data : any = [];
   filter: any[] = [
     'Estatus',
@@ -49,6 +50,7 @@ export class FacturacionComponent implements OnInit {
     this.http.get(`${environment.endpoint}consultasDetalle`).subscribe((res: any)=> {
       this.spinner.hide();
       this.data = res[0];
+      this.total = res[0].length;
     },error =>{this.spinner.hide()})
 
   }

@@ -50,4 +50,7 @@
       </tbody>
     </table>
   </div>
-  <ngb-pagination [collectionSize]="totalCFDI" [collectionSize]="10" [(page)]="pageCFDI"  (pageChange)="paginado($event)" [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
+  <p [innerHtml]="descPaginado"></p>
+  <p>Total : <b>{{totalCFDI}}</b></p>
+  
+  <ngb-pagination [collectionSize]="totalCFDI" [collectionSize]="collSize" [(page)]="pageCFDI"  (pageChange)="paginado($event)" [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>

@@ -15,12 +15,14 @@ declare var $: any;
 export class CfdiComponent implements OnInit {
   totalCFDI = 0;
   pageCFDI = 1;
+  collSize = 10;
   originalDataCFDI: any[] = [];
   dataCFDI: any[] = [];
   submenu = 1;
   fechaini = '';
   fechafin = '';
   desc = true;
+  descPaginado = '';
 
 
   constructor(private http: HttpClient,
@@ -45,11 +47,21 @@ export class CfdiComponent implements OnInit {
       this.totalCFDI = res[0].length;
       this.originalDataCFDI = [...res[0]];
       this.dataCFDI = this.pagina.paginate(res[0], 15, this.pageCFDI);
+      this.descripcionPaginado();
     }, err => { this.spinner.hide() });
   }
 
   paginado(page: any, key = null): void {
     this.dataCFDI = this.pagina.paginate(this.originalDataCFDI, 10, this.pageCFDI);
+    this.descripcionPaginado();
+  }
+
+  descripcionPaginado(): void {
+    var numberOfPages = Math.floor((this.totalCFDI + this.collSize - 1) / this.collSize);
+    var start = (this.pageCFDI * this.collSize) - (this.collSize - 1);
+    var end = Math.min(start + this.collSize - 1, this.totalCFDI);
+    this.descPaginado = `Registros del <b>${start}</b> al <b>${end}</b>`;
+
   }
 
 }
