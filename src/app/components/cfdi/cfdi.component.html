@@ -1,5 +1,5 @@
 <form class="form-horizontal">
-    <div class="form-group">
+  <div class="row">
       <label class="col-sm-1 control-label" style="text-align: left !important;">Filtrar: </label>
       <div class="col-md-4">
         <div class="form-group datepicker-group col-md-12">
@@ -16,6 +16,19 @@
       <div class="col-sm-2">
         <button class="btn btn-danger btn-block btn-sm" type="button" (click)="getCFDI()">Buscar <span class="glyphicon glyphicon-search"
             aria-hidden="true"></span></button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1 control-label"></div>
+      <div class="col-md-4">
+        <div class="form-group col-md-12">
+          <input type="text" class="form-control" placeholder="Consulta">
+      </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group col-md-12">
+          <input type="text" class="form-control" placeholder="Receptor">
+      </div>
       </div>
     </div>
   </form>
