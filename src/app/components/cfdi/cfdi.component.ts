@@ -18,11 +18,15 @@ export class CfdiComponent implements OnInit {
   collSize = 10;
   originalDataCFDI: any[] = [];
   dataCFDI: any[] = [];
+  filterDataCFDI: any[] = [];
   submenu = 1;
   fechaini = '';
   fechafin = '';
   desc = true;
+  filtro = false;
   descPaginado = '';
+  consulta = '';
+  receptor = '';
 
 
   constructor(private http: HttpClient,
@@ -51,8 +55,12 @@ export class CfdiComponent implements OnInit {
     }, err => { this.spinner.hide() });
   }
 
-  paginado(page: any, key = null): void {
-    this.dataCFDI = this.pagina.paginate(this.originalDataCFDI, 10, this.pageCFDI);
+  paginado(evt: any = null): void {
+    if(this.filtro){
+      this.dataCFDI = this.pagina.paginate(this.filterDataCFDI, 10, this.pageCFDI);
+    }else{
+      this.dataCFDI = this.pagina.paginate(this.originalDataCFDI, 10, this.pageCFDI);
+    }
     this.descripcionPaginado();
   }
 
@@ -61,6 +69,36 @@ export class CfdiComponent implements OnInit {
     var start = (this.pageCFDI * this.collSize) - (this.collSize - 1);
     var end = Math.min(start + this.collSize - 1, this.totalCFDI);
     this.descPaginado = `Registros del <b>${start}</b> al <b>${end}</b>`;
+  }
+
+  busqueda(): void {
+    if (this.consulta === '' && this.receptor === '') {
+      this.filtro = false;
+      this.totalCFDI = this.originalDataCFDI.length;
+      this.pageCFDI = 1;
+      this.paginado();
+    } else {
+      this.filtro = true;
+      this.filterDataCFDI = [...this.originalDataCFDI];
+      if (this.consulta) {
+        this.filterDataCFDI = this.filterDataCFDI.filter(element => {
+          if (element.consulta.toLowerCase().includes(this.consulta.toLowerCase())) {
+            return element;
+          }
+        });
+      }
+      if (this.receptor) {
+        this.filterDataCFDI = this.filterDataCFDI.filter(element => {
+          if (element.receptor.toLowerCase().includes(this.receptor.toLowerCase())) {
+            return element;
+          }
+        });
+      }
+      this.totalCFDI = this.filterDataCFDI.length;
+      this.pageCFDI = 1;
+      this.paginado();
+
+    }
 
   }
 

@@ -22,13 +22,17 @@
       <div class="col-md-1 control-label"></div>
       <div class="col-md-4">
         <div class="form-group col-md-12">
-          <input type="text" class="form-control" placeholder="Consulta">
+          <input type="text" class="form-control" placeholder="Consulta" name="consulta" [(ngModel)]="consulta" (keyup)="busqueda()">
       </div>
       </div>
       <div class="col-md-4">
         <div class="form-group col-md-12">
-          <input type="text" class="form-control" placeholder="Receptor">
+          <input type="text" class="form-control" placeholder="Receptor" name="receptor" [(ngModel)]="receptor" (keyup)="busqueda()">
       </div>
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-danger btn-block btn-sm" type="button" (click)="receptor='';consulta='';busqueda();">Limpiar <span class="glyphicon glyphicon-clear"
+            aria-hidden="true"></span></button>
       </div>
     </div>
   </form>
