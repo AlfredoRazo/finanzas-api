@@ -3,50 +3,85 @@
 <h3>Operaciones</h3>
 <hr class="red">
 <ul class="nav nav-tabs">
-    <li role="presentation" class="active"><a >Listado de pagos</a></li>
-  </ul>
-  <br>
-  <br>
-  <form class="form-horizontal">
-    <div class="form-group">
-      <label class="col-sm-2 control-label" style="text-align: left !important;">Filtrar por: </label>
-      <div class="col-sm-3">
-      <select class="form-control">
-        <option>Naviera</option>
-      </select>
-    </div>
-    <div class="col-sm-5">
-      <input type="email" class="form-control" placeholder="Criterio">
-    </div>
-    <div class="col-sm-2"> 
-      <button class="btn btn-danger btn-block btn-sm" type="button">Buscar <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-    </div>
-    </div>
-  </form>
-  <br>
-  <button type="button" class="btn btn-primary btn-sm" routerLink="nuevo-pago">Nueva solicitud</button>
-  <br>
-  <br>
-  <table class="table table-bordered">
-    <thead>
-      <tr style="cursor: pointer;">
-        <th scope="col" [appSort]="data" data-order="desc" data-name="id">ID <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="fecha">Fecha <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="cliente">Cliente <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="tipoSolicitud">Tipo de solicitud <span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="estado">Estado <span class="glyphicon glyphicon-sort"></span></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of data">
-        <td>{{item.id}}</td>
-        <td>{{item.fecha}}</td>
-        <td>{{item.cliente}}</td>
-        <td>{{item.tipoSolicitud}}</td>
-        <td>{{item.estado}}</td>
-      </tr>
-    </tbody>
-  </table>
-  
-  <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
-  <button type="button" class="btn btn-default" routerLink="/main">Regresar</button>
+  <li role="presentation" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Listado de pagos</a></li>
+  <li role="presentation" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">Pagos</a></li>
+</ul>
+<br>
+<br>
+<container-element [ngSwitch]="submenu">
+
+  <div *ngSwitchCase="1">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-2 control-label" style="text-align: left !important;">Filtrar por: </label>
+        <div class="col-sm-3">
+          <select class="form-control">
+            <option>Naviera</option>
+          </select>
+        </div>
+        <div class="col-sm-5">
+          <input type="email" class="form-control" placeholder="Criterio">
+        </div>
+        <div class="col-sm-2">
+          <button class="btn btn-danger btn-block btn-sm" type="button">Buscar <span class="glyphicon glyphicon-search"
+              aria-hidden="true"></span></button>
+        </div>
+      </div>
+    </form>
+    <br>
+    <button type="button" class="btn btn-primary btn-sm" routerLink="nuevo-pago">Nueva solicitud</button>
+    <br>
+    <br>
+    <table class="table table-bordered">
+      <thead>
+        <tr style="cursor: pointer;">
+          <th scope="col" [appSort]="data" data-order="desc" data-name="id">ID <span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="data" data-order="desc" data-name="fecha">Fecha <span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="data" data-order="desc" data-name="cliente">Cliente <span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="data" data-order="desc" data-name="tipoSolicitud">Tipo de solicitud <span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="data" data-order="desc" data-name="estado">Estado <span
+              class="glyphicon glyphicon-sort"></span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data">
+          <td>{{item.id}}</td>
+          <td>{{item.fecha}}</td>
+          <td>{{item.cliente}}</td>
+          <td>{{item.tipoSolicitud}}</td>
+          <td>{{item.estado}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
+  </div>
+  <div *ngSwitchCase="2">
+    <form #formPago="ngForm">
+      <div class="row">
+
+        <div class="form-group col-md-6">
+          <input type="text" name="monto" class="form-control" placeholder="Monto" />
+        </div>
+        <div class="form-group col-md-6">
+          <select name="banco" class="form-control">
+            <option value="santander">Santander</option>
+            <option value="bbva">BBVA</option>
+          </select>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col-md-12">
+            <button class="btn btn-primary">Aceptar</button>
+          </div>
+        </div>
+     
+    </form>
+    <br>
+  </div>
+</container-element>
+<button type="button" class="btn btn-default" routerLink="/main">Regresar</button>

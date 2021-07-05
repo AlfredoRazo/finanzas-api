@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./operaciones.component.css']
 })
 export class OperacionesComponent implements OnInit {
+  submenu = 1;
   page = 1;
   data = [
     {

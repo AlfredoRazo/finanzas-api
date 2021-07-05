@@ -33,6 +33,7 @@ import { FacturacionNuevaConsultaComponent } from './pages/facturacion/facturaci
 import { BnNgIdleService } from 'bn-ng-idle';
 import { FacturacionConsultaTipoComponent } from './pages/facturacion/facturacion-consulta-tipo/facturacion-consulta-tipo.component';
 import { CfdiComponent } from './components/cfdi/cfdi.component';
+import { PagosComponent } from './components/pagos/pagos.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { CfdiComponent } from './components/cfdi/cfdi.component';
     FacturacionNuevaConsultaComponent,
     FacturacionConsultaTipoComponent,
     CfdiComponent,
+    PagosComponent,
   ],
   imports: [
     BrowserAnimationsModule,
