@@ -61,26 +61,7 @@
     <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
   </div>
   <div *ngSwitchCase="2">
-    <form #formPago="ngForm">
-      <div class="row">
-
-        <div class="form-group col-md-6">
-          <input type="text" name="monto" class="form-control" placeholder="Monto" />
-        </div>
-        <div class="form-group col-md-6">
-          <select name="banco" class="form-control">
-            <option value="santander">Santander</option>
-            <option value="bbva">BBVA</option>
-          </select>
-        </div>
-      </div>
-        <div class="row">
-          <div class="col-md-12">
-            <button class="btn btn-primary">Aceptar</button>
-          </div>
-        </div>
-     
-    </form>
+   <app-pagos></app-pagos>
     <br>
   </div>
 </container-element>
