@@ -55,4 +55,33 @@ export class FacturacionComponent implements OnInit {
 
   }
 
+  sendPago(banco: string, total: string) : void {
+    const monto = total.replace(/\$/g, '').replace(/\,/g, '');
+    if(banco == 'santander'){
+    const multiPagosform = document.createElement('form');
+    const convenio = document.createElement('input');
+    const referencia = document.createElement('input');
+    const importe = document.createElement('input');
+    const url_resp = document.createElement('input');
+    
+    multiPagosform.method = 'POST';
+    multiPagosform.action = environment.santanderEndpoint;
+    convenio.value = '10000';
+    convenio.name = 'convenio';
+    multiPagosform.appendChild(convenio);
+    referencia.value = '1000000'
+    referencia.name = 'referencia';
+    multiPagosform.appendChild(referencia);
+    importe.value = monto;
+    importe.name = 'importe';
+    multiPagosform.appendChild(importe);
+    url_resp.value = 'http://pismzo.azurewebsites.net/pis/';
+    url_resp.name = 'url_resp';
+    multiPagosform.appendChild(url_resp);
+    
+    document.body.appendChild(multiPagosform);
+    multiPagosform.submit();
+    }
+  }
+
 }
