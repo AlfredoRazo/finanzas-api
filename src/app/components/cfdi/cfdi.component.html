@@ -35,6 +35,14 @@
             aria-hidden="true"></span></button>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-1 control-label"></div>
+      <div class="col-md-4">
+        <div class="form-group col-md-12">
+          <input type="text" class="form-control" placeholder="Factura" name="factura" [(ngModel)]="factura" (keyup)="busqueda()">
+      </div>
+      </div>
+    </div>
   </form>
   <br>
   <div class="table-responsive">

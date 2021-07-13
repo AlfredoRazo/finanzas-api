@@ -27,6 +27,7 @@ export class CfdiComponent implements OnInit {
   descPaginado = '';
   consulta = '';
   receptor = '';
+  factura = '';
 
 
   constructor(private http: HttpClient,
@@ -72,7 +73,7 @@ export class CfdiComponent implements OnInit {
   }
 
   busqueda(): void {
-    if (this.consulta === '' && this.receptor === '') {
+    if (this.consulta === '' && this.receptor === '' && this.factura === '') {
       this.filtro = false;
       this.totalCFDI = this.originalDataCFDI.length;
       this.pageCFDI = 1;
@@ -90,6 +91,13 @@ export class CfdiComponent implements OnInit {
       if (this.receptor) {
         this.filterDataCFDI = this.filterDataCFDI.filter(element => {
           if (element.receptor.toLowerCase().includes(this.receptor.toLowerCase())) {
+            return element;
+          }
+        });
+      }
+      if (this.factura) {
+        this.filterDataCFDI = this.filterDataCFDI.filter(element => {
+          if (element.factura.toLowerCase().includes(this.factura.toLowerCase())) {
             return element;
           }
         });
