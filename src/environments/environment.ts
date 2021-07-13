@@ -10,6 +10,7 @@ export const environment = {
   appKey: 'c53ea43376d653a43e10711de2da2d9b6f156ead',
   googleCaptchaKey: '6LcZ7w4bAAAAAAcogck-Te91o6SPDZYuNcWBlmHX',
   santanderEndpoint: 'https://www.santander.com.mx/Supernet2007/homeMicrositio.jsp',
+  bbvaEndpoint: 'https://www.egbs5.com.mx',
   catlogin: {
     usuario: "zz",
     password: "API-MAN-PIS-20!0M3d1n$4!",
