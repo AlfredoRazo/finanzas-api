@@ -4,10 +4,14 @@
 <hr class="red">
 
   <ul class="nav nav-tabs">
-    <li role="presentation" class="active"><a >Solicitudes de servicio</a></li>
+    <li role="presentation" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Solicitudes de servicio</a></li>
+    <li role="presentation" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">Pagos</a></li>
+    
   </ul>
   <br>
   <br>
+  <ng-container [ngSwitch]="submenu">
+    <div *ngSwitchCase="1">
   <form class="form-horizontal">
     <div class="form-group">
       <label class="col-sm-2 control-label" style="text-align: left !important;">Filtrar por: </label>
@@ -51,5 +55,9 @@
     </tbody>
   </table>
   
-  <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
+  <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>
+    </div>
+    <div *ngSwitchCase="2"><app-pagos></app-pagos></div>
+</ng-container>
+<br>
   <button type="button" class="btn btn-default" routerLink="/clientes">Regresar</button>
