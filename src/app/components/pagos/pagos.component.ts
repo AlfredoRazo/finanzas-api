@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
-import { Md5 } from 'ts-md5/dist/md5';
+import { sha256 } from 'js-sha256';
 
 @Component({
   selector: 'app-pagos',
@@ -52,6 +52,9 @@ export class PagosComponent implements OnInit {
         const t_servicio = document.createElement('input');
         const t_importe = document.createElement('input');
         const t_pago = document.createElement('input');
+        const n_autoriz = document.createElement('input');
+        const val_1 = document.createElement('input');
+        const val_3 = document.createElement('input');
         const val_11 = document.createElement('input');
         const val_12 = document.createElement('input');
         const val_13 = document.createElement('input');
@@ -63,17 +66,37 @@ export class PagosComponent implements OnInit {
         s_transm.value = 'transm';
         s_transm.name = 's_transm';
         multiPagosform.appendChild(s_transm);
-        c_referencia.value = 'REF';
+
+        c_referencia.value = 'REF213213213123';
         c_referencia.name = 'c_referencia';
         multiPagosform.appendChild(c_referencia);
+
         t_servicio.value = '569';
         t_servicio.name = 't_servicio';
         multiPagosform.appendChild(t_servicio);
+
+        n_autoriz.value = '569';
+        n_autoriz.name = 'n_autoriz';
+        multiPagosform.appendChild(n_autoriz);
+
+        t_pago.value = '01';
+        t_pago.name = 't_pago';
+        multiPagosform.appendChild(t_pago);
+
         t_importe.value = this.monto;
         t_importe.name = 't_importe';
         multiPagosform.appendChild(t_importe);
-        const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value.padStart(15, '0') + t_servicio.value;
-        val_13.value = Md5.hashStr(cadenaValidacion).toString();
+
+        val_1.value = '0';
+        val_1.name = 'val_1';
+        multiPagosform.appendChild(val_1);
+
+        val_3.value = '1';
+        val_3.name = 'val_3';
+        multiPagosform.appendChild(val_3);
+
+        const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value + n_autoriz.value.padStart(18, '0') + environment.bbvaKey;
+        val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
         val_13.name = 'val_13';
         multiPagosform.appendChild(val_13);
 
