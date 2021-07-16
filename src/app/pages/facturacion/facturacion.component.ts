@@ -15,7 +15,7 @@ import { sha256 } from 'js-sha256';
 export class FacturacionComponent implements OnInit {
   page = 1;
   total = 0;
-  data : any = [];
+  data: any = [];
   filter: any[] = [
     'Estatus',
     'Consulta de pago',
@@ -36,9 +36,9 @@ export class FacturacionComponent implements OnInit {
   submenu = 1;
 
   constructor(
-    private http:HttpClient,
-    private pagina:PaginateService,
-    private help:HelpersService,
+    private http: HttpClient,
+    private pagina: PaginateService,
+    private help: HelpersService,
     private auth: AuthService,
     private spinner: NgxSpinnerService) { }
 
@@ -48,43 +48,42 @@ export class FacturacionComponent implements OnInit {
 
   getData(): void {
     this.spinner.show();
-    this.http.get(`${environment.endpoint}consultasDetalle`).subscribe((res: any)=> {
+    this.http.get(`${environment.endpoint}consultasDetalle`).subscribe((res: any) => {
       this.spinner.hide();
       this.data = res[0];
       this.total = res[0].length;
-    },error =>{this.spinner.hide()})
+    }, error => { this.spinner.hide() })
 
   }
 
-  sendPago(banco: string, total: string) : void {
+  sendPago(banco: string, total: string): void {
     const monto = total.replace(/\$/g, '').replace(/\,/g, '');
-    if(banco == 'santander'){
-    const multiPagosform = document.createElement('form');
-    const convenio = document.createElement('input');
-    const referencia = document.createElement('input');
-    const importe = document.createElement('input');
-    const url_resp = document.createElement('input');
-    
-    multiPagosform.method = 'POST';
-    multiPagosform.action = environment.santanderEndpoint;
-    convenio.value = '10000';
-    convenio.name = 'convenio';
-    multiPagosform.appendChild(convenio);
-    referencia.value = '1000000'
-    referencia.name = 'referencia';
-    multiPagosform.appendChild(referencia);
-    //importe.value = monto;
-    importe.value = '0.10';
-    importe.name = 'importe';
-    multiPagosform.appendChild(importe);
-    url_resp.value = 'http://pismzo.azurewebsites.net/pis/';
-    url_resp.name = 'url_resp';
-    multiPagosform.appendChild(url_resp);
-    
-    document.body.appendChild(multiPagosform);
-    multiPagosform.submit();
+    if (banco == 'santander') {
+      const multiPagosform = document.createElement('form');
+      const convenio = document.createElement('input');
+      const referencia = document.createElement('input');
+      const importe = document.createElement('input');
+      const url_resp = document.createElement('input');
+
+      multiPagosform.method = 'POST';
+      multiPagosform.action = environment.santanderEndpoint;
+      convenio.value = '10000';
+      convenio.name = 'convenio';
+      multiPagosform.appendChild(convenio);
+      referencia.value = '1000000'
+      referencia.name = 'referencia';
+      multiPagosform.appendChild(referencia);
+      importe.value = monto;
+      importe.name = 'importe';
+      multiPagosform.appendChild(importe);
+      url_resp.value = 'http://pismzo.azurewebsites.net/pis/';
+      url_resp.name = 'url_resp';
+      multiPagosform.appendChild(url_resp);
+
+      document.body.appendChild(multiPagosform);
+      multiPagosform.submit();
     }
-    if(banco === 'bbva'){
+    if (banco === 'bbva') {
       const multiPagosform = document.createElement('form');
       multiPagosform.method = 'POST';
       multiPagosform.action = environment.bbvaEndpoint;
@@ -144,7 +143,7 @@ export class FacturacionComponent implements OnInit {
       mp_urlfailure.value = 'http://pismzo.azurewebsites.net/pis/';
       mp_urlfailure.name = 'mp_urlfailure';
       multiPagosform.appendChild(mp_urlfailure);
-      
+
       /*const s_transm = document.createElement('input');
       const c_referencia = document.createElement('input');
       const t_servicio = document.createElement('input');
