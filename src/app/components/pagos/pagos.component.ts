@@ -47,6 +47,65 @@ export class PagosComponent implements OnInit {
         break;
       case 'bbva':
         const multiPagosform = document.createElement('form');
+        multiPagosform.method = 'POST';
+        multiPagosform.action = environment.bbvaEndpoint;
+  
+        const mp_account = document.createElement('input');
+        mp_account.value = '1';
+        mp_account.name = 'mp_account';
+        multiPagosform.appendChild(mp_account);
+  
+        const mp_order = document.createElement('input');
+        mp_order.value = '20140717';
+        mp_order.name = 'mp_order';
+        multiPagosform.appendChild(mp_order);
+  
+        const mp_reference = document.createElement('input');
+        mp_reference.value = 'QWERTY123456';
+        mp_reference.name = 'mp_reference';
+        multiPagosform.appendChild(mp_reference);
+  
+        const mp_product = document.createElement('input');
+        mp_product.value = '1';
+        mp_product.name = 'mp_product';
+        multiPagosform.appendChild(mp_product);
+  
+        const mp_node = document.createElement('input');
+        mp_node.value = '0';
+        mp_node.name = 'mp_node';
+        multiPagosform.appendChild(mp_node);
+  
+        const mp_concept = document.createElement('input');
+        mp_concept.value = '2';
+        mp_concept.name = 'mp_concept';
+        multiPagosform.appendChild(mp_concept);
+  
+        const mp_amount = document.createElement('input');
+        mp_amount.value = this.monto;
+        mp_amount.name = 'mp_amount';
+        multiPagosform.appendChild(mp_amount);
+  
+        const mp_currency = document.createElement('input');
+        mp_currency.value = '1';
+        mp_currency.name = 'mp_currency';
+        multiPagosform.appendChild(mp_currency);
+  
+        const mp_signature = document.createElement('input');
+        const cadenaValidacion = mp_order.value + mp_amount.value + mp_amount.value;
+        mp_signature.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
+        mp_signature.name = 'mp_signature';
+        multiPagosform.appendChild(mp_signature);
+  
+        const mp_urlsuccess = document.createElement('input');
+        mp_urlsuccess.value = 'http://pismzo.azurewebsites.net/pis/';
+        mp_urlsuccess.name = 'mp_urlsuccess';
+        multiPagosform.appendChild(mp_urlsuccess);
+  
+        const mp_urlfailure = document.createElement('input');
+        mp_urlfailure.value = 'http://pismzo.azurewebsites.net/pis/';
+        mp_urlfailure.name = 'mp_urlfailure';
+        multiPagosform.appendChild(mp_urlfailure);
+        /*const multiPagosform = document.createElement('form');
         const s_transm = document.createElement('input');
         const c_referencia = document.createElement('input');
         const t_servicio = document.createElement('input');
@@ -101,9 +160,8 @@ export class PagosComponent implements OnInit {
         multiPagosform.appendChild(val_13);
 
         document.body.appendChild(multiPagosform);
-        multiPagosform.submit();
+        multiPagosform.submit();*/
         break;
-
       default:
         break;
     }
