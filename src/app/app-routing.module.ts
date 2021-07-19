@@ -21,7 +21,7 @@ import { FacturacionNuevaConsultaComponent } from './pages/facturacion/facturaci
 import { FacturacionConsultaTipoComponent } from './pages/facturacion/facturacion-consulta-tipo/facturacion-consulta-tipo.component';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'main', component: MainComponent, canActivate: [GuardService] },
   { path: 'clientes', component: ClientesComponent, canActivate: [GuardService] },
   { path: 'clientes/maniobrista', component: ManiobristaComponent, canActivate: [GuardService] },
@@ -43,7 +43,7 @@ const routes: Routes = [
   { path: 'operaciones/nuevo-pago', component: OperacionesNuevoPagoComponent, canActivate: [GuardService] },
   { path: 'proteccion-portuaria', component: ProteccionPortuariaComponent, canActivate: [GuardService] },
   { path: 'proteccion-portuaria/generar-consulta', component: PpGenerarConsultaComponent, canActivate: [GuardService] },
-  { path: '**', redirectTo: '/', pathMatch: 'full' }
+  { path: '**', redirectTo: 'login', pathMatch: 'full' }
 ];
 
 @NgModule({
