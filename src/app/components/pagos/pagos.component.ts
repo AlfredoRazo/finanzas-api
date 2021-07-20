@@ -28,10 +28,10 @@ export class PagosComponent implements OnInit {
 
         pagosForm.method = 'POST';
         pagosForm.action = environment.santanderEndpoint;
-        convenio.value = 'QWERTY123456';
+        convenio.value = '7164';
         convenio.name = 'convenio';
         pagosForm.appendChild(convenio);
-        referencia.value = 'QWERTY123456'
+        referencia.value = '1998II157KAU04660243'
         referencia.name = 'referencia';
         pagosForm.appendChild(referencia);
         importe.value = this.monto;

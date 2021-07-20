@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${params.token}`
         });
-        this.http.post(environment.endpointAuth,{},{headers: header}).subscribe(res => {
+        this.http.get(environment.endpointAuth,{headers: header}).subscribe(res => {
           console.log(res);
         }, err =>{
           console.log(err);

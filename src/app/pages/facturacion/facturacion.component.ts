@@ -67,10 +67,10 @@ export class FacturacionComponent implements OnInit {
 
       multiPagosform.method = 'POST';
       multiPagosform.action = environment.santanderEndpoint;
-      convenio.value = 'QWERTY123456';
+      convenio.value = '7164';
       convenio.name = 'convenio';
       multiPagosform.appendChild(convenio);
-      referencia.value = 'QWERTY123456'
+      referencia.value = '1998II157KAU04660243'
       referencia.name = 'referencia';
       multiPagosform.appendChild(referencia);
       importe.value = monto;
