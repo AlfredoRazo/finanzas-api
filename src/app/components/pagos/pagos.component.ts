@@ -10,7 +10,9 @@ import { sha256 } from 'js-sha256';
 export class PagosComponent implements OnInit {
 
   monto = '';
-  banco = '';
+  convenio = '7164';
+  referencia = '';
+  banco = 'santander';
 
   constructor() { }
 
@@ -28,10 +30,10 @@ export class PagosComponent implements OnInit {
 
         pagosForm.method = 'POST';
         pagosForm.action = environment.santanderEndpoint;
-        convenio.value = '7164';
+        convenio.value = this.convenio;
         convenio.name = 'convenio';
         pagosForm.appendChild(convenio);
-        referencia.value = '1998II157KAU04660243'
+        referencia.value = this.referencia;
         referencia.name = 'referencia';
         pagosForm.appendChild(referencia);
         importe.value = this.monto;

@@ -73,7 +73,7 @@ export class FacturacionComponent implements OnInit {
       referencia.value = '1998II157KAU04660243'
       referencia.name = 'referencia';
       multiPagosform.appendChild(referencia);
-      importe.value = monto;
+      importe.value = '51.57';
       importe.name = 'importe';
       multiPagosform.appendChild(importe);
       url_resp.value = 'http://pismzo.azurewebsites.net/pis/';

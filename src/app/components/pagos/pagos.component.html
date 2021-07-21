@@ -1,4 +1,13 @@
 <form #formPago="ngForm">
+  <div class="row">
+    <div class="form-group col-md-6">
+      <input type="text" name="convenio" class="form-control" placeholder="Convenio" [(ngModel)]="convenio" required/>
+    </div>
+    <div class="form-group col-md-6">
+      <input type="text" name="referencia" class="form-control" placeholder="Referencia" [(ngModel)]="referencia" required/>
+    </div>
+
+  </div>
     <div class="row">
 
       <div class="form-group col-md-6">
