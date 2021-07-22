@@ -42,10 +42,23 @@ export class LoginComponent implements OnInit {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${params.token}`
         });
-        this.http.get(environment.endpointAuth,{headers: header}).subscribe(res => {
-          console.log(res);
+        this.http.get(environment.endpointAuth,{headers: header}).subscribe((res: any) => {
+          
+          const user = {
+            usuariokey: res.mensaje,
+            idusuario: res.valor.usuario_Id,
+            nombre: res.valor.usuario_Nombre,
+            rol: "ADMIN",
+            tipo: "TERMINAL",
+            username: res.valor.usuario_Usuario,
+            empresa: res.valor.empresa_Nombre,
+            empresaid: res.valor.empresa_Id,
+            rfc: res.valor.empresa_Rfc
+          }
+          this.authService.setSession({ token: environment.appKey, userData: user });
+          this.role.reditecByRole("ADMIN");
         }, err =>{
-          console.log(err);
+          
         });
       }
     }

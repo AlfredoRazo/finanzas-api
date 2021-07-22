@@ -38,8 +38,11 @@ export class RoleService {
       case 'CESIONARIO':
         this.router.navigate(['/clientes/cesionario']);
       break;
-      default:
+      case 'ADMIN':
         this.router.navigate(['/main']);
+      break;
+      default:
+        this.router.navigate(['/']);
         break;
     }
   }
