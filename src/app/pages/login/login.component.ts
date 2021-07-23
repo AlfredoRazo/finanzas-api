@@ -35,10 +35,9 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.spinner.show();
+    /*this.spinner.show();
     this.activeRoute.queryParams
     .subscribe(params => {
-      
       if(params.token){
         const header = new HttpHeaders({
           'Content-Type': 'application/json',
@@ -70,7 +69,7 @@ export class LoginComponent implements OnInit {
         });
       }
     }
-  );
+  );*/
   }
 
   handleSuccess(evt: any): void {

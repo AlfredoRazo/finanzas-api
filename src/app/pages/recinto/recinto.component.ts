@@ -4,6 +4,7 @@ import { environment } from '@env/environment';
 import { AuthService } from '@serv/auth.service';
 import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+declare var $: any;
 
 @Component({
   selector: 'app-recinto',
@@ -13,6 +14,7 @@ import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 export class RecintoComponent implements OnInit {
   public buque: any;
   buques: any[] = [];
+  fecha: any;
   search:any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -40,6 +42,7 @@ export class RecintoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBuques();
+    $('#fecha').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fecha = date } });
   }
   getBuques(): void {
     const header = new HttpHeaders({

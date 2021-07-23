@@ -35,10 +35,14 @@
     background-color: #bc9868 !important;
     border-color: #bc9868 !important;
   }
-
+/*
   header{
-display: none !important;
+    display: none !important;
   }
   footer{
     display: none !important;
   }
+  #nav-interno {
+    display: none !important;
+  }
+*/

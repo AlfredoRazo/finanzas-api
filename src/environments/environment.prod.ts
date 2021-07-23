@@ -8,7 +8,7 @@ export const environment = {
   googleCaptchaKey: '6LcZ7w4bAAAAAAcogck-Te91o6SPDZYuNcWBlmHX',
   santanderEndpoint: 'https://www.santander.com.mx/Supernet2007/homeMicrositio.jsp',
   bbvaEndpoint: 'https://prepro.adquiracloud.mx/clb/endpoint/apimanzanillo',
-  bbvaKey: 'ADQUIRAMULTIPAGO',
+  bbvaKey: 'gVF%EDSQ1s',
   catlogin:{
     usuario: "zz",
     password: "API-MAN-PIS-20!0M3d1n$4!",

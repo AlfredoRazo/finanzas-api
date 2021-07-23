@@ -99,7 +99,7 @@ export class FacturacionComponent implements OnInit {
       multiPagosform.appendChild(mp_order);
 
       const mp_reference = document.createElement('input');
-      mp_reference.value = 'QWERTY123456';
+      mp_reference.value = 'C008000018333471235';
       mp_reference.name = 'mp_reference';
       multiPagosform.appendChild(mp_reference);
 
