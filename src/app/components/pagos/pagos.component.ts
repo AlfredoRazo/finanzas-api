@@ -29,6 +29,7 @@ export class PagosComponent implements OnInit {
         const url_resp = document.createElement('input');
 
         pagosForm.method = 'POST';
+        pagosForm.target='_blank';
         pagosForm.action = environment.santanderEndpoint;
         convenio.value = this.convenio;
         convenio.name = 'convenio';
@@ -50,6 +51,7 @@ export class PagosComponent implements OnInit {
       case 'bbva':
         const multiPagosform = document.createElement('form');
         multiPagosform.method = 'POST';
+        multiPagosform.target='_blank';
         multiPagosform.action = environment.bbvaEndpoint;
   
         const mp_account = document.createElement('input');

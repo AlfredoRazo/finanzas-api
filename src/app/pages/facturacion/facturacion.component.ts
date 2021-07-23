@@ -68,6 +68,7 @@ export class FacturacionComponent implements OnInit {
       const url_resp = document.createElement('input');
 
       multiPagosform.method = 'POST';
+      multiPagosform.target='_blank';
       multiPagosform.action = environment.santanderEndpoint;
       convenio.value = '7164';
       convenio.name = 'convenio';
@@ -88,6 +89,7 @@ export class FacturacionComponent implements OnInit {
     if (banco === 'bbva') {
       const multiPagosform = document.createElement('form');
       multiPagosform.method = 'POST';
+      multiPagosform.target='_blank';
       multiPagosform.action = environment.bbvaEndpoint;
 
       /*const mp_account = document.createElement('input');
