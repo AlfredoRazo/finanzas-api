@@ -15,10 +15,15 @@ export class ClientesTableComponent implements OnInit {
 
   dataClientes: any = [];
   originalDataClientes: any = [];
+  filterDataClientes: any = [];
   pageClientes = 1;
   totalClientes = 0;
   collSize = 10;
   descPaginado = '';
+  nombre = '';
+  claveSap = '';
+  rfc= '';
+  filtro = false;
 
   constructor(private http: HttpClient,
     private pagina: PaginateService,
@@ -41,8 +46,11 @@ export class ClientesTableComponent implements OnInit {
 
   }
   paginado(evt: any = null): void {
+    if(this.filtro){
+      this.dataClientes = this.pagina.paginate(this.filterDataClientes, 10, this.pageClientes);
+    }else{
       this.dataClientes = this.pagina.paginate(this.originalDataClientes, 10, this.pageClientes);
- 
+    }
     this.descripcionPaginado();
   }
 
@@ -51,5 +59,43 @@ export class ClientesTableComponent implements OnInit {
     var start = (this.pageClientes * this.collSize) - (this.collSize - 1);
     var end = Math.min(start + this.collSize - 1, this.totalClientes);
     this.descPaginado = `Registros del <b>${start}</b> al <b>${end}</b>`;
+  }
+
+  busqueda(): void {
+    if (this.nombre === '' && this.claveSap === '' && this.rfc === '') {
+      this.filtro = false;
+      this.totalClientes = this.originalDataClientes.length;
+      this.pageClientes = 1;
+      this.paginado();
+    } else {
+      this.filtro = true;
+      this.filterDataClientes = [...this.originalDataClientes];
+      if (this.claveSap) {
+        this.filterDataClientes = this.filterDataClientes.filter( (element: any) => {
+          if (element.claveSAP.toLowerCase().includes(this.claveSap.toLowerCase())) {
+            return element;
+          }
+        });
+      }
+      if (this.nombre) {
+        this.filterDataClientes = this.filterDataClientes.filter((element: any) => {
+          if (element.nombre.toLowerCase().includes(this.nombre.toLowerCase())) {
+            return element;
+          }
+        });
+      }
+      if (this.rfc) {
+        this.filterDataClientes = this.filterDataClientes.filter((element: any) => {
+          if (element.rfc.toLowerCase().includes(this.rfc.toLowerCase())) {
+            return element;
+          }
+        });
+      }
+      this.totalClientes = this.filterDataClientes.length;
+      this.pageClientes = 1;
+      this.paginado();
+
+    }
+
   }
 }

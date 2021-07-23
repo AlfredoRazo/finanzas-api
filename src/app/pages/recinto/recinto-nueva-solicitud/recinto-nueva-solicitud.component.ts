@@ -21,6 +21,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   manifiestoData: any = [];
   public buque: any;
   buques: any[] = [];
+  clientes: any[] = [];
+  clientesRFC: any[] = [];
   
   search:any = (text$: Observable<any>) =>
     text$.pipe(
@@ -32,6 +34,28 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
         )
     );
     formatter = (x: {nombre: string}) => x.nombre;
+
+    searchCliente:any = (text$: Observable<any>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(term => 
+        term.length < 2 ? []
+        : this.clientes.filter( (v: any) => v.rfc.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+        )
+    );
+    formatterCliente = (x: {rfc: string}) => x.rfc;
+
+    searchClienteNombre:any = (text$: Observable<any>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(term => 
+        term.length < 2 ? []
+        : this.clientes.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+        )
+    );
+    formatterClienteNombre = (x: {nombre: string}) => x.nombre;
   data = [
     {
       manifiesto: 123412,
@@ -72,6 +96,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   ngOnInit(): void {
     const user = this.auth.getSession().userData;
     this.getBuques();
+    this.getClientes();
     this.agenciaAduanal = user.empresa;
     $('#fecha-servicio').datepicker();
     $('#fecha-arribo').datepicker();
@@ -108,6 +133,20 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.http.get(environment.endpointCat + 'buques',{headers: header}).subscribe((res: any) => {
       this.buques = res.valor;
     },error =>{});
+  }
+
+  getClientes(): void{
+    this.spinner.show();
+    this.http.get(`${environment.endpoint}clientes`).subscribe((res: any) => {
+      this.clientes = res[0];
+      this.spinner.hide();
+    }, error => {this.spinner.hide();})
+
+  }
+
+  selected(evt: any): void{
+    this.nombreCliente = evt.item;
+    this.rfcCliente = evt.item;
   }
 
 }

@@ -51,15 +51,19 @@
         </div>
     </div>
     <div class="row">
+        <ng-template #rt2 let-r="result" let-t="term">
+            <ngb-highlight [result]="r.rfc" [term]="t"></ngb-highlight>
+          </ng-template>
         <div class="form-group col-md-4">
             <label class="control-label">Cliente para facturar (RFC)</label>
-            <input type="text" class="form-control" name="rfcCliente" (blur)="searchName()" [(ngModel)]="rfcCliente">
+            <input type="text" class="form-control" name="rfcCliente" [(ngModel)]="rfcCliente" [ngbTypeahead]="searchCliente" [inputFormatter]="formatterCliente" [resultTemplate]="rt2" (selectItem)="selected($event)">
         </div>
         <div class="form-group col-md-8">
             <label class="control-label">Nombre</label>
-            <input type="text" class="form-control" name="nombreCliente" [(ngModel)]="nombreCliente">
+            <input type="text" class="form-control" name="nombreCliente" [(ngModel)]="nombreCliente" [ngbTypeahead]="searchClienteNombre" [inputFormatter]="formatterClienteNombre" [resultTemplate]="rt" (selectItem)="selected($event)">
         </div>
     </div>
+    
     <hr>
     <ng-template #rt let-r="result" let-t="term">
         <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
