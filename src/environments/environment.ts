@@ -12,12 +12,13 @@ export const environment = {
   googleCaptchaKey: '6LcZ7w4bAAAAAAcogck-Te91o6SPDZYuNcWBlmHX',
   santanderEndpoint: 'https://www.santander.com.mx/Supernet2007/homeMicrositio.jsp',
   bbvaEndpoint: 'https://prepro.adquiracloud.mx/clb/endpoint/apimanzanillo',
-  bbvaKey: 'gVF%EDSQ1s',
+  bbvaKey: '85K98s7653Ap383iMangt73iO393K0jNjs031Man93k03lo39zAks3llo33fJU3092er93ai3Lj3',
   catlogin: {
     usuario: "zz",
     password: "API-MAN-PIS-20!0M3d1n$4!",
     guid: "A7A87580-232A-4E38-ADFC-A78899C9CE8F"
-  }
+  },
+  isEmbeded: true
 };
 
 /*

@@ -88,8 +88,8 @@ export class FacturacionComponent implements OnInit {
       multiPagosform.method = 'POST';
       multiPagosform.action = environment.bbvaEndpoint;
 
-      const mp_account = document.createElement('input');
-      mp_account.value = '1';
+      /*const mp_account = document.createElement('input');
+      mp_account.value = '159';
       mp_account.name = 'mp_account';
       multiPagosform.appendChild(mp_account);
 
@@ -142,9 +142,9 @@ export class FacturacionComponent implements OnInit {
       const mp_urlfailure = document.createElement('input');
       mp_urlfailure.value = 'http://pismzo.azurewebsites.net/pis/';
       mp_urlfailure.name = 'mp_urlfailure';
-      multiPagosform.appendChild(mp_urlfailure);
+      multiPagosform.appendChild(mp_urlfailure);*/
 
-      /*const s_transm = document.createElement('input');
+      const s_transm = document.createElement('input');
       const c_referencia = document.createElement('input');
       const t_servicio = document.createElement('input');
       const t_importe = document.createElement('input');
@@ -163,11 +163,11 @@ export class FacturacionComponent implements OnInit {
       multiPagosform.method = 'POST';
       multiPagosform.action = environment.bbvaEndpoint;
 
-      s_transm.value = 'AERV840716';
+      s_transm.value = 'C008000018333471235';
       s_transm.name = 's_transm';
       multiPagosform.appendChild(s_transm);
 
-      c_referencia.value = 'AERV840716';
+      c_referencia.value = 'C008000018333471235';
       c_referencia.name = 'c_referencia';
       multiPagosform.appendChild(c_referencia);
 
@@ -206,7 +206,7 @@ export class FacturacionComponent implements OnInit {
       const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
       val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
       val_13.name = 'val_13';
-      multiPagosform.appendChild(val_13);*/
+      multiPagosform.appendChild(val_13);
 
       document.body.appendChild(multiPagosform);
       multiPagosform.submit();

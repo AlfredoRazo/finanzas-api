@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { environment } from '@env/environment';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class UserComponent implements OnInit {
   rutas: any = [];
   user: any;
+  isEmbeded = environment.isEmbeded;
   constructor(
     private router: Router,
     private activedRouter: ActivatedRoute,

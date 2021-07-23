@@ -17,6 +17,7 @@ import { map } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   siteKey = environment.googleCaptchaKey;
   access = !environment.production;
+  isEmbeded = environment.isEmbeded;
   recaptcha: any;
   token = '';
   hasError = false;
@@ -35,41 +36,44 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    /*this.spinner.show();
-    this.activeRoute.queryParams
-    .subscribe(params => {
-      if(params.token){
-        const header = new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${params.token}`
-        });
-        this.http.get(environment.endpointAuth,{headers: header}).subscribe((res: any) => {
-          this.http.post(environment.endpointCat + 'login', environment.catlogin).subscribe((rescat: any) => {
-            this.spinner.hide();
-            const user = {
-              usuariokey: res.mensaje,
-              idusuario: res.valor.usuario_Id,
-              nombre: res.valor.usuario_Nombre,
-              rol: "ADMIN",
-              tipo: "TERMINAL",
-              username: res.valor.usuario_Usuario,
-              empresa: res.valor.empresa_Nombre,
-              empresaid: res.valor.empresa_Id,
-              rfc: res.valor.empresa_Rfc,
-              catToken: rescat.valor
-            }
-            this.authService.setSession({ token: environment.appKey, userData: user });
-            this.role.reditecByRole("ADMIN");
-          }, error => {
-            this.spinner.hide();
-          });
-          
-        }, err =>{
-          this.spinner.hide();
-        });
-      }
+    if (this.isEmbeded) {
+
+      this.spinner.show();
+      this.activeRoute.queryParams
+        .subscribe(params => {
+          if (params.token) {
+            const header = new HttpHeaders({
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${params.token}`
+            });
+            this.http.get(environment.endpointAuth, { headers: header }).subscribe((res: any) => {
+              this.http.post(environment.endpointCat + 'login', environment.catlogin).subscribe((rescat: any) => {
+                this.spinner.hide();
+                const user = {
+                  usuariokey: res.mensaje,
+                  idusuario: res.valor.usuario_Id,
+                  nombre: res.valor.usuario_Nombre,
+                  rol: "ADMIN",
+                  tipo: "TERMINAL",
+                  username: res.valor.usuario_Usuario,
+                  empresa: res.valor.empresa_Nombre,
+                  empresaid: res.valor.empresa_Id,
+                  rfc: res.valor.empresa_Rfc,
+                  catToken: rescat.valor
+                }
+                this.authService.setSession({ token: environment.appKey, userData: user });
+                this.role.reditecByRole("ADMIN");
+              }, error => {
+                this.spinner.hide();
+              });
+
+            }, err => {
+              this.spinner.hide();
+            });
+          }
+        }
+        );
     }
-  );*/
   }
 
   handleSuccess(evt: any): void {
