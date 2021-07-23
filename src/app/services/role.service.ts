@@ -49,19 +49,19 @@ export class RoleService {
 
   getRolById(id: any): string {
     switch (id) {
-      case '1001':
+      case 1001:
         return 'ADMIN';
-      case '1101':
+      case 1101:
         return 'ESTADISTICA';
-      case '1201':
+      case 1201:
         return 'OPERACIONES';
-      case '1301':
+      case 1301:
         return 'PPORTUARIA';
-      case '1401':
+      case 1401:
         return 'FINANZAS';
-      case '2001':
+      case 2001:
         return 'RECINTO';
-      case '2101':
+      case 2101:
         return 'AGENTEADUANAL';
       default:
         return '';

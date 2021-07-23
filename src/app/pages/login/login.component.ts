@@ -49,11 +49,12 @@ export class LoginComponent implements OnInit {
             this.http.get(environment.endpointAuth, { headers: header }).subscribe((res: any) => {
               this.http.post(environment.endpointCat + 'login', environment.catlogin).subscribe((rescat: any) => {
                 this.spinner.hide();
+                const rol = this.role.getRolById(res.valor.idRolApp);
                 const user = {
                   usuariokey: res.mensaje,
                   idusuario: res.valor.usuario_Id,
                   nombre: res.valor.usuario_Nombre,
-                  rol: this.role.getRolById(res.valor.idRolApp),
+                  rol: rol,
                   tipo: "TERMINAL",
                   username: res.valor.usuario_Usuario,
                   empresa: res.valor.empresa_Nombre,
@@ -61,13 +62,15 @@ export class LoginComponent implements OnInit {
                   rfc: res.valor.empresa_Rfc,
                   catToken: rescat.valor
                 }
+                
                 this.authService.setSession({ token: environment.appKey, userData: user });
-                this.role.reditecByRole("ADMIN");
+                this.role.reditecByRole(rol);
               }, error => {
                 this.spinner.hide();
               });
 
             }, err => {
+              this.errorMsj = 'Token invalido';
               this.spinner.hide();
             });
           }
