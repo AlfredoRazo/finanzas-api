@@ -44,6 +44,7 @@ export class FacturacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
+
   }
 
   getData(): void {
@@ -53,8 +54,9 @@ export class FacturacionComponent implements OnInit {
       this.data = res[0];
       this.total = res[0].length;
     }, error => { this.spinner.hide() })
-
   }
+
+ 
 
   sendPago(banco: string, total: string): void {
     const monto = total.replace(/\$/g, '').replace(/\,/g, '');

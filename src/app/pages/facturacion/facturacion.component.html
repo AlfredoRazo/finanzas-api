@@ -5,9 +5,9 @@
 <ul class="nav nav-tabs">
   <li role="presentation" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Consultas</a></li>
   <li role="presentation" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">Clientes</a></li>
-  <li role="presentation" [class.active]="submenu==3"><a [routerLink]="" (click)="submenu=3">Reportes</a></li>
   <li role="presentation" [class.active]="submenu==4"><a [routerLink]="" (click)="submenu=4">CFDI</a></li>
-  <li role="presentation" [class.active]="submenu==5"><a [routerLink]="" (click)="submenu=5">Pago</a></li>
+  <li role="presentation" [class.active]="submenu==5"><a [routerLink]="" (click)="submenu=5">Pagos</a></li>
+  <li role="presentation" [class.active]="submenu==3"><a [routerLink]="" (click)="submenu=3">Reportes</a></li>
 </ul>
 <br>
 <br>
@@ -105,7 +105,11 @@
     <p>Registros encontrados: <b>{{total}}</b></p>
     <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
   </div>
-  <div *ngSwitchCase="2"></div>
+  <div *ngSwitchCase="2">
+    <br>
+    <br>
+    <app-clientes-table></app-clientes-table>
+  </div>
   <div *ngSwitchCase="3"></div>
   <div *ngSwitchCase="4">
     <app-cfdi></app-cfdi>
