@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
               });
 
             }, err => {
-              this.errorMsj = 'Token invalido';
+              this.errorMsj = err?.error?.mensaje ? err?.error?.mensaje :'Token invalido';
               this.spinner.hide();
             });
           }
