@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
                   usuariokey: res.mensaje,
                   idusuario: res.valor.usuario_Id,
                   nombre: res.valor.usuario_Nombre,
-                  rol: "ADMIN",
+                  rol: this.role.getRolById(res.valor.idRolApp),
                   tipo: "TERMINAL",
                   username: res.valor.usuario_Usuario,
                   empresa: res.valor.empresa_Nombre,

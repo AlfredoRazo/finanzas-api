@@ -9,62 +9,84 @@ export class RoleService {
 
   constructor(private router: Router) { }
 
-  reditecByRole(role: string): void{
+  reditecByRole(role: string): void {
     switch (role) {
       case 'FINANZAS':
         this.router.navigate(['/facturacion']);
-      break;
+        break;
       case 'RECINTO':
         this.router.navigate(['/recinto']);
-      break;
+        break;
       case 'ESTADISTICA':
         this.router.navigate(['/estadistica']);
-      break;
+        break;
       case 'OPERACIONES':
         this.router.navigate(['/operaciones']);
-      break;
+        break;
       case 'PPORTUARIA':
         this.router.navigate(['/proteccion-portuaria']);
-      break;
+        break;
       case 'MANIOBRISTA':
         this.router.navigate(['/clientes/maniobrista']);
-      break;
+        break;
       case 'AGENTEADUANAL':
         this.router.navigate(['/clientes/agente-aduanal']);
-      break;
+        break;
       case 'NAVIERA':
         this.router.navigate(['/clientes/naviera']);
-      break;
+        break;
       case 'CESIONARIO':
         this.router.navigate(['/clientes/cesionario']);
-      break;
+        break;
       case 'ADMIN':
         this.router.navigate(['/main']);
-      break;
+        break;
       default:
         this.router.navigate(['/']);
         break;
     }
   }
 
-  getMenuByRole(role: string): CardMenu[]{
+  getRolById(id: any): string {
+    switch (id) {
+      case '1001':
+        return 'ADMIN';
+      case '1101':
+        return 'ESTADISTICA';
+      case '1201':
+        return 'OPERACIONES';
+      case '1301':
+        return 'PPORTUARIA';
+      case '1401':
+        return 'FINANZAS';
+      case '2001':
+        return 'RECINTO';
+      case '2101':
+        return 'AGENTEADUANAL';
+      default:
+        return '';
+    }
+
+  }
+
+  getMenuByRole(role: string): CardMenu[] {
     switch (role) {
       case 'FINANZAS':
         return [
-          {titulo: 'Facturación', icono: 'glyphicon glyphicon-briefcase', link: '/facturacion'}
-         ];
+          { titulo: 'Facturación', icono: 'glyphicon glyphicon-briefcase', link: '/facturacion' }
+        ];
         break;
       default:
         return [
-          {titulo: 'Clientes', icono: 'glyphicon glyphicon-user', link: '/clientes'},
-          {titulo: 'Facturación', icono: 'glyphicon glyphicon-briefcase', link: '/facturacion'},
-          {titulo: 'Recinto', icono: 'glyphicon glyphicon-tower', link: '/recinto'},
-          {titulo: 'Estadística', icono: 'glyphicon glyphicon-stats', link: '/estadistica'},
-          {titulo: 'Operaciones', icono: 'glyphicon glyphicon-list-alt', link: '/operaciones'},
-          {titulo: 'Protección Portuaria', icono: 'glyphicon glyphicon-lock', link: '/proteccion-portuaria'},
-         ];
+          { titulo: 'Clientes', icono: 'glyphicon glyphicon-user', link: '/clientes' },
+          { titulo: 'Facturación', icono: 'glyphicon glyphicon-briefcase', link: '/facturacion' },
+          { titulo: 'Recinto', icono: 'glyphicon glyphicon-tower', link: '/recinto' },
+          { titulo: 'Estadística', icono: 'glyphicon glyphicon-stats', link: '/estadistica' },
+          { titulo: 'Operaciones', icono: 'glyphicon glyphicon-list-alt', link: '/operaciones' },
+          { titulo: 'Protección Portuaria', icono: 'glyphicon glyphicon-lock', link: '/proteccion-portuaria' },
+        ];
         break;
     }
-    
+
   }
 }
