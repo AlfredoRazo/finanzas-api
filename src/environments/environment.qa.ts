@@ -3,7 +3,7 @@ export const environment = {
   endpoint: ' https://web.zonazero.cloud/sicrefis/api/',
   endpointApi: 'https://pis-apiman-restfinav1.azurewebsites.net/API/',
   endpointCat: 'https://pis-catalogos.azurewebsites.net/api/',
-  endpointAuth: 'https://pis-api-autenticacion-prod.azurewebsites.net/api/validar/permisos',
+  endpointAuth: 'https://pis-autenticacion-qa.azurewebsites.net/api/validar/permisos',
   appKey: 'c53ea43376d653a43e10711de2da2d9b6f156ead',
   googleCaptchaKey: '6LcZ7w4bAAAAAAcogck-Te91o6SPDZYuNcWBlmHX',
   santanderEndpoint: 'https://www.santander.com.mx/Supernet2007/homeMicrositio.jsp',

@@ -50,7 +50,7 @@ export class RoleService {
   getRolById(id: any): string {
     switch (id) {
       case 1001:
-        return 'ADMIN';
+        return 'FINANZAS';
       case 1101:
         return 'ESTADISTICA';
       case 1201:
