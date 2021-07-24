@@ -185,12 +185,6 @@
               <td>API MANZANILLO</td>
             </tr>
             <tr>
-              <td><b>Usuario</b></td>
-              <td>Salvador</td>
-              <td><b>Servidor Remoto</b></td>
-              <td>10.34.71.118</td>
-            </tr>
-            <tr>
               <td><b>Fecha</b></td>
               <td>24/07/2021 00:00</td>
               <td><b>Fecha Límite de Pago</b></td>
@@ -209,7 +203,6 @@
             <tr>
               <th>Código</th>
               <th>Cliente</th>
-              <th>Tipo</th>
               <th>Referencia</th>
               <th>Fecha</th>
               <th>Subtotal</th>
@@ -219,8 +212,7 @@
             <tr *ngFor="let item of apagar">
               <td>{{item.noConsulta}}</td>
               <td>{{item.cliente}}</td>
-              <td>{{item.tipoServicio}}</td>
-              <td>00000001</td>
+              <td>{{item.noConsulta}}</td>
               <td>{{item.fechaConsulta}}</td>
               <td>{{item.subtotal}}</td>
               <td>{{item.iva}}</td>
@@ -236,15 +228,11 @@
           <br>
           <br>
           <h4>Información de pago</h4>
-          <h3>Válido para pagar únicamente en Santander</h3>
-          <h3>Referencia {{referencia}}</h3>
-          <h3>Convenio 7164</h3>
-          <h3>Importe {{totalApagar}}</h3>
-          <h3>Fecha limite de pago 31/07/2021</h3>
-          <h3>Has seleccionado depósito referenciado, continua desde el portal electrónico de tu preferencia, selecciona SPEI referenciado y coloca la referencia bancaria que se generó en PSP. Coloca ESTRICTAMENTE la clave referenciada en el 'CONCEPTO'.
-            PA: 4445-01 Puerto Sin Papeles</h3>
-          
-
+          <p><b>Válido para pagar únicamente en Santander</b></p>
+          <p><b>Referencia {{referencia}}</b></p>
+          <p><b>Convenio 7164</b></p>
+          <p><b>Importe {{totalApagar | currency}}</b></p>
+          <p><b>Fecha limite de pago 31/07/2021</b></p>
         </div>
       </div>
       <div class="modal-footer">
