@@ -86,7 +86,6 @@ export class FacturacionNuevaConsultaComponent implements OnInit {
     form.value.zzfechasalida = this.fechaSalida;
     this.spinner.show();
     this.http.post<any>(environment.endpoint + 'consultasap', form.value).subscribe(res => {
-      console.log(res);
       this.spinner.hide();
       if(res[1].error){
         this.hasSuccess = false;

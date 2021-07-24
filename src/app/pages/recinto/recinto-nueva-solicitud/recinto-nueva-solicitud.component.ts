@@ -119,7 +119,6 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.spinner.show();
     this.http.get<any>(environment.endpoint + 'clientes?rfc=' + this.rfcCliente).subscribe(res =>{
       this.spinner.hide();
-      console.log(res);
       this.nombreCliente = res.nombre;
     },error =>{
       this.spinner.hide();

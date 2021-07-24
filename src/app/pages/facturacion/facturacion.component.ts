@@ -68,7 +68,6 @@ export class FacturacionComponent implements OnInit {
 
   pagarMode(): void {
     this.apagar = this.data.filter((item: any) => item.selected);
-    console.log(this.apagar);
     if (this.apagar.length > 0) {
       this.apagar.forEach((element: any) => {
         const monto = Number(element.total.replace(/\$/g, '').replace(/\,/g, ''));
