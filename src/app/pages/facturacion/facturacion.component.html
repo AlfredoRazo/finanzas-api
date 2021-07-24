@@ -113,6 +113,9 @@
     <app-pagos></app-pagos><br>
   </div>
   <div *ngSwitchCase="6">
+    <br>
+    <input type="text" class="form-control" placeholder="Consulta de pago">
+    <br>
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
@@ -150,7 +153,105 @@
     </table>
     <br>
     <br>
-    <button class="btn btn-primary btn-sm" (click)="submenu=1; apagar=[];">Cancelar</button>
+    <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#recibo">Imprimir</button>
+    <button class="btn btn-primary btn-sm" style="margin-left: 10px;" (click)="submenu=1; apagar=[]; referencia = '';">Cancelar</button>
   </div>
 </container-element>
+
+<div class="modal fade bs-example-modal-lg" id="recibo" tabindex="-1" role="dialog" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Recibo</h4>
+      </div>
+      <div class="modal-body">
+        <div id="contenido-imprimir" style="font-size: 0.8em">
+          <img src="assets/img/headerpdf.png" width="100%">
+          <h4 style="text-align: center;">Referencia de Pago</h4>
+
+          <br>
+          <br>
+          <table style="width: 100%;">
+            <tr>
+              <td><b>Código de Registro</b></td>
+              <td>0014932</td>
+              <td><b></b></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><b>Tipo Entidad</b></td>
+              <td>Administración Portuaria</td>
+              <td><b>Entidad</b></td>
+              <td>API MANZANILLO</td>
+            </tr>
+            <tr>
+              <td><b>Usuario</b></td>
+              <td>Salvador</td>
+              <td><b>Servidor Remoto</b></td>
+              <td>10.34.71.118</td>
+            </tr>
+            <tr>
+              <td><b>Fecha</b></td>
+              <td>24/07/2021 00:00</td>
+              <td><b>Fecha Límite de Pago</b></td>
+              <td>31/07/2021</td>
+            </tr>
+            <tr>
+              <td><b>Estatus</b></td>
+              <td>En proceso...</td>
+              <td><b>Referencia</b></td>
+              <td>{{referencia}}</td>
+            </tr>
+          </table>
+
+          <br><br>
+          <table style="width: 100%;">
+            <tr>
+              <th>Código</th>
+              <th>Cliente</th>
+              <th>Tipo</th>
+              <th>Referencia</th>
+              <th>Fecha</th>
+              <th>Subtotal</th>
+              <th>IVA</th>
+              <th>Total</th>
+            </tr>
+            <tr *ngFor="let item of apagar">
+              <td>{{item.noConsulta}}</td>
+              <td>{{item.cliente}}</td>
+              <td>{{item.tipoServicio}}</td>
+              <td>00000001</td>
+              <td>{{item.fechaConsulta}}</td>
+              <td>{{item.subtotal}}</td>
+              <td>{{item.iva}}</td>
+              <td>{{item.total}}</td>
+            </tr>
+            <tr>
+              <td colspan="6"></td>
+              <td colspan="2"><b>{{totalApagar | currency}}</b></td>
+              <td></td>
+            </tr>
+          </table>
+          <br>
+          <br>
+          <br>
+          <h4>Información de pago</h4>
+          <h3>Válido para pagar únicamente en Santander</h3>
+          <h3>Referencia {{referencia}}</h3>
+          <h3>Convenio 7164</h3>
+          <h3>Importe {{totalApagar}}</h3>
+          <h3>Fecha limite de pago 31/07/2021</h3>
+          <h3>Has seleccionado depósito referenciado, continua desde el portal electrónico de tu preferencia, selecciona SPEI referenciado y coloca la referencia bancaria que se generó en PSP. Coloca ESTRICTAMENTE la clave referenciada en el 'CONCEPTO'.
+            PA: 4445-01 Puerto Sin Papeles</h3>
+          
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="imprimir()">Imprimir</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <!--button type="button" class="btn btn-default" routerLink="/main">Regresar</button-->

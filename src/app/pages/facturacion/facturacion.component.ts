@@ -6,6 +6,7 @@ import { HelpersService } from '@serv/helpers.service';
 import { PaginateService } from '@serv/paginate.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { sha256 } from 'js-sha256';
+import { PdfService } from '@serv/pdf.service';
 
 @Component({
   selector: 'app-facturacion',
@@ -36,6 +37,7 @@ export class FacturacionComponent implements OnInit {
   submenu = 1;
   checkAll = false;
   apagar: any = [];
+  referencia = '';
   totalApagar = 0;
 
   constructor(
@@ -43,6 +45,7 @@ export class FacturacionComponent implements OnInit {
     private pagina: PaginateService,
     private help: HelpersService,
     private auth: AuthService,
+    private pdf: PdfService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
@@ -73,7 +76,18 @@ export class FacturacionComponent implements OnInit {
         const monto = Number(element.total.replace(/\$/g, '').replace(/\,/g, ''));
         this.totalApagar = this.totalApagar + monto;
       });
-      this.submenu = 6;
+      
+      const payload = {
+        appkey : environment.appKey,
+        numconsultaSAP: this.apagar.map((item: any) => {return item.noConsulta})
+      }
+      this.spinner.show();
+      this.http.post(`${environment.endpointApi}referenciaGenerar`, payload).subscribe((res: any) =>{
+        this.spinner.hide();
+        this.referencia = res[0].message;
+        this.submenu = 6;
+      }, error => {this.spinner.hide()});
+      
     }
   }
 
@@ -92,7 +106,7 @@ export class FacturacionComponent implements OnInit {
       convenio.value = '7164';
       convenio.name = 'convenio';
       multiPagosform.appendChild(convenio);
-      referencia.value = '1998II157KAU04660243'
+      referencia.value = this.referencia;
       referencia.name = 'referencia';
       multiPagosform.appendChild(referencia);
       importe.value = '51.57';
@@ -190,7 +204,7 @@ export class FacturacionComponent implements OnInit {
       s_transm.name = 's_transm';
       multiPagosform.appendChild(s_transm);
 
-      c_referencia.value = 'C008000018333471235';
+      c_referencia.value = this.referencia;
       c_referencia.name = 'c_referencia';
       multiPagosform.appendChild(c_referencia);
 
@@ -234,6 +248,13 @@ export class FacturacionComponent implements OnInit {
       document.body.appendChild(multiPagosform);
       multiPagosform.submit();
     }
+  }
+
+  imprimir(): void {
+    const DATA = document.getElementById('contenido-imprimir');
+    console.log(DATA);
+    this.pdf.downloadPdf(DATA);
+
   }
 
 }
