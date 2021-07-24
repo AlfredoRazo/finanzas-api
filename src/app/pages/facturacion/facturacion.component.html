@@ -37,9 +37,10 @@
     <br>
     <br>
     <div class="table-responsive">
-      <table class="table table-bordered">
+      <table class="table table-bordered table-striped">
         <thead style="white-space: nowrap;">
           <tr style="cursor: pointer;">
+            <th><input type="checkbox" [(ngModel)]="checkAll" (change)="checks()"></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="estatus">Estatus <span
                 class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="noConsulta">Consulta de pago <span
@@ -66,10 +67,6 @@
                 class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="total">Total <span
                 class="glyphicon glyphicon-sort"></span></th>
-            <th >Pago </th>
-            <th></th>
-            <th></th>
-            <th></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="fechaPago">Fecha de pago <span
                 class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="referenciaPa">Referencia de pago <span
@@ -78,6 +75,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of data">
+            <td><input type="checkbox" [(ngModel)]="item.selected"></td>
             <td>{{item.estatus}}</td>
             <td>{{item.noConsulta}}</td>
             <td>{{item.fechaConsulta}}</td>
@@ -91,10 +89,6 @@
             <td>{{item.descuentos}}</td>
             <td>{{item.iva}}</td>
             <td>{{item.total}}</td>
-            <td><img style="cursor: pointer;" (click)="sendPago('santander',item.total)" src="assets/img/bancos/santander.gif"/></td>
-            <td><img style="cursor: pointer;" (click)="sendPago('bbva',item.total)" src="assets/img/bancos/bbva.gif"/></td>
-            <td><img style="cursor: pointer;" src="assets/img/bancos/spei.gif"/></td>
-            <td><img style="cursor: pointer;" src="assets/img/bancos/visa-master.gif"/></td>
             <td>{{item.fechaPago}}</td>
             <td>{{item.referenciaPago}}</td>
           </tr>
@@ -102,16 +96,61 @@
       </table>
     </div>
     <br>
+    <button class="btn btn-primary" (click)="pagarMode()">Pagar</button>
+    <br>
+    <br>
     <p>Registros encontrados: <b>{{total}}</b></p>
     <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
   </div>
-  <div *ngSwitchCase="2"> 
+  <div *ngSwitchCase="2">
     <app-clientes-table></app-clientes-table>
   </div>
   <div *ngSwitchCase="3"></div>
   <div *ngSwitchCase="4">
     <app-cfdi></app-cfdi>
   </div>
-  <div *ngSwitchCase="5"><app-pagos></app-pagos><br></div>
+  <div *ngSwitchCase="5">
+    <app-pagos></app-pagos><br>
+  </div>
+  <div *ngSwitchCase="6">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Subtotal</th>
+          <th>Descuento</th>
+          <th>IVA</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of apagar">
+          <td>{{item.subtotal}}</td>
+          <td>{{item.descuentos}}</td>
+          <td>{{item.iva}}</td>
+          <td>{{item.total}}</td>
+        </tr>
+        <tr>
+          <td colspan="3">Total acumulado:</td>
+          <td>{{totalApagar | currency}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <h4>Selecciona el banco a pagar: </h4>
+    <br>
+    <table style="width: 100%;">
+      <tr>
+        <td><img style="cursor: pointer;" (click)="sendPago('santander',totalApagar.toString())"
+            src="assets/img/bancos/santander.gif" /></td>
+        <td><img style="cursor: pointer;" (click)="sendPago('bbva',totalApagar.toString())"
+            src="assets/img/bancos/bbva.gif" /></td>
+        <td><img style="cursor: pointer;" src="assets/img/bancos/spei.gif" /></td>
+        <td><img style="cursor: pointer;" src="assets/img/bancos/visa-master.gif" /></td>
+      </tr>
+    </table>
+    <br>
+    <br>
+    <button class="btn btn-primary btn-sm" (click)="submenu=1; apagar=[];">Cancelar</button>
+  </div>
 </container-element>
-<button type="button" class="btn btn-default" routerLink="/main">Regresar</button>
+<!--button type="button" class="btn btn-default" routerLink="/main">Regresar</button-->

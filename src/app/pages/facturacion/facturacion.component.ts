@@ -34,6 +34,9 @@ export class FacturacionComponent implements OnInit {
     'Referencia de pago'
   ];
   submenu = 1;
+  checkAll = false;
+  apagar: any = [];
+  totalApagar = 0;
 
   constructor(
     private http: HttpClient,
@@ -44,6 +47,10 @@ export class FacturacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
+  }
+
+  checks(): void {
+    this.data = this.data.map((item: any) => { item.selected = this.checkAll; return item });
 
   }
 
@@ -51,16 +58,29 @@ export class FacturacionComponent implements OnInit {
     this.spinner.show();
     this.http.get(`${environment.endpoint}consultasDetalle`).subscribe((res: any) => {
       this.spinner.hide();
-      this.data = res[0];
+      this.data = res[0].map((item: any) => {
+        item.selected = false;
+        return item;
+      });
       this.total = res[0].length;
     }, error => { this.spinner.hide() })
   }
 
- 
+  pagarMode(): void {
+    this.apagar = this.data.filter((item: any) => item.selected);
+    console.log(this.apagar);
+    if (this.apagar.length > 0) {
+      this.apagar.forEach((element: any) => {
+        const monto = Number(element.total.replace(/\$/g, '').replace(/\,/g, ''));
+        this.totalApagar = this.totalApagar + monto;
+      });
+      this.submenu = 6;
+    }
+  }
 
   sendPago(banco: string, total: string): void {
-    const monto = total.replace(/\$/g, '').replace(/\,/g, '');
-    if (banco == 'santander') {
+   const monto = total.replace(/\$/g, '').replace(/\,/g, '');
+   if (banco == 'santander') {
       const multiPagosform = document.createElement('form');
       const convenio = document.createElement('input');
       const referencia = document.createElement('input');
@@ -68,7 +88,7 @@ export class FacturacionComponent implements OnInit {
       const url_resp = document.createElement('input');
 
       multiPagosform.method = 'POST';
-      multiPagosform.target='_blank';
+      multiPagosform.target = '_blank';
       multiPagosform.action = environment.santanderEndpoint;
       convenio.value = '7164';
       convenio.name = 'convenio';
@@ -89,7 +109,7 @@ export class FacturacionComponent implements OnInit {
     if (banco === 'bbva') {
       const multiPagosform = document.createElement('form');
       multiPagosform.method = 'POST';
-      multiPagosform.target='_blank';
+      multiPagosform.target = '_blank';
       multiPagosform.action = environment.bbvaEndpoint;
 
       /*const mp_account = document.createElement('input');
@@ -206,7 +226,7 @@ export class FacturacionComponent implements OnInit {
       val_12.value = '1';
       val_12.name = 'val_12';
       multiPagosform.appendChild(val_12);
-  
+
       const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
       val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
       val_13.name = 'val_13';

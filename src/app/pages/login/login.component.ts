@@ -73,9 +73,11 @@ export class LoginComponent implements OnInit {
               this.errorMsj = err?.error?.mensaje ? err?.error?.mensaje :'Token invalido';
               this.spinner.hide();
             });
+          }else{
+            this.errorMsj ='El token de autorización es requerido';
+              this.spinner.hide();
           }
-        }
-        );
+        },error =>{this.spinner.hide()});
     }
   }
 
