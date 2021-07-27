@@ -40,8 +40,8 @@
             ],
             "allowedCommonJsDependencies": [
               "xlsx",
-              "raf",
-              "core-js-pure"
+              "core-js-pure",
+              "raf"
            ]
           },
           "configurations": {
