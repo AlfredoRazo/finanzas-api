@@ -1,0 +1,51 @@
+<div *ngIf="estatus == 0">
+<div style="text-align: center;">
+    <span class="glyphicon glyphicon-ok-sign" style="font-size: 110px; color:#3c763d" aria-hidden="true"></span>
+</div>
+<br>
+<div class="alert alert-success" style="text-align: center;">
+Pago éxitoso
+</div>
+</div>
+<div *ngIf="estatus == 1">
+    <div style="text-align: center;">
+        <span class="glyphicon glyphicon-warning-sign" style="font-size: 110px; color:#8a6d3b" aria-hidden="true"></span>
+    </div>
+    <br>
+    <div class="alert alert-warning" style="text-align: center;">
+    Operación Mancomunada
+    </div>
+    </div>
+    <div *ngIf="estatus == 9">
+        <div style="text-align: center;">
+            <span class="glyphicon glyphicon-remove-sign" style="font-size: 110px; color:#D0021B" aria-hidden="true"></span>
+        </div>
+        <br>
+        <div class="alert alert-danger" style="text-align: center;">
+        Operación Rechazada
+        </div>
+        </div>
+<table class="table table-bordered table-striped" *ngIf="estatus == 0">
+<tbody>
+    <tr>
+        <td><b>Folio</b></td>
+        <td>{{data.folio}}</td>
+    </tr>
+    <tr>
+        <td><b>Nombre</b></td>
+        <td>{{data.nombre}}</td>
+    </tr>
+    <tr>
+        <td><b>Referencia</b></td>
+        <td>{{data.referencia}}</td>
+    </tr>
+    <tr>
+        <td><b>Fecha</b></td>
+        <td>{{data.fecha}}</td>
+    </tr>
+    <tr>
+        <td><b>Importe</b></td>
+        <td>{{data.importe | currency}}</td>
+    </tr>
+</tbody>
+</table>

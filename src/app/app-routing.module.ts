@@ -19,6 +19,7 @@ import { CesionarioComponent } from './pages/clientes/cesionario/cesionario.comp
 import { FacturacionComponent } from './pages/facturacion/facturacion.component';
 import { FacturacionNuevaConsultaComponent } from './pages/facturacion/facturacion-nueva-consulta/facturacion-nueva-consulta.component';
 import { FacturacionConsultaTipoComponent } from './pages/facturacion/facturacion-consulta-tipo/facturacion-consulta-tipo.component';
+import { PagoSuccessComponent } from './pages/pago-success/pago-success.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -29,7 +30,7 @@ const routes: Routes = [
   { path: 'clientes/agente-aduanal/nueva-solicitud', component: AgenteNuevaSolicitudComponent, canActivate: [GuardService] },
   { path: 'clientes/naviera', component: NavieraComponent, canActivate: [GuardService] },
   { path: 'clientes/cesionario', component: CesionarioComponent, canActivate: [GuardService] },
-  
+  { path: 'pago-success', component: PagoSuccessComponent },
  /* { path: 'facturacion',
   loadChildren: () => import('./pages/facturacion/facturacion.module').then(m => m.FacturacionModule),
   canActivate: [GuardService] },*/
