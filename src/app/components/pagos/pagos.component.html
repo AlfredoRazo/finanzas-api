@@ -1,29 +1,73 @@
 <form #formPago="ngForm">
   <div class="row">
     <div class="form-group col-md-6">
-      <input type="text" name="convenio" class="form-control" placeholder="Convenio" [(ngModel)]="convenio" required/>
+      <input type="text" name="convenio" class="form-control" placeholder="Convenio" [(ngModel)]="convenio" required />
     </div>
     <div class="form-group col-md-6">
-      <input type="text" name="referencia" class="form-control" placeholder="Referencia" [(ngModel)]="referencia" required/>
+      <input type="text" name="referencia" class="form-control" placeholder="Referencia" [(ngModel)]="referencia"
+        required />
     </div>
-
   </div>
-    <div class="row">
-
-      <div class="form-group col-md-6">
-        <input type="text" name="monto" class="form-control" placeholder="Monto" [(ngModel)]="monto" required/>
-      </div>
-      <div class="form-group col-md-6">
-        <select name="banco" class="form-control" [(ngModel)]="banco" required>
-          <option value="santander">Santander</option>
-          <option value="bbva">BBVA</option>
-        </select>
-      </div>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <input type="text" name="s_transm" class="form-control" placeholder="Secuencia de Transmisión" [(ngModel)]="bbvaPayload.s_transm" required />
     </div>
-      <div class="row">
-        <div class="col-md-12">
-          <button class="btn btn-primary pul-rigth" [disabled]="formPago.invalid" (click)="sendPago()">Aceptar</button>
-        </div>
-      </div>
-   
-  </form>
+    <div class="form-group col-md-6">
+      <input type="text" name="val_1" class="form-control" placeholder="Nivel 1 de Detalle" [(ngModel)]="bbvaPayload.val_1"
+        required />
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <input type="text" name="t_servicio" class="form-control" placeholder="Tipo de Servicio" [(ngModel)]="bbvaPayload.t_servicio" required />
+    </div>
+    <div class="form-group col-md-6">
+      <input type="text" name="val_2" class="form-control" placeholder="Nombre Cliente" [(ngModel)]="bbvaPayload.val_2"
+        required />
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <input type="text" name="val_3" class="form-control" placeholder="Moneda" [(ngModel)]="bbvaPayload.val_3" required />
+    </div>
+    <div class="form-group col-md-6">
+      <input type="text" name="val_4" class="form-control" placeholder="Idioma" [(ngModel)]="bbvaPayload.val_4"
+        required />
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <input type="text" name="val_5" class="form-control" placeholder="Financiamiento" [(ngModel)]="bbvaPayload.val_5" required />
+    </div>
+    <div class="form-group col-md-6">
+      <input type="text" name="val_6" class="form-control" placeholder="Periodo de Financiamiento" [(ngModel)]="bbvaPayload.val_6"
+        required />
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <input type="text" name="val_11" class="form-control" placeholder="Email" [(ngModel)]="bbvaPayload.val_11" required />
+    </div>
+    <div class="form-group col-md-6">
+      <input type="text" name="val_12" class="form-control" placeholder="Teléfono" [(ngModel)]="bbvaPayload.val_12"
+        required />
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <input type="text" name="monto" class="form-control" placeholder="Monto" [(ngModel)]="monto" required />
+    </div>
+    <div class="form-group col-md-6">
+      <select name="banco" class="form-control" [(ngModel)]="banco" required>
+        <option value="santander">Santander</option>
+        <option value="bbva">BBVA</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <button class="btn btn-primary pul-rigth" [disabled]="formPago.invalid" (click)="sendPago()">Aceptar</button>
+    </div>
+  </div>
+
+</form>

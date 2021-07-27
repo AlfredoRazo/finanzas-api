@@ -12,7 +12,22 @@ export class PagosComponent implements OnInit {
   monto = '';
   convenio = '7164';
   referencia = '';
-  banco = 'santander';
+  banco = 'bbva';
+
+  bbvaPayload = {
+    s_transm: '1'.padStart(20, '0'),
+    c_referencia: '',
+    val_1: '0',
+    t_servicio: '569',
+    t_importe: '',
+    val_2: '',
+    val_3: '1',
+    val_4: '1',
+    val_5: '1',
+    val_6: '',
+    val_11: '',
+    val_12: ''
+  }
 
   constructor() { }
 
@@ -29,7 +44,7 @@ export class PagosComponent implements OnInit {
         const url_resp = document.createElement('input');
 
         pagosForm.method = 'POST';
-        pagosForm.target='_blank';
+        pagosForm.target = '_blank';
         pagosForm.action = environment.santanderEndpoint;
         convenio.value = this.convenio;
         convenio.name = 'convenio';
@@ -51,65 +66,9 @@ export class PagosComponent implements OnInit {
       case 'bbva':
         const multiPagosform = document.createElement('form');
         multiPagosform.method = 'POST';
-        multiPagosform.target='_blank';
+        //multiPagosform.target = '_blank';
         multiPagosform.action = environment.bbvaEndpoint;
-  
-        const mp_account = document.createElement('input');
-        mp_account.value = '1';
-        mp_account.name = 'mp_account';
-        multiPagosform.appendChild(mp_account);
-  
-        const mp_order = document.createElement('input');
-        mp_order.value = '20140717';
-        mp_order.name = 'mp_order';
-        multiPagosform.appendChild(mp_order);
-  
-        const mp_reference = document.createElement('input');
-        mp_reference.value = 'QWERTY123456';
-        mp_reference.name = 'mp_reference';
-        multiPagosform.appendChild(mp_reference);
-  
-        const mp_product = document.createElement('input');
-        mp_product.value = '1';
-        mp_product.name = 'mp_product';
-        multiPagosform.appendChild(mp_product);
-  
-        const mp_node = document.createElement('input');
-        mp_node.value = '0';
-        mp_node.name = 'mp_node';
-        multiPagosform.appendChild(mp_node);
-  
-        const mp_concept = document.createElement('input');
-        mp_concept.value = '2';
-        mp_concept.name = 'mp_concept';
-        multiPagosform.appendChild(mp_concept);
-  
-        const mp_amount = document.createElement('input');
-        mp_amount.value = this.monto;
-        mp_amount.name = 'mp_amount';
-        multiPagosform.appendChild(mp_amount);
-  
-        const mp_currency = document.createElement('input');
-        mp_currency.value = '1';
-        mp_currency.name = 'mp_currency';
-        multiPagosform.appendChild(mp_currency);
-  
-        const mp_signature = document.createElement('input');
-        const cadenaValidacion = mp_order.value + mp_amount.value + mp_amount.value;
-        mp_signature.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
-        mp_signature.name = 'mp_signature';
-        multiPagosform.appendChild(mp_signature);
-  
-        const mp_urlsuccess = document.createElement('input');
-        mp_urlsuccess.value = 'http://pismzo.azurewebsites.net/pis/';
-        mp_urlsuccess.name = 'mp_urlsuccess';
-        multiPagosform.appendChild(mp_urlsuccess);
-  
-        const mp_urlfailure = document.createElement('input');
-        mp_urlfailure.value = 'http://pismzo.azurewebsites.net/pis/';
-        mp_urlfailure.name = 'mp_urlfailure';
-        multiPagosform.appendChild(mp_urlfailure);
-        /*const multiPagosform = document.createElement('form');
+
         const s_transm = document.createElement('input');
         const c_referencia = document.createElement('input');
         const t_servicio = document.createElement('input');
@@ -117,7 +76,11 @@ export class PagosComponent implements OnInit {
         const t_pago = document.createElement('input');
         const n_autoriz = document.createElement('input');
         const val_1 = document.createElement('input');
+        const val_2 = document.createElement('input');
         const val_3 = document.createElement('input');
+        const val_4 = document.createElement('input');
+        const val_5 = document.createElement('input');
+        const val_6 = document.createElement('input');
         const val_11 = document.createElement('input');
         const val_12 = document.createElement('input');
         const val_13 = document.createElement('input');
@@ -125,46 +88,71 @@ export class PagosComponent implements OnInit {
 
         multiPagosform.method = 'POST';
         multiPagosform.action = environment.bbvaEndpoint;
-
-        s_transm.value = 'transm';
+        s_transm.value = this.bbvaPayload.s_transm;
         s_transm.name = 's_transm';
         multiPagosform.appendChild(s_transm);
 
-        c_referencia.value = 'REF213213213123';
+        c_referencia.value = this.referencia;
         c_referencia.name = 'c_referencia';
         multiPagosform.appendChild(c_referencia);
 
-        t_servicio.value = '569';
+        val_1.value = this.bbvaPayload.val_1;
+        val_1.name = 'val_1';
+        multiPagosform.appendChild(val_1);
+
+        t_servicio.value = this.bbvaPayload.t_servicio;
         t_servicio.name = 't_servicio';
         multiPagosform.appendChild(t_servicio);
-
-        n_autoriz.value = '569';
-        n_autoriz.name = 'n_autoriz';
-        multiPagosform.appendChild(n_autoriz);
-
-        t_pago.value = '01';
-        t_pago.name = 't_pago';
-        multiPagosform.appendChild(t_pago);
 
         t_importe.value = this.monto;
         t_importe.name = 't_importe';
         multiPagosform.appendChild(t_importe);
 
-        val_1.value = '0';
-        val_1.name = 'val_1';
-        multiPagosform.appendChild(val_1);
+        val_2.value = this.bbvaPayload.val_2;
+        val_2.name = 'val_2';
+        multiPagosform.appendChild(val_2);
 
-        val_3.value = '1';
+        val_3.value = this.bbvaPayload.val_3;
         val_3.name = 'val_3';
         multiPagosform.appendChild(val_3);
 
-        const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value + n_autoriz.value.padStart(18, '0') + environment.bbvaKey;
+        val_4.value = this.bbvaPayload.val_4;
+        val_4.name = 'val_4';
+        multiPagosform.appendChild(val_4);
+
+        val_5.value = this.bbvaPayload.val_5;
+        val_5.name = 'val_5';
+        multiPagosform.appendChild(val_5);
+
+        val_6.value = this.bbvaPayload.val_6;
+        val_6.name = 'val_6';
+        multiPagosform.appendChild(val_6);
+
+        val_11.value = this.bbvaPayload.val_11;
+        val_11.name = 'val_11';
+        multiPagosform.appendChild(val_11);
+  
+        val_12.value = this.bbvaPayload.val_12;
+        val_12.name = 'val_12';
+        multiPagosform.appendChild(val_12);
+
+        const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
         val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
         val_13.name = 'val_13';
         multiPagosform.appendChild(val_13);
 
+        const mp_urlsuccess = document.createElement('input');
+        mp_urlsuccess.value = 'http://pismzo.azurewebsites.net/pis/';
+        mp_urlsuccess.name = 'mp_urlsuccess';
+        multiPagosform.appendChild(mp_urlsuccess);
+
+        const mp_urlfailure = document.createElement('input');
+        mp_urlfailure.value = 'http://pismzo.azurewebsites.net/pis/';
+        mp_urlfailure.name = 'mp_urlfailure';
+        multiPagosform.appendChild(mp_urlfailure);
+
         document.body.appendChild(multiPagosform);
-        multiPagosform.submit();*/
+        multiPagosform.submit();
         break;
       default:
         break;
