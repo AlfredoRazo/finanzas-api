@@ -122,7 +122,7 @@ export class FacturacionComponent implements OnInit {
     if (banco === 'bbva') {
       const multiPagosform = document.createElement('form');
       multiPagosform.method = 'POST';
-      multiPagosform.target = '_blank';
+      //multiPagosform.target = '_blank';
       multiPagosform.action = environment.bbvaEndpoint;
 
       /*const mp_account = document.createElement('input');
@@ -188,6 +188,7 @@ export class FacturacionComponent implements OnInit {
       const t_pago = document.createElement('input');
       const n_autoriz = document.createElement('input');
       const val_1 = document.createElement('input');
+      const val_2 = document.createElement('input');
       const val_3 = document.createElement('input');
       const val_4 = document.createElement('input');
       const val_5 = document.createElement('input');
@@ -199,12 +200,12 @@ export class FacturacionComponent implements OnInit {
 
       multiPagosform.method = 'POST';
       multiPagosform.action = environment.bbvaEndpoint;
-
-      s_transm.value = 'C008000018333471235';
+      let stransm = '001';
+      s_transm.value = stransm.padStart(20, '0');;
       s_transm.name = 's_transm';
       multiPagosform.appendChild(s_transm);
 
-      c_referencia.value = this.referencia;
+      c_referencia.value = this.referencia.slice(0,20);
       c_referencia.name = 'c_referencia';
       multiPagosform.appendChild(c_referencia);
 
@@ -216,29 +217,33 @@ export class FacturacionComponent implements OnInit {
       t_servicio.name = 't_servicio';
       multiPagosform.appendChild(t_servicio);
 
-      n_autoriz.value = '569';
-      n_autoriz.name = 'n_autoriz';
-      multiPagosform.appendChild(n_autoriz);
-
-      t_pago.value = '01';
-      t_pago.name = 't_pago';
-      multiPagosform.appendChild(t_pago);
-
-      t_importe.value = monto;
+      t_importe.value = '1';
       t_importe.name = 't_importe';
       multiPagosform.appendChild(t_importe);
+      
+      val_2.value = this.auth.getSession().userData.nombre ? this.auth.getSession().userData.nombre : 'PITER GABRIEL';
+      val_2.name = 'val_2';
+      multiPagosform.appendChild(val_2);
 
       val_3.value = '1';
       val_3.name = 'val_3';
       multiPagosform.appendChild(val_3);
+      
+      val_4.value = '1';
+      val_4.name = 'val_4';
+      multiPagosform.appendChild(val_4);
 
-      val_11.value = '1';
+      val_5.value = '1';
+      val_5.name = 'val_5';
+      multiPagosform.appendChild(val_5);
+
+      /*val_11.value = '1';
       val_11.name = 'val_11';
       multiPagosform.appendChild(val_11);
 
       val_12.value = '1';
       val_12.name = 'val_12';
-      multiPagosform.appendChild(val_12);
+      multiPagosform.appendChild(val_12);*/
 
       const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
       val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
@@ -252,7 +257,6 @@ export class FacturacionComponent implements OnInit {
 
   imprimir(): void {
     const DATA = document.getElementById('contenido-imprimir');
-    console.log(DATA);
     this.pdf.downloadPdf(DATA);
 
   }
