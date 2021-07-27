@@ -46,6 +46,7 @@ export class PagosComponent implements OnInit {
         pagosForm.method = 'POST';
         pagosForm.target = '_blank';
         pagosForm.action = environment.santanderEndpoint;
+        pagosForm.style.cssText = 'display:none;'
         convenio.value = this.convenio;
         convenio.name = 'convenio';
         pagosForm.appendChild(convenio);
@@ -55,7 +56,7 @@ export class PagosComponent implements OnInit {
         importe.value = this.monto;
         importe.name = 'importe';
         pagosForm.appendChild(importe);
-        url_resp.value = 'http://pismzo.azurewebsites.net/pis/';
+        url_resp.value = environment.santanderResponse;
         url_resp.name = 'url_resp';
         pagosForm.appendChild(url_resp);
 
@@ -68,7 +69,7 @@ export class PagosComponent implements OnInit {
         multiPagosform.method = 'POST';
         //multiPagosform.target = '_blank';
         multiPagosform.action = environment.bbvaEndpoint;
-
+        multiPagosform.style.cssText = 'display:none;'
         const s_transm = document.createElement('input');
         const c_referencia = document.createElement('input');
         const t_servicio = document.createElement('input');

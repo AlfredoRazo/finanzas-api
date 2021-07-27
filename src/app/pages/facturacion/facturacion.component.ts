@@ -38,7 +38,9 @@ export class FacturacionComponent implements OnInit {
   checkAll = false;
   apagar: any = [];
   referencia = '';
+  vigencia = '';
   totalApagar = 0;
+  hoy = new Date();
 
   constructor(
     private http: HttpClient,
@@ -74,7 +76,7 @@ export class FacturacionComponent implements OnInit {
     if (this.apagar.length > 0) {
       this.apagar.forEach((element: any) => {
         const monto = Number(element.total.replace(/\$/g, '').replace(/\,/g, ''));
-        this.totalApagar = this.totalApagar + monto;
+        //this.totalApagar = this.totalApagar + monto;
       });
       
       const payload = {
@@ -84,9 +86,15 @@ export class FacturacionComponent implements OnInit {
       this.spinner.show();
       this.http.post(`${environment.endpointApi}referenciaGenerar`, payload).subscribe((res: any) =>{
         this.spinner.hide();
-        this.referencia = res[0].message;
+        
+        this.referencia = res[0].lc;
+        this.totalApagar = res[0].total;
+        this.vigencia = res[0].vigencia;
         this.submenu = 6;
-      }, error => {this.spinner.hide()});
+      }, error => {this.spinner.hide();
+        this.referencia = '';
+        this.totalApagar = 0;
+        this.vigencia = ''});
       
     }
   }
@@ -102,6 +110,7 @@ export class FacturacionComponent implements OnInit {
 
       multiPagosform.method = 'POST';
       multiPagosform.target = '_blank';
+      multiPagosform.style.cssText = 'display:none;';
       multiPagosform.action = environment.santanderEndpoint;
       convenio.value = '7164';
       convenio.name = 'convenio';
@@ -109,10 +118,10 @@ export class FacturacionComponent implements OnInit {
       referencia.value = this.referencia;
       referencia.name = 'referencia';
       multiPagosform.appendChild(referencia);
-      importe.value = '51.57';
+      importe.value = this.totalApagar.toString();
       importe.name = 'importe';
       multiPagosform.appendChild(importe);
-      url_resp.value = 'http://pismzo.azurewebsites.net/pis/';
+      url_resp.value = environment.santanderResponse;
       url_resp.name = 'url_resp';
       multiPagosform.appendChild(url_resp);
 
@@ -121,137 +130,92 @@ export class FacturacionComponent implements OnInit {
     }
     if (banco === 'bbva') {
       const multiPagosform = document.createElement('form');
-      multiPagosform.method = 'POST';
-      //multiPagosform.target = '_blank';
-      multiPagosform.action = environment.bbvaEndpoint;
+        multiPagosform.method = 'POST';
+        multiPagosform.target = '_blank';
+        multiPagosform.action = environment.bbvaEndpoint;
+        multiPagosform.style.cssText = 'display:none;'
 
-      /*const mp_account = document.createElement('input');
-      mp_account.value = '159';
-      mp_account.name = 'mp_account';
-      multiPagosform.appendChild(mp_account);
+        const s_transm = document.createElement('input');
+        const c_referencia = document.createElement('input');
+        const t_servicio = document.createElement('input');
+        const t_importe = document.createElement('input');
+        const t_pago = document.createElement('input');
+        const n_autoriz = document.createElement('input');
+        const val_1 = document.createElement('input');
+        const val_2 = document.createElement('input');
+        const val_3 = document.createElement('input');
+        const val_4 = document.createElement('input');
+        const val_5 = document.createElement('input');
+        const val_6 = document.createElement('input');
+        const val_11 = document.createElement('input');
+        const val_12 = document.createElement('input');
+        const val_13 = document.createElement('input');
+        const tsm = new Date().getTime() / 1000
+        s_transm.value = tsm.toString().padStart(20, '0');
+        s_transm.name = 's_transm';
+        multiPagosform.appendChild(s_transm);
 
-      const mp_order = document.createElement('input');
-      mp_order.value = '20140717';
-      mp_order.name = 'mp_order';
-      multiPagosform.appendChild(mp_order);
+        c_referencia.value = this.referencia;
+        c_referencia.name = 'c_referencia';
+        multiPagosform.appendChild(c_referencia);
 
-      const mp_reference = document.createElement('input');
-      mp_reference.value = 'C008000018333471235';
-      mp_reference.name = 'mp_reference';
-      multiPagosform.appendChild(mp_reference);
+        val_1.value = '0';
+        val_1.name = 'val_1';
+        multiPagosform.appendChild(val_1);
 
-      const mp_product = document.createElement('input');
-      mp_product.value = '1';
-      mp_product.name = 'mp_product';
-      multiPagosform.appendChild(mp_product);
+        t_servicio.value = '569';
+        t_servicio.name = 't_servicio';
+        multiPagosform.appendChild(t_servicio);
 
-      const mp_node = document.createElement('input');
-      mp_node.value = '0';
-      mp_node.name = 'mp_node';
-      multiPagosform.appendChild(mp_node);
+        t_importe.value = this.totalApagar.toString();
+        t_importe.name = 't_importe';
+        multiPagosform.appendChild(t_importe);
 
-      const mp_concept = document.createElement('input');
-      mp_concept.value = '2';
-      mp_concept.name = 'mp_concept';
-      multiPagosform.appendChild(mp_concept);
+        val_2.value = '';
+        val_2.name = 'val_2';
+        multiPagosform.appendChild(val_2);
 
-      const mp_amount = document.createElement('input');
-      mp_amount.value = monto;
-      mp_amount.name = 'mp_amount';
-      multiPagosform.appendChild(mp_amount);
+        val_3.value = '1';
+        val_3.name = 'val_3';
+        multiPagosform.appendChild(val_3);
 
-      const mp_currency = document.createElement('input');
-      mp_currency.value = '1';
-      mp_currency.name = 'mp_currency';
-      multiPagosform.appendChild(mp_currency);
+        val_4.value = '1';
+        val_4.name = 'val_4';
+        multiPagosform.appendChild(val_4);
 
-      const mp_signature = document.createElement('input');
-      const cadenaValidacion = mp_order.value + mp_amount.value + mp_amount.value;
-      mp_signature.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
-      mp_signature.name = 'mp_signature';
-      multiPagosform.appendChild(mp_signature);
+        val_5.value = '1';
+        val_5.name = 'val_5';
+        multiPagosform.appendChild(val_5);
 
-      const mp_urlsuccess = document.createElement('input');
-      mp_urlsuccess.value = 'http://pismzo.azurewebsites.net/pis/';
-      mp_urlsuccess.name = 'mp_urlsuccess';
-      multiPagosform.appendChild(mp_urlsuccess);
+        val_6.value = '';
+        val_6.name = 'val_6';
+        multiPagosform.appendChild(val_6);
 
-      const mp_urlfailure = document.createElement('input');
-      mp_urlfailure.value = 'http://pismzo.azurewebsites.net/pis/';
-      mp_urlfailure.name = 'mp_urlfailure';
-      multiPagosform.appendChild(mp_urlfailure);*/
+        val_11.value = '';
+        val_11.name = 'val_11';
+        multiPagosform.appendChild(val_11);
+  
+        val_12.value = '';
+        val_12.name = 'val_12';
+        multiPagosform.appendChild(val_12);
 
-      const s_transm = document.createElement('input');
-      const c_referencia = document.createElement('input');
-      const t_servicio = document.createElement('input');
-      const t_importe = document.createElement('input');
-      const t_pago = document.createElement('input');
-      const n_autoriz = document.createElement('input');
-      const val_1 = document.createElement('input');
-      const val_2 = document.createElement('input');
-      const val_3 = document.createElement('input');
-      const val_4 = document.createElement('input');
-      const val_5 = document.createElement('input');
-      const val_6 = document.createElement('input');
-      const val_11 = document.createElement('input');
-      const val_12 = document.createElement('input');
-      const val_13 = document.createElement('input');
+        const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
+        val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
+        val_13.name = 'val_13';
+        multiPagosform.appendChild(val_13);
 
+        const mp_urlsuccess = document.createElement('input');
+        mp_urlsuccess.value = 'http://pismzo.azurewebsites.net/pis/';
+        mp_urlsuccess.name = 'mp_urlsuccess';
+        multiPagosform.appendChild(mp_urlsuccess);
 
-      multiPagosform.method = 'POST';
-      multiPagosform.action = environment.bbvaEndpoint;
-      let stransm = '001';
-      s_transm.value = stransm.padStart(20, '0');;
-      s_transm.name = 's_transm';
-      multiPagosform.appendChild(s_transm);
+        const mp_urlfailure = document.createElement('input');
+        mp_urlfailure.value = 'http://pismzo.azurewebsites.net/pis/';
+        mp_urlfailure.name = 'mp_urlfailure';
+        multiPagosform.appendChild(mp_urlfailure);
 
-      c_referencia.value = this.referencia.slice(0,20);
-      c_referencia.name = 'c_referencia';
-      multiPagosform.appendChild(c_referencia);
-
-      val_1.value = '0';
-      val_1.name = 'val_1';
-      multiPagosform.appendChild(val_1);
-
-      t_servicio.value = '569';
-      t_servicio.name = 't_servicio';
-      multiPagosform.appendChild(t_servicio);
-
-      t_importe.value = '1';
-      t_importe.name = 't_importe';
-      multiPagosform.appendChild(t_importe);
-      
-      val_2.value = this.auth.getSession().userData.nombre ? this.auth.getSession().userData.nombre : 'PITER GABRIEL';
-      val_2.name = 'val_2';
-      multiPagosform.appendChild(val_2);
-
-      val_3.value = '1';
-      val_3.name = 'val_3';
-      multiPagosform.appendChild(val_3);
-      
-      val_4.value = '1';
-      val_4.name = 'val_4';
-      multiPagosform.appendChild(val_4);
-
-      val_5.value = '1';
-      val_5.name = 'val_5';
-      multiPagosform.appendChild(val_5);
-
-      /*val_11.value = '1';
-      val_11.name = 'val_11';
-      multiPagosform.appendChild(val_11);
-
-      val_12.value = '1';
-      val_12.name = 'val_12';
-      multiPagosform.appendChild(val_12);*/
-
-      const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
-      val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
-      val_13.name = 'val_13';
-      multiPagosform.appendChild(val_13);
-
-      document.body.appendChild(multiPagosform);
-      multiPagosform.submit();
+        document.body.appendChild(multiPagosform);
+        multiPagosform.submit();
     }
   }
 
