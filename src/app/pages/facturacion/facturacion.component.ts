@@ -151,12 +151,11 @@ export class FacturacionComponent implements OnInit {
         const val_11 = document.createElement('input');
         const val_12 = document.createElement('input');
         const val_13 = document.createElement('input');
-        const tsm = new Date().getTime() / 1000
+        const tsm = Math.floor(Date.now() / 1000)
         s_transm.value = tsm.toString().padStart(20, '0');
         s_transm.name = 's_transm';
         multiPagosform.appendChild(s_transm);
-
-        c_referencia.value = this.referencia;
+        c_referencia.value = this.referencia.padStart(20, '0').slice(0,20);
         c_referencia.name = 'c_referencia';
         multiPagosform.appendChild(c_referencia);
 
@@ -168,7 +167,7 @@ export class FacturacionComponent implements OnInit {
         t_servicio.name = 't_servicio';
         multiPagosform.appendChild(t_servicio);
 
-        t_importe.value = this.totalApagar.toString();
+        t_importe.value = this.totalApagar.toFixed(2).toString();
         t_importe.name = 't_importe';
         multiPagosform.appendChild(t_importe);
 
@@ -202,9 +201,9 @@ export class FacturacionComponent implements OnInit {
 
         const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
         val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
-        /*const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value.padStart(15, '0') + t_servicio.value;
-        val_13.value = Md5.hashStr(cadenaValidacion).toString();*/
         val_13.name = 'val_13';
+        console.log(cadenaValidacion);
+        console.log(val_13.value);
         multiPagosform.appendChild(val_13);
 
         const mp_urlsuccess = document.createElement('input');
@@ -216,7 +215,7 @@ export class FacturacionComponent implements OnInit {
         mp_urlfailure.value = 'http://pismzo.azurewebsites.net/pis/';
         mp_urlfailure.name = 'mp_urlfailure';
         multiPagosform.appendChild(mp_urlfailure);
-
+    
         document.body.appendChild(multiPagosform);
         multiPagosform.submit();
     }

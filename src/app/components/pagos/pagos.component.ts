@@ -10,7 +10,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 })
 export class PagosComponent implements OnInit {
 
-  monto = '';
+  monto = '1.00';
   convenio = '7164';
   referencia = '';
   banco = 'bbva';
@@ -136,11 +136,15 @@ export class PagosComponent implements OnInit {
         multiPagosform.appendChild(val_12);
 
         //const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
-        const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value.padStart(15, '0') + t_servicio.value;
+        const cadenaValidacion = s_transm.value + c_referencia.value.padStart(20, '0').slice(0,20) + t_importe.value;
+        
+        
         val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
-        //val_13.value = Md5.hashStr(cadenaValidacion).toString();
         val_13.name = 'val_13';
         multiPagosform.appendChild(val_13);
+
+        console.log(cadenaValidacion);
+        console.log(val_13.value);
 
         const mp_urlsuccess = document.createElement('input');
         mp_urlsuccess.value = 'http://pismzo.azurewebsites.net/pis/';
