@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { sha256 } from 'js-sha256';
+import { Md5 } from 'ts-md5/dist/md5';
 
 @Component({
   selector: 'app-pagos',
@@ -46,7 +47,7 @@ export class PagosComponent implements OnInit {
         pagosForm.method = 'POST';
         pagosForm.target = '_blank';
         pagosForm.action = environment.santanderEndpoint;
-        pagosForm.style.cssText = 'display:none;'
+        pagosForm.style.cssText = 'display:none;';
         convenio.value = this.convenio;
         convenio.name = 'convenio';
         pagosForm.appendChild(convenio);
@@ -67,7 +68,7 @@ export class PagosComponent implements OnInit {
       case 'bbva':
         const multiPagosform = document.createElement('form');
         multiPagosform.method = 'POST';
-        //multiPagosform.target = '_blank';
+        multiPagosform.target = '_blank';
         multiPagosform.action = environment.bbvaEndpoint;
         multiPagosform.style.cssText = 'display:none;'
         const s_transm = document.createElement('input');
@@ -86,9 +87,6 @@ export class PagosComponent implements OnInit {
         const val_12 = document.createElement('input');
         const val_13 = document.createElement('input');
 
-
-        multiPagosform.method = 'POST';
-        multiPagosform.action = environment.bbvaEndpoint;
         s_transm.value = this.bbvaPayload.s_transm;
         s_transm.name = 's_transm';
         multiPagosform.appendChild(s_transm);
@@ -137,8 +135,10 @@ export class PagosComponent implements OnInit {
         val_12.name = 'val_12';
         multiPagosform.appendChild(val_12);
 
-        const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
+        //const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
+        const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value.padStart(15, '0') + t_servicio.value;
         val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
+        //val_13.value = Md5.hashStr(cadenaValidacion).toString();
         val_13.name = 'val_13';
         multiPagosform.appendChild(val_13);
 
