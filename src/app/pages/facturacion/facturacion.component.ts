@@ -6,6 +6,7 @@ import { HelpersService } from '@serv/helpers.service';
 import { PaginateService } from '@serv/paginate.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { sha256 } from 'js-sha256';
+import { Md5 } from 'ts-md5/dist/md5';
 import { PdfService } from '@serv/pdf.service';
 
 @Component({
@@ -201,6 +202,8 @@ export class FacturacionComponent implements OnInit {
 
         const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
         val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
+        /*const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value.padStart(15, '0') + t_servicio.value;
+        val_13.value = Md5.hashStr(cadenaValidacion).toString();*/
         val_13.name = 'val_13';
         multiPagosform.appendChild(val_13);
 

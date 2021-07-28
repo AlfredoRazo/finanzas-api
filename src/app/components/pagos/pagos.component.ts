@@ -158,9 +158,6 @@ export class PagosComponent implements OnInit {
       default:
         break;
     }
-
-
-
   }
 
 }
