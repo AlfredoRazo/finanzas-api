@@ -4,8 +4,9 @@
 <hr class="red">
 
   <ul class="nav nav-tabs">
-    <li role="presentation" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Solicitudes de servicio</a></li>
-    <li role="presentation" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">Pagos</a></li>
+    <li role="presentation" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Consultas</a></li>
+    <li role="presentation" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">Solicitudes de servicio</a></li>
+    <li role="presentation" [class.active]="submenu==3"><a [routerLink]="" (click)="submenu=3">Pagos</a></li>
     
   </ul>
   <br>
@@ -13,7 +14,10 @@
   <ng-container [ngSwitch]="submenu">
     <div *ngSwitchCase="1">
       <app-pagos-table [parent]="'agenteaduanal'"></app-pagos-table>
-  <!--<form class="form-horizontal">
+    </div>
+    <div *ngSwitchCase="2">
+      
+  <form class="form-horizontal">
     <div class="form-group">
       <label class="col-sm-2 control-label" style="text-align: left !important;">Filtrar por: </label>
       <div class="col-sm-3">
@@ -56,9 +60,9 @@
     </tbody>
   </table>
   
-  <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>-->
+  <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>
     </div>
-    <div *ngSwitchCase="2"><app-pagos></app-pagos></div>
+    <div *ngSwitchCase="3"><app-pagos></app-pagos></div>
 </ng-container>
 
   <button type="button" class="btn btn-default" routerLink="/clientes">Regresar</button>

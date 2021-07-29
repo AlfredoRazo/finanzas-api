@@ -26,6 +26,7 @@ export class PagoSuccessComponent implements OnInit {
   estatus = 1;
   type = 0;
   ngOnInit(): void {
+    console.log(window.location.pathname);
     this.activeRoute.queryParams
       .subscribe(params => {
         switch (window.location.pathname) {
