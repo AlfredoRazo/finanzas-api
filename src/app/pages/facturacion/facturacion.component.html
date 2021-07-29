@@ -34,9 +34,11 @@
     <button type="button" class="btn btn-primary btn-sm" routerLink="nueva-consulta">Nueva consulta</button>
     <button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;"
       routerLink="consulta-por-tipo">Consulta por tipo</button>
+    <button class="btn btn-primary btn-sm" style="margin-left: 15px;" (click)="pagarMode()">Pagar</button>
+
     <br>
     <br>
-    <div class="table-responsive">
+    <div class="table-responsive" style="font-size: 0.65em;">
       <table class="table table-bordered table-striped">
         <thead style="white-space: nowrap;">
           <tr style="cursor: pointer;">
@@ -75,7 +77,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of data">
-            <td><input type="checkbox" [(ngModel)]="item.selected"></td>
+            <td style="vertical-align: middle;"><input type="checkbox" [(ngModel)]="item.selected"></td>
             <td>{{item.estatus}}</td>
             <td>{{item.noConsulta}}</td>
             <td>{{item.fechaConsulta}}</td>
@@ -96,11 +98,11 @@
       </table>
     </div>
     <br>
-    <button class="btn btn-primary" (click)="pagarMode()">Pagar</button>
+   
     <br>
-    <br>
-    <p>Registros encontrados: <b>{{total}}</b></p>
-    <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
+    <p>Registros encontrados: <b>{{totalPago}}</b></p>
+    <ngb-pagination [collectionSize]="totalPago" [pageSize]="collSize" [(page)]="pagePago"  (pageChange)="paginado($event)" [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
+  
   </div>
   <div *ngSwitchCase="2">
     <app-clientes-table></app-clientes-table>

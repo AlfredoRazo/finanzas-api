@@ -28,6 +28,7 @@ export class CfdiComponent implements OnInit {
   consulta = '';
   receptor = '';
   factura = '';
+  
 
 
   constructor(private http: HttpClient,

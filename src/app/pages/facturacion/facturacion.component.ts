@@ -43,7 +43,13 @@ export class FacturacionComponent implements OnInit {
   hoy = new Date();
   pagobbva: any = {};
   pagosantander: any = {};
-
+  totalPago = 0;
+  pagePago = 0;
+  filtro = false;
+  filterData:any = [];
+  originalData : any = [];
+  collSize = 50;
+  descPaginado = '';
   constructor(
     private http: HttpClient,
     private pagina: PaginateService,
@@ -57,20 +63,39 @@ export class FacturacionComponent implements OnInit {
   }
 
   checks(): void {
-    this.data = this.data.map((item: any) => { item.selected = this.checkAll; return item });
+    this.originalData = this.originalData.map((item: any) => { item.selected = this.checkAll; return item });
+    this.data = this.pagina.paginate(this.originalData, 10, this.pagePago);
+  }
 
+  paginado(evt: any = null): void {
+    if(this.filtro){
+      this.data = this.pagina.paginate(this.filterData, 10, this.pagePago);
+    }else{
+      this.data = this.pagina.paginate(this.originalData, 10, this.pagePago);
+    }
+    this.descripcionPaginado();
   }
 
   getData(): void {
     this.spinner.show();
     this.http.get(`${environment.endpoint}consultasDetalle`).subscribe((res: any) => {
       this.spinner.hide();
-      this.data = res[0].map((item: any) => {
+      this.originalData = res[0].map((item: any) => {
         item.selected = false;
         return item;
       });
-      this.total = res[0].length;
+      this.totalPago = res[0].length;
+      this.data = [...this.originalData];
+      this.data = this.pagina.paginate(res[0], this.collSize, this.pagePago);
+      this.descripcionPaginado();
     }, error => { this.spinner.hide() })
+  }
+
+  descripcionPaginado(): void {
+    var numberOfPages = Math.floor((this.totalPago + this.collSize - 1) / this.collSize);
+    var start = (this.pagePago * this.collSize) - (this.collSize - 1);
+    var end = Math.min(start + this.collSize - 1, this.totalPago);
+    this.descPaginado = `Registros del <b>${start}</b> al <b>${end}</b>`;
   }
 
   pagarMode(): void {
