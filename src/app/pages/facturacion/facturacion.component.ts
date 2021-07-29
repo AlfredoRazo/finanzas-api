@@ -42,6 +42,8 @@ export class FacturacionComponent implements OnInit {
   vigencia = '';
   totalApagar = 0;
   hoy = new Date();
+  pagobbva: any = {};
+  pagosantander: any = {};
 
   constructor(
     private http: HttpClient,
@@ -91,6 +93,8 @@ export class FacturacionComponent implements OnInit {
         this.referencia = res[0].lc;
         this.totalApagar = res[0].total;
         this.vigencia = res[0].vigencia;
+        this.pagobbva = res [1];
+        this.pagosantander = res[2];
         this.submenu = 6;
       }, error => {this.spinner.hide();
         this.referencia = '';
@@ -116,7 +120,7 @@ export class FacturacionComponent implements OnInit {
       convenio.value = '7164';
       convenio.name = 'convenio';
       multiPagosform.appendChild(convenio);
-      referencia.value = this.referencia;
+      referencia.value = this.pagosantander.refSantander;
       referencia.name = 'referencia';
       multiPagosform.appendChild(referencia);
       importe.value = this.totalApagar.toString();
@@ -151,39 +155,39 @@ export class FacturacionComponent implements OnInit {
         const val_11 = document.createElement('input');
         const val_12 = document.createElement('input');
         const val_13 = document.createElement('input');
-        const tsm = Math.floor(Date.now() / 1000)
-        s_transm.value = tsm.toString().padStart(20, '0');
+        
+        s_transm.value = this.pagobbva?.s_transm;
         s_transm.name = 's_transm';
         multiPagosform.appendChild(s_transm);
-        c_referencia.value = this.referencia.padStart(20, '0').slice(0,20);
+        c_referencia.value = this.pagobbva?.c_referencia;
         c_referencia.name = 'c_referencia';
         multiPagosform.appendChild(c_referencia);
 
-        val_1.value = '0';
+        val_1.value = this.pagobbva?.val_1;
         val_1.name = 'val_1';
         multiPagosform.appendChild(val_1);
 
-        t_servicio.value = '569';
+        t_servicio.value = this.pagobbva?.t_servicio;
         t_servicio.name = 't_servicio';
         multiPagosform.appendChild(t_servicio);
 
-        t_importe.value = this.totalApagar.toFixed(2).toString();
+        t_importe.value = this.pagobbva?.t_importe?.toFixed(2).toString();
         t_importe.name = 't_importe';
         multiPagosform.appendChild(t_importe);
 
-        val_2.value = '';
+        val_2.value = this.pagobbva?.val_2;
         val_2.name = 'val_2';
         multiPagosform.appendChild(val_2);
 
-        val_3.value = '1';
+        val_3.value = this.pagobbva?.val_3;
         val_3.name = 'val_3';
         multiPagosform.appendChild(val_3);
 
-        val_4.value = '1';
+        val_4.value = this.pagobbva?.val_4;
         val_4.name = 'val_4';
         multiPagosform.appendChild(val_4);
 
-        val_5.value = '1';
+        val_5.value = this.pagobbva?.val_5;
         val_5.name = 'val_5';
         multiPagosform.appendChild(val_5);
 
@@ -199,14 +203,14 @@ export class FacturacionComponent implements OnInit {
         val_12.name = 'val_12';
         multiPagosform.appendChild(val_12);
 
-        const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
-        val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
+        //const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
+        //val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
+        val_13.value = this.pagobbva?.val_13;
         val_13.name = 'val_13';
-        console.log(cadenaValidacion);
-        console.log(val_13.value);
+        
         multiPagosform.appendChild(val_13);
 
-        const mp_urlsuccess = document.createElement('input');
+        /*const mp_urlsuccess = document.createElement('input');
         mp_urlsuccess.value = 'http://pismzo.azurewebsites.net/pis/';
         mp_urlsuccess.name = 'mp_urlsuccess';
         multiPagosform.appendChild(mp_urlsuccess);
@@ -215,7 +219,7 @@ export class FacturacionComponent implements OnInit {
         mp_urlfailure.value = 'http://pismzo.azurewebsites.net/pis/';
         mp_urlfailure.name = 'mp_urlfailure';
         multiPagosform.appendChild(mp_urlfailure);
-    
+      */
         document.body.appendChild(multiPagosform);
         multiPagosform.submit();
     }

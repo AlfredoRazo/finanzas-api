@@ -91,7 +91,7 @@ export class PagosComponent implements OnInit {
         s_transm.name = 's_transm';
         multiPagosform.appendChild(s_transm);
 
-        c_referencia.value = this.referencia;
+        c_referencia.value = this.referencia.padEnd(20, '0').slice(0,20).toUpperCase();
         c_referencia.name = 'c_referencia';
         multiPagosform.appendChild(c_referencia);
 
@@ -136,7 +136,7 @@ export class PagosComponent implements OnInit {
         multiPagosform.appendChild(val_12);
 
         //const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
-        const cadenaValidacion = s_transm.value + c_referencia.value.padStart(20, '0').slice(0,20) + t_importe.value;
+        const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
         
         
         val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);

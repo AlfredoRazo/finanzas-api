@@ -4,13 +4,13 @@
       <input type="text" name="convenio" class="form-control" placeholder="Convenio" [(ngModel)]="convenio" required />
     </div>
     <div class="form-group col-md-6">
-      <input type="text" name="referencia" class="form-control" placeholder="Referencia" [(ngModel)]="referencia"
+      <input type="text" name="referencia" class="form-control" placeholder="Referencia" [(ngModel)]="referencia" maxlength="20"
         required />
     </div>
   </div>
   <div class="row">
     <div class="form-group col-md-6">
-      <input type="text" name="s_transm" class="form-control" placeholder="Secuencia de Transmisión" [(ngModel)]="bbvaPayload.s_transm" required />
+      <input type="text" name="s_transm" class="form-control" placeholder="Secuencia de Transmisión" [(ngModel)]="bbvaPayload.s_transm" maxlength="20" required />
     </div>
     <div class="form-group col-md-6">
       <input type="text" name="val_1" class="form-control" placeholder="Nivel 1 de Detalle" [(ngModel)]="bbvaPayload.val_1"
