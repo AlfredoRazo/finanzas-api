@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { sha256 } from 'js-sha256';
+import { generate } from 'shortid';
 import { Md5 } from 'ts-md5/dist/md5';
 
 @Component({
@@ -16,7 +17,7 @@ export class PagosComponent implements OnInit {
   banco = 'bbva';
 
   bbvaPayload = {
-    s_transm: '1'.padStart(20, '0'),
+    s_transm: generate().padStart(20, '0').toUpperCase(),
     c_referencia: '',
     val_1: '0',
     t_servicio: '569',
