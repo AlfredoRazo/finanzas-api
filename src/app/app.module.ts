@@ -36,6 +36,7 @@ import { CfdiComponent } from './components/cfdi/cfdi.component';
 import { PagosComponent } from './components/pagos/pagos.component';
 import { ClientesTableComponent } from './components/clientes-table/clientes-table.component';
 import { PagoSuccessComponent } from './pages/pago-success/pago-success.component';
+import { PagosTableComponent } from './components/pagos-table/pagos-table.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { PagoSuccessComponent } from './pages/pago-success/pago-success.componen
     CfdiComponent,
     PagosComponent,
     ClientesTableComponent,
-    PagoSuccessComponent
+    PagoSuccessComponent,
+    PagosTableComponent
   ],
   imports: [
     BrowserAnimationsModule,

@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'clientes/agente-aduanal/nueva-solicitud', component: AgenteNuevaSolicitudComponent, canActivate: [GuardService] },
   { path: 'clientes/naviera', component: NavieraComponent, canActivate: [GuardService] },
   { path: 'clientes/cesionario', component: CesionarioComponent, canActivate: [GuardService] },
-  { path: 'pago-success', component: PagoSuccessComponent },
+  { path: 'santander10', component: PagoSuccessComponent },
  /* { path: 'facturacion',
   loadChildren: () => import('./pages/facturacion/facturacion.module').then(m => m.FacturacionModule),
   canActivate: [GuardService] },*/

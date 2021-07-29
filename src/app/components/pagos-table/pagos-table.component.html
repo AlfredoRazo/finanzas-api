@@ -1,0 +1,227 @@
+<div *ngIf="!isPagar">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" style="text-align: left !important;">Filtrar por: </label>
+            <div class="col-sm-3">
+                <select class="form-control">
+                    <option *ngFor="let item of filter" [value]="item">{{item}}</option>
+                </select>
+            </div>
+            <div class="col-sm-5">
+                <input type="email" class="form-control" placeholder="Criterio">
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-danger btn-block btn-sm" type="button">Buscar <span
+                        class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            </div>
+        </div>
+    </form>
+    <br>
+    <ng-container *ngIf="parent === 'agenteaduanal'">
+        <button type="button" class="btn btn-primary btn-sm" routerLink="nueva-solicitud">Nueva solicitud</button>
+    </ng-container>
+    <ng-container *ngIf="parent === 'facturacion'">
+        <button type="button" class="btn btn-primary btn-sm" routerLink="nueva-consulta">Nueva consulta</button>
+        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;"
+        routerLink="consulta-por-tipo">Consulta por tipo</button>
+    </ng-container>
+    <button class="btn btn-primary btn-sm pull-right" (click)="pagarMode()">Pagar</button>
+
+
+    <br>
+    <br>
+    <div class="table-responsive" style="font-size: 0.65em;">
+        <table class="table table-bordered table-striped">
+            <thead style="white-space: nowrap;">
+                <tr style="cursor: pointer;">
+                    <th><input type="checkbox" [(ngModel)]="checkAll" (change)="checks()"></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="estatus">Estatus <span
+                            class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="noConsulta">Consulta de pago <span
+                            class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="fechaConsulta">Fecha de la consulta
+                        <span class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="tipoServicio">Tipo de servicio <span
+                            class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="factura">Factura <span
+                            class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="fechafactura">Fecha de la factura
+                        <span class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="cliente">Cliente <span
+                            class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="solicitante">Solicitante <span
+                            class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="UUID">UUID <span
+                            class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="subtotal">Subtotal <span
+                            class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="descuentos">Descuentos <span
+                            class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="iva">IVA <span
+                            class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="total">Total <span
+                            class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="fechaPago">Fecha de pago <span
+                            class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="referenciaPa">Referencia de pago <span
+                            class="glyphicon glyphicon-sort"></span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of data">
+                    <td style="vertical-align: middle;"><input type="checkbox" [(ngModel)]="item.selected"></td>
+                    <td>{{item.estatus}}</td>
+                    <td>{{item.noConsulta}}</td>
+                    <td>{{item.fechaConsulta}}</td>
+                    <td>{{item.tipoServicio}}</td>
+                    <td>{{item.factura}}</td>
+                    <td>{{item.fechafactura}}</td>
+                    <td>{{item.cliente}}</td>
+                    <td>{{item.solicitante}}</td>
+                    <td>{{item.UUID}}</td>
+                    <td>{{item.subtotal}}</td>
+                    <td>{{item.descuentos}}</td>
+                    <td>{{item.iva}}</td>
+                    <td>{{item.total}}</td>
+                    <td>{{item.fechaPago}}</td>
+                    <td>{{item.referenciaPago}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+
+    <br>
+    <p>Registros encontrados: <b>{{totalPago}}</b></p>
+    <ngb-pagination [collectionSize]="totalPago" [pageSize]="collSize" [(page)]="pagePago"
+        (pageChange)="paginado($event)" [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
+</div>
+<div *ngIf="isPagar">
+    <br>
+    <input type="text" class="form-control" placeholder="Consulta de pago">
+    <br>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Subtotal</th>
+                <th>Descuento</th>
+                <th>IVA</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of apagar">
+                <td>{{item.subtotal}}</td>
+                <td>{{item.descuentos}}</td>
+                <td>{{item.iva}}</td>
+                <td>{{item.total}}</td>
+            </tr>
+            <tr>
+                <td colspan="3">Total acumulado:</td>
+                <td>{{totalApagar | currency}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <h4>Selecciona el banco a pagar: </h4>
+    <br>
+    <table style="width: 100%;">
+        <tr>
+            <td><img style="cursor: pointer;" (click)="sendPago('santander',totalApagar.toString())"
+                    src="assets/img/bancos/santander.gif" /></td>
+            <td><img style="cursor: pointer;" (click)="sendPago('bbva',totalApagar.toString())"
+                    src="assets/img/bancos/bbva.gif" /></td>
+            <td><img style="cursor: pointer;" src="assets/img/bancos/spei.gif" /></td>
+            <td><img style="cursor: pointer;" src="assets/img/bancos/visa-master.gif" /></td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#recibo">Imprimir</button>
+    <button class="btn btn-primary btn-sm" style="margin-left: 10px;"
+        (click)="isPagar=false; apagar=[]; referencia = ''; vigencia = ''; totalApagar=0;">Cancelar</button>
+    <div class="modal fade bs-example-modal-lg" id="recibo" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Recibo</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="contenido-imprimir" style="font-size: 0.8em">
+                        <img src="assets/img/headerpdf.png" width="100%">
+                        <h4 style="text-align: center;">Referencia de Pago</h4>
+
+                        <br>
+                        <br>
+                        <table style="width: 100%;">
+                            <tr>
+                                <td><b>Código de Registro</b></td>
+                                <td>0014932</td>
+                                <td><b></b></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><b>Tipo Entidad</b></td>
+                                <td>Administración Portuaria</td>
+                                <td><b>Entidad</b></td>
+                                <td>API MANZANILLO</td>
+                            </tr>
+                            <tr>
+                                <td><b>Fecha</b></td>
+                                <td>{{hoy | date:'yyyy-MM-dd'}}</td>
+                                <td><b>Fecha Límite de Pago</b></td>
+                                <td>{{vigencia}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Estatus</b></td>
+                                <td>En proceso...</td>
+                                <td><b>Referencia</b></td>
+                                <td>{{referencia}}</td>
+                            </tr>
+                        </table>
+
+                        <br><br>
+                        <table style="width: 100%;">
+                            <tr>
+                                <th>Código</th>
+                                <th>Cliente</th>
+                                <th>Referencia</th>
+                                <th>Fecha</th>
+                                <th>Subtotal</th>
+                                <th>IVA</th>
+                                <th>Total</th>
+                            </tr>
+                            <tr *ngFor="let item of apagar">
+                                <td>{{item.noConsulta}}</td>
+                                <td>{{item.cliente}}</td>
+                                <td>{{item.noConsulta}}</td>
+                                <td>{{item.fechaConsulta}}</td>
+                                <td>{{item.subtotal}}</td>
+                                <td>{{item.iva}}</td>
+                                <td>{{item.total}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="6"></td>
+                                <td colspan="2"><b>{{totalApagar | currency}}</b></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                        <br>
+                        <br>
+                        <br>
+                        <h4>Información de pago</h4>
+                        <p><b>Válido para pagar únicamente en Santander</b></p>
+                        <p><b>Referencia {{referencia}}</b></p>
+                        <p><b>Convenio 7164</b></p>
+                        <p><b>Importe {{totalApagar | currency}}</b></p>
+                        <p><b>Fecha limite de pago {{vigencia}}</b></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click)="imprimir()">Imprimir</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
