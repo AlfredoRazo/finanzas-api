@@ -237,16 +237,16 @@ export class PagosTableComponent implements OnInit {
         
         multiPagosform.appendChild(val_13);
 
-        /*const mp_urlsuccess = document.createElement('input');
-        mp_urlsuccess.value = 'http://pismzo.azurewebsites.net/pis/';
+        const mp_urlsuccess = document.createElement('input');
+        mp_urlsuccess.value = environment.bbvaSuccessRes;
         mp_urlsuccess.name = 'mp_urlsuccess';
         multiPagosform.appendChild(mp_urlsuccess);
 
         const mp_urlfailure = document.createElement('input');
-        mp_urlfailure.value = 'http://pismzo.azurewebsites.net/pis/';
+        mp_urlfailure.value = environment.bbvaFailRes;
         mp_urlfailure.name = 'mp_urlfailure';
         multiPagosform.appendChild(mp_urlfailure);
-      */
+      
         document.body.appendChild(multiPagosform);
         multiPagosform.submit();
     }

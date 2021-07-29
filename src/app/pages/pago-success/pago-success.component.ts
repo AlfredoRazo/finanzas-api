@@ -47,7 +47,7 @@ export class PagoSuccessComponent implements OnInit {
             this.type = 2;
             break;
             case '/bbvaE10':
-              this.type = 2;
+              this.type = 3;
               break;
         
           default:
