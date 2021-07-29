@@ -30,7 +30,7 @@ export class PagoSuccessComponent implements OnInit {
     this.activeRoute.queryParams
       .subscribe(params => {
         switch (window.location.pathname) {
-          case '/santander10':
+          case '/finanzas-api/santander10':
             this.type = 1;
             this.estatus = params?.estatus;
             this.data.estatus = params?.estatus;
@@ -44,10 +44,10 @@ export class PagoSuccessComponent implements OnInit {
             });
             
             break;
-          case '/bbva10':
+          case '/finanzas-api/bbva10':
             this.type = 2;
             break;
-            case '/bbvaE10':
+            case '/finanzas-api/bbvaE10':
               this.type = 3;
               break;
         
