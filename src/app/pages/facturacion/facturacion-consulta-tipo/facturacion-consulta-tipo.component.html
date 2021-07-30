@@ -49,34 +49,28 @@
                 </select>
                 <span class="help-block" *ngIf="concepto.invalid && (concepto.dirty || concepto.touched)">Este campo es requerido</span>
             </div>
+            
+        </div>
+        <div class="row">
             <div class="form-group col-md-4"  [class.has-error]="nombreBuque.invalid && (nombreBuque.dirty || nombreBuque.touched)">
                 <ng-template #rt let-r="result" let-t="term">
                     <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
                 </ng-template>
                 <label class="control-label">Nombre del Buque</label>
-                <input type="text" class="form-control" name="nombreBuque" #nombreBuque="ngModel" [(ngModel)]="buque" [ngbTypeahead]="search"
+                <input type="text" class="form-control" name="nombreBuque" #nombreBuque="ngModel" [(ngModel)]="buque" [ngbTypeahead]="search" (ngModelChange)="buqueSelect()"
                     [inputFormatter]="formatter" [resultTemplate]="rt" >
                     <span class="help-block" *ngIf="nombreBuque.invalid && (nombreBuque.dirty || nombreBuque.touched)">Este campo es requerido</span>
             </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Tonelaje Neto</label>
+                <input class="form-control" name="tonelajeneto" [(ngModel)]="tonelajeNeto" />
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Eslora</label>
+                <input class="form-control" name="eslora" [(ngModel)]="eslora" />
+            </div>
+            
         </div>
-        <div class="row" *ngIf="isFecha">
-            <div class="form-group col-md-6">
-                <label class="control-label">Fecha Inicio</label>
-                <div class="datepicker-group">
-                    <input type="text" class="form-control" id="fecha-inis" [(ngModel)]="fechaini" name="fechaini">
-                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                </div>
-            </div>
-            <div class="form-group col-md-6">
-                <label class="control-label">Fecha Fin</label>
-                <div class="datepicker-group">
-
-                    <input type="text" class="form-control" id="fecha-fins" [(ngModel)]="fechafin" name="fechafin">
-                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                </div>
-            </div>
-
-        </div> 
         <div class="row">
             <div class="form-group col-md-4" [class.has-error]="cantidad.invalid && (cantidad.dirty || cantidad.touched)">
                 <label class="control-label">Cantidad</label>
@@ -91,7 +85,7 @@
         </div>
 </form>
 <br>
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregar-data" (click)="getDays()">Agregar <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregar-data" [disabled]="concepto.invalid || !buque?.tonelajeBruto">Agregar <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
   <br>
   <br>
 <div class="table-responsive">
@@ -141,6 +135,34 @@
           <h4 class="modal-title">Agregar</h4>
         </div>
         <div class="modal-body">
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="control-label">Concepto</label>
+                    <select class="form-control" [(ngModel)]="tabledat.concepto"  (ngModelChange)="selectConcepto($event)">
+                        <option *ngFor="let item of conceptos" [value]="item"> {{item}}</option>
+                    </select>
+                </div>
+    
+            </div>
+            <div class="row" >
+                <div class="form-group col-md-6">
+                    <label class="control-label">Fecha Inicio</label>
+                    <div class="datepicker-group">
+                        <input type="text" class="form-control" id="fecha-inis" [(ngModel)]="fechaini" name="fechaini">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label">Fecha Fin</label>
+                    <div class="datepicker-group">
+    
+                        <input type="text" class="form-control" id="fecha-fins" [(ngModel)]="fechafin" name="fechafin">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                    </div>
+                </div>
+    
+            </div> 
+
         <div class="row">
 
             <div class="form-group col-md-6">
@@ -182,15 +204,7 @@
                 </select>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="control-label">Concepto</label>
-                <select class="form-control" [(ngModel)]="tabledat.concepto" >
-                    <option *ngFor="let item of conceptos" [value]="item"> {{item}}</option>
-                </select>
-            </div>
-
-        </div>
+        
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
