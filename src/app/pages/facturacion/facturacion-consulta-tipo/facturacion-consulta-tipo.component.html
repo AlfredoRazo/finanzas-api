@@ -2,7 +2,7 @@
 <app-user></app-user>
 <h3>Consulta por tipo</h3>
 <hr class="red">
-<form>
+<form #formConsulta="ngForm">
 
     <div class="form-horizontal">
         <div class="form-group" [class.has-error]="solicitado.invalid && (solicitado.dirty || solicitado.touched)">
@@ -13,7 +13,7 @@
             <div class="col-sm-10">
                 <div class="input-group">
                 <input type="text" class="form-control" name="solicitado" #solicitado="ngModel" [(ngModel)]="solicitados" [ngbTypeahead]="searchCliente"
-                [inputFormatter]="formatter" [resultTemplate]="rts">
+                [inputFormatter]="formatter" [resultTemplate]="rts" required>
                 <div class="input-group-addon" *ngIf="!solicitados"></div>
                 <div class="input-group-addon" style="cursor: pointer;" *ngIf="solicitados" (click)="solicitados=null"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="input-group">
 
                     <input type="text" class="form-control" name="facturara" #facturara="ngModel" [(ngModel)]="facturaa" [ngbTypeahead]="searchCliente"
-                    [inputFormatter]="formatter" [resultTemplate]="rtf">
+                    [inputFormatter]="formatter" [resultTemplate]="rtf" required>
                     <div class="input-group-addon" *ngIf="!facturaa"></div>
                     <div class="input-group-addon" style="cursor: pointer;" *ngIf="facturaa" (click)="facturaa=null"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
                 
@@ -41,7 +41,7 @@
         </div>
     </div>
         
-        <div class="row">
+        <!--div class="row">
             <div class="form-group col-md-8" [class.has-error]="concepto.invalid && (concepto.dirty || concepto.touched)">
                 <label class="control-label">Concepto</label>
                 <select class="form-control" name="concepto" #concepto="ngModel" ngModel (ngModelChange)="selectConcepto($event)">
@@ -49,43 +49,23 @@
                 </select>
                 <span class="help-block" *ngIf="concepto.invalid && (concepto.dirty || concepto.touched)">Este campo es requerido</span>
             </div>
-            
-        </div>
-        <div class="row">
-            <div class="form-group col-md-4"  [class.has-error]="nombreBuque.invalid && (nombreBuque.dirty || nombreBuque.touched)">
-                <ng-template #rt let-r="result" let-t="term">
-                    <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
-                </ng-template>
-                <label class="control-label">Nombre del Buque</label>
-                <input type="text" class="form-control" name="nombreBuque" #nombreBuque="ngModel" [(ngModel)]="buque" [ngbTypeahead]="search" (ngModelChange)="buqueSelect()"
-                    [inputFormatter]="formatter" [resultTemplate]="rt" >
-                    <span class="help-block" *ngIf="nombreBuque.invalid && (nombreBuque.dirty || nombreBuque.touched)">Este campo es requerido</span>
-            </div>
-            <div class="form-group col-md-4">
-                <label class="control-label">Tonelaje Neto</label>
-                <input class="form-control" name="tonelajeneto" [(ngModel)]="tonelajeNeto" />
-            </div>
-            <div class="form-group col-md-4">
-                <label class="control-label">Eslora</label>
-                <input class="form-control" name="eslora" [(ngModel)]="eslora" />
-            </div>
-            
-        </div>
-        <div class="row">
+        </div-->
+        
+        <!--div class="row">
             <div class="form-group col-md-4" [class.has-error]="cantidad.invalid && (cantidad.dirty || cantidad.touched)">
                 <label class="control-label">Cantidad</label>
-                <input class="form-control" name="cantidad" #cantidad="ngModel" ngModel />
+                <input class="form-control" name="cantidad" #cantidad="ngModel" ngModel required/>
                 <span class="help-block" *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)">Este campo es requerido</span>
             </div>
             <div class="form-group col-md-4" [class.has-error]="total.invalid && (total.dirty || total.touched)">
                 <label class="control-label">Total</label>
-                <input class="form-control" name="total" #total="ngModel" ngModel />
+                <input class="form-control" name="total" #total="ngModel" ngModel required/>
                 <span class="help-block" *ngIf="total.invalid && (total.dirty || total.touched)">Este campo es requerido</span>
             </div>
-        </div>
+        </div-->
 </form>
 <br>
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregar-data" [disabled]="concepto.invalid || !buque?.tonelajeBruto">Agregar <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregar-data" >Agregar <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
   <br>
   <br>
 <div class="table-responsive">
@@ -107,6 +87,8 @@
                         class="glyphicon glyphicon-sort"></span></th>
                 <th scope="col" [appSort]="data" data-order="desc" data-name="producto">Concepto<span
                         class="glyphicon glyphicon-sort"></span></th>
+                        <th scope="col" [appSort]="data" data-order="desc" data-name="material">Material<span
+                            class="glyphicon glyphicon-sort"></span></th>
             </tr>
         </thead>
         <tbody>
@@ -115,19 +97,29 @@
                 <td>{{item.cantidad}}</td>
                 <td>{{item.cantidadunidad}}</td>
                 <td>{{item.volumen}}</td>
-                <td>{{item.volumenunidad}}</td>
+                <td>{{item.unidadvolumen}}</td>
                 <td>{{item.peso}}</td>
-                <td>{{item.pesounidad}}</td>
+                <td>{{item.unidadpeso}}</td>
                 <td>{{item.concepto}}</td>
+                <td>{{item.material}}</td>
             </tr>
         </tbody>
     </table>
 </div>
+<br>
+<div class="alert alert-danger" *ngIf="hasError">
+    No se pudo guardar su información
+</div>
+<div class="alert alert-success" *ngIf="success">
+    Se guardo correctamente, número de consulta : {{noConsulta}}
+</div>
 <div class="row top-buffer">
     <div class="col-md-12">
         <button type="button" class="btn btn-default" routerLink="/facturacion">Regresar</button>
+        <button type="button" class="btn btn-primary" (click)="generarPago()" style="margin-left: 15px;" [disabled]="data.length == 0">Generar Pago</button>
     </div>
 </div>
+
 <div class="modal fade" id="agregar-data">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -136,13 +128,42 @@
         </div>
         <div class="modal-body">
             <div class="row">
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-4">
+                    <label class="control-label">B/L</label>
+                    <input class="form-control" name="tonelajeneto" [(ngModel)]="bl" />
+                </div>
+                <div class="form-group col-md-4">
                     <label class="control-label">Concepto</label>
-                    <select class="form-control" [(ngModel)]="tabledat.concepto"  (ngModelChange)="selectConcepto($event)">
-                        <option *ngFor="let item of conceptos" [value]="item"> {{item}}</option>
+                    <select class="form-control" [(ngModel)]="concepto"  (ngModelChange)="selectConcepto($event)">
+                        <option *ngFor="let item of conceptos" [value]="item.clave"> {{item.valor1}}</option>
                     </select>
                 </div>
+                <div class="form-group col-md-4"  [class.has-error]="nombreBuque.invalid && (nombreBuque.dirty || nombreBuque.touched)">
+                    <ng-template #rt let-r="result" let-t="term">
+                        <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
+                    </ng-template>
+                    <label class="control-label">Nombre del Buque</label>
+                    <input type="text" class="form-control" name="nombreBuque" #nombreBuque="ngModel" [(ngModel)]="buque" [ngbTypeahead]="search" (ngModelChange)="buqueSelect()"
+                        [inputFormatter]="formatter" [resultTemplate]="rt" >
+                        <span class="help-block" *ngIf="nombreBuque.invalid && (nombreBuque.dirty || nombreBuque.touched)">Este campo es requerido</span>
+                </div>
     
+            </div>
+            <div class="row">
+                
+                <div class="form-group col-md-4">
+                    <label class="control-label">Tonelaje Neto</label>
+                    <input class="form-control" name="tonelajeneto" [(ngModel)]="tonelajeNeto" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Tonelaje Muerto</label>
+                    <input class="form-control" name="tonelajebruto" [(ngModel)]="tonelajeMuerto" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Eslora</label>
+                    <input class="form-control" name="eslora" [(ngModel)]="eslora" />
+                </div>
+                
             </div>
             <div class="row" >
                 <div class="form-group col-md-6">
@@ -171,7 +192,7 @@
             </div>
             <div class="form-group col-md-6">
                 <label class="control-label">Cantidad Unidad</label>
-                <select class="form-control" [(ngModel)]="tabledat.cantidadunidad">
+                <select class="form-control" [(ngModel)]="tabledat.unidadcantidad">
                     <option *ngFor="let item of unidadesmedida" [value]="item.clave"> {{item.valor1}} - {{item.valor2}}</option>
                 </select>
                 
@@ -185,7 +206,7 @@
             </div>
             <div class="form-group col-md-6">
                 <label class="control-label">Volumen Unidad</label>
-                <select class="form-control" [(ngModel)]="tabledat.volumenunidad">
+                <select class="form-control" [(ngModel)]="tabledat.unidadvolumen">
                     <option *ngFor="let item of unidadesmedida" [value]="item.clave"> {{item.valor1}} - {{item.valor2}}</option>
                 </select>
                
@@ -199,7 +220,7 @@
             </div>
             <div class="form-group col-md-6">
                 <label class="control-label">Peso Unidad</label>
-                <select class="form-control" [(ngModel)]="tabledat.pesounidad">
+                <select class="form-control" [(ngModel)]="tabledat.unidadpeso">
                     <option *ngFor="let item of unidadesmedida" [value]="item.clave"> {{item.valor1}} - {{item.valor2}}</option>
                 </select>
             </div>

@@ -7,12 +7,13 @@ import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 declare var $: any;
 export interface FacturaForm {
+  material: string;
   cantidad: string;
-  cantidadunidad: string;
+  unidadcantidad: string;
   volumen: string;
-  volumenunidad: string;
+  unidadvolumen: string;
   peso: string;
-  pesounidad: string;
+  unidadpeso: string;
   concepto: string;
 }
 @Component({
@@ -33,7 +34,13 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   fechaini:any;
   fechafin:any;
   tonelajeNeto = '';
+  tonelajeMuerto = '';
   eslora = '';
+  concepto = '';
+  bl = '';
+  hasError = false;
+  success = false;
+  noConsulta= '';
   search:any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -76,11 +83,9 @@ export class FacturacionConsultaTipoComponent implements OnInit {
     },err =>{this.spinner.hide()});
   }
   getConceptos(): void{
-    this.spinner.show();
-    this.http.get(`${environment.endpoint}conceptos`).subscribe( (res: any) => {
-      
-      this.conceptos = res;
-      this.spinner.hide();
+  
+    this.http.get(`${environment.endpoint}sapcatalogos?catalogo=materiales`).subscribe( (res: any) => {
+      this.conceptos = res.valores;
     },err =>{this.spinner.hide()});
   }
   getUnidadesMedida(): void{
@@ -90,35 +95,37 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   }
 
   selectConcepto(value: any){
-    switch (value) {
-      case 'ALMACENAJE':
-      case 'SERVICIO PORTUARIO DE ADMINISTRACION':
+    this.concepto = value;
+    switch (value.trim()) {  
+      case '000000000000000003':
+      case '000000000000000060':
         this.isFecha =true;
-        this.tabledat.cantidadunidad = '10';
-        this.tabledat.pesounidad = 'KG';
+        this.tabledat.unidadcantidad = '10';
+        this.tabledat.unidadpeso = 'KG';
         break;
-      case 'MUELLAJE':
-        this.tabledat.cantidadunidad = 'ST';
-        this.tabledat.pesounidad = 'TO';
+      case '000000000000000004':
+        this.tabledat.unidadcantidad = 'ST';
+        this.tabledat.unidadpeso = 'TO';
         this.isFecha =false;
         break;
-      case 'PUERTO FIJO':
-      case 'PUERTO FIJO CUYUTLAN':
+      case '000000000000000001':
+      case '000000000000000063':
         this.isFecha =true;
-        this.tabledat.cantidadunidad = '10';
-        this.tabledat.volumenunidad = 'M/E';
-        this.tabledat.pesounidad = 'TRB';
+        this.tabledat.unidadcantidad = '10';
+        this.tabledat.unidadvolumen = 'M/E';
+        this.tabledat.unidadpeso = 'TRB';
         break;
-      case 'PUERTO VARIABLE CUYUTLAN':
-        this.tabledat.cantidadunidad = 'H';
-        this.tabledat.volumenunidad = 'M/E';
-        this.tabledat.pesounidad = 'TRB';
+      case '000000000000000018':
+      case '000000000000000064':
+        this.tabledat.unidadcantidad = 'H';
+        this.tabledat.unidadvolumen = 'M/E';
+        this.tabledat.unidadpeso = 'TRB';
         this.isFecha =false;
         break;
-      case 'ATRAQUE':
-        this.tabledat.cantidadunidad = 'H';
-        this.tabledat.volumenunidad = 'M/E';
-        this.tabledat.pesounidad = 'KG';
+      case '000000000000000002':
+        this.tabledat.unidadcantidad = 'H';
+        this.tabledat.unidadvolumen = 'M/E';
+        this.tabledat.unidadpeso = 'KG';
         this.isFecha =false;
         break;
   
@@ -130,6 +137,9 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   }
 
   guardarData(): void{
+    const concepto = this.conceptos.find(item =>{ return item.clave == this.concepto});
+    this.tabledat.concepto = concepto.valor1;
+    this.tabledat.material = this.concepto;
     this.data.push(this.tabledat);
     this.tabledat = {} as FacturaForm;
   }
@@ -166,8 +176,44 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   buqueSelect(): void{
     if(this.buque.tonelajeBruto){
       this.tonelajeNeto = this.buque.tonelajeNeto;
+      this.tonelajeMuerto = this.buque?.tonelajeMuerto;
       this.eslora = this.buque.eslora;
-      this.tabledat.peso = this.buque?.tonelajeBruto;
+      this.tabledat.peso = this.buque?.tonelajeBruto?.toString();
     }
+  }
+
+  generarPago(): void{
+    this.spinner.show();
+    const payload = {
+        detalle: this.data,
+        tipo: parseInt(this.concepto),
+        clienteSolicita: this.solicitados?.claveSAP,
+        clientefacturar: this.facturaa?.claveSAP,
+        nombrebuque: this.buque?.nombre,
+        numeroviaje: "1",
+        workorder: "",
+        aduana: "",
+        bl: this.bl,
+        fechaentrada: this.fechaini,
+        fechasalida: this.fechafin,
+        pedimento: "",
+        recinto: "",
+        tramo: ""
+    };
+    console.log(payload);
+  
+    this.http.post(`${environment.endpointApi}facturacionGenerarOrden`,payload).subscribe((res: any) =>{
+      this.spinner.hide();
+      console.log(res);
+      if(res[0]?.error == 1){
+        this.hasError = true;
+        this.success = false;
+      }else{
+        this.hasError = false
+        this.success =true;
+        this.noConsulta =  res[0].noConsulta;
+        this.data = [];
+      }
+    },error =>{this.spinner.hide();});
   }
 }
