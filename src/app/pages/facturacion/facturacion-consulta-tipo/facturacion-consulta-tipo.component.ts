@@ -5,6 +5,7 @@ import { AuthService } from '@serv/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+declare var $: any;
 export interface FacturaForm {
   cantidad: string;
   cantidadunidad: string;
@@ -28,6 +29,9 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   data: any[] = [];
   buque: any;
   buques: any[] = [];
+  isFecha = false;
+  fechaini:any;
+  fechafin:any;
   search:any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -60,6 +64,7 @@ export class FacturacionConsultaTipoComponent implements OnInit {
     this.getUnidadesMedida();
     this.getBuques();
     
+    
   }
   getClientes(): void{
     this.spinner.show();
@@ -81,6 +86,50 @@ export class FacturacionConsultaTipoComponent implements OnInit {
       this.unidadesmedida = res.valores;
     });
   }
+
+  selectConcepto(value: any){
+    switch (value) {
+      case 'ALMACENAJE':
+      case 'SERVICIO PORTUARIO DE ADMINISTRACION':
+        this.isFecha =true;
+        this.tabledat.cantidadunidad = '10';
+        this.tabledat.pesounidad = 'KG';
+    
+        this.initDatePickers();
+        break;
+      case 'MUELLAJE':
+        this.tabledat.cantidadunidad = 'ST';
+        this.tabledat.pesounidad = 'TO';
+        this.isFecha =false;
+        break;
+      case 'PUERTO FIJO':
+      case 'PUERTO FIJO CUYUTLAN':
+        this.isFecha =true;
+        this.tabledat.cantidadunidad = '10';
+        this.tabledat.volumenunidad = 'M/E';
+        this.tabledat.pesounidad = 'TRB';
+        this.initDatePickers();
+        break;
+      case 'PUERTO VARIABLE CUYUTLAN':
+        this.tabledat.cantidadunidad = 'H';
+        this.tabledat.volumenunidad = 'M/E';
+        this.tabledat.pesounidad = 'TRB';
+        this.isFecha =false;
+        break;
+      case 'ATRAQUE':
+        this.tabledat.cantidadunidad = 'H';
+        this.tabledat.volumenunidad = 'M/E';
+        this.tabledat.pesounidad = 'KG';
+        this.isFecha =false;
+        break;
+  
+      default:
+        this.isFecha =false;
+        break;
+    }
+
+  }
+
   guardarData(): void{
     this.data.push(this.tabledat);
     this.tabledat = {} as FacturaForm;
@@ -98,5 +147,23 @@ export class FacturacionConsultaTipoComponent implements OnInit {
       this.buques = res.valor;
     },error =>{});
   }
-
+  
+  async initDatePickers(){  
+    await this.delay(10);
+    $('#fecha-inis').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaini = date } });
+    $('#fecha-fins').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechafin = date } });
+  }
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+  getDays(){
+    if(this.fechaini && this.fechafin && this.isFecha){
+      var date1 = new Date(this.fechaini);
+      var date2 = new Date(this.fechafin);
+      this.tabledat.peso = this.buque?.tonelajeBruto;
+      var Difference_In_Time = date2.getTime() - date1.getTime();
+      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+      this.tabledat.cantidad = Difference_In_Days.toString();
+    }
+  }
 }

@@ -117,7 +117,7 @@ export class PagosTableComponent implements OnInit {
       this.http.post(`${environment.endpointApi}referenciaGenerar`, payload).subscribe((res: any) =>{
         this.spinner.hide();
         this.isPagar = true;
-        this.referencia = res[0].lc;
+        this.referencia = res[0].referencia;
         this.totalApagar = res[0].total;
         this.vigencia = res[0].vigencia;
         this.pagobbva = res [1];

@@ -26,11 +26,14 @@ export class PagoSuccessComponent implements OnInit {
   estatus = 1;
   type = 0;
   ngOnInit(): void {
-    console.log(window.location.pathname);
     this.activeRoute.queryParams
       .subscribe(params => {
-        switch (window.location.pathname) {
-          case '/finanzas-api/santander10':
+        /*switch (window.location.pathname) {
+          case '/santander10':*/
+            let valores = '';
+            Object.entries(params).forEach(item => {
+              valores += `${item[0]}:${item[0]}|`
+            })
             this.type = 1;
             this.estatus = params?.estatus;
             this.data.estatus = params?.estatus;
@@ -38,12 +41,13 @@ export class PagoSuccessComponent implements OnInit {
             this.data.folio = params?.folio_oper;
             this.data.nombre = params?.nomUsuario;
             this.data.referencia = params?.referencia;
+            this.data.valores = valores;
             this.data.fecha = `${params?.fecha} ${params?.hora}`;
             this.data.importe = params?.importe;
             this.http.post(`${environment.endpointApi}bancosRespuesta`, this.data).subscribe((resBanco: any) => {
             });
             
-            break;
+           /* break;
           case '/finanzas-api/bbva10':
             this.type = 2;
             break;
@@ -53,7 +57,7 @@ export class PagoSuccessComponent implements OnInit {
         
           default:
             break;
-        }
+        }*/
        
 
       });
