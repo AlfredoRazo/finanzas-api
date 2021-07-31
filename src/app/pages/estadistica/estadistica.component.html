@@ -2,53 +2,74 @@
 <app-user></app-user>
 <h3>Estadística</h3>
 <hr class="red">
-<table class="table table-bordered">
-  <thead>
-    <tr style="cursor: pointer">
-      <th scope="col" [appSort]="data" data-order="desc" data-name="idedohechos">ID <span class="glyphicon glyphicon-sort"></span></th>
-      <th scope="col" [appSort]="data" data-order="desc" data-name="fecha">Fecha <span class="glyphicon glyphicon-sort"></span></th>
-      <th scope="col" [appSort]="data" data-order="desc" data-name="empresaNombre">Empresa <span class="glyphicon glyphicon-sort"></span></th>
-      <th scope="col" [appSort]="data" data-order="desc" data-name="tipotrafico">Tipo <span class="glyphicon glyphicon-sort"></span></th>
-      <th scope="col" [appSort]="data" data-order="desc" data-name="solicitudEstado">Estado <span class="glyphicon glyphicon-sort"></span></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of data">
-      <td >{{item.idedohechos}}</td>
-      <td>{{item.fecha | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
-      <td>{{item.empresaNombre}}</td>
-      <td>{{item.tipotrafico}}</td>
-      <td>{{item.solicitudEstado == 0 ? 'Sin atender' : item.solicitudEstado}}</td>
-      <td><button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#detalle" (click)="setEntries(item)">Ver detalle</button></td>
-    </tr>
-  </tbody>
-</table>
+<ul class="nav nav-tabs">
+  <li role="presentation" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Estadistica</a>
+  </li>
+  <li role="presentation" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">Consultas</a></li>
+</ul>
+<br>
+<container-element [ngSwitch]="submenu">
+  <div *ngSwitchCase="1">
+    <table class="table table-bordered">
+      <thead>
+        <tr style="cursor: pointer">
+          <th scope="col" [appSort]="data" data-order="desc" data-name="idedohechos">ID <span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="data" data-order="desc" data-name="fecha">Fecha <span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="data" data-order="desc" data-name="empresaNombre">Empresa <span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="data" data-order="desc" data-name="tipotrafico">Tipo <span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="data" data-order="desc" data-name="solicitudEstado">Estado <span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data">
+          <td>{{item.idedohechos}}</td>
+          <td>{{item.fecha | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+          <td>{{item.empresaNombre}}</td>
+          <td>{{item.tipotrafico}}</td>
+          <td>{{item.solicitudEstado == 0 ? 'Sin atender' : item.solicitudEstado}}</td>
+          <td><button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#detalle"
+              (click)="setEntries(item)">Ver detalle</button></td>
+        </tr>
+      </tbody>
+    </table>
 
-<div class="modal fade" id="detalle">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Detalle</h4>
-      </div>
-      <div class="modal-body">
-        <table class="table table-striped">
-          <tbody>
-            <tr *ngFor="let item of detalle">
-              <td><b>{{item[0] | titlecase}}:</b></td>
-              <td>{{item[1]}}</td>  
-            </tr>
-          </tbody>
+    <div class="modal fade" id="detalle">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Detalle</h4>
+          </div>
+          <div class="modal-body">
+            <table class="table table-striped">
+              <tbody>
+                <tr *ngFor="let item of detalle">
+                  <td><b>{{item[0] | titlecase}}:</b></td>
+                  <td>{{item[1]}}</td>
+                </tr>
+              </tbody>
 
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <!--button type="button" class="btn btn-primary">Guardar</button-->
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <!--button type="button" class="btn btn-primary">Guardar</button-->
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
+    <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>
+  </div>
+  <div *ngSwitchCase="2">
+    <app-pagos-table [parent]="'estadistica'"></app-pagos-table>
+  </div>
+</container-element>
+<br>
+
 <button type="button" class="btn btn-default" routerLink="/main">Regresar</button>

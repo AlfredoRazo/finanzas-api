@@ -10,6 +10,7 @@ import { NgxSpinnerService } from "ngx-spinner";
   styleUrls: ['./estadistica.component.css']
 })
 export class EstadisticaComponent implements OnInit {
+  submenu = 1;
   page = 1;
   data: any = [];
   detalle: any;

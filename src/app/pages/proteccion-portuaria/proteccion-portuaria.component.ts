@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProteccionPortuariaComponent implements OnInit {
   page = 1;
+  submenu = 1;
   data = [
     {
       id: 123,

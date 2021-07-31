@@ -3,9 +3,14 @@
 <h3>Protección portuaria</h3>
 <hr class="red">
 <ul class="nav nav-tabs">
-    <li class="active"><a [routerLink]="">Detalle de pagos</a></li>
+  <li class="active" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Detalle de pagos</a></li>
+  <li class="active" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">Consultas</a></li>
 </ul>
 <br>
+<br>
+<container-element [ngSwitch]="submenu">
+
+  <div *ngSwitchCase="1">
 <button class="btn btn-primary btn-sm" routerLink="generar-consulta">Generar consulta</button><br><br>
 <form class="form-horizontal">
     <div class="form-group">
@@ -43,11 +48,17 @@
       <td>{{item.fecha}}</td>
       <td>{{item.empresa}}</td>
       <td>{{item.concepto}}</td>
-      <td>{{item.total | currency}}</td>
+      <td>{{item.total}}</td>
       <td>{{item.estado}}</td>
     </tr>
   </tbody>
 </table>
 
-<ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
+<ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>
+  </div>
+  <div *ngSwitchCase="2">
+    <app-pagos-table [parent]="'proteccionportuaria'"></app-pagos-table>
+  </div>
+</container-element>
+<br>
 <button type="button" class="btn btn-default" routerLink="/main">Regresar</button>

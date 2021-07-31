@@ -5,6 +5,7 @@
 <ul class="nav nav-tabs">
   <li role="presentation" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Listado de pagos</a></li>
   <li role="presentation" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">Pagos</a></li>
+  <li role="presentation" [class.active]="submenu==3"><a [routerLink]="" (click)="submenu=3">Consultas</a></li>
 </ul>
 <br>
 <br>
@@ -63,6 +64,9 @@
   <div *ngSwitchCase="2">
    <app-pagos></app-pagos>
     <br>
+  </div>
+  <div *ngSwitchCase="3">
+    <app-pagos-table [parent]="'operaciones'"></app-pagos-table>
   </div>
 </container-element>
 <button type="button" class="btn btn-default" routerLink="/main">Regresar</button>
