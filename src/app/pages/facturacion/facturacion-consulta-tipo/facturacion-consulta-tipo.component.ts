@@ -105,7 +105,7 @@ export class FacturacionConsultaTipoComponent implements OnInit {
         break;
       case '000000000000000004':
         this.tabledat.unidadcantidad = 'ST';
-        this.tabledat.unidadpeso = 'TO';
+        this.tabledat.unidadpeso = 'KG';
         this.isFecha =false;
         break;
       case '000000000000000001':
@@ -169,7 +169,7 @@ export class FacturacionConsultaTipoComponent implements OnInit {
       var date1 = new Date(this.fechaini);
       var date2 = new Date(this.fechafin);
       var Difference_In_Time = date2.getTime() - date1.getTime();
-      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+      var Difference_In_Days = (Difference_In_Time / (1000 * 3600 * 24)) + 1;
       this.tabledat.cantidad = Difference_In_Days.toString();
     }
   }
