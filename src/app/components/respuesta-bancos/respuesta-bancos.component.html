@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group datepicker-group">
+            <input type="text" class="form-control" id="fecha-inis" placeholder="Fecha Inicio" [(ngModel)]="fechaini"
+                name="fechaini">
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group datepicker-group">
+            <input type="text" class="form-control" id="fecha-fins" placeholder="Fecha Fin" [(ngModel)]="fechafin"
+                name="fechafin">
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <button type="button" class="btn btn-primary btn-sm" (click)="getData()" [disabled]="!fechaini || !fechafin">Buscar <span class="glyphicon glyphicon-search"
+            aria-hidden="true"></span></button>
+
+    </div>
+</div>
+<br>
+<div class="table-responsive">
+    <table class="table table-bordered table-stripped">
+        <thead style="white-space: nowrap;">
+            <tr style="cursor: pointer;">
+                <th scope="col" [appSort]="data" data-order="desc" data-name="consulta">Empresa <span
+                    class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data"  data-order="desc" data-name="banco">Banco <span
+                    class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data"  data-order="desc" data-name="fecha">Fecha <span
+                    class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data"  data-order="desc" data-name="referencia">Referencia <span
+                      class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data"  data-order="desc" data-name="total">Total <span
+                    class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data"  data-order="desc" data-name="mensaje">Mensaje <span
+                        class="glyphicon glyphicon-sort"></span></th>
+              </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data">
+                <td>{{item.empresa}}</td>
+                <td>{{item.banco}}</td>
+                <td>{{item.fecha}}</td>
+                <td>{{item.referencia}}</td>
+                <td>{{item.total}}</td>
+                <td>{{item.mensaje}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

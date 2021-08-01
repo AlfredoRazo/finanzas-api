@@ -17,14 +17,8 @@
         </div>
     </form>
     <br>
-    <ng-container *ngIf="parent === 'agenteaduanal'">
-        <button type="button" class="btn btn-primary btn-sm" routerLink="nueva-solicitud">Nueva solicitud</button>
-    </ng-container>
-    <ng-container *ngIf="parent === 'facturacion'">
-        <button type="button" class="btn btn-primary btn-sm" routerLink="nueva-consulta">Nueva consulta</button>
-        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;"
-        routerLink="consulta-por-tipo">Consulta por tipo</button>
-    </ng-container>
+    <button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;"
+        routerLink="consulta-por-tipo">Generar Consulta</button>
     <button class="btn btn-primary btn-sm pull-right" (click)="pagarMode()">Pagar</button>
 
 
