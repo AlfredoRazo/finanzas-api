@@ -43,6 +43,7 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   indexEdit: any;
   dataEdit: any;
   noConsulta = '';
+  cantidadPiezas = '';
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
