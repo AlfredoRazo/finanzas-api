@@ -92,6 +92,14 @@ export class GuardService implements CanActivate {
           return false;
         }
         break;
+      case 'CLIENTES':
+        if (route.url[1]?.path == 'cliente') {
+          return this.auth.isAuthenticated();
+        } else {
+          this.router.navigate(['/clientes/cliente']);
+          return false;
+        }
+        break;
       case 'ADMIN':
         return this.auth.isAuthenticated();
         break;

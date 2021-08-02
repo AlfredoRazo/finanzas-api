@@ -58,7 +58,7 @@ export class RoleService {
       case 1301:
         return 'PPORTUARIA';
       case 1401:
-        return 'FINANZAS';
+        return 'CLIENTES';
       case 2001:
         return 'RECINTO';
       case 2101:
