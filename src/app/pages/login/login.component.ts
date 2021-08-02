@@ -63,7 +63,6 @@ export class LoginComponent implements OnInit {
                   rfc: res.valor.empresa_Rfc,
                   catToken: rescat.valor
                 }
-                
                 this.authService.setSession({ token: environment.appKey, userData: user });
                 this.role.reditecByRole(rol);
               }, error => {

@@ -38,6 +38,9 @@ export class RoleService {
       case 'CESIONARIO':
         this.router.navigate(['/clientes/cesionario']);
         break;
+      case 'CLIENTES':
+          this.router.navigate(['/clientes/cliente']);
+        break;
       case 'ADMIN':
         this.router.navigate(['/main']);
         break;
@@ -48,6 +51,7 @@ export class RoleService {
   }
 
   getRolById(id: any): string {
+    console.log(id);
     switch (id) {
       case 1001:
         return 'FINANZAS';
