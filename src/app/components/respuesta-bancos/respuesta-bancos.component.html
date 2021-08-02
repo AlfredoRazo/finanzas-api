@@ -50,3 +50,6 @@
         </tbody>
     </table>
 </div>
+<p>Registros encontrados: <b>{{total}}</b></p>
+<ngb-pagination [collectionSize]="total" [pageSize]="collSize" [(page)]="page"
+    (pageChange)="paginado($event)" [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
