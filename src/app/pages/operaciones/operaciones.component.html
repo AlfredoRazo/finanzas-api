@@ -3,15 +3,15 @@
 <h3>Operaciones</h3>
 <hr class="red">
 <ul class="nav nav-tabs">
-  <li role="presentation" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Listado de pagos</a></li>
+  <!--li role="presentation" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Listado de pagos</a></li-->
   <!--li role="presentation" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">Pagos</a></li-->
-  <li role="presentation" [class.active]="submenu==3"><a [routerLink]="" (click)="submenu=3">Consultas</a></li>
-  <li role="presentation" [class.active]="submenu==4"><a [routerLink]="" (click)="submenu=4">CFDI</a></li>
+  <li role="presentation" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Consultas</a></li>
+  <li role="presentation" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">CFDI</a></li>
 </ul>
 <br>
 <br>
 <container-element [ngSwitch]="submenu">
-
+<!--
   <div *ngSwitchCase="1">
     <form class="form-horizontal">
       <div class="form-group">
@@ -66,10 +66,11 @@
    <app-pagos></app-pagos>
     <br>
   </div>
-  <div *ngSwitchCase="3">
+-->
+  <div *ngSwitchCase="1">
     <app-pagos-table [parent]="'operaciones'"></app-pagos-table>
   </div>
-  <div *ngSwitchCase="4">
+  <div *ngSwitchCase="2">
     <app-cfdi></app-cfdi>
   </div>
 </container-element>
