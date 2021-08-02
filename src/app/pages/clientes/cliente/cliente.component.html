@@ -1,0 +1,15 @@
+<app-nav></app-nav>
+<app-user></app-user>
+<h3>Clientes</h3>
+<hr class="red">
+<ul class="nav nav-tabs">
+  <li [class.active]="submenu==1" ><a [routerLink]="" (click)="submenu=1">Pagos</a></li>
+</ul>
+<br>
+<container-element [ngSwitch]="submenu">
+  <div *ngSwitchCase="1">
+<app-pagos-table [parent]="'cliente'"></app-pagos-table>
+  </div>
+   
+ </container-element>
+ <button type="button" class="btn btn-default" routerLink="/clientes">Regresar</button>

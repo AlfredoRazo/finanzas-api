@@ -18,8 +18,8 @@
     </form>
     <br>
     <button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;"
-        routerLink="consulta-por-tipo">Generar Consulta</button>
-    <button class="btn btn-primary btn-sm pull-right" (click)="pagarMode()">Pagar</button>
+        routerLink="consulta-por-tipo" *ngIf="parent != 'maniobrista' || parent != 'maniobrista'">Generar Consulta</button>
+    <button class="btn btn-primary btn-sm pull-right" (click)="pagarMode()" >Pagar</button>
 
 
     <br>

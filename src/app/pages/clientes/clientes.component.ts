@@ -15,6 +15,7 @@ export class ClientesComponent implements OnInit {
     {titulo: 'Agente aduanal', icono: 'glyphicon glyphicon-user', link: 'agente-aduanal'},
     {titulo: 'Naviera', icono: 'glyphicon glyphicon-user', link: 'naviera'},
     {titulo: 'Cesionario', icono: 'glyphicon glyphicon-user', link: 'cesionario'},
+    {titulo: 'Clientes', icono: 'glyphicon glyphicon-user', link: 'cliente'},
    ];
 
   constructor() { }

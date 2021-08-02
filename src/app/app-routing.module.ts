@@ -20,6 +20,7 @@ import { FacturacionComponent } from './pages/facturacion/facturacion.component'
 import { FacturacionNuevaConsultaComponent } from './pages/facturacion/facturacion-nueva-consulta/facturacion-nueva-consulta.component';
 import { FacturacionConsultaTipoComponent } from './pages/facturacion/facturacion-consulta-tipo/facturacion-consulta-tipo.component';
 import { PagoSuccessComponent } from './pages/pago-success/pago-success.component';
+import { ClienteComponent } from './pages/clientes/cliente/cliente.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'clientes/agente-aduanal/nueva-solicitud', component: AgenteNuevaSolicitudComponent, canActivate: [GuardService] },
   { path: 'clientes/naviera', component: NavieraComponent, canActivate: [GuardService] },
   { path: 'clientes/cesionario', component: CesionarioComponent, canActivate: [GuardService] },
+  { path: 'clientes/cliente', component: ClienteComponent, canActivate: [GuardService] },
   { path: 'santander10', component: PagoSuccessComponent },
  /* { path: 'facturacion',
   loadChildren: () => import('./pages/facturacion/facturacion.module').then(m => m.FacturacionModule),

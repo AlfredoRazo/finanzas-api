@@ -3,14 +3,15 @@
 <h3>Maniobrista</h3>
 <hr class="red">
 <ul class="nav nav-tabs">
-  <!--li [class.active]="submenu==1" ><a [routerLink]="" (click)="submenu=1">Estado de hechos</a></li-->
-  <li [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">2da y 3er maniobra</a></li>
-  <li [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">Pagos</a></li>
+  <li [class.active]="submenu==1" ><a [routerLink]="" (click)="submenu=1">Pagos</a></li>
+  <!--<li [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">2da y 3er maniobra</a></li>-->
 </ul>
 <br>
 <container-element [ngSwitch]="submenu">
-    
-    <div *ngSwitchCase="1">
+  <div *ngSwitchCase="1">
+    <app-pagos-table [parent]="'maniobrista'"></app-pagos-table>
+  </div>
+    <div *ngSwitchCase="2">
         <br>
         <div class="row">
             <div class="form-group col-md-6">
@@ -58,7 +59,7 @@
             </div>
               <ngb-pagination [collectionSize]="10" [(page)]="pageManiobra"></ngb-pagination>
     </div>
-    <div *ngSwitchCase="2">
+    <div *ngSwitchCase="3">
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
