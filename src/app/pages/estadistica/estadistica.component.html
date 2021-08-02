@@ -3,13 +3,13 @@
 <h3>Estadística</h3>
 <hr class="red">
 <ul class="nav nav-tabs">
-  <li role="presentation" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Estadistica</a>
+  <li role="presentation" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Consultas</a></li>
+  <li role="presentation" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">CFDI</a>
   </li>
-  <li role="presentation" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">Consultas</a></li>
 </ul>
 <br>
 <container-element [ngSwitch]="submenu">
-  <div *ngSwitchCase="1">
+  <!--<div *ngSwitchCase="1">
     <table class="table table-bordered">
       <thead>
         <tr style="cursor: pointer">
@@ -58,17 +58,18 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <!--button type="button" class="btn btn-primary">Guardar</button-->
+            <button type="button" class="btn btn-primary">Guardar</button>
           </div>
         </div>
       </div>
     </div>
 
     <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>
-  </div>
-  <div *ngSwitchCase="2">
+  </div>-->
+  <div *ngSwitchCase="1">
     <app-pagos-table [parent]="'estadistica'"></app-pagos-table>
   </div>
+  <div *ngSwitchCase="2"><app-cfdi></app-cfdi></div>
 </container-element>
 <br>
 

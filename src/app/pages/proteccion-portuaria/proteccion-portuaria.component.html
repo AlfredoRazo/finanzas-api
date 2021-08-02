@@ -3,14 +3,14 @@
 <h3>Protección portuaria</h3>
 <hr class="red">
 <ul class="nav nav-tabs">
-  <li class="active" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Detalle de pagos</a></li>
-  <li class="active" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">Consultas</a></li>
+  <li class="active" [class.active]="submenu==1"><a [routerLink]="" (click)="submenu=1">Consultas</a></li>
+  <li class="active" [class.active]="submenu==2"><a [routerLink]="" (click)="submenu=2">CFDI</a></li>
 </ul>
 <br>
 <br>
 <container-element [ngSwitch]="submenu">
 
-  <div *ngSwitchCase="1">
+  <!--<div *ngSwitchCase="1">
 <button class="btn btn-primary btn-sm" routerLink="generar-consulta">Generar consulta</button><br><br>
 <form class="form-horizontal">
     <div class="form-group">
@@ -55,9 +55,12 @@
 </table>
 
 <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>
+  </div>-->
+  <div *ngSwitchCase="1">
+    <app-pagos-table [parent]="'proteccionportuaria'"></app-pagos-table>
   </div>
   <div *ngSwitchCase="2">
-    <app-pagos-table [parent]="'proteccionportuaria'"></app-pagos-table>
+    <app-cfdi></app-cfdi>
   </div>
 </container-element>
 <br>
