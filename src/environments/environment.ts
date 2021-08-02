@@ -21,7 +21,7 @@ export const environment = {
     password: "API-MAN-PIS-20!0M3d1n$4!",
     guid: "A7A87580-232A-4E38-ADFC-A78899C9CE8F"
   },
-  isEmbeded: true
+  isEmbeded: false
 };
 
 /*

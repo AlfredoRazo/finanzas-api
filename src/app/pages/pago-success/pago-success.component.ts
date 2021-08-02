@@ -9,7 +9,8 @@ import { environment } from '@env/environment';
   styleUrls: ['./pago-success.component.css']
 })
 export class PagoSuccessComponent implements OnInit {
-
+  catCFDI: any[] = [];
+  sendCFDI = false;
   constructor(private activeRoute: ActivatedRoute, private http: HttpClient) { }
   data = {
     appkey: environment.appKey,
@@ -25,11 +26,11 @@ export class PagoSuccessComponent implements OnInit {
   };
   estatus = 1;
   type = 0;
+  cfdi: any;
   ngOnInit(): void {
+    this.getCatalogoCFDI();
     this.activeRoute.queryParams
       .subscribe(params => {
-        /*switch (window.location.pathname) {
-          case '/santander10':*/
             let valores = '';
             Object.entries(params).forEach(item => {
               valores += `${item[0]}:${item[0]}|`
@@ -46,21 +47,27 @@ export class PagoSuccessComponent implements OnInit {
             this.data.importe = params?.importe;
             this.http.post(`${environment.endpointApi}bancosRespuesta`, this.data).subscribe((resBanco: any) => {
             });
-            
-           /* break;
-          case '/finanzas-api/bbva10':
-            this.type = 2;
-            break;
-            case '/finanzas-api/bbvaE10':
-              this.type = 3;
-              break;
-        
-          default:
-            break;
-        }*/
-       
-
       });
+  }
+
+  getCatalogoCFDI(): void{
+    this.http.get(`${environment.endpointApi}catUsoCFDI`).subscribe((res: any)=> {
+      this.catCFDI = res;
+    });
+  }
+
+  sendUsoCfdi(): void{
+    const payload = {
+      appkey : environment.appKey,
+      referencia:this.data.referencia,
+      clave: this.cfdi.clave,
+      uso: this.cfdi.valor
+    }
+    this.http.post(`${environment.endpointApi}catUsoCFDI`, payload).subscribe((res: any)=>{
+      if(res.error == 0){
+        this.sendCFDI = true;
+      }
+    },error=>{});
   }
 
 }
