@@ -51,8 +51,9 @@
             </tr>
             <tr>
                 <td><b>Uso CFDI</b></td>
-                <td><select class="form-control" [(ngModel)]="cfdi">
-                        <option *ngFor="let item of catCFDI" [value]="item">{{item.clave}} - {{item.valor}}</option>
+                <td><select class="form-control" name="cfdi" [(ngModel)]="cfdi">
+                    <option value="">Seleccione</option>
+                        <option *ngFor="let item of catCFDI" [value]="item.clave">{{item.clave}} - {{item.valor}}</option>
                     </select></td>
             </tr>
         </tbody>

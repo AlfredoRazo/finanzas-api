@@ -57,11 +57,12 @@ export class PagoSuccessComponent implements OnInit {
   }
 
   sendUsoCfdi(): void{
+    const val = this.catCFDI.filter(item =>{ return item.clave === this.cfdi });
     const payload = {
       appkey : environment.appKey,
       referencia:this.data.referencia,
-      clave: this.cfdi.clave,
-      uso: this.cfdi.valor
+      clave: val[0].clave,
+      uso: val[0].valor
     }
     this.http.post(`${environment.endpointApi}catUsoCFDI`, payload).subscribe((res: any)=>{
       if(res.error == 0){

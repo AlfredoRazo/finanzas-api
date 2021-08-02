@@ -200,11 +200,9 @@ export class FacturacionConsultaTipoComponent implements OnInit {
         recinto: "",
         tramo: ""
     };
-    console.log(payload);
   
     this.http.post(`${environment.endpointApi}facturacionGenerarOrden`,payload).subscribe((res: any) =>{
       this.spinner.hide();
-      console.log(res);
       if(res[0]?.error == 1){
         this.hasError = true;
         this.success = false;

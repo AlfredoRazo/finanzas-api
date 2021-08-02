@@ -144,9 +144,6 @@ export class PagosComponent implements OnInit {
         val_13.name = 'val_13';
         multiPagosform.appendChild(val_13);
 
-        console.log(cadenaValidacion);
-        console.log(val_13.value);
-
         const mp_urlsuccess = document.createElement('input');
         mp_urlsuccess.value = 'http://pismzo.azurewebsites.net/pis/';
         mp_urlsuccess.name = 'mp_urlsuccess';

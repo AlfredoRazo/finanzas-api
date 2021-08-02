@@ -51,7 +51,6 @@ export class RoleService {
   }
 
   getRolById(id: any): string {
-    console.log(id);
     switch (id) {
       case 1001:
         return 'FINANZAS';
