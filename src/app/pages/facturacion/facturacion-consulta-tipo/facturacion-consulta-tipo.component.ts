@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { AuthService } from '@serv/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import {Observable, OperatorFunction} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+import { Observable, OperatorFunction } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 declare var $: any;
 export interface FacturaForm {
   material: string;
@@ -24,15 +24,15 @@ export interface FacturaForm {
 export class FacturacionConsultaTipoComponent implements OnInit {
   catalogos = environment.endpoint + 'sapCatalogos?catalogo='
   tabledat: FacturaForm = {} as FacturaForm;
-  clientes : any[] = [];
-  conceptos : any[] = [];
-  unidadesmedida : any[] = [];
+  clientes: any[] = [];
+  conceptos: any[] = [];
+  unidadesmedida: any[] = [];
   data: any[] = [];
   buque: any;
   buques: any[] = [];
   isFecha = false;
-  fechaini:any;
-  fechafin:any;
+  fechaini: any;
+  fechafin: any;
   tonelajeNeto = '';
   tonelajeMuerto = '';
   eslora = '';
@@ -40,27 +40,29 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   bl = '';
   hasError = false;
   success = false;
-  noConsulta= '';
-  search:any = (text$: Observable<any>) =>
+  indexEdit: any;
+  dataEdit: any;
+  noConsulta = '';
+  search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      map(term => 
+      map(term =>
         term.length < 2 ? []
-        : this.buques.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
-        )
+          : this.buques.filter((v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+      )
     );
-    formatter = (x: {nombre: string}) => x.nombre;
-    solicitados: any;
-    facturaa: any;
-    searchCliente:any = (text$: Observable<any>) =>
+  formatter = (x: { nombre: string }) => x.nombre;
+  solicitados: any;
+  facturaa: any;
+  searchCliente: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      map(term => 
+      map(term =>
         term.length < 2 ? []
-        : this.clientes.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
-        )
+          : this.clientes.filter((v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+      )
     );
 
   constructor(private http: HttpClient,
@@ -75,42 +77,42 @@ export class FacturacionConsultaTipoComponent implements OnInit {
     this.getBuques();
   }
 
-  getClientes(): void{
+  getClientes(): void {
     this.spinner.show();
-    this.http.get(`${environment.endpoint}clientes`).subscribe( (res: any) => {
+    this.http.get(`${environment.endpoint}clientes`).subscribe((res: any) => {
       this.clientes = res[0];
       this.spinner.hide();
-    },err =>{this.spinner.hide()});
+    }, err => { this.spinner.hide() });
   }
-  getConceptos(): void{
-  
-    this.http.get(`${environment.endpoint}sapcatalogos?catalogo=materiales`).subscribe( (res: any) => {
+  getConceptos(): void {
+
+    this.http.get(`${environment.endpoint}sapcatalogos?catalogo=materiales`).subscribe((res: any) => {
       this.conceptos = res.valores;
-    },err =>{this.spinner.hide()});
+    }, err => { this.spinner.hide() });
   }
-  getUnidadesMedida(): void{
-    this.http.get( this.catalogos + 'unidadesmedida').subscribe((res: any) =>{
+  getUnidadesMedida(): void {
+    this.http.get(this.catalogos + 'unidadesmedida').subscribe((res: any) => {
       this.unidadesmedida = res.valores;
     });
   }
 
-  selectConcepto(value: any){
+  selectConcepto(value: any) {
     this.concepto = value;
-    switch (value.trim()) {  
+    switch (value.trim()) {
       case '000000000000000003':
       case '000000000000000060':
-        this.isFecha =true;
+        this.isFecha = true;
         this.tabledat.unidadcantidad = '10';
         this.tabledat.unidadpeso = 'KG';
         break;
       case '000000000000000004':
         this.tabledat.unidadcantidad = 'ST';
         this.tabledat.unidadpeso = 'KG';
-        this.isFecha =false;
+        this.isFecha = false;
         break;
       case '000000000000000001':
       case '000000000000000063':
-        this.isFecha =true;
+        this.isFecha = true;
         this.tabledat.unidadcantidad = '10';
         this.tabledat.unidadvolumen = 'M/E';
         this.tabledat.unidadpeso = 'TRB';
@@ -120,52 +122,62 @@ export class FacturacionConsultaTipoComponent implements OnInit {
         this.tabledat.unidadcantidad = 'H';
         this.tabledat.unidadvolumen = 'M/E';
         this.tabledat.unidadpeso = 'TRB';
-        this.isFecha =false;
+        this.isFecha = false;
         break;
       case '000000000000000002':
         this.tabledat.unidadcantidad = 'H';
         this.tabledat.unidadvolumen = 'M/E';
         this.tabledat.unidadpeso = 'KG';
-        this.isFecha =false;
+        this.isFecha = false;
         break;
-  
+
       default:
-        this.isFecha =false;
+        this.isFecha = false;
         break;
     }
 
   }
 
-  guardarData(): void{
-    const concepto = this.conceptos.find(item =>{ return item.clave == this.concepto});
+  guardarData(): void {
+    const concepto = this.conceptos.find(item => { return item.clave == this.concepto });
     this.tabledat.concepto = concepto.valor1;
     this.tabledat.material = this.concepto;
     this.data.push(this.tabledat);
     this.tabledat = {} as FacturaForm;
   }
-  removeData(index: any): void{
-    this.data.splice(index,1);
+  guardarEditData(): void {
+    const concepto = this.conceptos.find(item => { return item.clave == this.concepto });
+    this.tabledat.concepto = concepto.valor1;
+    this.tabledat.material = this.concepto;
+    this.data[this.indexEdit] = this.tabledat;
+    this.tabledat = {} as FacturaForm;
   }
-  
+  removeData(index: any): void {
+    this.data.splice(index, 1);
+  }
+
   getBuques(): void {
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.auth.getSession().userData.catToken}`
     });
-    this.http.get(environment.endpointCat + 'buques',{headers: header}).subscribe((res: any) => {
+    this.http.get(environment.endpointCat + 'buques', { headers: header }).subscribe((res: any) => {
       this.buques = res.valor;
-    },error =>{});
+    }, error => { });
   }
-  
-  initDatePickers(){   
+
+  initDatePickers() {
     $('#fecha-inis').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaini = date; this.getDays(); } });
     $('#fecha-fins').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechafin = date; this.getDays(); } });
+    $('#fecha-inise').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaini = date; this.getDays(); } });
+    $('#fecha-finse').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechafin = date; this.getDays(); } });
+  
   }
   delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
-  getDays(){
-    if(this.fechaini && this.fechafin && this.isFecha){
+  getDays() {
+    if (this.fechaini && this.fechafin && this.isFecha) {
       var date1 = new Date(this.fechaini);
       var date2 = new Date(this.fechafin);
       var Difference_In_Time = date2.getTime() - date1.getTime();
@@ -173,8 +185,8 @@ export class FacturacionConsultaTipoComponent implements OnInit {
       this.tabledat.cantidad = Difference_In_Days.toString();
     }
   }
-  buqueSelect(): void{
-    if(this.buque.tonelajeBruto){
+  buqueSelect(): void {
+    if (this.buque.tonelajeBruto) {
       this.tonelajeNeto = this.buque.tonelajeNeto;
       this.tonelajeMuerto = this.buque?.tonelajeMuerto;
       this.eslora = this.buque.eslora;
@@ -182,36 +194,41 @@ export class FacturacionConsultaTipoComponent implements OnInit {
     }
   }
 
-  generarPago(): void{
+  generarPago(): void {
     this.spinner.show();
+    console.log(this.buque);
     const payload = {
-        detalle: this.data,
-        tipo: parseInt(this.concepto),
-        clienteSolicita: this.solicitados?.claveSAP,
-        clientefacturar: this.facturaa?.claveSAP,
-        nombrebuque: this.buque?.nombre,
-        numeroviaje: "1",
-        workorder: "",
-        aduana: "",
-        bl: this.bl,
-        fechaentrada: this.fechaini,
-        fechasalida: this.fechafin,
-        pedimento: "",
-        recinto: "",
-        tramo: ""
+      detalle: this.data,
+      tipo: parseInt(this.concepto),
+      clienteSolicita: this.solicitados?.claveSAP,
+      clientefacturar: this.facturaa?.claveSAP,
+      nombrebuque: this.buque.nombre ? this.buque.nombre : this.buque,
+      numeroviaje: "1",
+      workorder: "",
+      aduana: "",
+      bl: this.bl,
+      fechaentrada: this.fechaini,
+      fechasalida: this.fechafin,
+      pedimento: "",
+      recinto: "",
+      tramo: ""
     };
-  
-    this.http.post(`${environment.endpointApi}facturacionGenerarOrden`,payload).subscribe((res: any) =>{
+
+    this.http.post(`${environment.endpointApi}facturacionGenerarOrden`, payload).subscribe((res: any) => {
       this.spinner.hide();
-      if(res[0]?.error == 1){
+      if (res[0]?.error == 1) {
         this.hasError = true;
         this.success = false;
-      }else{
+      } else {
         this.hasError = false
-        this.success =true;
-        this.noConsulta =  res[0].noConsulta;
+        this.success = true;
+        this.noConsulta = res[0].noConsulta;
         this.data = [];
       }
-    },error =>{this.spinner.hide();});
+    }, error => { this.spinner.hide(); });
+  }
+  editData(index: any, item: any): void {
+    this.tabledat = item;
+    this.indexEdit = index;
   }
 }
