@@ -250,7 +250,6 @@ export class RecintoConsultaTipoComponent implements OnInit {
       tramo: "",
       piezas: this.cantidadPiezas
     };
-    console.log(payload);
     this.http.post(`${environment.endpointApi}facturacionGenerarOrden`, payload).subscribe((res: any) => {
       this.spinner.hide();
       if (res[0]?.error == 1) {

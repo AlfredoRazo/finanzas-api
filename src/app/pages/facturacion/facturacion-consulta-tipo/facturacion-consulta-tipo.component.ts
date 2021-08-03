@@ -10,10 +10,13 @@ export interface FacturaForm {
   material: string;
   cantidad: string;
   unidadcantidad: string;
+  unidadcantidadtxt: string;
   volumen: string;
   unidadvolumen: string;
+  unidadvolumentxt: string;
   peso: string;
   unidadpeso: string;
+  unidadpesotxt: string;
   concepto: string;
 }
 @Component({
@@ -44,6 +47,9 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   dataEdit: any;
   noConsulta = '';
   cantidadPiezas = '';
+  horaini:any;
+  horafin:any;
+  isHora = false;
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -70,7 +76,8 @@ export class FacturacionConsultaTipoComponent implements OnInit {
     private auth: AuthService,
     private spinner: NgxSpinnerService) { }
 
-  ngOnInit(): void {
+   ngOnInit(): void {
+    
     this.initDatePickers();
     this.getClientes();
     this.getConceptos();
@@ -99,10 +106,12 @@ export class FacturacionConsultaTipoComponent implements OnInit {
 
   selectConcepto(value: any) {
     this.concepto = value;
+    this.data = this.data.map(item=>{item.concepto = value});
     switch (value.trim()) {
       case '000000000000000003':
       case '000000000000000060':
         this.isFecha = true;
+        this.isHora = false;
         this.tabledat.unidadcantidad = '10';
         this.tabledat.unidadpeso = 'KG';
         break;
@@ -110,22 +119,26 @@ export class FacturacionConsultaTipoComponent implements OnInit {
         this.tabledat.unidadcantidad = 'ST';
         this.tabledat.unidadpeso = 'KG';
         this.isFecha = false;
+        this.isHora = false;
         break;
       case '000000000000000001':
       case '000000000000000063':
         this.isFecha = true;
+        this.isHora = false;
         this.tabledat.unidadcantidad = '10';
         this.tabledat.unidadvolumen = 'M/E';
         this.tabledat.unidadpeso = 'TRB';
         break;
       case '000000000000000018':
       case '000000000000000064':
+        this.isHora = true;
         this.tabledat.unidadcantidad = 'H';
         this.tabledat.unidadvolumen = 'M/E';
         this.tabledat.unidadpeso = 'TRB';
         this.isFecha = false;
         break;
       case '000000000000000002':
+        this.isHora = true;
         this.tabledat.unidadcantidad = 'H';
         this.tabledat.unidadvolumen = 'M/E';
         this.tabledat.unidadpeso = 'KG';
@@ -133,6 +146,7 @@ export class FacturacionConsultaTipoComponent implements OnInit {
         break;
 
       default:
+        this.isHora = false;
         this.isFecha = false;
         break;
     }
@@ -141,6 +155,9 @@ export class FacturacionConsultaTipoComponent implements OnInit {
 
   guardarData(): void {
     const concepto = this.conceptos.find(item => { return item.clave == this.concepto });
+    this.tabledat.unidadcantidadtxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadcantidad})?.valor1;
+    this.tabledat.unidadvolumentxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadvolumen})?.valor1;
+    this.tabledat.unidadpesotxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadpeso})?.valor1;
     this.tabledat.concepto = concepto.valor1;
     this.tabledat.material = this.concepto;
     this.data.push(this.tabledat);
@@ -150,6 +167,10 @@ export class FacturacionConsultaTipoComponent implements OnInit {
     const concepto = this.conceptos.find(item => { return item.clave == this.concepto });
     this.tabledat.concepto = concepto.valor1;
     this.tabledat.material = this.concepto;
+    this.tabledat.unidadcantidadtxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadcantidad})?.valor1;
+    this.tabledat.unidadvolumentxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadvolumen})?.valor1;
+    this.tabledat.unidadpesotxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadpeso})?.valor1;
+    
     this.data[this.indexEdit] = this.tabledat;
     this.tabledat = {} as FacturaForm;
   }
@@ -167,12 +188,16 @@ export class FacturacionConsultaTipoComponent implements OnInit {
     }, error => { });
   }
 
-  initDatePickers() {
-    $('#fecha-inis').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaini = date; this.getDays(); } });
-    $('#fecha-fins').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechafin = date; this.getDays(); } });
-    $('#fecha-inise').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaini = date; this.getDays(); } });
-    $('#fecha-finse').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechafin = date; this.getDays(); } });
-  
+   initDatePickers() {
+    $('#hora-ini').clockpicker({donetext: 'Aceptar', afterDone: (hour: any) =>{
+      var ini: any = document.getElementById('input-hora-ini');
+      this.horaini = ini.value}});
+    $('#hora-fin').clockpicker({donetext: 'Aceptar', afterDone: (hour: any) =>{
+      var fin: any = document.getElementById('input-hora-fin');
+      this.horafin = fin.value}});
+    $('#fecha-ini').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaini = date; this.getDays(); } });
+    $('#fecha-fin').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechafin = date; this.getDays(); } });
+   
   }
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -186,6 +211,15 @@ export class FacturacionConsultaTipoComponent implements OnInit {
       this.tabledat.cantidad = Difference_In_Days.toString();
     }
   }
+  setTime(){
+    if(this.isHora && this.horaini && this.horafin){
+      const timeStart = new Date (new Date().setHours(this.horaini.split(':')[0],this.horaini.split(':')[1])).getHours();
+      const timeEnd = new Date(new Date().setHours(this.horafin.split(':')[0],this.horafin.split(':')[1])).getHours();
+      let hourDiff = timeEnd - timeStart;    
+     this.tabledat.cantidad = hourDiff.toString();
+    }
+
+  }
   buqueSelect(): void {
     if (this.buque.tonelajeBruto) {
       this.tonelajeNeto = this.buque.tonelajeNeto;
@@ -197,7 +231,6 @@ export class FacturacionConsultaTipoComponent implements OnInit {
 
   generarPago(): void {
     this.spinner.show();
-    console.log(this.buque);
     const payload = {
       detalle: this.data,
       tipo: parseInt(this.concepto),
@@ -210,9 +243,12 @@ export class FacturacionConsultaTipoComponent implements OnInit {
       bl: this.bl,
       fechaentrada: this.fechaini,
       fechasalida: this.fechafin,
+      horaentrada: this.horaini,
+      horasalida: this.horafin,
       pedimento: "",
       recinto: "",
-      tramo: ""
+      tramo: "",
+      piezas: this.cantidadPiezas
     };
 
     this.http.post(`${environment.endpointApi}facturacionGenerarOrden`, payload).subscribe((res: any) => {
