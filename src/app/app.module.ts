@@ -39,6 +39,7 @@ import { PagoSuccessComponent } from './pages/pago-success/pago-success.componen
 import { PagosTableComponent } from './components/pagos-table/pagos-table.component';
 import { RespuestaBancosComponent } from './components/respuesta-bancos/respuesta-bancos.component';
 import { ClienteComponent } from './pages/clientes/cliente/cliente.component';
+import { RecintoConsultaTipoComponent } from './pages/recinto/recinto-consulta-tipo/recinto-consulta-tipo.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { ClienteComponent } from './pages/clientes/cliente/cliente.component';
     PagoSuccessComponent,
     PagosTableComponent,
     RespuestaBancosComponent,
-    ClienteComponent
+    ClienteComponent,
+    RecintoConsultaTipoComponent
   ],
   imports: [
     BrowserAnimationsModule,

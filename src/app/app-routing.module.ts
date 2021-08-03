@@ -21,6 +21,7 @@ import { FacturacionNuevaConsultaComponent } from './pages/facturacion/facturaci
 import { FacturacionConsultaTipoComponent } from './pages/facturacion/facturacion-consulta-tipo/facturacion-consulta-tipo.component';
 import { PagoSuccessComponent } from './pages/pago-success/pago-success.component';
 import { ClienteComponent } from './pages/clientes/cliente/cliente.component';
+import { RecintoConsultaTipoComponent } from './pages/recinto/recinto-consulta-tipo/recinto-consulta-tipo.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -41,7 +42,7 @@ const routes: Routes = [
   { path: 'facturacion/nueva-consulta', component: FacturacionNuevaConsultaComponent, canActivate: [GuardService] },
   { path: 'facturacion/consulta-por-tipo', component: FacturacionConsultaTipoComponent, canActivate: [GuardService] },
   { path: 'recinto', component: RecintoComponent, canActivate: [GuardService] },
-  { path: 'recinto/consulta-por-tipo', component: FacturacionConsultaTipoComponent, canActivate: [GuardService] },
+  { path: 'recinto/consulta-por-tipo', component: RecintoConsultaTipoComponent, canActivate: [GuardService] },
   { path: 'recinto/nueva-solicitud', component: RecintoNuevaSolicitudComponent, canActivate: [GuardService] },
   { path: 'estadistica', component: EstadisticaComponent, canActivate: [GuardService] },
   { path: 'estadistica/consulta-por-tipo', component: FacturacionConsultaTipoComponent, canActivate: [GuardService] },
