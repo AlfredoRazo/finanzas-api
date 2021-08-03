@@ -48,13 +48,8 @@
     </div>
 
         <div class="row">
-          <div class="form-group col-md-4" [class.has-error]="blinp.invalid && (blinp.dirty || blinp.touched)">
-              <label class="control-label">B/L</label>
-              <input class="form-control" name="bl" #blinp="ngModel" [(ngModel)]="bl" required/>
-              <span class="help-block" *ngIf="blinp.invalid && (blinp.dirty || blinp.touched)">Este campo es requerido</span>
-
-          </div>
-          <div class="form-group col-md-4" [class.has-error]="conceptoc.invalid && (conceptoc.dirty || conceptoc.touched)">
+        
+          <div class="form-group col-md-8" [class.has-error]="conceptoc.invalid && (conceptoc.dirty || conceptoc.touched)">
               <label class="control-label">Concepto</label>
               <select class="form-control" [(ngModel)]="concepto"  #conceptoc="ngModel"  name="concepto"
                   (ngModelChange)="selectConcepto($event)" required>
@@ -93,6 +88,24 @@
           </div>
 
       </div>
+      <div class="row">
+
+        <div class="form-group col-md-4">
+            <label class="control-label">Tipo de Buque</label>
+            <input class="form-control" name="tipobuque" [(ngModel)]="tipobuque" />
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Número de viaje</label>
+            <input class="form-control" name="numeroviaje" [(ngModel)]="numeroviaje" />
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Tramo</label>
+            <select class="form-control" name="tramo" [(ngModel)]="tramo">
+                <option *ngFor="let item of catTramo" [value]="item">Tramo {{item}}</option>
+            </select>
+        </div>
+
+    </div>
       <div class="row">
           <div class="form-group col-md-4">
               <label class="control-label">Fecha Inicio</label>

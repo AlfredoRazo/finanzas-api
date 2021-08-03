@@ -41,6 +41,9 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   eslora = '';
   concepto = '';
   bl = '';
+  numeroviaje = '';
+  tipobuque = '';
+  tramo = '';
   hasError = false;
   success = false;
   indexEdit: any;
@@ -50,6 +53,23 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   horaini:any;
   horafin:any;
   isHora = false;
+  catTramo = [
+    '01',
+    '02',
+    '03',
+    '04',
+    '05',
+    '06',
+    '07',
+    '08',
+    '09',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15'
+  ]
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -95,7 +115,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   getConceptos(): void {
 
     this.http.get(`${environment.endpoint}sapcatalogos?catalogo=materiales`).subscribe((res: any) => {
-      this.conceptos = res.valores;
+      this.conceptos = res.valores.filter((item: any) =>{ return item.clave == '000000000000000001' || item.clave == '000000000000000002'});
     }, err => { this.spinner.hide() });
   }
   getUnidadesMedida(): void {
@@ -222,9 +242,11 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   }
   buqueSelect(): void {
     if (this.buque.tonelajeBruto) {
+      console.log(this.buque);
       this.tonelajeNeto = this.buque.tonelajeNeto;
       this.tonelajeMuerto = this.buque?.tonelajeMuerto;
       this.eslora = this.buque.eslora;
+      this.tipobuque = this.buque?.tipoBuque?.nombreMigracion
       this.tabledat.peso = this.buque?.tonelajeBruto?.toString();
     }
   }
@@ -237,7 +259,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
       clienteSolicita: this.solicitados?.claveSAP,
       clientefacturar: this.facturaa?.claveSAP,
       nombrebuque: this.buque.nombre ? this.buque.nombre : this.buque,
-      numeroviaje: "1",
+      numeroviaje: this.numeroviaje,
       workorder: "",
       aduana: "",
       bl: this.bl,
@@ -247,7 +269,8 @@ export class OperacionesNuevoPagoComponent implements OnInit {
       horasalida: this.horafin,
       pedimento: "",
       recinto: "",
-      tramo: "",
+      tipoBuque: this.tipobuque,
+      tramo: this.tramo,
       piezas: this.cantidadPiezas
     };
 

@@ -50,6 +50,7 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   horaini:any;
   horafin:any;
   isHora = false;
+  numeroviaje:any;
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -237,7 +238,7 @@ export class FacturacionConsultaTipoComponent implements OnInit {
       clienteSolicita: this.solicitados?.claveSAP,
       clientefacturar: this.facturaa?.claveSAP,
       nombrebuque: this.buque.nombre ? this.buque.nombre : this.buque,
-      numeroviaje: "1",
+      numeroviaje: this.numeroviaje,
       workorder: "",
       aduana: "",
       bl: this.bl,
