@@ -46,7 +46,7 @@ const routes: Routes = [
   { path: 'estadistica', component: EstadisticaComponent, canActivate: [GuardService] },
   { path: 'estadistica/consulta-por-tipo', component: FacturacionConsultaTipoComponent, canActivate: [GuardService] },
   { path: 'operaciones', component: OperacionesComponent, canActivate: [GuardService] },
-  { path: 'operaciones/consulta-por-tipo', component: FacturacionConsultaTipoComponent, canActivate: [GuardService] },
+  { path: 'operaciones/consulta-por-tipo', component: OperacionesNuevoPagoComponent, canActivate: [GuardService] },
   { path: 'operaciones/nuevo-pago', component: OperacionesNuevoPagoComponent, canActivate: [GuardService] },
   { path: 'proteccion-portuaria', component: ProteccionPortuariaComponent, canActivate: [GuardService] },
   { path: 'proteccion-portuaria/consulta-por-tipo', component: FacturacionConsultaTipoComponent, canActivate: [GuardService] },

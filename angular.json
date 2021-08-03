@@ -30,11 +30,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "src/third_party/bootstrap-clockpicker.min.css"
+              "src/styles.css"
             ],
             "scripts": [
-              "src/third_party/bootstrap-clockpicker.min.js",
               "node_modules/html2canvas/dist/html2canvas.min.js",
               "node_modules/jspdf/dist/jspdf.es.min.js"
             ],

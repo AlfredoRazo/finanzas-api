@@ -15,6 +15,7 @@ export class AppComponent {
   constructor(
     private bnIdle: BnNgIdleService,
     private auth: AuthService
+   
     ) { // initiate it in your component constructor
     this.bnIdle.startWatching(3600).subscribe((res) => {
       if(res) {
