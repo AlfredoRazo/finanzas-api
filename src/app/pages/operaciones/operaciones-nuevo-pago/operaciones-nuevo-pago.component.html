@@ -102,6 +102,8 @@
             <label class="control-label">Tramo</label>
             <select class="form-control" name="tramo" [(ngModel)]="tramo">
                 <option *ngFor="let item of catTramo" [value]="item">Tramo {{item}}</option>
+                <option [value]="'98'">Pemex</option>
+                <option [value]="'99'">KSM</option>
             </select>
         </div>
 
