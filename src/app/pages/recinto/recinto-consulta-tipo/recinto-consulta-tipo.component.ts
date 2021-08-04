@@ -51,6 +51,13 @@ export class RecintoConsultaTipoComponent implements OnInit {
   horafin:any;
   isHora = false;
   numeroviaje:any;
+  tarifa = '';
+  catTarifa: any = [
+    {clave: '00' , descripcion: 'N/A'},
+    {clave: 'CG1', descripcion: 'Tarifa 1'},
+    {clave: 'CG2', descripcion: 'Tarifa 2'},
+    {clave: 'CG3', descripcion: 'Tarifa 3'}
+  ];
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -249,7 +256,8 @@ export class RecintoConsultaTipoComponent implements OnInit {
       pedimento: "",
       recinto: "",
       tramo: "",
-      piezas: this.cantidadPiezas
+      piezas: this.cantidadPiezas,
+      tipotarifa: this.tarifa
     };
     this.http.post(`${environment.endpointApi}facturacionGenerarOrden`, payload).subscribe((res: any) => {
       this.spinner.hide();

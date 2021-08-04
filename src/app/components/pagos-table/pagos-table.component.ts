@@ -78,9 +78,9 @@ export class PagosTableComponent implements OnInit {
   getData(): void {
     this.spinner.show();
     let query = '';
-    if(this.parent != 'facturacion'){
+    //if(this.parent != 'facturacion'){
       query = '?rfc=' + this.auth.getSession().userData.rfc;
-    }
+    //}
     this.http.get(`${environment.endpoint}consultasDetalle${query}`).subscribe((res: any) => {
       this.spinner.hide();
       this.originalData = res[0].map((item: any) => {

@@ -278,7 +278,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
       tramo: this.tramo,
       piezas: this.cantidadPiezas
     };
-
+  
     this.http.post(`${environment.endpointApi}facturacionGenerarOrden`, payload).subscribe((res: any) => {
       this.spinner.hide();
       if (res[0]?.error == 1) {

@@ -37,7 +37,8 @@
                         [ngbTypeahead]="searchCliente" [inputFormatter]="formatter" [resultTemplate]="rtf" required>
                     <div class="input-group-addon" *ngIf="!facturaa"></div>
                     <div class="input-group-addon" style="cursor: pointer;" *ngIf="facturaa" (click)="facturaa=null">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </div>
 
                 </div>
             </div>
@@ -47,92 +48,97 @@
         </div>
     </div>
 
-        <div class="row">
-          <div class="form-group col-md-4" [class.has-error]="blinp.invalid && (blinp.dirty || blinp.touched)">
-              <label class="control-label">B/L</label>
-              <input class="form-control" name="bl" #blinp="ngModel" [(ngModel)]="bl" required/>
-              <span class="help-block" *ngIf="blinp.invalid && (blinp.dirty || blinp.touched)">Este campo es requerido</span>
+    <div class="row">
+        <div class="form-group col-md-4" [class.has-error]="blinp.invalid && (blinp.dirty || blinp.touched)">
+            <label class="control-label">B/L</label>
+            <input class="form-control" name="bl" #blinp="ngModel" [(ngModel)]="bl" required />
+            <span class="help-block" *ngIf="blinp.invalid && (blinp.dirty || blinp.touched)">Este campo es
+                requerido</span>
 
-          </div>
-          <div class="form-group col-md-4" [class.has-error]="conceptoc.invalid && (conceptoc.dirty || conceptoc.touched)">
-              <label class="control-label">Concepto</label>
-              <select class="form-control" [(ngModel)]="concepto"  #conceptoc="ngModel"  name="concepto"
-                  (ngModelChange)="selectConcepto($event)" required>
-                  <option *ngFor="let item of conceptos" [value]="item.clave"> {{item.valor1}}</option>
-              </select>
-              <span class="help-block" *ngIf="conceptoc.invalid && (conceptoc.dirty || conceptoc.touched)">Este campo es requerido</span>
-          </div>
-          <div class="form-group col-md-4"
-              [class.has-error]="nombreBuque.invalid && (nombreBuque.dirty || nombreBuque.touched)">
-              <ng-template #rt let-r="result" let-t="term">
-                  <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
-              </ng-template>
-              <label class="control-label">Nombre del Buque</label>
-              <input type="text" class="form-control" name="nombreBuquee" #nombreBuque="ngModel"
-                  [(ngModel)]="buque" [ngbTypeahead]="search" (ngModelChange)="buqueSelect()"
-                  [inputFormatter]="formatter" [resultTemplate]="rt" required>
-              <span class="help-block"
-                  *ngIf="nombreBuque.invalid && (nombreBuque.dirty || nombreBuque.touched)">Este campo es
-                  requerido</span>
-          </div>
+        </div>
+        <div class="form-group col-md-4"
+            [class.has-error]="conceptoc.invalid && (conceptoc.dirty || conceptoc.touched)">
+            <label class="control-label">Concepto</label>
+            <select class="form-control" [(ngModel)]="concepto" #conceptoc="ngModel" name="concepto"
+                (ngModelChange)="selectConcepto($event)" required>
+                <option *ngFor="let item of conceptos" [value]="item.clave"> {{item.valor1}}</option>
+            </select>
+            <span class="help-block" *ngIf="conceptoc.invalid && (conceptoc.dirty || conceptoc.touched)">Este campo es
+                requerido</span>
+        </div>
+        <div class="form-group col-md-4"
+            [class.has-error]="nombreBuque.invalid && (nombreBuque.dirty || nombreBuque.touched)">
+            <ng-template #rt let-r="result" let-t="term">
+                <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
+            </ng-template>
+            <label class="control-label">Nombre del Buque</label>
+            <input type="text" class="form-control" name="nombreBuquee" #nombreBuque="ngModel" [(ngModel)]="buque"
+                [ngbTypeahead]="search" (ngModelChange)="buqueSelect()" [inputFormatter]="formatter"
+                [resultTemplate]="rt" required>
+            <span class="help-block" *ngIf="nombreBuque.invalid && (nombreBuque.dirty || nombreBuque.touched)">Este
+                campo es
+                requerido</span>
+        </div>
 
-      </div>
-      <div class="row">
+    </div>
+    <div class="row">
 
-          <div class="form-group col-md-4">
-              <label class="control-label">Tonelaje Neto</label>
-              <input class="form-control" name="tonelajeneto" [(ngModel)]="tonelajeNeto" />
-          </div>
-          <div class="form-group col-md-4">
-              <label class="control-label">Tonelaje Muerto</label>
-              <input class="form-control" name="tonelajebruto" [(ngModel)]="tonelajeMuerto" />
-          </div>
-          <div class="form-group col-md-4">
-              <label class="control-label">Eslora</label>
-              <input class="form-control" name="eslora" [(ngModel)]="eslora" />
-          </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Tonelaje Neto</label>
+            <input class="form-control" name="tonelajeneto" [(ngModel)]="tonelajeNeto" />
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Tonelaje Muerto</label>
+            <input class="form-control" name="tonelajebruto" [(ngModel)]="tonelajeMuerto" />
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Eslora</label>
+            <input class="form-control" name="eslora" [(ngModel)]="eslora" />
+        </div>
 
-      </div>
-      <div class="row">
+    </div>
+    <div class="row">
         <div class="form-group col-md-4">
             <label class="control-label">Número de viaje</label>
             <input class="form-control" name="numeroviaje" [(ngModel)]="numeroviaje" />
         </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Cantidad de Piezas</label>
+            <input class="form-control" name="cantidadpiezas" [(ngModel)]="cantidadPiezas" />
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Tarifa</label>
+            <select class="form-control" name="tarifa" [(ngModel)]="tarifa">
+                <option *ngFor="let item of catTarifa" [value]="item.clave"> {{item.descripcion}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label class="control-label">Fecha Inicio</label>
+            <div class="datepicker-group">
+                <input type="text" class="form-control" id="fecha-ini" readonly name="fechaini" [(ngModel)]="fechaini"
+                    name="fechaini">
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label class="control-label">Fecha Fin</label>
+            <div class="datepicker-group">
+
+                <input type="text" class="form-control" id="fecha-fin" name="fechafin" readonly [(ngModel)]="fechafin"
+                    name="fechafin">
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+            </div>
+        </div>
+
 
     </div>
-      <div class="row">
-
-          <div class="form-group col-md-4">
-              <label class="control-label">Cantidad de Piezas</label>
-              <input class="form-control" name="cantidadpiezas" [(ngModel)]="cantidadPiezas" />
-          </div>
-      </div>
-      <div class="row">
-          <div class="form-group col-md-6">
-              <label class="control-label">Fecha Inicio</label>
-              <div class="datepicker-group">
-                  <input type="text" class="form-control" id="fecha-ini" readonly name="fechaini" [(ngModel)]="fechaini"
-                      name="fechaini">
-                  <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-              </div>
-          </div>
-         
-          <div class="form-group col-md-6">
-              <label class="control-label">Fecha Fin</label>
-              <div class="datepicker-group">
-
-                  <input type="text" class="form-control" id="fecha-fin" name="fechafin" readonly [(ngModel)]="fechafin"
-                      name="fechafin">
-                  <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-              </div>
-          </div>
-          
-
-      </div>
 </form>
 <br>
-<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregar-data" (click)="setTime()" [disabled]="formConsulta.invalid">Agregar <span
-        class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregar-data" (click)="setTime()"
+    [disabled]="formConsulta.invalid">Agregar <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
 <br>
 <br>
 <div class="table-responsive">
@@ -160,10 +166,12 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of data; let i = index">
-                <td style='white-space: nowrap'><button class="btn btn-danger btn-sm" (click)="removeData(i)">Eliminar</button>
-                
-                    <button class="btn btn-danger btn-sm" (click)="editData(i,item)" style="margin-left: 10px;" data-toggle="modal" data-target="#editar-data">Editar</button>
-                
+                <td style='white-space: nowrap'><button class="btn btn-danger btn-sm"
+                        (click)="removeData(i)">Eliminar</button>
+
+                    <button class="btn btn-danger btn-sm" (click)="editData(i,item)" style="margin-left: 10px;"
+                        data-toggle="modal" data-target="#editar-data">Editar</button>
+
                 </td>
                 <td>{{item.cantidad}}</td>
                 <td>{{item.unidadcantidad}}</td>
@@ -200,7 +208,7 @@
             </div>
             <div class="modal-body">
                 <form #formDataTab="ngForm">
-                    
+
 
                     <div class="row">
 
@@ -265,7 +273,7 @@
             </div>
             <div class="modal-body">
                 <form #formDataTab="ngForm">
-                   
+
                     <div class="row">
 
                         <div class="form-group col-md-6">
