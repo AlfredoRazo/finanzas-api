@@ -114,14 +114,14 @@
               <label class="control-label">Fecha Inicio</label>
               <div class="datepicker-group">
                   <input type="text" class="form-control" id="fecha-ini" readonly name="fechaini" [(ngModel)]="fechaini"
-                      name="fechaini">
+                      name="fechaini" required>
                   <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
               </div>
           </div>
           <div class="col-md-2">
             <label class="control-label">Hora Inicio</label>
             <div class="input-group" id="hora-ini">
-              <input type="text" class="form-control" name="horaini" readonly id="input-hora-ini" [(ngModel)]="horaini">
+              <input type="text" class="form-control" required name="horaini" readonly id="input-hora-ini" [(ngModel)]="horaini">
               <span class="input-group-addon">
                   <span class="glyphicon glyphicon-time"></span>
               </span>
@@ -132,14 +132,14 @@
               <div class="datepicker-group">
 
                   <input type="text" class="form-control" id="fecha-fin" name="fechafin" readonly [(ngModel)]="fechafin"
-                      name="fechafin">
+                      name="fechafin" required>
                   <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
               </div>
           </div>
           <div class="col-md-2">
             <label class="control-label">Hora Fin</label>
             <div class="input-group" id="hora-fin">
-              <input type="text" class="form-control" name="horafin" readonly id="input-hora-fin" [(ngModel)]="horafin">
+              <input type="text" class="form-control" required name="horafin" readonly id="input-hora-fin" [(ngModel)]="horafin">
               <span class="input-group-addon">
                   <span class="glyphicon glyphicon-time"></span>
               </span>
@@ -149,7 +149,7 @@
       </div>
 </form>
 <br>
-<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregar-data" (click)="setTime()" [disabled]="formConsulta.invalid">Agregar <span
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregar-data" [disabled]="formConsulta.invalid">Agregar <span
         class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
 <br>
 <br>

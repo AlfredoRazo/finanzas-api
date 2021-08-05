@@ -6,6 +6,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 declare var $: any;
+import dayjs from 'dayjs';
+import 'dayjs/locale/es'; 
+
 export interface FacturaForm {
   material: string;
   cantidad: string;
@@ -212,11 +215,9 @@ export class RecintoConsultaTipoComponent implements OnInit {
   }
   getDays() {
     if (this.fechaini && this.fechafin && this.isFecha) {
-      var date1 = new Date(this.fechaini);
-      var date2 = new Date(this.fechafin);
-      var Difference_In_Time = date2.getTime() - date1.getTime();
-      var Difference_In_Days = (Difference_In_Time / (1000 * 3600 * 24)) + 1;
-      this.tabledat.cantidad = Difference_In_Days.toString();
+      const ini = dayjs(this.fechaini).startOf('day');
+      const fin = dayjs(this.fechafin).endOf('day');
+      this.tabledat.cantidad = (fin.diff(ini,'day') + 1).toString();
     }
   }
   setTime(){

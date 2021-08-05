@@ -6,6 +6,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 declare var $: any;
+import dayjs from 'dayjs';
+import 'dayjs/locale/es'; 
+
 export interface FacturaForm {
   material: string;
   cantidad: string;
@@ -216,10 +219,14 @@ export class OperacionesNuevoPagoComponent implements OnInit {
    initDatePickers() {
     $('#hora-ini').clockpicker({donetext: 'Aceptar', afterDone: (hour: any) =>{
       var ini: any = document.getElementById('input-hora-ini');
-      this.horaini = ini.value}});
+      this.horaini = ini.value + ':00';
+      this.getDays();
+    }});
     $('#hora-fin').clockpicker({donetext: 'Aceptar', afterDone: (hour: any) =>{
       var fin: any = document.getElementById('input-hora-fin');
-      this.horafin = fin.value}});
+      this.horafin = fin.value + ':00';
+      this.getDays();
+    }});
     $('#fecha-ini').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaini = date; this.getDays(); } });
     $('#fecha-fin').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechafin = date; this.getDays(); } });
    
@@ -228,22 +235,22 @@ export class OperacionesNuevoPagoComponent implements OnInit {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   getDays() {
-    if (this.fechaini && this.fechafin && this.isFecha) {
-      var date1 = new Date(this.fechaini);
-      var date2 = new Date(this.fechafin);
-      var Difference_In_Time = date2.getTime() - date1.getTime();
-      var Difference_In_Days = (Difference_In_Time / (1000 * 3600 * 24)) + 1;
-      this.tabledat.cantidad = Difference_In_Days.toString();
+    let timein = '00:00:00'; 
+    let timeen = '23:59:00';
+      if(this.horaini){
+        timein = this.horaini;
+      } 
+      if(this.horafin){
+        timeen = this.horafin;
+      } 
+      const ini = dayjs(this.fechaini + 'T' + timein);
+      const fin = dayjs(this.fechafin + 'T' + timeen);
+    if (this.isFecha) {
+      this.tabledat.cantidad = (fin.diff(ini,'day') + 1).toString();
     }
-  }
-  setTime(){
-    if(this.isHora && this.horaini && this.horafin){
-      const timeStart = new Date (new Date().setHours(this.horaini.split(':')[0],this.horaini.split(':')[1])).getHours();
-      const timeEnd = new Date(new Date().setHours(this.horafin.split(':')[0],this.horafin.split(':')[1])).getHours();
-      let hourDiff = timeEnd - timeStart;    
-     this.tabledat.cantidad = hourDiff.toString();
+    if(this.isHora){
+      this.tabledat.cantidad = fin.diff(ini,'hours').toString()
     }
-
   }
   buqueSelect(): void {
     if (this.buque.tonelajeBruto) {
