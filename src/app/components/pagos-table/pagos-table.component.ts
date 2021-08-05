@@ -87,6 +87,7 @@ export class PagosTableComponent implements OnInit {
         item.selected = false;
         return item;
       });
+      this.pagePago = 1;
       this.totalPago = res[0].length;
       this.data = [...this.originalData];
       this.data = this.pagina.paginate(res[0], this.collSize, this.pagePago);

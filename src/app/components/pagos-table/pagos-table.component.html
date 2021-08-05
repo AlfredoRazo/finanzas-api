@@ -21,6 +21,7 @@
 
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;" routerLink="consulta-por-tipo"
         *ngIf="parent != 'maniobrista' && parent != 'cliente'">Generar Consulta</button>
+        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;" (click)="getData()">Actualizar</button>
         <button class="btn btn-primary btn-sm pull-right" (click)="pagarMode()">Pagar</button>
         
     </div>
