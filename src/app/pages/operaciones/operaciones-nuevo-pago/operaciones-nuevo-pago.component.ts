@@ -7,7 +7,7 @@ import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 declare var $: any;
 import dayjs from 'dayjs';
-import 'dayjs/locale/es'; 
+import 'dayjs/locale/es';
 
 export interface FacturaForm {
   material: string;
@@ -53,8 +53,8 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   dataEdit: any;
   noConsulta = '';
   cantidadPiezas = '';
-  horaini:any;
-  horafin:any;
+  horaini: any;
+  horafin: any;
   isHora = false;
   catTramo = [
     '01',
@@ -104,8 +104,8 @@ export class OperacionesNuevoPagoComponent implements OnInit {
     private auth: AuthService,
     private spinner: NgxSpinnerService) { }
 
-   ngOnInit(): void {
-    
+  ngOnInit(): void {
+
     this.initDatePickers();
     this.getClientes();
     this.getConceptos();
@@ -123,7 +123,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   getConceptos(): void {
 
     this.http.get(`${environment.endpoint}sapcatalogos?catalogo=materiales`).subscribe((res: any) => {
-      this.conceptos = res.valores.filter((item: any) =>{ return item.clave == '000000000000000001' || item.clave == '000000000000000002'});
+      this.conceptos = res.valores.filter((item: any) => { return item.clave == '000000000000000001' || item.clave == '000000000000000002' });
     }, err => { this.spinner.hide() });
   }
   getUnidadesMedida(): void {
@@ -134,7 +134,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
 
   selectConcepto(value: any) {
     this.concepto = value;
-    this.data = this.data.map(item=>{item.concepto = value});
+    this.data = this.data.map(item => { item.concepto = value });
     switch (value.trim()) {
       case '000000000000000003':
       case '000000000000000060':
@@ -183,9 +183,9 @@ export class OperacionesNuevoPagoComponent implements OnInit {
 
   guardarData(): void {
     const concepto = this.conceptos.find(item => { return item.clave == this.concepto });
-    this.tabledat.unidadcantidadtxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadcantidad})?.valor1;
-    this.tabledat.unidadvolumentxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadvolumen})?.valor1;
-    this.tabledat.unidadpesotxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadpeso})?.valor1;
+    this.tabledat.unidadcantidadtxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadcantidad })?.valor1;
+    this.tabledat.unidadvolumentxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadvolumen })?.valor1;
+    this.tabledat.unidadpesotxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadpeso })?.valor1;
     this.tabledat.concepto = concepto.valor1;
     this.tabledat.material = this.concepto;
     this.data.push(this.tabledat);
@@ -195,10 +195,10 @@ export class OperacionesNuevoPagoComponent implements OnInit {
     const concepto = this.conceptos.find(item => { return item.clave == this.concepto });
     this.tabledat.concepto = concepto.valor1;
     this.tabledat.material = this.concepto;
-    this.tabledat.unidadcantidadtxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadcantidad})?.valor1;
-    this.tabledat.unidadvolumentxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadvolumen})?.valor1;
-    this.tabledat.unidadpesotxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadpeso})?.valor1;
-    
+    this.tabledat.unidadcantidadtxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadcantidad })?.valor1;
+    this.tabledat.unidadvolumentxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadvolumen })?.valor1;
+    this.tabledat.unidadpesotxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadpeso })?.valor1;
+
     this.data[this.indexEdit] = this.tabledat;
     this.tabledat = {} as FacturaForm;
   }
@@ -216,40 +216,46 @@ export class OperacionesNuevoPagoComponent implements OnInit {
     }, error => { });
   }
 
-   initDatePickers() {
-    $('#hora-ini').clockpicker({donetext: 'Aceptar', afterDone: (hour: any) =>{
-      var ini: any = document.getElementById('input-hora-ini');
-      this.horaini = ini.value + ':00';
-      this.getDays();
-    }});
-    $('#hora-fin').clockpicker({donetext: 'Aceptar', afterDone: (hour: any) =>{
-      var fin: any = document.getElementById('input-hora-fin');
-      this.horafin = fin.value + ':00';
-      this.getDays();
-    }});
+  initDatePickers() {
+    $('#hora-ini').clockpicker({
+      donetext: 'Aceptar', afterDone: (hour: any) => {
+        var ini: any = document.getElementById('input-hora-ini');
+        this.horaini = ini.value + ':00';
+        this.getDays();
+      }
+    });
+    $('#hora-fin').clockpicker({
+      donetext: 'Aceptar', afterDone: (hour: any) => {
+        var fin: any = document.getElementById('input-hora-fin');
+        this.horafin = fin.value + ':00';
+        this.getDays();
+      }
+    });
     $('#fecha-ini').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaini = date; this.getDays(); } });
     $('#fecha-fin').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechafin = date; this.getDays(); } });
-   
+
   }
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   getDays() {
-    let timein = '00:00:00'; 
-    let timeen = '23:59:00';
-      if(this.horaini){
+    if (this.fechaini && this.fechafin) {
+      let timein = '00:00:00';
+      let timeen = '23:59:00';
+      if (this.horaini) {
         timein = this.horaini;
-      } 
-      if(this.horafin){
+      }
+      if (this.horafin) {
         timeen = this.horafin;
-      } 
+      }
       const ini = dayjs(this.fechaini + 'T' + timein);
       const fin = dayjs(this.fechafin + 'T' + timeen);
-    if (this.isFecha) {
-      this.tabledat.cantidad = (fin.diff(ini,'day') + 1).toString();
-    }
-    if(this.isHora){
-      this.tabledat.cantidad = fin.diff(ini,'hours').toString()
+      if (this.isFecha) {
+        this.tabledat.cantidad = (fin.diff(ini, 'day') + 1).toString();
+      }
+      if (this.isHora) {
+        this.tabledat.cantidad = fin.diff(ini, 'hours').toString()
+      }
     }
   }
   buqueSelect(): void {
@@ -285,7 +291,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
       tramo: this.tramo,
       piezas: this.cantidadPiezas
     };
-  
+
     this.http.post(`${environment.endpointApi}facturacionGenerarOrden`, payload).subscribe((res: any) => {
       this.spinner.hide();
       if (res[0]?.error == 1) {

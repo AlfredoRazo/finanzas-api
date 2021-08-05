@@ -6,6 +6,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 declare var $: any;
+import dayjs from 'dayjs';
+import 'dayjs/locale/es';
 export interface FacturaForm {
   material: string;
   cantidad: string;
@@ -47,10 +49,10 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   dataEdit: any;
   noConsulta = '';
   cantidadPiezas = '';
-  horaini:any;
-  horafin:any;
+  horaini: any;
+  horafin: any;
   isHora = false;
-  numeroviaje:any;
+  numeroviaje: any;
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -77,8 +79,8 @@ export class FacturacionConsultaTipoComponent implements OnInit {
     private auth: AuthService,
     private spinner: NgxSpinnerService) { }
 
-   ngOnInit(): void {
-    
+  ngOnInit(): void {
+
     this.initDatePickers();
     this.getClientes();
     this.getConceptos();
@@ -107,7 +109,7 @@ export class FacturacionConsultaTipoComponent implements OnInit {
 
   selectConcepto(value: any) {
     this.concepto = value;
-    this.data = this.data.map(item=>{item.concepto = value});
+    this.data = this.data.map(item => { item.concepto = value });
     switch (value.trim()) {
       case '000000000000000003':
       case '000000000000000060':
@@ -156,9 +158,9 @@ export class FacturacionConsultaTipoComponent implements OnInit {
 
   guardarData(): void {
     const concepto = this.conceptos.find(item => { return item.clave == this.concepto });
-    this.tabledat.unidadcantidadtxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadcantidad})?.valor1;
-    this.tabledat.unidadvolumentxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadvolumen})?.valor1;
-    this.tabledat.unidadpesotxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadpeso})?.valor1;
+    this.tabledat.unidadcantidadtxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadcantidad })?.valor1;
+    this.tabledat.unidadvolumentxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadvolumen })?.valor1;
+    this.tabledat.unidadpesotxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadpeso })?.valor1;
     this.tabledat.concepto = concepto.valor1;
     this.tabledat.material = this.concepto;
     this.data.push(this.tabledat);
@@ -168,10 +170,10 @@ export class FacturacionConsultaTipoComponent implements OnInit {
     const concepto = this.conceptos.find(item => { return item.clave == this.concepto });
     this.tabledat.concepto = concepto.valor1;
     this.tabledat.material = this.concepto;
-    this.tabledat.unidadcantidadtxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadcantidad})?.valor1;
-    this.tabledat.unidadvolumentxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadvolumen})?.valor1;
-    this.tabledat.unidadpesotxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadpeso})?.valor1;
-    
+    this.tabledat.unidadcantidadtxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadcantidad })?.valor1;
+    this.tabledat.unidadvolumentxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadvolumen })?.valor1;
+    this.tabledat.unidadpesotxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadpeso })?.valor1;
+
     this.data[this.indexEdit] = this.tabledat;
     this.tabledat = {} as FacturaForm;
   }
@@ -189,38 +191,50 @@ export class FacturacionConsultaTipoComponent implements OnInit {
     }, error => { });
   }
 
-   initDatePickers() {
-    $('#hora-ini').clockpicker({donetext: 'Aceptar', afterDone: (hour: any) =>{
-      var ini: any = document.getElementById('input-hora-ini');
-      this.horaini = ini.value}});
-    $('#hora-fin').clockpicker({donetext: 'Aceptar', afterDone: (hour: any) =>{
-      var fin: any = document.getElementById('input-hora-fin');
-      this.horafin = fin.value}});
+  initDatePickers() {
+    $('#hora-ini').clockpicker({
+      donetext: 'Aceptar', afterDone: (hour: any) => {
+        var ini: any = document.getElementById('input-hora-ini');
+        this.horaini = ini.value + ':00';
+        this.getDays();
+      }
+    });
+    $('#hora-fin').clockpicker({
+      donetext: 'Aceptar', afterDone: (hour: any) => {
+        var fin: any = document.getElementById('input-hora-fin');
+        this.horafin = fin.value + ':00';
+        this.getDays();
+      }
+    });
     $('#fecha-ini').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaini = date; this.getDays(); } });
     $('#fecha-fin').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechafin = date; this.getDays(); } });
-   
+
   }
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   getDays() {
-    if (this.fechaini && this.fechafin && this.isFecha) {
-      var date1 = new Date(this.fechaini);
-      var date2 = new Date(this.fechafin);
-      var Difference_In_Time = date2.getTime() - date1.getTime();
-      var Difference_In_Days = (Difference_In_Time / (1000 * 3600 * 24)) + 1;
-      this.tabledat.cantidad = Difference_In_Days.toString();
+    if (this.fechaini && this.fechafin) {
+      let timein = '00:00:00';
+      let timeen = '23:59:00';
+      if (this.horaini) {
+        timein = this.horaini;
+      }
+      if (this.horafin) {
+        timeen = this.horafin;
+      }
+      const ini = dayjs(this.fechaini + 'T' + timein);
+      const fin = dayjs(this.fechafin + 'T' + timeen);
+      if (this.isFecha) {
+        this.tabledat.cantidad = (fin.diff(ini, 'day') + 1).toString();
+      }
+      if (this.isHora) {
+        this.tabledat.cantidad = fin.diff(ini, 'hours').toString()
+      }
     }
   }
-  setTime(){
-    if(this.isHora && this.horaini && this.horafin){
-      const timeStart = new Date (new Date().setHours(this.horaini.split(':')[0],this.horaini.split(':')[1])).getHours();
-      const timeEnd = new Date(new Date().setHours(this.horafin.split(':')[0],this.horafin.split(':')[1])).getHours();
-      let hourDiff = timeEnd - timeStart;    
-     this.tabledat.cantidad = hourDiff.toString();
-    }
 
-  }
+
   buqueSelect(): void {
     if (this.buque.tonelajeBruto) {
       this.tonelajeNeto = this.buque.tonelajeNeto;
@@ -251,7 +265,7 @@ export class FacturacionConsultaTipoComponent implements OnInit {
       tramo: "",
       piezas: this.cantidadPiezas
     };
-    
+
     this.http.post(`${environment.endpointApi}facturacionGenerarOrden`, payload).subscribe((res: any) => {
       this.spinner.hide();
       if (res[0]?.error == 1) {

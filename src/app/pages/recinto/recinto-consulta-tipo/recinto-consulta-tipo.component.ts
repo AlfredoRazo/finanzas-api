@@ -7,7 +7,7 @@ import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 declare var $: any;
 import dayjs from 'dayjs';
-import 'dayjs/locale/es'; 
+import 'dayjs/locale/es';
 
 export interface FacturaForm {
   material: string;
@@ -50,16 +50,16 @@ export class RecintoConsultaTipoComponent implements OnInit {
   dataEdit: any;
   noConsulta = '';
   cantidadPiezas = '';
-  horaini:any;
-  horafin:any;
+  horaini: any;
+  horafin: any;
   isHora = false;
-  numeroviaje:any;
+  numeroviaje: any;
   tarifa = '';
   catTarifa: any = [
-    {clave: '00' , descripcion: 'N/A'},
-    {clave: 'CG1', descripcion: 'Tarifa 1'},
-    {clave: 'CG2', descripcion: 'Tarifa 2'},
-    {clave: 'CG3', descripcion: 'Tarifa 3'}
+    { clave: '00', descripcion: 'N/A' },
+    { clave: 'CG1', descripcion: 'Tarifa 1' },
+    { clave: 'CG2', descripcion: 'Tarifa 2' },
+    { clave: 'CG3', descripcion: 'Tarifa 3' }
   ];
   search: any = (text$: Observable<any>) =>
     text$.pipe(
@@ -87,8 +87,8 @@ export class RecintoConsultaTipoComponent implements OnInit {
     private auth: AuthService,
     private spinner: NgxSpinnerService) { }
 
-   ngOnInit(): void {
-    
+  ngOnInit(): void {
+
     this.initDatePickers();
     this.getClientes();
     this.getConceptos();
@@ -117,7 +117,7 @@ export class RecintoConsultaTipoComponent implements OnInit {
 
   selectConcepto(value: any) {
     this.concepto = value;
-    this.data = this.data.map(item=>{item.concepto = value});
+    this.data = this.data.map(item => { item.concepto = value });
     switch (value.trim()) {
       case '000000000000000003':
       case '000000000000000060':
@@ -166,9 +166,9 @@ export class RecintoConsultaTipoComponent implements OnInit {
 
   guardarData(): void {
     const concepto = this.conceptos.find(item => { return item.clave == this.concepto });
-    this.tabledat.unidadcantidadtxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadcantidad})?.valor1;
-    this.tabledat.unidadvolumentxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadvolumen})?.valor1;
-    this.tabledat.unidadpesotxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadpeso})?.valor1;
+    this.tabledat.unidadcantidadtxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadcantidad })?.valor1;
+    this.tabledat.unidadvolumentxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadvolumen })?.valor1;
+    this.tabledat.unidadpesotxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadpeso })?.valor1;
     this.tabledat.concepto = concepto.valor1;
     this.tabledat.material = this.concepto;
     this.data.push(this.tabledat);
@@ -178,10 +178,10 @@ export class RecintoConsultaTipoComponent implements OnInit {
     const concepto = this.conceptos.find(item => { return item.clave == this.concepto });
     this.tabledat.concepto = concepto.valor1;
     this.tabledat.material = this.concepto;
-    this.tabledat.unidadcantidadtxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadcantidad})?.valor1;
-    this.tabledat.unidadvolumentxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadvolumen})?.valor1;
-    this.tabledat.unidadpesotxt = this.unidadesmedida.find(item =>{return item.clave === this.tabledat.unidadpeso})?.valor1;
-    
+    this.tabledat.unidadcantidadtxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadcantidad })?.valor1;
+    this.tabledat.unidadvolumentxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadvolumen })?.valor1;
+    this.tabledat.unidadpesotxt = this.unidadesmedida.find(item => { return item.clave === this.tabledat.unidadpeso })?.valor1;
+
     this.data[this.indexEdit] = this.tabledat;
     this.tabledat = {} as FacturaForm;
   }
@@ -199,35 +199,47 @@ export class RecintoConsultaTipoComponent implements OnInit {
     }, error => { });
   }
 
-   initDatePickers() {
-    $('#hora-ini').clockpicker({donetext: 'Aceptar', afterDone: (hour: any) =>{
-      var ini: any = document.getElementById('input-hora-ini');
-      this.horaini = ini.value}});
-    $('#hora-fin').clockpicker({donetext: 'Aceptar', afterDone: (hour: any) =>{
-      var fin: any = document.getElementById('input-hora-fin');
-      this.horafin = fin.value}});
+  initDatePickers() {
+    $('#hora-ini').clockpicker({
+      donetext: 'Aceptar', afterDone: (hour: any) => {
+        var ini: any = document.getElementById('input-hora-ini');
+        this.horaini = ini.value + ':00';
+        this.getDays();
+      }
+    });
+    $('#hora-fin').clockpicker({
+      donetext: 'Aceptar', afterDone: (hour: any) => {
+        var fin: any = document.getElementById('input-hora-fin');
+        this.horafin = fin.value + ':00';
+        this.getDays();
+      }
+    });
     $('#fecha-ini').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaini = date; this.getDays(); } });
     $('#fecha-fin').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechafin = date; this.getDays(); } });
-   
+
   }
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   getDays() {
-    if (this.fechaini && this.fechafin && this.isFecha) {
-      const ini = dayjs(this.fechaini).startOf('day');
-      const fin = dayjs(this.fechafin).endOf('day');
-      this.tabledat.cantidad = (fin.diff(ini,'day') + 1).toString();
+    if (this.fechaini && this.fechafin) {
+      let timein = '00:00:00';
+      let timeen = '23:59:00';
+      if (this.horaini) {
+        timein = this.horaini;
+      }
+      if (this.horafin) {
+        timeen = this.horafin;
+      }
+      const ini = dayjs(this.fechaini + 'T' + timein);
+      const fin = dayjs(this.fechafin + 'T' + timeen);
+      if (this.isFecha) {
+        this.tabledat.cantidad = (fin.diff(ini, 'day') + 1).toString();
+      }
+      if (this.isHora) {
+        this.tabledat.cantidad = fin.diff(ini, 'hours').toString()
+      }
     }
-  }
-  setTime(){
-    if(this.isHora && this.horaini && this.horafin){
-      const timeStart = new Date (new Date().setHours(this.horaini.split(':')[0],this.horaini.split(':')[1])).getHours();
-      const timeEnd = new Date(new Date().setHours(this.horafin.split(':')[0],this.horafin.split(':')[1])).getHours();
-      let hourDiff = timeEnd - timeStart;    
-     this.tabledat.cantidad = hourDiff.toString();
-    }
-
   }
   buqueSelect(): void {
     if (this.buque.tonelajeBruto) {
