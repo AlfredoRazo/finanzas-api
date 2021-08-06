@@ -129,7 +129,7 @@
         <tr>
             <td><img style="cursor: pointer;" (click)="sendPago('santander',totalApagar.toString())"
                     src="assets/img/bancos/santander.gif" /></td>
-            <td><img style="cursor: pointer;"  data-toggle="modal" data-target="#alerta"
+            <td><img style="cursor: pointer;"  data-toggle="modal" (click)="sendPago('bbva',totalApagar.toString())"
                     src="assets/img/bancos/bbva.gif" /></td>
             <td><img style="cursor: pointer;"  data-toggle="modal" data-target="#alerta" src="assets/img/bancos/spei.gif" /></td>
             <td><img style="cursor: pointer;"  data-toggle="modal" data-target="#alerta" src="assets/img/bancos/visa-master.gif" /></td>
