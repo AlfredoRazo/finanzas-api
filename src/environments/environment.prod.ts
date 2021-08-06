@@ -9,8 +9,8 @@ export const environment = {
   santanderEndpoint: 'https://www.santander.com.mx/Supernet2007/homeMicrositio.jsp',
   santanderResponse: 'http://pis-app-finanzas.azurewebsites.net/finanzas-api/santander10',
   bbvaEndpoint: 'https://prepro.adquiracloud.mx/clb/endpoint/apimanzanillo',
-  bbvaSuccessRes: 'https://pis-app-finanzas.azurewebsites.net/finanzas-api/bbva10',
-  bbvaFailRes: 'https://pis-app-finanzas.azurewebsites.net/finanzas-api/santanderE10',
+  bbvaSuccessRes: 'https://pis-apiman-restfinav1.azurewebsites.net/api/bbvav1QA',
+  bbvaFailRes: 'https://pis-apiman-restfinav1.azurewebsites.net/api/bbvav1QA',
   //bbvaEndpoint: 'https://www.egbs1.com.mx/clb/endpoint/apimanzanillo',
   bbvaKey: '85K98s7653Ap383iMangt73iO393K0jNjs031Man93k03lo39zAks3llo33fJU3092er93ai3Lj3',
   catlogin:{
