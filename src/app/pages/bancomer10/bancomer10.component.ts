@@ -4,11 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from '@env/environment';
 
 @Component({
-  selector: 'app-pago-success',
-  templateUrl: './pago-success.component.html',
-  styleUrls: ['./pago-success.component.css']
+  selector: 'app-bancomer10',
+  templateUrl: './bancomer10.component.html',
+  styleUrls: ['./bancomer10.component.css']
 })
-export class PagoSuccessComponent implements OnInit {
+export class Bancomer10Component implements OnInit {
+
   catCFDI: any[] = [];
   sendCFDI = false;
   constructor(private activeRoute: ActivatedRoute, private http: HttpClient) { }
@@ -25,7 +26,6 @@ export class PagoSuccessComponent implements OnInit {
     importe: '',
   };
   estatus = 1;
-  type = 0;
   cfdi: any;
   ngOnInit(): void {
     this.getCatalogoCFDI();
@@ -35,16 +35,15 @@ export class PagoSuccessComponent implements OnInit {
             Object.entries(params).forEach(item => {
               valores += `${item[0]}:${item[0]}|`
             })
-            this.type = 1;
             this.estatus = params?.estatus;
-            this.data.estatus = params?.estatus;
-            this.data.mensaje = params?.mensaje;
-            this.data.folio = params?.folio_oper;
-            this.data.nombre = params?.nomUsuario;
-            this.data.referencia = params?.referencia;
+            this.data.estatus = '9';
+            this.data.mensaje = 'TransaccionOK';
+            this.data.folio = params?.s_transm;
+            this.data.nombre = params?.val_2;
+            this.data.referencia = params?.c_referencia;
             this.data.valores = valores;
-            this.data.fecha = `${params?.fecha} ${params?.hora}`;
-            this.data.importe = params?.importe;
+            this.data.fecha = `${params?.val_10}`;
+            this.data.importe = params?.t_importe;
             this.http.post(`${environment.endpointApi}bancosRespuesta`, this.data).subscribe((resBanco: any) => {
             });
       });

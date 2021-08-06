@@ -19,9 +19,11 @@ import { CesionarioComponent } from './pages/clientes/cesionario/cesionario.comp
 import { FacturacionComponent } from './pages/facturacion/facturacion.component';
 import { FacturacionNuevaConsultaComponent } from './pages/facturacion/facturacion-nueva-consulta/facturacion-nueva-consulta.component';
 import { FacturacionConsultaTipoComponent } from './pages/facturacion/facturacion-consulta-tipo/facturacion-consulta-tipo.component';
-import { PagoSuccessComponent } from './pages/pago-success/pago-success.component';
+import { Santander10Component } from './pages/santander10/santander10.component';
 import { ClienteComponent } from './pages/clientes/cliente/cliente.component';
 import { RecintoConsultaTipoComponent } from './pages/recinto/recinto-consulta-tipo/recinto-consulta-tipo.component';
+import { Bancomer10Component } from './pages/bancomer10/bancomer10.component';
+import { Bancomer10FailComponent } from './pages/bancomer10-fail/bancomer10-fail.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -34,7 +36,9 @@ const routes: Routes = [
   { path: 'clientes/naviera', component: NavieraComponent, canActivate: [GuardService] },
   { path: 'clientes/cesionario', component: CesionarioComponent, canActivate: [GuardService] },
   { path: 'clientes/cliente', component: ClienteComponent, canActivate: [GuardService] },
-  { path: 'santander10', component: PagoSuccessComponent },
+  { path: 'santander10', component: Santander10Component },
+  { path: 'bancomer10', component: Bancomer10Component },
+  { path: 'bancomer10-fail', component: Bancomer10FailComponent },
  /* { path: 'facturacion',
   loadChildren: () => import('./pages/facturacion/facturacion.module').then(m => m.FacturacionModule),
   canActivate: [GuardService] },*/

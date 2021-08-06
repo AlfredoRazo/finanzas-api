@@ -1,0 +1,46 @@
+<div style="text-align: center;">
+    <span class="glyphicon glyphicon-ok-sign" style="font-size: 110px; color:#3c763d" aria-hidden="true"></span>
+</div>
+<br>
+<div class="alert alert-success" style="text-align: center;">
+    Pago éxitoso
+</div>
+<table class="table table-bordered table-striped">
+    <tbody>
+        <tr>
+            <td><b>Folio</b></td>
+            <td>{{data.folio}}</td>
+        </tr>
+        <tr>
+            <td><b>Nombre</b></td>
+            <td>{{data.nombre}}</td>
+        </tr>
+        <tr>
+            <td><b>Referencia</b></td>
+            <td>{{data.referencia}}</td>
+        </tr>
+        <tr>
+            <td><b>Fecha</b></td>
+            <td>{{data.fecha}}</td>
+        </tr>
+        <tr>
+            <td><b>Importe</b></td>
+            <td>{{data.importe}}</td>
+        </tr>
+        <tr>
+            <td><b>Uso CFDI</b></td>
+            <td><select class="form-control" name="cfdi" [(ngModel)]="cfdi">
+                    <option value="">Seleccione</option>
+                    <option *ngFor="let item of catCFDI" [value]="item.clave">{{item.clave}} - {{item.valor}}</option>
+                </select></td>
+        </tr>
+    </tbody>
+</table>
+<div *ngIf="!sendCFDI">
+    <button class="btn btn-primary btn-block" [disabled]="!cfdi" (click)="sendUsoCfdi()">Guardar</button>
+</div>
+<br>
+<div *ngIf="sendCFDI" class="alert alert-success" style="text-align: center;">
+    <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+    Se guardo el uso de CFDI correctamente
+</div>

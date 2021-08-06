@@ -35,11 +35,13 @@ import { FacturacionConsultaTipoComponent } from './pages/facturacion/facturacio
 import { CfdiComponent } from './components/cfdi/cfdi.component';
 import { PagosComponent } from './components/pagos/pagos.component';
 import { ClientesTableComponent } from './components/clientes-table/clientes-table.component';
-import { PagoSuccessComponent } from './pages/pago-success/pago-success.component';
+import { Santander10Component } from './pages/santander10/santander10.component';
 import { PagosTableComponent } from './components/pagos-table/pagos-table.component';
 import { RespuestaBancosComponent } from './components/respuesta-bancos/respuesta-bancos.component';
 import { ClienteComponent } from './pages/clientes/cliente/cliente.component';
 import { RecintoConsultaTipoComponent } from './pages/recinto/recinto-consulta-tipo/recinto-consulta-tipo.component';
+import { Bancomer10Component } from './pages/bancomer10/bancomer10.component';
+import { Bancomer10FailComponent } from './pages/bancomer10-fail/bancomer10-fail.component';
 
 @NgModule({
   declarations: [
@@ -68,11 +70,13 @@ import { RecintoConsultaTipoComponent } from './pages/recinto/recinto-consulta-t
     CfdiComponent,
     PagosComponent,
     ClientesTableComponent,
-    PagoSuccessComponent,
+    Santander10Component,
     PagosTableComponent,
     RespuestaBancosComponent,
     ClienteComponent,
-    RecintoConsultaTipoComponent
+    RecintoConsultaTipoComponent,
+    Bancomer10Component,
+    Bancomer10FailComponent
   ],
   imports: [
     BrowserAnimationsModule,
