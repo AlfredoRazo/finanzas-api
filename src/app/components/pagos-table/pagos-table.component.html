@@ -8,7 +8,7 @@
                 </select>
             </div>
             <div class="col-sm-5">
-                <input type="email" class="form-control" placeholder="Criterio">
+                <input type="text" class="form-control" placeholder="Criterio" name="criterio" [(ngModel)]="criterio" >
             </div>
             <div class="col-sm-2">
                 <button class="btn btn-danger btn-block btn-sm" type="button">Buscar <span
@@ -69,7 +69,11 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of data">
-                    <td style="vertical-align: middle;"><input type="checkbox" [(ngModel)]="item.selected"></td>
+                    <td style="vertical-align: middle;">
+                        <ng-container *ngIf="item.estatus == 'Nuevo'">
+                            <input type="checkbox" [(ngModel)]="item.selected">
+                        </ng-container>
+                    </td>
                     <td>{{item.estatus}}</td>
                     <td>{{item.noConsulta}}</td>
                     <td>{{item.fechaConsulta}}</td>

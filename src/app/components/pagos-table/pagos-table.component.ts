@@ -50,6 +50,8 @@ export class PagosTableComponent implements OnInit {
     'Referencia de pago'
   ];
 
+  criterio: any;
+
   constructor(private http: HttpClient,
     private pagina: PaginateService,
     private help: HelpersService,
@@ -62,7 +64,11 @@ export class PagosTableComponent implements OnInit {
   }
 
   checks(): void {
-    this.originalData = this.originalData.map((item: any) => { item.selected = this.checkAll; return item });
+    this.originalData = this.originalData.map((item: any) => { 
+      if(item.estatus == 'Nuevo'){
+        item.selected = this.checkAll; 
+      }
+      return item; });
     this.data = this.pagina.paginate(this.originalData, 10, this.pagePago);
   }
 
