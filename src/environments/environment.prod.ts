@@ -8,7 +8,7 @@ export const environment = {
   googleCaptchaKey: '6LcZ7w4bAAAAAAcogck-Te91o6SPDZYuNcWBlmHX',
   santanderEndpoint: 'https://www.santander.com.mx/Supernet2007/homeMicrositio.jsp',
   santanderResponse: 'http://pis-app-finanzas.azurewebsites.net/finanzas-api/santander10',
-  bbvaEndpoint: 'https://prepro.adquiracloud.mx/clb/endpoint/apimanzanillo',
+  bbvaEndpoint: 'https://www.adquiramexico.com.mx/clb/endpoint/apimanzanillo',
   bbvaSuccessRes: 'https://pis-apiman-restfinav1.azurewebsites.net/api/bbvav1QA',
   bbvaFailRes: 'https://pis-apiman-restfinav1.azurewebsites.net/api/bbvav1QA',
   //bbvaEndpoint: 'https://www.egbs1.com.mx/clb/endpoint/apimanzanillo',
