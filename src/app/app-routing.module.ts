@@ -36,6 +36,7 @@ const routes: Routes = [
   { path: 'clientes/naviera', component: NavieraComponent, canActivate: [GuardService] },
   { path: 'clientes/cesionario', component: CesionarioComponent, canActivate: [GuardService] },
   { path: 'clientes/cliente', component: ClienteComponent, canActivate: [GuardService] },
+  { path: 'clientes/cliente/consulta-por-tipo', component: FacturacionConsultaTipoComponent, canActivate: [GuardService] },
   { path: 'santander10', component: Santander10Component },
   { path: 'bancomer10', component: Bancomer10Component },
   { path: 'bancomer10-fail', component: Bancomer10FailComponent },
