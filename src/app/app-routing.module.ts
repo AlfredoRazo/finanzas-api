@@ -24,6 +24,7 @@ import { ClienteComponent } from './pages/clientes/cliente/cliente.component';
 import { RecintoConsultaTipoComponent } from './pages/recinto/recinto-consulta-tipo/recinto-consulta-tipo.component';
 import { Bancomer10Component } from './pages/bancomer10/bancomer10.component';
 import { Bancomer10FailComponent } from './pages/bancomer10-fail/bancomer10-fail.component';
+import { ClienteGenerarConsultaComponent } from './pages/clientes/cliente/cliente-generar-consulta/cliente-generar-consulta.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -36,7 +37,7 @@ const routes: Routes = [
   { path: 'clientes/naviera', component: NavieraComponent, canActivate: [GuardService] },
   { path: 'clientes/cesionario', component: CesionarioComponent, canActivate: [GuardService] },
   { path: 'clientes/cliente', component: ClienteComponent, canActivate: [GuardService] },
-  { path: 'clientes/cliente/consulta-por-tipo', component: FacturacionConsultaTipoComponent, canActivate: [GuardService] },
+  { path: 'clientes/cliente/consulta-por-tipo', component: ClienteGenerarConsultaComponent, canActivate: [GuardService] },
   { path: 'santander10', component: Santander10Component },
   { path: 'bancomer10', component: Bancomer10Component },
   { path: 'bancomer10-fail', component: Bancomer10FailComponent },
