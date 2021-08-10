@@ -33,7 +33,7 @@ export class Santander10Component implements OnInit {
       .subscribe(params => {
             let valores = '';
             Object.entries(params).forEach(item => {
-              valores += `${item[0]}:${item[0]}|`
+              valores += `${item[0]}:${item[1]}|`
             })
             this.type = 1;
             this.estatus = params?.estatus;

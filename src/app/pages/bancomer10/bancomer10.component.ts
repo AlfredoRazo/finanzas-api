@@ -33,7 +33,7 @@ export class Bancomer10Component implements OnInit {
       .subscribe(params => {
             let valores = '';
             Object.entries(params).forEach(item => {
-              valores += `${item[0]}:${item[0]}|`
+              valores += `${item[0]}:${item[1]}|`
             })
             this.estatus = params?.estatus;
             this.data.estatus = '9';
