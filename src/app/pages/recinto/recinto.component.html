@@ -36,6 +36,7 @@
     <button type="button" class="btn btn-primary btn-sm" routerLink="nueva-solicitud">Nueva solicitud</button>
     <br>
     <br>
+    <div class="table-responsive" style="height: 500px;">
     <table class="table table-bordered">
       <thead>
         <tr style="cursor: pointer;">
@@ -61,7 +62,7 @@
         </tr>
       </tbody>
     </table>
-
+    </div>
     <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
   </div>
   <div *ngSwitchCase="2">

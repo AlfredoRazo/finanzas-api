@@ -55,22 +55,23 @@
     <div class="row">
         <div class="form-group col-md-4">
             <label class="control-label">Cliente para facturar (RFC)</label>
-            <input type="text" class="form-control"  name="rfcCliente" (blur)="searchName()" [(ngModel)]="rfcCliente">
+            <input type="text" class="form-control" name="rfcCliente" (blur)="searchName()" [(ngModel)]="rfcCliente">
         </div>
         <div class="form-group col-md-8">
             <label class="control-label">Nombre</label>
-            <input type="text" class="form-control"  name="nombreCliente" [(ngModel)]="nombreCliente">
+            <input type="text" class="form-control" name="nombreCliente" [(ngModel)]="nombreCliente">
         </div>
     </div>
     <hr>
     <ng-template #rt let-r="result" let-t="term">
         <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
-      </ng-template>
+    </ng-template>
 
     <div class="row">
         <div class="form-group col-md-12">
             <label class="control-label">Nombre de buque</label>
-            <input type="text" class="form-control" [(ngModel)]="buque" name="buque" [ngbTypeahead]="search" [inputFormatter]="formatter" [resultTemplate]="rt">
+            <input type="text" class="form-control" [(ngModel)]="buque" name="buque" [ngbTypeahead]="search"
+                [inputFormatter]="formatter" [resultTemplate]="rt">
         </div>
     </div>
     <div class="row">
@@ -140,30 +141,37 @@
 
 <br>
 <br>
-<table class="table table-bordered">
-    <thead>
-      <tr style="cursor: pointer;">
-        <th scope="col" [appSort]="data" data-order="desc" data-name="id">Manifiesto<span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="marca">Marca<span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="embalaje">Embalaje<span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="piezas">Piezas<span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="peso">Peso<span class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="unidades">Unidades<span class="glyphicon glyphicon-sort"></span></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of data">
-        <td>{{item.manifiesto}}</td>
-        <td>{{item.marca}}</td>
-        <td>{{item.embalaje}}</td>
-        <td>{{item.piezas}}</td>
-        <td>{{item.peso}}</td>
-        <td>{{item.unidades}}</td>
+<div class="table-responsive" style="height: 500px;">
+    <table class="table table-bordered">
+        <thead>
+            <tr style="cursor: pointer;">
+                <th scope="col" [appSort]="data" data-order="desc" data-name="id">Manifiesto<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="marca">Marca<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="embalaje">Embalaje<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="piezas">Piezas<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="peso">Peso<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="unidades">Unidades<span
+                        class="glyphicon glyphicon-sort"></span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data">
+                <td>{{item.manifiesto}}</td>
+                <td>{{item.marca}}</td>
+                <td>{{item.embalaje}}</td>
+                <td>{{item.piezas}}</td>
+                <td>{{item.peso}}</td>
+                <td>{{item.unidades}}</td>
 
-      </tr>
-    </tbody>
-  </table>
-  
-  <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>
-  <br>
-  <button type="button" class="btn btn-default" routerLink="/clientes">Regresar</button>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination>
+<br>
+<button type="button" class="btn btn-default" routerLink="/clientes">Regresar</button>
