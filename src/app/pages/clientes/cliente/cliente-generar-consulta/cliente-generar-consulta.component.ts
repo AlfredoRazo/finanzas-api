@@ -8,7 +8,6 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 declare var $: any;
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
-
 export interface FacturaForm {
   material: string;
   cantidad: string;
@@ -23,11 +22,12 @@ export interface FacturaForm {
   concepto: string;
 }
 @Component({
-  selector: 'app-operaciones-nuevo-pago',
-  templateUrl: './operaciones-nuevo-pago.component.html',
-  styleUrls: ['./operaciones-nuevo-pago.component.css']
+  selector: 'app-cliente-generar-consulta',
+  templateUrl: './cliente-generar-consulta.component.html',
+  styleUrls: ['./cliente-generar-consulta.component.css']
 })
-export class OperacionesNuevoPagoComponent implements OnInit {
+export class ClienteGenerarConsultaComponent implements OnInit {
+
   catalogos = environment.endpoint + 'sapCatalogos?catalogo='
   tabledat: FacturaForm = {} as FacturaForm;
   clientes: any[] = [];
@@ -44,9 +44,6 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   eslora = '';
   concepto = '';
   bl = '';
-  numeroviaje = '';
-  tipobuque = '';
-  tramo = '';
   hasError = false;
   success = false;
   indexEdit: any;
@@ -56,33 +53,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   horaini: any;
   horafin: any;
   isHora = false;
-  catTramo = [
-    '01',
-    '02',
-    '03',
-    '04',
-    '05',
-    '06',
-    '07',
-    '08',
-    '09',
-    '10',
-    '11',
-    '12',
-    '13',
-    '14',
-    '15',
-    '16',
-    '17',
-    '18',
-    '19',
-    '20'
-  ];
-  patternshours = {
-    '0': { pattern: new RegExp(/[0-2]/) },
-    '1': { pattern: new RegExp(/[0-9]/) },
-    '2': { pattern: new RegExp(/[0-5]/) }
-  };
+  numeroviaje: any;
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -128,7 +99,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   getConceptos(): void {
 
     this.http.get(`${environment.endpoint}sapcatalogos?catalogo=materiales`).subscribe((res: any) => {
-      this.conceptos = res.valores.filter((item: any) => { return item.clave == '000000000000000001' || item.clave == '000000000000000002' });
+      this.conceptos = res.valores;
     }, err => { this.spinner.hide() });
   }
   getUnidadesMedida(): void {
@@ -263,13 +234,13 @@ export class OperacionesNuevoPagoComponent implements OnInit {
       }
     }
   }
+
+
   buqueSelect(): void {
     if (this.buque.tonelajeBruto) {
-      console.log(this.buque);
       this.tonelajeNeto = this.buque.tonelajeNeto;
       this.tonelajeMuerto = this.buque?.tonelajeMuerto;
       this.eslora = this.buque.eslora;
-      this.tipobuque = this.buque?.tipoBuque?.nombreMigracion
       this.tabledat.peso = this.buque?.tonelajeBruto?.toString();
     }
   }
@@ -292,8 +263,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
       horasalida: this.horafin,
       pedimento: "",
       recinto: "",
-      tipoBuque: this.tipobuque,
-      tramo: this.tramo,
+      tramo: "",
       piezas: this.cantidadPiezas
     };
 
@@ -314,4 +284,5 @@ export class OperacionesNuevoPagoComponent implements OnInit {
     this.tabledat = item;
     this.indexEdit = index;
   }
+
 }

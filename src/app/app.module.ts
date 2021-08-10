@@ -23,6 +23,7 @@ import { AgenteAduanalComponent } from './pages/clientes/agente-aduanal/agente-a
 import { NavieraComponent } from './pages/clientes/naviera/naviera.component';
 import { AgenteNuevaSolicitudComponent } from './pages/clientes/agente-aduanal/agente-nueva-solicitud/agente-nueva-solicitud.component';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 import { OperacionesNuevoPagoComponent } from './pages/operaciones/operaciones-nuevo-pago/operaciones-nuevo-pago.component';
 import { PpGenerarConsultaComponent } from './pages/proteccion-portuaria/pp-generar-consulta/pp-generar-consulta.component';
@@ -42,6 +43,7 @@ import { ClienteComponent } from './pages/clientes/cliente/cliente.component';
 import { RecintoConsultaTipoComponent } from './pages/recinto/recinto-consulta-tipo/recinto-consulta-tipo.component';
 import { Bancomer10Component } from './pages/bancomer10/bancomer10.component';
 import { Bancomer10FailComponent } from './pages/bancomer10-fail/bancomer10-fail.component';
+import { ClienteGenerarConsultaComponent } from './pages/clientes/cliente/cliente-generar-consulta/cliente-generar-consulta.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +78,8 @@ import { Bancomer10FailComponent } from './pages/bancomer10-fail/bancomer10-fail
     ClienteComponent,
     RecintoConsultaTipoComponent,
     Bancomer10Component,
-    Bancomer10FailComponent
+    Bancomer10FailComponent,
+    ClienteGenerarConsultaComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -88,6 +91,7 @@ import { Bancomer10FailComponent } from './pages/bancomer10-fail/bancomer10-fail
     NgbModule,
     NgxCaptchaModule,
     NgxSpinnerModule,
+    NgxMaskModule.forRoot(),
     
   ],
   providers: [BnNgIdleService],
