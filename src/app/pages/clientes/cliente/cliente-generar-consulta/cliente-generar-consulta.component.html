@@ -56,7 +56,7 @@
                 requerido</span>
 
         </div-->
-        <div class="form-group col-md-4"
+        <!--div class="form-group col-md-4"
             [class.has-error]="conceptoc.invalid && (conceptoc.dirty || conceptoc.touched)">
             <label class="control-label">Concepto</label>
             <select class="form-control" [(ngModel)]="concepto" #conceptoc="ngModel" name="concepto"
@@ -65,7 +65,7 @@
             </select>
             <span class="help-block" *ngIf="conceptoc.invalid && (conceptoc.dirty || conceptoc.touched)">Este campo es
                 requerido</span>
-        </div>
+        </div-->
         <div class="form-group col-md-4"
             [class.has-error]="nombreBuque.invalid && (nombreBuque.dirty || nombreBuque.touched)">
             <ng-template #rt let-r="result" let-t="term">
@@ -186,7 +186,7 @@
     <div class="col-md-12">
         <button type="button" class="btn btn-default" routerLink="/facturacion">Regresar</button>
         <button type="button" class="btn btn-primary" (click)="generarPago()" style="margin-left: 15px;"
-            [disabled]="data.length == 0">Generar Pago</button>
+            [disabled]="data.length == 0">Generar Solicitud</button>
     </div>
 </div>
 

@@ -49,21 +49,21 @@
                 <td><b>Importe</b></td>
                 <td>{{data.importe}}</td>
             </tr>
-            <tr>
+            <!--tr>
                 <td><b>Uso CFDI</b></td>
                 <td><select class="form-control" name="cfdi" [(ngModel)]="cfdi">
                     <option value="">Seleccione</option>
                         <option *ngFor="let item of catCFDI" [value]="item.clave">{{item.clave}} - {{item.valor}}</option>
                     </select></td>
-            </tr>
+            </tr-->
         </tbody>
     </table>
-    <div *ngIf="!sendCFDI">
+    <!--div *ngIf="!sendCFDI">
         <button class="btn btn-primary btn-block" [disabled]="!cfdi" (click)="sendUsoCfdi()">Guardar</button>
     </div>
     <br>
     <div *ngIf="sendCFDI" class="alert alert-success" style="text-align: center;">
         <span class="glyphicon glyphicon-ok-sign"aria-hidden="true"></span>
         Se guardo el uso de CFDI correctamente
-    </div>
+    </div-->
 </div>

@@ -49,8 +49,9 @@ export class PagosTableComponent implements OnInit {
     'Fecha de pago',
     'Referencia de pago'
   ];
-
+  catCFDI:any[] = [];
   criterio: any;
+  cfdi:any;
 
   constructor(private http: HttpClient,
     private pagina: PaginateService,
@@ -61,6 +62,7 @@ export class PagosTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
+    this.getCatalogoCFDI();
   }
 
   checks(): void {
@@ -79,6 +81,12 @@ export class PagosTableComponent implements OnInit {
       this.data = this.pagina.paginate(this.originalData, 10, this.pagePago);
     }
     this.descripcionPaginado();
+  }
+
+  getCatalogoCFDI(): void{
+    this.http.get(`${environment.endpointApi}catUsoCFDI`).subscribe((res: any)=> {
+      this.catCFDI = res;
+    });
   }
 
   getData(): void {
@@ -139,6 +147,7 @@ export class PagosTableComponent implements OnInit {
 
   sendPago(banco: string, total: string): void {
    const monto = total.replace(/\$/g, '').replace(/\,/g, '');
+   this.sendUsoCfdi();
    if (banco == 'santander') {
       const multiPagosform = document.createElement('form');
       const convenio = document.createElement('input');
@@ -263,6 +272,19 @@ export class PagosTableComponent implements OnInit {
     const DATA = document.getElementById('contenido-imprimir');
     this.pdf.downloadPdf(DATA);
 
+  }
+  sendUsoCfdi(): void{
+    const val = this.catCFDI.filter(item =>{ return item.clave === this.cfdi });
+    const payload = {
+      appkey : environment.appKey,
+      referencia: this.referencia,
+      clave: val[0].clave,
+      uso: val[0].valor
+    }
+    this.http.post(`${environment.endpointApi}catUsoCFDI`, payload).subscribe((res: any)=>{
+      if(res.error == 0){
+      }
+    },error=>{});
   }
 
 }
