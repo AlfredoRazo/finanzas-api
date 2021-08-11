@@ -46,7 +46,8 @@ const routes: Routes = [
   canActivate: [GuardService] },*/
   { path: 'facturacion', component: FacturacionComponent, canActivate: [GuardService] },
   { path: 'facturacion/nueva-consulta', component: FacturacionNuevaConsultaComponent, canActivate: [GuardService] },
-  { path: 'facturacion/consulta-por-tipo', component: FacturacionConsultaTipoComponent, canActivate: [GuardService] },
+  { path: 'facturacion/consulta-por-tipo', component: RecintoConsultaTipoComponent, canActivate: [GuardService] },
+  { path: 'facturacion/consulta-buques', component:OperacionesNuevoPagoComponent, canActivate: [GuardService] },
   { path: 'recinto', component: RecintoComponent, canActivate: [GuardService] },
   { path: 'recinto/consulta-por-tipo', component: RecintoConsultaTipoComponent, canActivate: [GuardService] },
   { path: 'recinto/nueva-solicitud', component: RecintoNuevaSolicitudComponent, canActivate: [GuardService] },
@@ -54,7 +55,7 @@ const routes: Routes = [
   { path: 'estadistica/consulta-por-tipo', component: FacturacionConsultaTipoComponent, canActivate: [GuardService] },
   { path: 'operaciones', component: OperacionesComponent, canActivate: [GuardService] },
   { path: 'operaciones/consulta-por-tipo', component: OperacionesNuevoPagoComponent, canActivate: [GuardService] },
-  { path: 'operaciones/nuevo-pago', component: OperacionesNuevoPagoComponent, canActivate: [GuardService] },
+  
   { path: 'proteccion-portuaria', component: ProteccionPortuariaComponent, canActivate: [GuardService] },
   { path: 'proteccion-portuaria/consulta-por-tipo', component: FacturacionConsultaTipoComponent, canActivate: [GuardService] },
   { path: 'proteccion-portuaria/generar-consulta', component: PpGenerarConsultaComponent, canActivate: [GuardService] },

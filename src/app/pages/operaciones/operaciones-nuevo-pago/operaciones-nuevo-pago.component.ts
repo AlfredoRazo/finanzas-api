@@ -265,7 +265,6 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   }
   buqueSelect(): void {
     if (this.buque.tonelajeBruto) {
-      console.log(this.buque);
       this.tonelajeNeto = this.buque.tonelajeNeto;
       this.tonelajeMuerto = this.buque?.tonelajeMuerto;
       this.eslora = this.buque.eslora;
