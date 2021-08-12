@@ -32,25 +32,26 @@ export class PagosTableComponent implements OnInit {
   descPaginado = '';
   data: any = [];
   isPagar = false;
+  filtrarpor: any;
   filter: any[] = [
-    'Estatus',
-    'Consulta de pago',
-    'Fecha de la consulta',
-    'Tipo de Servicio',
-    'Factura',
-    'Fecha de la factura',
-    'Cliente',
-    'Solicitante',
-    'UUID',
-    'Subtotal',
-    'Descuentos',
-    'IVA',
-    'Total',
-    'Fecha de pago',
-    'Referencia de pago'
+    {key:'estatus' ,descripcion: 'Estatus'},
+    {key:'noConsulta' ,descripcion: 'Consulta de pago'},
+    {key:'fechaConsulta' ,descripcion: 'Fecha de la consulta'},
+    {key:'tipoServicio' ,descripcion: 'Tipo de Servicio'},
+    {key:'factura' ,descripcion: 'Factura'},
+    {key:'fechafactura' ,descripcion: 'Fecha de la factura'},
+    {key:'cliente' ,descripcion: 'Cliente'},
+    {key:'solicitante' ,descripcion: 'Solicitante'},
+    {key:'UUID' ,descripcion: 'UUID'},
+    {key:'subtotal' ,descripcion: 'Subtotal'},
+    {key:'descuentos' ,descripcion: 'Descuentos'},
+    {key:'iva' ,descripcion: 'IVA'},
+    {key:'total' ,descripcion: 'Total'},
+    {key:'fechaPago' ,descripcion: 'Fecha de pago'},
+    {key:'referenciaPago' ,descripcion: 'Referencia de pago'}
   ];
   catCFDI:any[] = [];
-  criterio: any;
+  criterio: string = '';
   cfdi:any;
 
   constructor(private http: HttpClient,
@@ -72,6 +73,23 @@ export class PagosTableComponent implements OnInit {
       }
       return item; });
     this.data = this.pagina.paginate(this.originalData, 10, this.pagePago);
+  }
+
+  filtrado(): void{
+    this.pagePago = 1;
+    if(this.criterio && this.filtrarpor){
+      this.filtro = true;
+      this.filterData = this.originalData.filter((item: any) =>{
+         return item[this.filtrarpor].toLowerCase().includes(this.criterio.toLowerCase());
+      })
+      this.totalPago = this.filterData.length;
+      this.paginado();
+    }else{
+      this.filtro = false;
+      this.totalPago = this.originalData.length;
+      this.paginado();
+    }
+    
   }
 
   paginado(evt: any = null): void {
@@ -104,6 +122,7 @@ export class PagosTableComponent implements OnInit {
       this.pagePago = 1;
       this.totalPago = res[0].length;
       this.data = [...this.originalData];
+      this.filterData = [...this.originalData];
       this.data = this.pagina.paginate(res[0], this.collSize, this.pagePago);
       this.descripcionPaginado();
     }, error => { this.spinner.hide() })
