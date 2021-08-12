@@ -50,7 +50,6 @@ export class LoginComponent implements OnInit {
               this.http.post(environment.endpointCat + 'login', environment.catlogin).subscribe((rescat: any) => {
                 this.spinner.hide();
                 const rol = this.role.getRolById(res.valor.idRolApp);
-                //const rol = 'ADMIN';
                 const user = {
                   usuariokey: res.mensaje,
                   idusuario: res.valor.usuario_Id,
@@ -104,7 +103,9 @@ export class LoginComponent implements OnInit {
         this.http.post(environment.endpointCat + 'login', environment.catlogin).subscribe((rescat: any) => {
           this.spinner.hide();
           res[0].catToken = rescat.valor;
+          res[0].rol = 'ADMIN';
           this.authService.setSession({ token: environment.appKey, userData: res[0] });
+           
           this.role.reditecByRole(res[0].rol);
         }, error => {
           this.spinner.hide();
