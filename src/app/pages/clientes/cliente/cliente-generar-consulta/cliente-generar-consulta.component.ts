@@ -248,26 +248,13 @@ export class ClienteGenerarConsultaComponent implements OnInit {
   generarPago(): void {
     this.spinner.show();
     const payload = {
-      detalle: this.data,
-      tipo: parseInt(this.concepto),
-      clienteSolicita: this.solicitados?.claveSAP,
-      clientefacturar: this.facturaa?.claveSAP,
       nombrebuque: this.buque.nombre ? this.buque.nombre : this.buque,
-      numeroviaje: this.numeroviaje,
-      workorder: "",
-      aduana: "",
-      bl: this.bl,
-      fechaentrada: this.fechaini,
-      fechasalida: this.fechafin,
-      horaentrada: this.horaini,
-      horasalida: this.horafin,
-      pedimento: "",
-      recinto: "",
-      tramo: "",
-      piezas: this.cantidadPiezas
-    };
+      solicitante: this.solicitados?.claveSAP,
+      facturara: this.facturaa?.claveSAP,
+      viaje: this.numeroviaje
+    } 
 
-    this.http.post(`${environment.endpointApi}facturacionGenerarOrden`, payload).subscribe((res: any) => {
+    this.http.post(`${environment.endpointApi}buquesSolicitud`, payload).subscribe((res: any) => {
       this.spinner.hide();
       if (res[0]?.error == 1) {
         this.hasError = true;
@@ -275,8 +262,8 @@ export class ClienteGenerarConsultaComponent implements OnInit {
       } else {
         this.hasError = false
         this.success = true;
-        this.noConsulta = res[0].noConsulta;
-        this.data = [];
+       // this.noConsulta = res[0].noConsulta;
+       // this.data = [];
       }
     }, error => { this.spinner.hide(); });
   }
