@@ -30,7 +30,7 @@ export class UserComponent implements OnInit {
             .split('-').join(' ')
             .replace('facturacion', 'facturación')
             .replace('proteccion', 'protección')
-            )
+            ).split('?')[0]
         });
       }
     }

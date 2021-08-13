@@ -8,6 +8,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 declare var $: any;
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
+import { ActivatedRoute } from '@angular/router';
 
 export interface FacturaForm {
   material: string;
@@ -34,7 +35,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   conceptos: any[] = [];
   unidadesmedida: any[] = [];
   data: any[] = [];
-  buque: any;
+  buque: any = {};
   buques: any[] = [];
   isFecha = false;
   fechaini: any;
@@ -93,8 +94,8 @@ export class OperacionesNuevoPagoComponent implements OnInit {
       )
     );
   formatter = (x: { nombre: string }) => x.nombre;
-  solicitados: any;
-  facturaa: any;
+  solicitados: any = {};
+  facturaa: any = {};
   searchCliente: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -106,11 +107,16 @@ export class OperacionesNuevoPagoComponent implements OnInit {
     );
 
   constructor(private http: HttpClient,
+    private activeRoute: ActivatedRoute,
     private auth: AuthService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-
+    
+    this.activeRoute.queryParams
+    .subscribe(params => {
+          this.numeroviaje = params?.viaje;
+    });
     this.initDatePickers();
     this.getClientes();
     this.getConceptos();
@@ -122,6 +128,13 @@ export class OperacionesNuevoPagoComponent implements OnInit {
     this.spinner.show();
     this.http.get(`${environment.endpoint}clientes`).subscribe((res: any) => {
       this.clientes = res[0];
+      this.activeRoute.queryParams
+      .subscribe(params => {
+        let sol = this.clientes.filter(item => {return params?.solicitante === item.nombre});
+        let fac = this.clientes.filter(item => {return params?.facturara === item.nombre});
+        this.solicitados = sol[0] ? sol[0] : {nombre:params?.solicitante,claveSAP: params?.solicitante};
+        this.facturaa = fac[0] ? fac[0] : {nombre:params?.facturara,claveSAP: params?.facturara};
+      });
       this.spinner.hide();
     }, err => { this.spinner.hide() });
   }
@@ -218,6 +231,12 @@ export class OperacionesNuevoPagoComponent implements OnInit {
     });
     this.http.get(environment.endpointCat + 'buques', { headers: header }).subscribe((res: any) => {
       this.buques = res.valor;
+      this.activeRoute.queryParams
+      .subscribe(params => {
+            let seb = this.buques.filter(item => {return params?.buque === item.nombre});
+            this.buque = seb[0] ? seb[0] : {nombre:params?.buque};
+            this.buqueSelect();
+      });
     }, error => { });
   }
 
