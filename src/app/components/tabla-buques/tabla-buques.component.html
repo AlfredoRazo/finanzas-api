@@ -1,0 +1,127 @@
+<div *ngIf="!isGenerarConsulta">
+<div class="table-responsive" style="max-height: 500px;">
+    <table class="table table-bordered table-striped" style="font-size: 12px;">
+        <thead style="white-space: nowrap;">
+            <tr style="cursor: pointer;">
+                <th></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="nombrebuque">Nombre Buque <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="solicitante">Solicitante <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="facturara">Facturar a <span
+                        class="glyphicon glyphicon-sort"></span></th>
+
+                <th scope="col" [appSort]="data" data-order="desc" data-name="viaje">Número Viaje <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="rfc">RFC <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="fecha">Fecha <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="tipoSolicitud">Estado <span
+                        class="glyphicon glyphicon-sort"></span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data">
+                <td><button class="btn btn-danger btn-xs" (click)="generarConsultaMode(item)">Generar Consulta</button></td>
+                <td>{{item.nombrebuque}}</td>
+                <td>{{item.solicitante}}</td>
+                <td>{{item.facturara}}</td>
+                <td>{{item.viaje}}</td>
+                <td>{{item.rfc}}</td>
+                <td>{{item.fecha}}</td>
+                <td>{{item.estado}}</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+<p [innerHtml]="descPaginado"></p>
+<p>Registros encontrados : <b>{{totalData}}</b></p>
+
+<ngb-pagination [collectionSize]="totalData" [collectionSize]="collSize" [(page)]="pageData"  (pageChange)="paginado($event)" [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
+</div>
+<div *ngIf="isGenerarConsulta">
+    <form #formConsulta="ngForm">
+
+        <div class="form-horizontal">
+            <div class="form-group" [class.has-error]="solicitado.invalid && (solicitado.dirty || solicitado.touched)">
+                <ng-template #rts let-rs="result" let-ts="term">
+                    <ngb-highlight [result]="rs.nombre" [term]="ts"></ngb-highlight>
+                </ng-template>
+                <label class="col-sm-2 control-label" style="text-align: left;">Solicitado por: </label>
+                <div class="col-sm-10">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="solicitado" #solicitado="ngModel"
+                            [(ngModel)]="solicitados" [ngbTypeahead]="searchCliente" [inputFormatter]="formatter"
+                            [resultTemplate]="rts" required>
+                        <div class="input-group-addon" *ngIf="!solicitados"></div>
+                        <div class="input-group-addon" style="cursor: pointer;" *ngIf="solicitados"
+                            (click)="solicitados=null"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <span class="col-sm-2"></span>
+                <span class="help-block col-sm-9"
+                    *ngIf="solicitado.invalid && (solicitado.touched || solicitado.dirty)"></span>
+            </div>
+            <div class="form-group" [class.has-error]="facturara.invalid && (facturara.dirty || facturara.touched)">
+                <ng-template #rtf let-rf="result" let-tf="term">
+                    <ngb-highlight [result]="rf.nombre" [term]="tf"></ngb-highlight>
+                </ng-template>
+                <label class="col-sm-2 control-label" style="text-align: left;">Facturar a: </label>
+                <div class="col-sm-10">
+                    <div class="input-group">
+    
+                        <input type="text" class="form-control" name="facturara" #facturara="ngModel" [(ngModel)]="facturaa"
+                            [ngbTypeahead]="searchCliente" [inputFormatter]="formatter" [resultTemplate]="rtf" required>
+                        <div class="input-group-addon" *ngIf="!facturaa"></div>
+                        <div class="input-group-addon" style="cursor: pointer;" *ngIf="facturaa" (click)="facturaa=null">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </div>
+    
+                    </div>
+                </div>
+                <span class="col-sm-2"></span>
+                <span class="help-block col-sm-9"
+                    *ngIf="facturara.invalid && (facturara.touched || facturara.dirty)"></span>
+            </div>
+        </div>
+    
+        <div class="row">
+          
+            <div class="form-group col-md-6"
+                [class.has-error]="nombreBuque.invalid && (nombreBuque.dirty || nombreBuque.touched)">
+                <ng-template #rt let-r="result" let-t="term">
+                    <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
+                </ng-template>
+                <label class="control-label">Nombre del Buque</label>
+                <input type="text" class="form-control" name="nombreBuquee" #nombreBuque="ngModel" [(ngModel)]="buque"
+                    [ngbTypeahead]="search" [inputFormatter]="formatter"
+                    [resultTemplate]="rt" required>
+                <span class="help-block" *ngIf="nombreBuque.invalid && (nombreBuque.dirty || nombreBuque.touched)">Este
+                    campo es
+                    requerido</span>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="control-label">Número de viaje</label>
+                <input class="form-control" name="numeroviaje" [(ngModel)]="numeroviaje" required/>
+            </div>
+    
+        </div>
+        <br>
+        <div class="alert alert-danger" *ngIf="hasError">
+            No se pudo guardar su información
+        </div>
+        <div class="alert alert-success" *ngIf="success">
+            Se guardó correctamente
+        </div>
+        <div class="row bottom-buffer">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-default" (click)="isGenerarConsulta = false;">Cancelar</button>
+                <button type="button" class="btn btn-primary" (click)="generarConsulta()" style="margin-left: 15px;"
+                    [disabled]="formConsulta.invalid">Generar Solicitud</button>
+            </div>
+        </div>
+    </form>
+</div>

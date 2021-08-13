@@ -251,7 +251,8 @@ export class ClienteGenerarConsultaComponent implements OnInit {
       nombrebuque: this.buque.nombre ? this.buque.nombre : this.buque,
       solicitante: this.solicitados?.claveSAP,
       facturara: this.facturaa?.claveSAP,
-      viaje: this.numeroviaje
+      viaje: this.numeroviaje,
+      rfc: this.auth.getSession()?.userData?.rfc
     } 
 
     this.http.post(`${environment.endpointApi}buquesSolicitud`, payload).subscribe((res: any) => {
