@@ -39,7 +39,8 @@
             "allowedCommonJsDependencies": [
               "xlsx",
               "core-js-pure",
-              "raf"
+              "raf",
+              "dayjs/locale/es"
            ]
           },
           "configurations": {

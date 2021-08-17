@@ -59,8 +59,7 @@ export class LoginComponent implements OnInit {
                   username: res.valor.usuario_Usuario,
                   empresa: res.valor.empresa_Nombre,
                   empresaid: res.valor.empresa_Id,
-                  //rfc: res.valor.empresa_Rfc,
-                  rfc: 'TNM951110T32',
+                  rfc: res.valor.empresa_Rfc,
                   catToken: rescat.valor
                 }
                 this.authService.setSession({ token: environment.appKey, userData: user });
