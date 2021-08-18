@@ -9,6 +9,7 @@
   <li role="presentation" [class.active]="submenu==3"><a [routerLink]="" (click)="submenu=3">Cargar Manifiesto</a></li>
   <li role="presentation" [class.active]="submenu==4"><a [routerLink]="" (click)="submenu=4">I3</a></li>
   <li role="presentation" [class.active]="submenu==5"><a [routerLink]="" (click)="submenu=5">Consultas</a></li>
+  <li role="presentation" [class.active]="submenu==6"><a [routerLink]="" (click)="submenu=6">Personal de recinto</a></li>
 </ul>
 <br>
 <br>
@@ -97,5 +98,6 @@
   </div>
   <div *ngSwitchCase="4"></div>
   <div *ngSwitchCase="5"><app-pagos-table [parent]="'recinto'"></app-pagos-table></div>
+  <div *ngSwitchCase="6"></div>
 </container-element>
 <button type="button" class="btn btn-default" routerLink="/main">Regresar</button>
