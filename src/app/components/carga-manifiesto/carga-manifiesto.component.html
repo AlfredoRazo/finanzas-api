@@ -1,0 +1,231 @@
+<ng-template #rt let-r="result" let-t="term">
+    <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
+</ng-template>
+
+<div class="row">
+    <div class="form-group col-md-6">
+        <label class="control-label">Nombre de buque</label>
+        <input type="text" class="form-control" [(ngModel)]="buque" name="buque" [ngbTypeahead]="search"
+            [inputFormatter]="formatter" [resultTemplate]="rt">
+    </div>
+    <div class="form-group col-md-6">
+        <label class="control-label">Manifiesto</label>
+        <input type="text" class="form-control" name="manifiesto">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 form-group ">
+        <div class="datepicker-group">
+            <label class="control-label">Fecha de arribo</label>
+            <input type="text" class="form-control" id="fecha" [(ngModel)]="fecha" name="fecha">
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </div>
+    </div>
+</div>
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregar-data">Agregar <span
+        class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+<br>
+<br>
+<div class="table-responsive" style="max-height: 500px;">
+    <table class="table table-bordered">
+        <thead style="white-space: nowrap;">
+            <tr style="cursor: pointer;">
+                <th></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="embarcador">Embarcador <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="consignario">Consignario<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="notificar">Notificar<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="bl">BL<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="marcasnumeros">Marcas y números<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="cantidad">Cantidad<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="unidadmedida">Unidad de medida<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="descripcion">Descripcion<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="pesobrutokg">Peso bruto KG.<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="volumen">Volumen<span
+                        class="glyphicon glyphicon-sort"></span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data; let i = index">
+                <td style='white-space: nowrap'><button class="btn btn-danger btn-sm"
+                        (click)="removeData(i)">Eliminar</button>
+
+                    <button class="btn btn-danger btn-sm" (click)="editData(i,item)" style="margin-left: 10px;"
+                        data-toggle="modal" data-target="#editar-data">Editar</button>
+
+                </td>
+                <td>{{item.embarcador}}</td>
+                <td>{{item.consignario}}</td>
+                <td>{{item.notificar}}</td>
+                <td>{{item.bl}}</td>
+                <td>{{item.marcasnumeros}}</td>
+                <td>{{item.cantidad}}</td>
+                <td>{{item.unidadmedida}}</td>
+                <td>{{item.descripcion}}</td>
+                <td>{{item.pesobrutokg}}</td>
+                <td>{{item.volumen}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+
+<div class="modal fade" id="agregar-data">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Agregar</h4>
+            </div>
+            <div class="modal-body">
+                <form #formDataTab="ngForm">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Embarcador</label>
+                            <input type="text" class="form-control" name="embarcador" [(ngModel)]="tabledat.embarcador">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Consignatario</label>
+                            <input type="text" class="form-control" name="consignario" [(ngModel)]="tabledat.consignario">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Notificar a</label>
+                            <input type="text" class="form-control" name="notificar" [(ngModel)]="tabledat.notificar">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">B/L</label>
+                            <input type="text" class="form-control" name="bl" [(ngModel)]="tabledat.bl">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Marcas y números</label>
+                            <input type="text" class="form-control" name="marcasnumeros" [(ngModel)]="tabledat.marcasnumeros">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Cantidad</label>
+                            <input type="text" class="form-control" name="cantidad" [(ngModel)]="tabledat.cantidad">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Unidad de medida</label>
+                            <select class="form-control" [(ngModel)]="tabledat.unidadmedida" name="unidadmedida">
+                                <option *ngFor="let item of unidadesmedida" [value]="item.clave"> {{item.valor1}} -
+                                    {{item.valor2}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Descripción</label>
+                            <input type="text" class="form-control" name="descripcion" [(ngModel)]="tabledat.descripcion">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Peso bruto KG</label>
+                            <input type="text" class="form-control" name="peso" [(ngModel)]="tabledat.pesobrutokg">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Volumen</label>
+                            <input type="text" class="form-control" name="volumen" [(ngModel)]="tabledat.volumen">
+                        </div>
+                        
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="formDataTab.invalid"
+                    (click)="guardarData()">Guardar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="editar-data">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Editar</h4>
+            </div>
+            <div class="modal-body">
+                <form #formDataTabEdit="ngForm">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Embarcador</label>
+                            <input type="text" class="form-control" name="embarcador" [(ngModel)]="tabledat.embarcador">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Consignatario</label>
+                            <input type="text" class="form-control" name="consignario" [(ngModel)]="tabledat.consignario">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Notificar a</label>
+                            <input type="text" class="form-control" name="notificar" [(ngModel)]="tabledat.notificar">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">B/L</label>
+                            <input type="text" class="form-control" name="bl" [(ngModel)]="tabledat.bl">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Marcas y números</label>
+                            <input type="text" class="form-control" name="marcasnumeros" [(ngModel)]="tabledat.marcasnumeros">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Cantidad</label>
+                            <input type="text" class="form-control" name="cantidad" [(ngModel)]="tabledat.cantidad">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Unidad de medida</label>
+                            <select class="form-control" [(ngModel)]="tabledat.unidadmedida" name="unidadmedida">
+                                <option *ngFor="let item of unidadesmedida" [value]="item.clave"> {{item.valor1}} -
+                                    {{item.valor2}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Descripción</label>
+                            <input type="text" class="form-control" name="descripcion" [(ngModel)]="tabledat.descripcion">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Peso bruto KG</label>
+                            <input type="text" class="form-control" name="peso" [(ngModel)]="tabledat.pesobrutokg">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Volumen</label>
+                            <input type="text" class="form-control" name="volumen" [(ngModel)]="tabledat.volumen">
+                        </div>
+                        
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="formDataTabEdit.invalid"
+                    (click)="guardarEditData()">Guardar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<button class="btn btn-primary pull-right">Buscar</button>
+<br>
+<br>
+<br>

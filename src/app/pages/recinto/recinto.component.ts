@@ -2,8 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { AuthService } from '@serv/auth.service';
-import {Observable, OperatorFunction} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 declare var $: any;
 
 @Component({
@@ -12,19 +10,7 @@ declare var $: any;
   styleUrls: ['./recinto.component.css']
 })
 export class RecintoComponent implements OnInit {
-  public buque: any;
-  buques: any[] = [];
-  fecha: any;
-  search:any = (text$: Observable<any>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map(term => 
-        term.length < 2 ? []
-        : this.buques.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
-        )
-    );
-    formatter = (x: {nombre: string}) => x.nombre;
+  
   submenu = 1;
   page = 1;
   data = [
@@ -39,19 +25,7 @@ export class RecintoComponent implements OnInit {
 
   constructor(private auth: AuthService,
     private http: HttpClient) { }
-
-  ngOnInit(): void {
-    this.getBuques();
-    $('#fecha').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fecha = date } });
-  }
-  getBuques(): void {
-    const header = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.auth.getSession().userData.catToken}`
-    });
-    this.http.get(environment.endpointCat + 'buques',{headers: header}).subscribe((res: any) => {
-      this.buques = res.valor;
-    },error =>{});
-  }
-
+    ngOnInit(): void {
+    
+    }
 }

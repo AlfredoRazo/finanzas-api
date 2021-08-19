@@ -70,31 +70,7 @@
     <app-cfdi></app-cfdi>
   </div>
   <div [hidden]="submenu!=3">
-    <ng-template #rt let-r="result" let-t="term">
-      <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
-    </ng-template>
-
-  <div class="row">
-      <div class="form-group col-md-6">
-          <label class="control-label">Nombre de buque</label>
-          <input type="text" class="form-control" [(ngModel)]="buque" name="buque" [ngbTypeahead]="search" [inputFormatter]="formatter" [resultTemplate]="rt">
-      </div>
-      <div class="form-group col-md-6">
-        <label class="control-label">Manifiesto</label>
-        <input type="text" class="form-control" name="manifiesto">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 form-group ">
-      <div class="datepicker-group">
-
-        <input type="text" class="form-control" id="fecha" placeholder="Fecha" [(ngModel)]="fecha" name="fecha">
-        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-      </div>
-    </div>
-  </div>
-  <button class="btn btn-primary pull-right">Buscar</button>
-  <br>
+    <app-carga-manifiesto></app-carga-manifiesto>
   </div>
   <div *ngSwitchCase="4"></div>
   <div *ngSwitchCase="5"><app-pagos-table [parent]="'recinto'"></app-pagos-table></div>
