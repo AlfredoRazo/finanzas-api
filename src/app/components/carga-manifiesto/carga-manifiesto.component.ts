@@ -6,17 +6,20 @@ import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
+
 export interface CargaManifiesto {
+  bl: string;
   embarcador: string;
   consignario: string;
-  notificar: string;
-  bl: string;
-  marcasnumeros: string;
+  notificarA: string;
+  marcasNumeros: string;
   cantidad: string;
-  unidadmedida: string;
+  unidad: string;
   descripcion: string;
-  pesobrutokg: string;
+  pesoBruto: string;
   volumen: string;
+  activo: boolean;
+  modificado: boolean;
 }
 
 @Component({
@@ -27,14 +30,19 @@ export interface CargaManifiesto {
 export class CargaManifiestoComponent implements OnInit {
   public buque: any;
   buques: any[] = [];
-  fecha: any;
+  msj = '';
+  hasError = false;
+  hasSuccess = false;
   conceptos: any[] = [];
   unidadesmedida: any[] = [];
   data: any[] = [];
   concepto = '';
+  manifiesto = '';
+  fechaarribo = '';
   tabledat: CargaManifiesto = {} as CargaManifiesto;
   catalogos = environment.endpoint + 'sapCatalogos?catalogo=';
   indexEdit: any;
+  viaje: any;
   search:any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -53,7 +61,7 @@ export class CargaManifiestoComponent implements OnInit {
   ngOnInit(): void {
     this.getBuques();
     this.getUnidadesMedida();
-    $('#fecha').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fecha = date } });
+    $('#fecha').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaarribo = date } });
   }
 
   getBuques(): void {
@@ -85,5 +93,42 @@ export class CargaManifiestoComponent implements OnInit {
   editData(index: any, item: any): void {
     this.tabledat = item;
     this.indexEdit = index;
+  }
+
+  cargarManifiesto(): void{
+    const payload = {
+
+      nuManifiesto: this.manifiesto,
+      buque: this.buque?.nombre ? this.buque?.nombre : this.buque,
+      viaje: this.viaje,
+      acuse: '',
+      barcoNacionalidad: '',
+      barcoCapitan: '',
+      puertoEmbarque: '',
+      puertoEmision: '',
+      puertoDescarga: '',
+      fechaEntradaSalida: this.fechaarribo + 'T00:00:00.923Z',
+      tipo: 0,
+      bls: this.data,
+      modificado: true
+    };
+    this.spinner.show();
+      this.msj = '';
+      this.hasError = false;
+      this.hasSuccess = false;
+    this.http.post(`${environment.endpointRecinto}`,payload).subscribe((response: any) => {
+      if(!response.error){
+        this.msj = response.mensaje;
+        this.hasSuccess = true;
+      }else{
+        this.msj = 'No se pudo guardar su manifiesto';
+        this.hasError = true;
+      }
+      this.spinner.hide();
+    },err =>{
+      this.spinner.hide();
+      this.msj = 'No se pudo guardar su manifiesto';
+      this.hasError = true;
+    });
   }
 }
