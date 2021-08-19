@@ -1,0 +1,28 @@
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" style="font-size: 0.65em;">
+        <thead style="white-space: nowrap;">
+            <tr style="cursor: pointer;">
+                <th scope="col" [appSort]="personal" data-order="desc" data-name="nombreCompleto">Nombre <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="personal" data-order="desc" data-name="nombre">CURP <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="personal" data-order="desc" data-name="rfc">RFC <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="personal" data-order="desc" data-name="calle">SSNO <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                        <th>Foto</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of personal">
+                <td>{{item.nombreCompleto}}</td>
+                <td>{{item.curp}}</td>
+                <td>{{item.rfc}}</td>
+                <td>{{item.ssno}}</td>
+                <td><img width="50" src="data:image/jpg;base64,{{item.foto}}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

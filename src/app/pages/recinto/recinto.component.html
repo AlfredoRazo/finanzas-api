@@ -74,6 +74,8 @@
   </div>
   <div *ngSwitchCase="4"></div>
   <div *ngSwitchCase="5"><app-pagos-table [parent]="'recinto'"></app-pagos-table></div>
-  <div *ngSwitchCase="6"></div>
+  <div *ngSwitchCase="6">
+    <app-personal-recinto></app-personal-recinto>
+  </div>
 </container-element>
 <button type="button" class="btn btn-default" routerLink="/main">Regresar</button>

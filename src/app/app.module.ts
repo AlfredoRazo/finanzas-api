@@ -46,6 +46,7 @@ import { Bancomer10FailComponent } from './pages/bancomer10-fail/bancomer10-fail
 import { ClienteGenerarConsultaComponent } from './pages/clientes/cliente/cliente-generar-consulta/cliente-generar-consulta.component';
 import { TablaBuquesComponent } from './components/tabla-buques/tabla-buques.component';
 import { CargaManifiestoComponent } from './components/carga-manifiesto/carga-manifiesto.component';
+import { PersonalRecintoComponent } from './components/personal-recinto/personal-recinto.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { CargaManifiestoComponent } from './components/carga-manifiesto/carga-ma
     Bancomer10FailComponent,
     ClienteGenerarConsultaComponent,
     TablaBuquesComponent,
-    CargaManifiestoComponent
+    CargaManifiestoComponent,
+    PersonalRecintoComponent
   ],
   imports: [
     BrowserAnimationsModule,
