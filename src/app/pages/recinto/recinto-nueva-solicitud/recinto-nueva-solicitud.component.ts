@@ -16,6 +16,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   manifiesto = '';
   page = 1;
   bl = '';
+  bls: any[] = [];
   agenciaAduanal = '';
   rfcCliente = '';
   nombreCliente = '';
@@ -107,13 +108,13 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
 
   consulta(): void {
     this.spinner.show();
-    this.http.post<any>(environment.endpoint + 'sicrefis', { manifiesto: this.bl, buque: '' }).subscribe(res => {
+    this.http.get<any>(`${environment.endpointRecinto}bl/num/${this.bl}`).subscribe(res => {
       this.spinner.hide();
-      this.manifiestoData = res.manifiestos;
-      this.man = res.man;
+      this.bls.push(res.datos);
     }, error => {
       this.spinner.hide();
     })
+
   }
 
   searchName(): void{

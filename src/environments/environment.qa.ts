@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   endpoint: ' https://web.zonazero.cloud/sicrefis/api/',
   endpointApi: 'https://pis-apiman-restfinav1.azurewebsites.net/API/',
-  endpointRecinto : 'https://pis-api-recinto-qa.azurewebsites.net/api/manifiesto/v1',
+  endpointRecinto : 'https://pis-api-recinto-qa.azurewebsites.net/api/',
   endpointCat: 'https://pis-catalogos.azurewebsites.net/api/',
   endpointAuth: 'https://pis-autenticacion-qa.azurewebsites.net/api/validar/permisos',
   appKey: 'c53ea43376d653a43e10711de2da2d9b6f156ead',

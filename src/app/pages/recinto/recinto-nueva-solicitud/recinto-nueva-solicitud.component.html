@@ -57,33 +57,38 @@
     <div class="row">
         <ng-template #rt2 let-r="result" let-t="term">
             <ngb-highlight [result]="r.rfc" [term]="t"></ngb-highlight>
-          </ng-template>
+        </ng-template>
         <div class="form-group col-md-4">
             <label class="control-label">Cliente para facturar (RFC)</label>
-            <input type="text" class="form-control" name="rfcCliente" [(ngModel)]="rfcCliente" [ngbTypeahead]="searchCliente" [inputFormatter]="formatterCliente" [resultTemplate]="rt2" (selectItem)="selected($event)">
+            <input type="text" class="form-control" name="rfcCliente" [(ngModel)]="rfcCliente"
+                [ngbTypeahead]="searchCliente" [inputFormatter]="formatterCliente" [resultTemplate]="rt2"
+                (selectItem)="selected($event)">
         </div>
         <div class="form-group col-md-8">
             <label class="control-label">Nombre</label>
-            <input type="text" class="form-control" name="nombreCliente" [(ngModel)]="nombreCliente" [ngbTypeahead]="searchClienteNombre" [inputFormatter]="formatterClienteNombre" [resultTemplate]="rt" (selectItem)="selected($event)">
+            <input type="text" class="form-control" name="nombreCliente" [(ngModel)]="nombreCliente"
+                [ngbTypeahead]="searchClienteNombre" [inputFormatter]="formatterClienteNombre" [resultTemplate]="rt"
+                (selectItem)="selected($event)">
         </div>
     </div>
-    
+
     <hr>
     <ng-template #rt let-r="result" let-t="term">
         <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
-      </ng-template>
+    </ng-template>
 
     <div class="row">
         <div class="form-group col-md-12">
             <label class="control-label">Nombre de buque</label>
-            <input type="text" class="form-control" [(ngModel)]="buque" name="buque" [ngbTypeahead]="search" [inputFormatter]="formatter" [resultTemplate]="rt">
+            <input type="text" class="form-control" [(ngModel)]="buque" name="buque" [ngbTypeahead]="search"
+                [inputFormatter]="formatter" [resultTemplate]="rt">
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-4">
             <label class="control-label">Número de viaje</label>
-            <input type="text" class="form-control" > 
-               
+            <input type="text" class="form-control">
+
         </div>
         <div class="col-md-4">
             <div class="form-group datepicker-group">
@@ -114,7 +119,7 @@
         </div>
         <div class="form-group col-md-4">
             <label class="control-label">Agencia consignataria</label>
-            <input type="text" class="form-control" >
+            <input type="text" class="form-control">
         </div>
     </div>
     <hr>
@@ -124,87 +129,60 @@
             <input type="text" class="form-control" name="bl" [(ngModel)]="bl">
         </div>
         <div class="col-md-8">
-            <button class="btn btn-primary btn-sm" style="margin-top: 30px;" (click)="consulta()" [disabled]="!bl">Buscar</button>
-    
+            <button class="btn btn-primary btn-sm" style="margin-top: 30px;" (click)="consulta()"
+                [disabled]="!bl">Buscar</button>
+
         </div>
-       
-    </div>
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label class="control-label">Remitente</label>
-            <input type="text" class="form-control">
-        </div>
-        <div class="form-group col-md-4">
-            <label class="control-label">Consignatario</label>
-            <input type="text" class="form-control">
-        </div>
-        <div class="form-group col-md-4">
-            <label class="control-label">Notificara</label>
-            <input type="text" class="form-control">
-        </div>
+
     </div>
 </form>
 
 <br>
 <br>
-<div class="table-responsive" style="max-height: 500px;">
+<div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
     <table class="table table-bordered" style="white-space: nowrap;">
         <thead>
             <tr style="cursor: pointer">
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="nTrans">Manifiesto <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cAduana">cAduana <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cTransp">Transporte <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="nomBuque">Buque <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="numviaje">Número Viaje <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="tipoOper">Tipo Operación <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="fecEstimada">Fecha estimada <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="lineaNaviera">Linea Naviera <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="firma">Firma <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="fecRecibe">Fecha Recibe <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="pais">País <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="puerto">Puerto <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="entidadMan">Entidad Man <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="nTransOrig">Número de Transacción Orig <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cAduanaOrig">Aduana Orig <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cuAduana">cu Aduana <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="nomAduana">Nom Aduana <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cuPais">cu País <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="nomPais">nom País <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cuPuerto">cu Puerto <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cuEntidadMan">cu Entidad Man <span class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="nomEntidadMan">nom Entidad Man <span class="glyphicon glyphicon-sort"></span></th>
-             
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="bl">BL <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="embarcador">Embarcador <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="consignatario">Consignatario
+                    <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="notificarA">Notificar a <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="marcasNumeros">Marcas y Números
+                    <span class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cantidad">Cantidad <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="unidad">Unidad <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="descripcion">Descripción <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="pesoBruto">Peso Bruto (KG) <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="volumen">Volumen <span
+                        class="glyphicon glyphicon-sort"></span></th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of manifiestoData">
-                <td>{{item.nTrans}}</td>
-                <td>{{item.cAduana}}</td>
-                <td>{{item.cTransp}}</td>
-                <td>{{item.nomBuque}}</td>
-                <td>{{item.numviaje}}</td>
-                <td>{{item.tipoOper}}</td>
-                <td>{{item.fecEstimada}}</td>
-                <td>{{item.lineaNaviera}}</td>
-                <td>{{item.firma}}</td>
-                <td>{{item.fecRecibe}}</td>
-                <td>{{item.pais}}</td>
-                <td>{{item.puerto}}</td>
-                <td>{{item.entidadMan}}</td>
-                <td>{{item.nTransOrig}}</td>
-                <td>{{item.cAduanaOrig}}</td>
-                <td>{{item.cuAduana}}</td>
-                <td>{{item.nomAduana}}</td>
-                <td>{{item.cuPais}}</td>
-                <td>{{item.nomPais}}</td>
-                <td>{{item.cuPuerto}}</td>
-                <td>{{item.cuEntidadMan}}</td>
-                <td>{{item.nomEntidadMan}}</td>
+            <tr *ngFor="let item of bls">
+                <td>{{item.bl}}</td>
+                <td>{{item.embarcador}}</td>
+                <td>{{item.consignatario}}</td>
+                <td>{{item.notificarA}}</td>
+                <td>{{item.marcasNumeros}}</td>
+                <td>{{item.cantidad}}</td>
+                <td>{{item.unidad}}</td>
+                <td>{{item.descripcion}}</td>
+                <td>{{item.pesoBruto}}</td>
+                <td>{{item.volumen}}</td>
             </tr>
+
         </tbody>
     </table>
 </div>
 
-    
-  <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
-  <button type="button" class="btn btn-default" routerLink="/recinto">Regresar</button>
+
+<ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
+<button type="button" class="btn btn-default" routerLink="/recinto">Regresar</button>
