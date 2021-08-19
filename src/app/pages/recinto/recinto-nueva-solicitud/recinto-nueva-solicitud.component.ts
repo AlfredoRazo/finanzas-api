@@ -15,6 +15,7 @@ declare var $: any;
 export class RecintoNuevaSolicitudComponent implements OnInit {
   manifiesto = '';
   page = 1;
+  bl = '';
   agenciaAduanal = '';
   rfcCliente = '';
   nombreCliente = '';
@@ -106,7 +107,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
 
   consulta(): void {
     this.spinner.show();
-    this.http.post<any>(environment.endpoint + 'sicrefis', { manifiesto: this.manifiesto, buque: '' }).subscribe(res => {
+    this.http.post<any>(environment.endpoint + 'sicrefis', { manifiesto: this.bl, buque: '' }).subscribe(res => {
       this.spinner.hide();
       this.manifiestoData = res.manifiestos;
       this.man = res.man;

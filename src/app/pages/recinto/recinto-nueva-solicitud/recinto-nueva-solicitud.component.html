@@ -117,7 +117,11 @@
     <div class="row">
         <div class="form-group col-md-4">
             <label class="control-label">B/L</label>
-            <input type="text" class="form-control" >
+            <input type="text" class="form-control" name="bl" [(ngModel)]="bl">
+        </div>
+        <div class="col-md-8">
+            <button class="btn btn-primary btn-sm" style="margin-top: 30px;" (click)="consulta()" [disabled]="!bl">Buscar</button>
+    
         </div>
        
     </div>
@@ -139,16 +143,6 @@
 
 <br>
 <br>
-<div class="row">
-    <div class="form-group col-md-4">
-        <label class="control-label">Buscar Manifiesto</label>
-        <input type="text" class="form-control" [(ngModel)]="manifiesto" name="manifiesto">
-    </div>
-    <div class="col-md-8">
-        <button class="btn btn-primary btn-sm" style="margin-top: 30px;" (click)="consulta()" [disabled]="!manifiesto">Buscar</button>
-
-    </div>
-</div>
 <div class="table-responsive" style="max-height: 500px;">
     <table class="table table-bordered" style="white-space: nowrap;">
         <thead>
