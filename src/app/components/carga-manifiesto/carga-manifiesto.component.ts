@@ -76,6 +76,9 @@ export class CargaManifiestoComponent implements OnInit {
   getUnidadesMedida(): void {
     this.http.get(this.catalogos + 'unidadesmedida').subscribe((res: any) => {
       this.unidadesmedida = res.valores;
+      this.unidadesmedida = this.unidadesmedida.filter(item =>{
+        return (item.clave == '10' || item.clave == 'ST' || item.clave == 'KG')
+      });
     });
   }
   guardarData(): void {
