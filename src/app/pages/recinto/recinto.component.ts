@@ -15,21 +15,27 @@ export class RecintoComponent implements OnInit {
   manifiestoData:any;
   submenu = 1;
   page = 1;
-  data = [
-    {
-      id: 123,
-      fecha: '28/05/2021',
-      cliente: 'La junta',
-      tipoSolicitud: 'Pago de aranceles',
-      estado: 'Pendiente'
-    }
-  ];
+  data: any[] = [];
 
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
     private http: HttpClient) { }
     ngOnInit(): void {
+      this.getSolicitudesServicios();
     
+    }
+
+    getSolicitudesServicios(): void{
+      this.spinner.show();
+      this.http.get(`${environment.endpointRecinto}solicitud/v1`).subscribe((res: any) => {
+        if(!res.error){
+          this.data = res.datos;
+        }else{
+
+        }
+        console.log(res.error);
+        this.spinner.hide();
+      } ,err =>{this.spinner.hide();});
     }
 
     consultarManifiesto(): void{

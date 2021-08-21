@@ -44,25 +44,23 @@
       <table class="table table-bordered">
         <thead>
           <tr style="cursor: pointer;">
-            <th scope="col" [appSort]="data" data-order="desc" data-name="id">ID <span
+            <th scope="col" [appSort]="data" data-order="desc" data-name="estatus">Estatus <span
                 class="glyphicon glyphicon-sort"></span></th>
-            <th scope="col" [appSort]="data" data-order="desc" data-name="fecha">Fecha <span
+            <th scope="col" [appSort]="data" data-order="desc" data-name="fechaAlta">Fecha Alta<span
                 class="glyphicon glyphicon-sort"></span></th>
-            <th scope="col" [appSort]="data" data-order="desc" data-name="cliente">Cliente <span
+            <th scope="col" [appSort]="data" data-order="desc" data-name="nombre">Nombre <span
                 class="glyphicon glyphicon-sort"></span></th>
-            <th scope="col" [appSort]="data" data-order="desc" data-name="tipoSolicitud">Tipo de solicitud <span
-                class="glyphicon glyphicon-sort"></span></th>
-            <th scope="col" [appSort]="data" data-order="desc" data-name="estado">Estado <span
+            <th scope="col" [appSort]="data" data-order="desc" data-name="idBl">BL <span
                 class="glyphicon glyphicon-sort"></span></th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of data">
-            <td>{{item.id}}</td>
-            <td>{{item.fecha}}</td>
-            <td>{{item.cliente}}</td>
-            <td>{{item.tipoSolicitud}}</td>
-            <td>{{item.estado}}</td>
+            <td>{{item.estatus == '1' ? 'Por Autorizar' : 'Por Definir' }}</td>
+            <td>{{item.fechaAlta}}</td>
+            <td>{{item.nombre}}</td>
+            <td>{{item.idBl}}</td>
+
           </tr>
         </tbody>
       </table>
