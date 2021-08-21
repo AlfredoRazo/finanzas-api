@@ -46,6 +46,8 @@
           <tr style="cursor: pointer;">
             <th scope="col" [appSort]="data" data-order="desc" data-name="estatus">Estatus <span
                 class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="idTipoSolicitud">Tipo Solicitud<span
+                  class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="fechaAlta">Fecha Alta<span
                 class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="nombre">Nombre <span
@@ -57,6 +59,7 @@
         <tbody>
           <tr *ngFor="let item of data">
             <td>{{item.estatus == '1' ? 'Por Autorizar' : 'Por Definir' }}</td>
+            <td>{{getTipoSolicitud(item.idTipoSolicitud)}}</td>
             <td>{{item.fechaAlta}}</td>
             <td>{{item.nombre}}</td>
             <td>{{item.idBl}}</td>
