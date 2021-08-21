@@ -9,6 +9,7 @@ export const environment = {
   endpointRecinto : 'https://pis-api-recinto-qa.azurewebsites.net/api/',
   endpointCat: 'https://pis-catalogos.azurewebsites.net/api/',
   endpointAuth: 'https://pis-autenticacion-qa.azurewebsites.net/api/validar/permisos',
+  endpointDoc: 'https://pis-api-documentacion-qa.azurewebsites.net/api/Documentos/v1/',
   appKey: 'c53ea43376d653a43e10711de2da2d9b6f156ead',
   googleCaptchaKey: '6LcZ7w4bAAAAAAcogck-Te91o6SPDZYuNcWBlmHX',
   santanderEndpoint: 'https://www.santander.com.mx/Supernet2007/homeMicrositio.jsp',
@@ -17,6 +18,7 @@ export const environment = {
   bbvaKey: '85K98s7653Ap383iMangt73iO393K0jNjs031Man93k03lo39zAks3llo33fJU3092er93ai3Lj3',
   bbvaSuccessRes: 'https://pis-apiman-restfinav1.azurewebsites.net/api/bbvav1QA',
   bbvaFailRes: 'https://pis-apiman-restfinav1.azurewebsites.net/api/bbvav1QA',
+  
   catlogin: {
     usuario: "zz",
     password: "API-MAN-PIS-20!0M3d1n$4!",
