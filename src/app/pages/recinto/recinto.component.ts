@@ -16,6 +16,7 @@ export class RecintoComponent implements OnInit {
   submenu = 1;
   page = 1;
   data: any[] = [];
+  visualSolicitud: any;
 
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
@@ -53,5 +54,8 @@ export class RecintoComponent implements OnInit {
         { id: '3', descripcion: 'Movimientos' },
         { id: '4', descripcion: 'Liberación' },
       ].filter(item =>{ return id ==item.id})[0].descripcion;
+    }
+    visualizar(item: any): void{
+      this.visualSolicitud = item;
     }
 }

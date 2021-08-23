@@ -46,17 +46,18 @@
         <thead style="white-space: nowrap;">
           <tr style="cursor: pointer;">
             <th></th>
+            <th></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="estatus">Estatus <span
                 class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="idTipoSolicitud">Tipo Solicitud<span
                 class="glyphicon glyphicon-sort"></span></th>
-            <th scope="col" [appSort]="data" data-order="desc" data-name="fechaAlta">Fecha Alta<span
+            <th scope="col" [appSort]="data" data-order="desc" data-name="fechaServicio">Fecha Servicio<span
                 class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="nombre">Nombre <span
                 class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="idBl">BL <span
                 class="glyphicon glyphicon-sort"></span></th>
-            <th></th>
+            
           </tr>
         </thead>
         <tbody style="white-space: nowrap;">
@@ -66,12 +67,12 @@
                   <input type="checkbox" [(ngModel)]="item.selected">
               </ng-container>
           </td>
+          <td><button class="btn btn-xs btn-primary" (click)="visualizar(item)" data-toggle="modal" data-target="#show-data">Revisar detalle</button></td>
             <td>{{item.estatus == '1' ? 'Por Autorizar' : 'Por Definir' }}</td>
             <td>{{getTipoSolicitud(item.idTipoSolicitud)}}</td>
-            <td>{{item.fechaAlta}}</td>
+            <td>{{item.fechaServicio}}</td>
             <td>{{item.nombre}}</td>
             <td>{{item.numBL}}</td>
-            <td><button class="btn btn-xs btn-primary">Visualizar</button></td>
           </tr>
         </tbody>
       </table>
@@ -163,3 +164,61 @@
 <br>
 <br>
 <button type="button" class="btn btn-default" routerLink="/main">Regresar</button>
+
+
+<div class="modal fade" id="show-data">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Visualizar</h4>
+          </div>
+          <div class="modal-body">
+  
+              <table class="table table-bordered table-striped">
+                <tbody>
+                <tr>
+                  <td>B/L</td>
+                  <td>{{visualSolicitud?.numBL}}</td>
+                </tr>
+                <tr>
+                  <td>Fecha Servicio</td>
+                  <td>{{visualSolicitud?.fechaServicio}}</td>
+                </tr>
+                <tr>
+                  <td>Patente</td>
+                  <td>{{visualSolicitud?.patente}}</td>
+                </tr>
+                <tr>
+                  <td>Buque</td>
+                  <td>{{visualSolicitud?.buque}}</td>
+                </tr>
+                <tr>
+                  <td>Nombre</td>
+                  <td>{{visualSolicitud?.nombre}}</td>
+                </tr>
+                <tr>
+                  <td>Fecha Arribo</td>
+                  <td>{{visualSolicitud?.fechaArribo}}</td>
+                </tr>
+                <tr>
+                  <td>Fecha Inicio de Operaciones</td>
+                  <td>{{visualSolicitud?.fechaIniOperaciones}}</td>
+                </tr>
+                <tr>
+                  <td>Viaje</td>
+                  <td>{{visualSolicitud?.viaje}}</td>
+                </tr>
+                <tr>
+                  <td>Fecha Zarpe</td>
+                  <td>{{visualSolicitud?.fechaZarpe}}</td>
+                </tr>
+              </tbody>
+              </table>
+            
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          </div>
+      </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
