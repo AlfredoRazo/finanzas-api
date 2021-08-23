@@ -38,32 +38,40 @@
     </form>
     <br>
     <button type="button" class="btn btn-primary btn-sm" routerLink="nueva-solicitud">Nueva solicitud</button>
+    <button class="btn btn-primary btn-sm pull-right" >Autorizar</button>
     <br>
     <br>
     <div class="table-responsive" style="max-height: 500px;">
       <table class="table table-bordered">
-        <thead>
+        <thead style="white-space: nowrap;">
           <tr style="cursor: pointer;">
+            <th></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="estatus">Estatus <span
                 class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="data" data-order="desc" data-name="idTipoSolicitud">Tipo Solicitud<span
-                  class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="idTipoSolicitud">Tipo Solicitud<span
+                class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="fechaAlta">Fecha Alta<span
                 class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="nombre">Nombre <span
                 class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="idBl">BL <span
                 class="glyphicon glyphicon-sort"></span></th>
+            <th></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody style="white-space: nowrap;">
           <tr *ngFor="let item of data">
+            <td style="vertical-align: middle;">
+              <ng-container *ngIf="item.estatus == 1">
+                  <input type="checkbox" [(ngModel)]="item.selected">
+              </ng-container>
+          </td>
             <td>{{item.estatus == '1' ? 'Por Autorizar' : 'Por Definir' }}</td>
             <td>{{getTipoSolicitud(item.idTipoSolicitud)}}</td>
             <td>{{item.fechaAlta}}</td>
             <td>{{item.nombre}}</td>
             <td>{{item.numBL}}</td>
-
+            <td><button class="btn btn-xs btn-primary">Visualizar</button></td>
           </tr>
         </tbody>
       </table>
@@ -116,7 +124,7 @@
           <input type="text" class="form-control" readonly [(ngModel)]="manifiestoData.fechaEntradaSalida">
         </div>
       </div>
-      <div class="table-responsive"  style="font-size: 0.65em; max-height: 500px;">
+      <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
         <table class="table table-striped table-bordered" style="white-space: nowrap;">
           <thead>
             <tr style="cursor: pointer;">

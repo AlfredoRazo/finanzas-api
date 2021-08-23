@@ -33,7 +33,6 @@ export class RecintoComponent implements OnInit {
         }else{
 
         }
-        console.log(res.error);
         this.spinner.hide();
       } ,err =>{this.spinner.hide();});
     }
