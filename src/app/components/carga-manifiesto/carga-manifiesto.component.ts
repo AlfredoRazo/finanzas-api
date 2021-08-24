@@ -124,7 +124,7 @@ export class CargaManifiestoComponent implements OnInit {
         this.msj = response.mensaje;
         this.hasSuccess = true;
       }else{
-        this.msj = 'No se pudo guardar su manifiesto';
+        this.msj = response.mensaje;
         this.hasError = true;
       }
       this.spinner.hide();
