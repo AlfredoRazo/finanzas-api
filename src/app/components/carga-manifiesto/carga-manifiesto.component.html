@@ -97,7 +97,8 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="control-label">Consignatario</label>
-                            <input type="text" class="form-control" name="consignario" [(ngModel)]="tabledat.consignario">
+                            <input type="text" class="form-control" name="consignario"
+                                [(ngModel)]="tabledat.consignario">
                         </div>
                     </div>
 
@@ -114,11 +115,13 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label class="control-label">Marcas y números</label>
-                            <input type="text" class="form-control" name="marcasnumeros" [(ngModel)]="tabledat.marcasNumeros">
+                            <input type="text" class="form-control" name="marcasnumeros"
+                                [(ngModel)]="tabledat.marcasNumeros">
                         </div>
                         <div class="form-group col-md-6">
                             <label class="control-label">Cantidad</label>
-                            <input type="text" class="form-control" name="cantidad" mask="0*" [(ngModel)]="tabledat.cantidad">
+                            <input type="text" class="form-control" name="cantidad" mask="0*"
+                                [(ngModel)]="tabledat.cantidad">
                         </div>
                     </div>
                     <div class="row">
@@ -131,19 +134,22 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="control-label">Descripción</label>
-                            <input type="text" class="form-control" name="descripcion" [(ngModel)]="tabledat.descripcion">
+                            <input type="text" class="form-control" name="descripcion"
+                                [(ngModel)]="tabledat.descripcion">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label class="control-label">Peso bruto KG</label>
-                            <input type="text" class="form-control" name="peso" mask="0*" [(ngModel)]="tabledat.pesoBruto">
+                            <input type="text" class="form-control" name="peso" [dropSpecialCharacters]="false" mask="0*.00"
+                                [(ngModel)]="tabledat.pesoBruto">
                         </div>
                         <div class="form-group col-md-6">
                             <label class="control-label">Volumen</label>
-                            <input type="text" class="form-control" name="volumen" mask="0*" [(ngModel)]="tabledat.volumen">
+                            <input type="text" class="form-control" name="volumen" mask="0*"
+                                [(ngModel)]="tabledat.volumen">
                         </div>
-                        
+
                     </div>
                 </form>
             </div>
@@ -171,7 +177,8 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="control-label">Consignatario</label>
-                            <input type="text" class="form-control" name="consignario" [(ngModel)]="tabledat.consignario">
+                            <input type="text" class="form-control" name="consignario"
+                                [(ngModel)]="tabledat.consignario">
                         </div>
                     </div>
 
@@ -188,11 +195,13 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label class="control-label">Marcas y números</label>
-                            <input type="text" class="form-control" name="marcasnumeros" [(ngModel)]="tabledat.marcasNumeros">
+                            <input type="text" class="form-control" name="marcasnumeros"
+                                [(ngModel)]="tabledat.marcasNumeros">
                         </div>
                         <div class="form-group col-md-6">
                             <label class="control-label">Cantidad</label>
-                            <input type="text" class="form-control" name="cantidad" mask="0*" [(ngModel)]="tabledat.cantidad">
+                            <input type="text" class="form-control" name="cantidad" mask="0*"
+                                [(ngModel)]="tabledat.cantidad">
                         </div>
                     </div>
                     <div class="row">
@@ -205,19 +214,22 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="control-label">Descripción</label>
-                            <input type="text" class="form-control" name="descripcion" [(ngModel)]="tabledat.descripcion">
+                            <input type="text" class="form-control" name="descripcion"
+                                [(ngModel)]="tabledat.descripcion">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label class="control-label">Peso bruto KG</label>
-                            <input type="text" class="form-control" name="peso" mask="0*" [(ngModel)]="tabledat.pesoBruto">
+                            <input type="text" class="form-control" name="peso" [dropSpecialCharacters]="false" mask="0*.00"
+                                [(ngModel)]="tabledat.pesoBruto">
                         </div>
                         <div class="form-group col-md-6">
                             <label class="control-label">Volumen</label>
-                            <input type="text" class="form-control" name="volumen" mask="0*" [(ngModel)]="tabledat.volumen">
+                            <input type="text" class="form-control" name="volumen" mask="0*"
+                                [(ngModel)]="tabledat.volumen">
                         </div>
-                        
+
                     </div>
                 </form>
             </div>
@@ -231,10 +243,10 @@
 </div><!-- /.modal -->
 
 <div class="alert alert-success" *ngIf="hasSuccess">
-{{msj}}
+    {{msj}}
 </div>
 <div class="alert alert-danger" *ngIf="hasError">
-{{msj}}
+    {{msj}}
 </div>
 <button class="btn btn-primary pull-right" (click)="cargarManifiesto()">Guardar</button>
 <br>
