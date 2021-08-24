@@ -10,7 +10,7 @@ declare var $: any;
 export interface CargaManifiesto {
   bl: string;
   embarcador: string;
-  consignario: string;
+  consignatario: string;
   notificarA: string;
   marcasNumeros: string;
   cantidad: string;
