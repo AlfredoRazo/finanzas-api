@@ -173,13 +173,10 @@
               <h4 class="modal-title">Visualizar</h4>
           </div>
           <div class="modal-body">
-  
+            <h4>Solicitud</h4>
+            <hr class="red">
               <table class="table table-bordered table-striped">
                 <tbody>
-                <tr>
-                  <td>B/L</td>
-                  <td>{{visualSolicitud?.numBL}}</td>
-                </tr>
                 <tr>
                   <td>Fecha Servicio</td>
                   <td>{{visualSolicitud?.fechaServicio}}</td>
@@ -212,9 +209,55 @@
                   <td>Fecha Zarpe</td>
                   <td>{{visualSolicitud?.fechaZarpe}}</td>
                 </tr>
+              
               </tbody>
               </table>
-            
+              <h4>B/L</h4>
+            <hr class="red">
+            <table class="table table-bordered table-striped">
+              <tbody>
+              <tr>
+                <td>B/L</td>
+                <td>{{visualBL?.bl}}</td>
+              </tr>
+              <tr>
+                <td>Embarcador</td>
+                <td>{{visualBL?.embarcador}}</td>
+              </tr>
+              <tr>
+                <td>Consignatario</td>
+                <td>{{visualBL?.consignatario}}</td>
+              </tr>
+              <tr>
+                <td>Notificar</td>
+                <td>{{visualBL?.notificarA}}</td>
+              </tr>
+              <tr>
+                <td>Marcas y números</td>
+                <td>{{visualBL?.marcasNumeros}}</td>
+              </tr>
+              <tr>
+                <td>Cantidad</td>
+                <td>{{visualBL?.cantidad}}</td>
+              </tr>
+              <tr>
+                <td>Unidad</td>
+                <td>{{visualBL?.unidad}}</td>
+              </tr>
+              <tr>
+                <td>Descripción</td>
+                <td>{{visualBL?.descripcion}}</td>
+              </tr>
+              <tr>
+                <td>Peso Bruto</td>
+                <td>{{visualBL?.pesoBruto}}</td>
+              </tr>
+              <tr>
+                <td>Volumen</td>
+                <td>{{visualBL?.volumen}}</td>
+              </tr>
+              </tbody>
+            </table>
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>

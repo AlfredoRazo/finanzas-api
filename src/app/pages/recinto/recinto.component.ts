@@ -17,6 +17,7 @@ export class RecintoComponent implements OnInit {
   page = 1;
   data: any[] = [];
   visualSolicitud: any;
+  visualBL: any;
 
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
@@ -47,6 +48,16 @@ export class RecintoComponent implements OnInit {
         this.spinner.hide();
       });
     }
+    consultaBL(idBL: string): void{
+      this.spinner.show();
+      this.http.get(`${environment.endpointRecinto}bl/${idBL}`).subscribe((res: any) =>{
+        this.visualBL = res.datos;
+        this.spinner.hide();
+      },err=>{
+        this.spinner.hide();
+      });
+
+    }
     getTipoSolicitud(id: string): string{
       return [
         { id: '1', descripcion: 'Entrada' },
@@ -57,5 +68,6 @@ export class RecintoComponent implements OnInit {
     }
     visualizar(item: any): void{
       this.visualSolicitud = item;
+      this.consultaBL(item.idBl);
     }
 }
