@@ -145,7 +145,25 @@
 
     </div>
 </form>
-
+<div class="row" *ngIf="tipoSoli == '2'">
+    <div class="form-group col-md-4">
+        <label class="control-label">Tipo Salida</label>
+        <select class="form-control" name="tipoSalida" [(ngModel)]="tipoSalida">
+            <option value="1">Normal</option>
+            <option value="2">Transferencia</option>
+        </select>
+    </div>
+    <div class="form-group col-md-4" *ngIf="tipoSalida == '2'">
+        <label class="control-label">Recinto Origen</label>
+        <input type="text" class="form-control" readonly name="recintoOrigen" [(ngModel)]="recintoOrigen">
+    </div>
+    <div class="form-group col-md-4" *ngIf="tipoSalida == '2'">
+        <label class="control-label">Recinto Destino</label>
+        <select class="form-control" name="tipoSalida" [(ngModel)]="recintoDestino">
+            <option *ngFor="let item of puertos" [value]="item.id">{{item.valor}}</option>
+        </select>
+    </div>
+</div>
 <br>
 <br>
 <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
@@ -157,11 +175,13 @@
                 <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="embarcador">Embarcador <span
                         class="glyphicon glyphicon-sort"></span></th>
                 <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="consignatario">Consignatario
-                    <span class="glyphicon glyphicon-sort"></span></th>
+                    <span class="glyphicon glyphicon-sort"></span>
+                </th>
                 <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="notificarA">Notificar a <span
                         class="glyphicon glyphicon-sort"></span></th>
                 <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="marcasNumeros">Marcas y Números
-                    <span class="glyphicon glyphicon-sort"></span></th>
+                    <span class="glyphicon glyphicon-sort"></span>
+                </th>
                 <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cantidad">Cantidad <span
                         class="glyphicon glyphicon-sort"></span></th>
                 <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="unidad">Unidad <span
@@ -192,7 +212,7 @@
     </table>
 </div>
 <div class="alert alert-success" *ngIf="msjSuccess">
-{{msjSuccess}}
+    {{msjSuccess}}
 </div>
 <button type="button" class="btn btn-default" routerLink="/recinto">Regresar</button>
 <button type="button" class="btn btn-primary" style="margin-left: 15px;" (click)="guardarSolicitud()"> Guardar</button>

@@ -75,8 +75,11 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       )
     );
   formatterClienteNombre = (x: { nombre: string }) => x.nombre;
-
+  puertos: any[] = [];
   man: any = {};
+  tipoSalida: any;
+  recintoOrigen: string = 'Api Manzanillo';
+  recintoDestino: any;
   tipoServicio = [
     { id: 1, descripcion: 'Contenedores' },
     { id: 2, descripcion: 'Carga suelta' }
@@ -111,6 +114,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.getAgenciaAduanal();
     this.getLineaNaviera();
     this.getAgenciaConsignataria();
+    this.getPuertos();
     //this.agenciaAduanal = user.empresa;
     $('#fecha-servicio').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaServ = date } });
     $('#fecha-arribo').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaArribo = date } });
@@ -172,6 +176,19 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     //cambiar
     this.http.get('https://pis-catalogos-qa.azurewebsites.net/api/empresas/select/3', { headers: header }).subscribe((res: any) => {
       this.lineasnavieras = res.valor;
+    }, error => { });
+  }
+  getPuertos(): void {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().token}`,
+      //'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFjbGlAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiMjc1IiwiaWRBcHAiOiIxOCIsImlkUm9sIjoiNiIsImlkUm9sQXBwIjoiMTQwMSIsImlkUGVyc29uYSI6IjE3MTEiLCJpZEVtcHJlc2EiOiIxNCIsImlkQ29udHJhdG8iOiIxNDEiLCJuYmYiOjE2Mjk1MTQwNjEsImV4cCI6MTYyOTU0Mjg2MSwiaWF0IjoxNjI5NTE0MDYxLCJpc3MiOiJQSVMiLCJhdWQiOiJBUElNQU4ifQ.yHPNnEiz9WAcZ8mww3LWAZiAxmV3pPMDVtU-sUNRQyY`
+    });
+    //cambiar
+    this.http.get('https://pis-catalogos-qa.azurewebsites.net/api/puertos', { headers: header }).subscribe((res: any) => {
+      console.log(res);
+      console.log('entre');
+      this.puertos = res.valor;
     }, error => { });
   }
   getAgenciaConsignataria(): void {
