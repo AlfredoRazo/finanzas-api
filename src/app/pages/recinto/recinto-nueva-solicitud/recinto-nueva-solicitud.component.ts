@@ -183,7 +183,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   getRecinto(): void {
     this.http.get(`https://pis-api-recinto.azurewebsites.net/api/catRecintos`).subscribe((res: any) => {
       this.recintos = res;
-    }, error => { });
+    }, error => { 
+      console.log(error);
+    });
   }
   getAgenciaConsignataria(): void {
     const header = new HttpHeaders({
