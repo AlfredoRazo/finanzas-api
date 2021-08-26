@@ -39,10 +39,14 @@ export class CargaManifiestoComponent implements OnInit {
   concepto = '';
   manifiesto = '';
   fechaarribo = '';
+  recintos: any[] = [];
   tabledat: CargaManifiesto = {} as CargaManifiesto;
   catalogos = environment.endpoint + 'sapCatalogos?catalogo=';
   indexEdit: any;
   viaje: any;
+  puertoCarga:any;
+  puertoOrigen:any;
+  puertoDescarga:any;
   search:any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -61,6 +65,7 @@ export class CargaManifiestoComponent implements OnInit {
   ngOnInit(): void {
     this.getBuques();
     this.getUnidadesMedida();
+    this.getRecinto();
     $('#fecha').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaarribo = date } });
   }
 
@@ -96,6 +101,12 @@ export class CargaManifiestoComponent implements OnInit {
   editData(index: any, item: any): void {
     this.tabledat = item;
     this.indexEdit = index;
+  }
+  getRecinto(): void {
+    this.http.get(`${environment.endpointApi}catRecintos`).subscribe((res: any) => {
+      this.recintos = res;
+    }, error => { 
+    });
   }
 
   cargarManifiesto(): void{
