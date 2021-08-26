@@ -118,10 +118,10 @@ export class CargaManifiestoComponent implements OnInit {
       acuse: '',
       barcoNacionalidad: '',
       barcoCapitan: '',
-      puertoEmbarque: '',
-      puertoEmision: '',
-      puertoDescarga: '',
       fechaEntradaSalida: this.fechaarribo + 'T00:00:00.923Z',
+      puertoEmbarque: this.puertoCarga,
+      puertoEmision: this.puertoOrigen,
+      puertoDescarga:this.puertoDescarga,
       tipo: 0,
       bls: this.data,
       modificado: true

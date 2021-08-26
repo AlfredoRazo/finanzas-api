@@ -58,7 +58,7 @@
                 <option *ngFor="let item of patentes" [value]="item">{{item}}</option>
             </select>
         </div>
-        
+
     </div>
     <div class="row">
         <ng-template #rt2 let-r="result" let-t="term">
@@ -114,6 +114,15 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group datepicker-group">
+                <label class="control-label">Fecha de termino de operaciones</label>
+                <input type="text" class="form-control" id="fecha-inicio-operaciones">
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group datepicker-group">
                 <label class="control-label">Fecha de zarpe</label>
                 <input type="text" class="form-control" id="fecha-zarpe">
                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
@@ -142,6 +151,13 @@
             <button class="btn btn-primary btn-sm" style="margin-top: 30px;" (click)="consulta()"
                 [disabled]="!bl">Buscar</button>
 
+        </div>
+    </div>
+    <div class="row" *ngIf="tipoSoli == '1'">
+        <div class="checkbox col-md-6">
+            <label>
+                <input type="checkbox" [(ngModel)]="infoRelativa" name="infoRelativa"> Información relativa a la violación, daño o extravío de los bultos o mercancías almacenados. cuando sea una entrada.
+            </label>
         </div>
     </div>
     <div class="alert alert-warning" *ngIf="msjConsulta">
@@ -193,28 +209,30 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr style="cursor: pointer">
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="bl">BL <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="embarcador">Embarcador <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="consignatario">Consignatario
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
+                    data-name="bl">BL <span class="glyphicon glyphicon-sort"></span></th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
+                    data-name="embarcador">Embarcador <span class="glyphicon glyphicon-sort"></span></th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
+                    data-name="consignatario">Consignatario
                     <span class="glyphicon glyphicon-sort"></span>
                 </th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="notificarA">Notificar a <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="marcasNumeros">Marcas y Números
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
+                    data-name="notificarA">Notificar a <span class="glyphicon glyphicon-sort"></span></th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
+                    data-name="marcasNumeros">Marcas y Números
                     <span class="glyphicon glyphicon-sort"></span>
                 </th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cantidad">Cantidad <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="unidad">Unidad <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="descripcion">Descripción <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="pesoBruto">Peso Bruto (KG) <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="volumen">Volumen <span
-                        class="glyphicon glyphicon-sort"></span></th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
+                    data-name="cantidad">Cantidad <span class="glyphicon glyphicon-sort"></span></th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
+                    data-name="unidad">Unidad <span class="glyphicon glyphicon-sort"></span></th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
+                    data-name="descripcion">Descripción <span class="glyphicon glyphicon-sort"></span></th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
+                    data-name="pesoBruto">Peso Bruto (KG) <span class="glyphicon glyphicon-sort"></span></th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
+                    data-name="volumen">Volumen <span class="glyphicon glyphicon-sort"></span></th>
             </tr>
         </thead>
         <tbody>
@@ -235,7 +253,7 @@
     </table>
 </div>
 <div class="row" *ngIf="bls.length > 0 && tipoSoli == '2'">
-    
+
     <div class="form-group col-md-4">
         <label class="control-label">Cantidad Salida</label>
         <input type="text" class="form-control" name="nuevacantidad" [(ngModel)]="nuevacantidad">

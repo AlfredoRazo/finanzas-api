@@ -124,6 +124,21 @@
           <label class="control-label">Fecha Entrada</label>
           <input type="text" class="form-control" readonly [(ngModel)]="manifiestoData.fechaEntradaSalida">
         </div>
+        <div class="form-group col-md-8">
+          <label class="control-label">Puerto Origen</label>
+          <input type="text" class="form-control" readonly [(ngModel)]="manifiestoData.puertoEmision">
+        </div>
+        
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label class="control-label">Puerto Carga</label>
+          <input type="text" class="form-control" readonly [(ngModel)]="manifiestoData.puertoEmbarque">
+        </div>
+        <div class="form-group col-md-6">
+          <label class="control-label">Puerto Descarga</label>
+          <input type="text" class="form-control" readonly [(ngModel)]="manifiestoData.puertoDescarga">
+        </div>
       </div>
       <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
         <table class="table table-striped table-bordered" style="white-space: nowrap;">

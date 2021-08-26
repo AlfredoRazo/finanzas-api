@@ -16,6 +16,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   manifiesto = '';
   page = 1;
   bl = '';
+  infoRelativa = false;
   patentes: any[] = [];
   bls: any[] = [];
   agenciasaduanales: any[] = [];
