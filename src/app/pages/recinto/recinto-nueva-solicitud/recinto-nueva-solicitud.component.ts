@@ -6,7 +6,11 @@ import { AuthService } from '@serv/auth.service';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 declare var $: any;
-
+export interface BLFile {
+  bl: string;
+  nombre: string;
+  archivo: string | undefined;
+}
 @Component({
   selector: 'app-recinto-nueva-solicitud',
   templateUrl: './recinto-nueva-solicitud.component.html',
@@ -16,6 +20,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   manifiesto = '';
   page = 1;
   bl = '';
+  blRevalidado: BLFile = {} as BLFile;
+  tarja: BLFile = {} as BLFile;
+  solicitudFile: BLFile = {} as BLFile;
   infoRelativa = false;
   patentes: any[] = [];
   bls: any[] = [];
@@ -181,8 +188,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     });
     //cambiar
     this.http.get('https://pis-catalogos-qa.azurewebsites.net/api/empresas/select/3', { headers: header }).subscribe((res: any) => {
-    
-    this.lineasnavieras = res.valor;
+
+      this.lineasnavieras = res.valor;
     }, error => { });
   }
   getPatente(): void {
@@ -193,15 +200,15 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       //'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiMjY4IiwiaWRBcHAiOiIwIiwiaWRSb2wiOiI2IiwiaWRSb2xBcHAiOiIwIiwiaWRQZXJzb25hIjoiMTcxMSIsImlkRW1wcmVzYSI6IjE0IiwiaWRDb250cmF0byI6IjE0MSIsIm5iZiI6MTYyOTk0MjkwMSwiZXhwIjoxNjI5OTcxNzAxLCJpYXQiOjE2Mjk5NDI5MDEsImlzcyI6IlBJUyIsImF1ZCI6IkFQSU1BTiJ9.T5PQTu8kOhfAGIkpdYarEXmuh_Zb_u6cz9wnHvX7id4`
     });
     //cambiar
-    this.http.get('https://pis-catalogos-qa.azurewebsites.net/api/Empresas/'+this.agenciaAduanal+'/patente', { headers: header }).subscribe((res: any) => {
-    this.patente = res.valor[0];
-    this.patentes = res.valor;
+    this.http.get('https://pis-catalogos-qa.azurewebsites.net/api/Empresas/' + this.agenciaAduanal + '/patente', { headers: header }).subscribe((res: any) => {
+      this.patente = res.valor[0];
+      this.patentes = res.valor;
     }, error => { });
   }
   getRecinto(): void {
     this.http.get(`${environment.endpointApi}catRecintos`).subscribe((res: any) => {
       this.recintos = res;
-    }, error => { 
+    }, error => {
       console.log(error);
     });
   }
@@ -231,21 +238,21 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.rfcCliente = evt.item;
   }
 
-  addNuevosDatosBL(): void{
+  addNuevosDatosBL(): void {
     let err = 0;
-    const lastitem = {...this.bls[this.bls.length -1]};
-    if(parseInt(lastitem.cantidad) < parseInt(this.nuevacantidad)){
-    err++;
-    }
-    if(parseFloat(lastitem.pesoBruto) < parseFloat(this.nuevopeso)){
+    const lastitem = { ...this.bls[this.bls.length - 1] };
+    if (parseInt(lastitem.cantidad) < parseInt(this.nuevacantidad)) {
       err++;
     }
-    if(err == 0){
+    if (parseFloat(lastitem.pesoBruto) < parseFloat(this.nuevopeso)) {
+      err++;
+    }
+    if (err == 0) {
       lastitem.cantidad = this.nuevacantidad;
       lastitem.pesoBruto = this.nuevopeso;
       this.hasErrorPesos = false;
       this.bls.push(lastitem);
-    }else{
+    } else {
       this.hasErrorPesos = true;
     }
   }
@@ -273,14 +280,52 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       idBl: +this.bls[0]?.id,
       estatus: 1
     };
+    this.blRevalidado.bl = this.bls[0].bl;
+    this.tarja.bl = this.bls[0].bl;
+    this.solicitudFile.bl = this.bls[0].bl;
     this.msjSuccess = '';
+    if(this.blRevalidado.archivo){this.saveFiles(this.blRevalidado);}
+    if(this.tarja.archivo){this.saveFiles(this.tarja);}
+    if(this.solicitudFile.archivo){this.saveFiles(this.solicitudFile);}
+    
+ 
     this.http.post(`${environment.endpointRecinto}solicitud/v1/`, payload).subscribe((res: any) => {
-      if(!res.error){
+      if (!res.error) {
         this.msjSuccess = res.mensaje;
-      }else{
+      } else {
 
       }
     });
+  }
+  saveFiles(payload: BLFile): void{
+    this.http.post(`${environment.endpointApi}recintoDocumentos`,payload).subscribe(res =>{
+      console.log(res);
+    });
+  }
+  handleUpload(evt: any, name: string): void {
+
+    const file = evt.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      switch (name) {
+        case 'bl_revalidado':
+          this.blRevalidado.nombre = evt.target.files[0].name;
+          this.blRevalidado.archivo = reader.result?.toString().split(',')[1];
+          break;
+        case 'tarja':
+          this.tarja.nombre = evt.target.files[0].name;
+          this.tarja.archivo = reader.result?.toString().split(',')[1];
+          break;
+        case 'solicitud':
+          this.solicitudFile.nombre = evt.target.files[0].name;
+          this.solicitudFile.archivo = reader.result?.toString().split(',')[1];
+          break;
+
+        default:
+          break;
+      }
+    };
   }
 
 }
