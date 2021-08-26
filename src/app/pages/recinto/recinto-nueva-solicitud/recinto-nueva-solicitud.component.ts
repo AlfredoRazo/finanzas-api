@@ -185,8 +185,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     console.log(this.agenciaAduanal);
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
-      //'Authorization': `Bearer ${this.auth.getSession().token}`,
-      'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiMjY4IiwiaWRBcHAiOiIwIiwiaWRSb2wiOiI2IiwiaWRSb2xBcHAiOiIwIiwiaWRQZXJzb25hIjoiMTcxMSIsImlkRW1wcmVzYSI6IjE0IiwiaWRDb250cmF0byI6IjE0MSIsIm5iZiI6MTYyOTk0MjkwMSwiZXhwIjoxNjI5OTcxNzAxLCJpYXQiOjE2Mjk5NDI5MDEsImlzcyI6IlBJUyIsImF1ZCI6IkFQSU1BTiJ9.T5PQTu8kOhfAGIkpdYarEXmuh_Zb_u6cz9wnHvX7id4`
+      'Authorization': `Bearer ${this.auth.getSession().token}`,
+      //'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiMjY4IiwiaWRBcHAiOiIwIiwiaWRSb2wiOiI2IiwiaWRSb2xBcHAiOiIwIiwiaWRQZXJzb25hIjoiMTcxMSIsImlkRW1wcmVzYSI6IjE0IiwiaWRDb250cmF0byI6IjE0MSIsIm5iZiI6MTYyOTk0MjkwMSwiZXhwIjoxNjI5OTcxNzAxLCJpYXQiOjE2Mjk5NDI5MDEsImlzcyI6IlBJUyIsImF1ZCI6IkFQSU1BTiJ9.T5PQTu8kOhfAGIkpdYarEXmuh_Zb_u6cz9wnHvX7id4`
     });
     //cambiar
     this.http.get('https://pis-catalogos-qa.azurewebsites.net/api/Empresas/'+this.agenciaAduanal+'/patente', { headers: header }).subscribe((res: any) => {
