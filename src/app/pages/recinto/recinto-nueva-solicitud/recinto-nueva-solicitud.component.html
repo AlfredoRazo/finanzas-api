@@ -190,65 +190,67 @@
 <br>
 <br>
 <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
-    <table class="table table-bordered" style="white-space: nowrap;">
+    <table class="table table-bordered table-striped">
         <thead>
             <tr style="cursor: pointer">
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="bl">BL <span
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="bl">BL <span
                         class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="embarcador">Embarcador <span
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="embarcador">Embarcador <span
                         class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="consignatario">Consignatario
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="consignatario">Consignatario
                     <span class="glyphicon glyphicon-sort"></span>
                 </th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="notificarA">Notificar a <span
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="notificarA">Notificar a <span
                         class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="marcasNumeros">Marcas y Números
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="marcasNumeros">Marcas y Números
                     <span class="glyphicon glyphicon-sort"></span>
                 </th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cantidad">Cantidad <span
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="cantidad">Cantidad <span
                         class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="unidad">Unidad <span
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="unidad">Unidad <span
                         class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="descripcion">Descripción <span
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="descripcion">Descripción <span
                         class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="pesoBruto">Peso Bruto (KG) <span
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="pesoBruto">Peso Bruto (KG) <span
                         class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="manifiestoData" data-order="desc" data-name="volumen">Volumen <span
+                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc" data-name="volumen">Volumen <span
                         class="glyphicon glyphicon-sort"></span></th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of bls">
-                <td>{{item.bl}}</td>
-                <td>{{item.embarcador}}</td>
-                <td>{{item.consignatario}}</td>
-                <td>{{item.notificarA}}</td>
-                <td>{{item.marcasNumeros}}</td>
-                <td>{{item.cantidad}}</td>
-                <td>{{item.unidad}}</td>
+            <tr *ngFor="let item of bls; let i = index" [ngStyle]="{'background-color': i > 0 ? '#A9A9A9' : '#FFF'}">
+                <td style="white-space: nowrap;">{{item.bl}}</td>
+                <td style="white-space: nowrap;">{{item.embarcador}}</td>
+                <td style="white-space: nowrap;">{{item.consignatario}}</td>
+                <td style="white-space: nowrap;">{{item.notificarA}}</td>
+                <td style="white-space: nowrap;">{{item.marcasNumeros}}</td>
+                <td style="white-space: nowrap;">{{item.cantidad}}</td>
+                <td style="white-space: nowrap;">{{item.unidad}}</td>
                 <td>{{item.descripcion}}</td>
-                <td>{{item.pesoBruto}}</td>
-                <td>{{item.volumen}}</td>
+                <td style="white-space: nowrap;">{{item.pesoBruto}}</td>
+                <td style="white-space: nowrap;">{{item.volumen}}</td>
             </tr>
 
         </tbody>
     </table>
 </div>
 <div class="row" *ngIf="bls.length > 0 && tipoSoli == '2'">
+    
     <div class="form-group col-md-4">
-        <label class="control-label">Nuevo Peso</label>
-        <input type="text" class="form-control" name="nuevopeso" [(ngModel)]="nuevopeso">
-
+        <label class="control-label">Cantidad Salida</label>
+        <input type="text" class="form-control" name="nuevacantidad" [(ngModel)]="nuevacantidad">
     </div>
     <div class="form-group col-md-4">
-        <label class="control-label">Nueva Cantidad</label>
-        <input type="text" class="form-control" name="nuevacantidad" [(ngModel)]="nuevacantidad">
-
+        <label class="control-label">Peso Salida</label>
+        <input type="text" class="form-control" name="nuevopeso" [(ngModel)]="nuevopeso">
     </div>
     <div class="col-md-4">
         <button type="button" class="btn btn-sm btn-primary" style="margin-top: 33px;" (click)="addNuevosDatosBL()"
             [disabled]="!nuevopeso || !nuevacantidad">Agregar</button>
     </div>
+</div>
+<div class="alert alert-warning" *ngIf="hasErrorPesos">
+    {{msjErrorpesos}}
 </div>
 <div class="alert alert-success" *ngIf="msjSuccess">
     {{msjSuccess}}

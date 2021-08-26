@@ -46,6 +46,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   agenciaconsig = '';
   nuevopeso = '';
   nuevacantidad = '';
+  hasErrorPesos = false;
+  msjErrorpesos = 'La cantidad de salida o el peso de salida no pueden ser mayores';
+
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -228,10 +231,22 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   }
 
   addNuevosDatosBL(): void{
+    let err = 0;
     const lastitem = {...this.bls[this.bls.length -1]};
-    lastitem.cantidad = this.nuevacantidad;
-    lastitem.pesoBruto = this.nuevopeso;
-    this.bls.push(lastitem);
+    if(parseInt(lastitem.cantidad) < parseInt(this.nuevacantidad)){
+    err++;
+    }
+    if(parseFloat(lastitem.pesoBruto) < parseFloat(this.nuevopeso)){
+      err++;
+    }
+    if(err == 0){
+      lastitem.cantidad = this.nuevacantidad;
+      lastitem.pesoBruto = this.nuevopeso;
+      this.hasErrorPesos = false;
+      this.bls.push(lastitem);
+    }else{
+      this.hasErrorPesos = true;
+    }
   }
 
   guardarSolicitud(): void {
