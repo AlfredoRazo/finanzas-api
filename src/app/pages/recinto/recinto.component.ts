@@ -70,8 +70,25 @@ export class RecintoComponent implements OnInit {
         { id: '2', descripcion: 'Salida' },
         { id: '3', descripcion: 'Movimientos' },
         { id: '4', descripcion: 'Liberación' },
-      ].filter(item =>{ return id ==item.id})[0].descripcion;
+      ].filter(item =>{ return id ==item.id})[0]?.descripcion;
     }
+
+    getTipoTramite(id: string): string{
+      return [
+        { id: '1', descripcion: 'Importación' },
+        { id: '2', descripcion: 'Exportación' },
+        { id: '3', descripcion: 'Transbordo' }
+      ].filter(item =>{ return id ==item.id})[0]?.descripcion;
+    }
+
+    getTipoTransporte(id: string): string{
+      return [
+    { id: '1', descripcion: 'Carretero' },
+    { id: '2', descripcion: 'Ferroviario' },
+    { id: '3', descripcion: 'Marítimo' }
+  ].filter(item =>{ return id ==item.id})[0]?.descripcion;
+    }
+
     visualizar(item: any): void{
       this.visualSolicitud = item;
       this.consultaBL(item.idBl);

@@ -177,6 +177,22 @@
             <hr class="red">
               <table class="table table-bordered table-striped">
                 <tbody>
+                  <tr>
+                    <td>Tipo Servicio</td>
+                    <td>{{visualSolicitud?.idTipoServicio == 1 ? 'Contenedores':'Carga suelta'}}</td>
+                  </tr>
+                  <tr>
+                    <td>Tipo Trámite</td>
+                    <td>{{getTipoTramite(visualSolicitud?.idTipoTramite)}}</td>
+                  </tr>
+                  <tr>
+                    <td>Tipo Solicitud</td>
+                    <td>{{getTipoSolicitud(visualSolicitud?.idTipoSolicitud)}}</td>
+                  </tr>
+                  <tr>
+                    <td>Tipo Transporte</td>
+                    <td>{{getTipoTransporte(visualSolicitud?.idTipoTransporte)}}</td>
+                  </tr>
                 <tr>
                   <td>Fecha Servicio</td>
                   <td>{{visualSolicitud?.fechaServicio}}</td>
