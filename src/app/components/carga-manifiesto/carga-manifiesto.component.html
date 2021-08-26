@@ -26,24 +26,6 @@
         <input type="text" class="form-control" name="viaje" [(ngModel)]="viaje">
     </div>
 </div>
-<div class="row">
-    <div class="form-group col-md-6">
-        <label class="control-label">Puerto Carga</label>
-        <input type="text" class="form-control" name="puertoCarga" [(ngModel)]="puertoCarga">
-    </div>
-    <div class="form-group col-md-6">
-        <label class="control-label">Puerto Origen</label>
-        <input type="text" class="form-control" name="puertoOrigen" [(ngModel)]="puertoOrigen">
-    </div>
-
-</div>
-<div class="row">
-    <div class="form-group col-md-6">
-        <label class="control-label">Puerto Descarga</label>
-        <input type="text" class="form-control" name="puertoDescarga" [(ngModel)]="puertoDescarga">
-    </div>
-
-</div>
 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregar-data">Agregar <span
         class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
 <br>
@@ -73,6 +55,12 @@
                         class="glyphicon glyphicon-sort"></span></th>
                 <th scope="col" [appSort]="data" data-order="desc" data-name="volumen">Volumen<span
                         class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="puertoEmbarque">Puerto Carga<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="puertoEmision">Puerto Origen<span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th scope="col" [appSort]="data" data-order="desc" data-name="puertoDescarga">Puerto Descarga<span
+                        class="glyphicon glyphicon-sort"></span></th>
             </tr>
         </thead>
         <tbody>
@@ -94,6 +82,9 @@
                 <td>{{item.descripcion}}</td>
                 <td>{{item.pesoBruto}}</td>
                 <td>{{item.volumen}}</td>
+                <td>{{item.puertoEmbarque}}</td>
+                <td>{{item.puertoEmision}}</td>
+                <td>{{item.puertoDescarga}}</td>
             </tr>
         </tbody>
     </table>
@@ -159,13 +150,34 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label class="control-label">Peso bruto KG</label>
-                            <input type="text" class="form-control" name="peso" [dropSpecialCharacters]="false" mask="0*.00"
-                                [(ngModel)]="tabledat.pesoBruto">
+                            <input type="text" class="form-control" name="peso" [dropSpecialCharacters]="false"
+                                mask="0*.00" [(ngModel)]="tabledat.pesoBruto">
                         </div>
                         <div class="form-group col-md-6">
                             <label class="control-label">Volumen</label>
                             <input type="text" class="form-control" name="volumen" mask="0*"
                                 [(ngModel)]="tabledat.volumen">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Puerto Carga</label>
+                            <input type="text" class="form-control" name="puertoCarga"
+                                [(ngModel)]="tabledat.puertoEmbarque">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Puerto Origen</label>
+                            <input type="text" class="form-control" name="puertoOrigen"
+                                [(ngModel)]="tabledat.puertoEmision">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Puerto Descarga</label>
+                            <input type="text" class="form-control" name="puertoDescarga"
+                                [(ngModel)]="tabledat.puertoDescarga">
                         </div>
 
                     </div>
@@ -239,13 +251,34 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label class="control-label">Peso bruto KG</label>
-                            <input type="text" class="form-control" name="peso" [dropSpecialCharacters]="false" mask="0*.00"
-                                [(ngModel)]="tabledat.pesoBruto">
+                            <input type="text" class="form-control" name="peso" [dropSpecialCharacters]="false"
+                                mask="0*.00" [(ngModel)]="tabledat.pesoBruto">
                         </div>
                         <div class="form-group col-md-6">
                             <label class="control-label">Volumen</label>
                             <input type="text" class="form-control" name="volumen" mask="0*"
                                 [(ngModel)]="tabledat.volumen">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Puerto Carga</label>
+                            <input type="text" class="form-control" name="puertoCarga"
+                                [(ngModel)]="tabledat.puertoEmbarque">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Puerto Origen</label>
+                            <input type="text" class="form-control" name="puertoOrigen"
+                                [(ngModel)]="tabledat.puertoEmision">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Puerto Descarga</label>
+                            <input type="text" class="form-control" name="puertoDescarga"
+                                [(ngModel)]="tabledat.puertoDescarga">
                         </div>
 
                     </div>

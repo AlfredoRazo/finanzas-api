@@ -20,6 +20,9 @@ export interface CargaManifiesto {
   volumen: string;
   activo: boolean;
   modificado: boolean;
+  puertoEmbarque: string;
+  puertoEmision: string;
+  puertoDescarga: string;
 }
 
 @Component({
@@ -44,9 +47,7 @@ export class CargaManifiestoComponent implements OnInit {
   catalogos = environment.endpoint + 'sapCatalogos?catalogo=';
   indexEdit: any;
   viaje: any;
-  puertoCarga:any;
-  puertoOrigen:any;
-  puertoDescarga:any;
+ 
   search:any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -112,9 +113,7 @@ export class CargaManifiestoComponent implements OnInit {
       barcoNacionalidad: '',
       barcoCapitan: '',
       fechaEntradaSalida: this.fechaarribo + 'T00:00:00.923Z',
-      puertoEmbarque: this.puertoCarga,
-      puertoEmision: this.puertoOrigen,
-      puertoDescarga:this.puertoDescarga,
+
       tipo: 0,
       bls: this.data,
       modificado: true
