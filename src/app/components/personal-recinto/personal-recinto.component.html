@@ -27,9 +27,11 @@
                 <td>Calle: {{item.direccion?.calle}}, N.Ext.{{item.direccion?.numExt}} Colonia: {{item.direccion?.colonia}} C.P. {{item.direccion?.cp}} Municipio: {{item.direccion?.municipio}}</td>
                 <td>
                     <ng-container *ngIf="item.documentos">
-                        <ng-container *ngFor="let doc of item.documentos">
+                        <ul>
+                        <li *ngFor="let doc of item.documentos">
                             <button (click)="getDocumento(doc.idDocumento)" class="btn btn-sm btn-primary">{{doc.tipoDocumento?.valor}}</button>
-                        </ng-container>
+                        </li>
+                        </ul>
                     </ng-container>
                 </td>
             </tr>

@@ -16,6 +16,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   manifiesto = '';
   page = 1;
   bl = '';
+  patentes: any[] = [];
   bls: any[] = [];
   agenciasaduanales: any[] = [];
   agenciasconsig: any[] = [];
@@ -117,6 +118,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.getLineaNaviera();
     this.getAgenciaConsignataria();
     this.getRecinto();
+    this.getPatente();
     //this.agenciaAduanal = user.empresa;
     $('#fecha-servicio').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaServ = date } });
     $('#fecha-arribo').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaArribo = date } });
@@ -177,11 +179,24 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     });
     //cambiar
     this.http.get('https://pis-catalogos-qa.azurewebsites.net/api/empresas/select/3', { headers: header }).subscribe((res: any) => {
-      this.lineasnavieras = res.valor;
+    
+    this.lineasnavieras = res.valor;
+    }, error => { });
+  }
+  getPatente(): void {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      //'Authorization': `Bearer ${this.auth.getSession().token}`,
+      'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFjbGlAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiMjc1IiwiaWRBcHAiOiIxOCIsImlkUm9sIjoiNiIsImlkUm9sQXBwIjoiMTQwMSIsImlkUGVyc29uYSI6IjE3MTEiLCJpZEVtcHJlc2EiOiIxNCIsImlkQ29udHJhdG8iOiIxNDEiLCJuYmYiOjE2Mjk1MTQwNjEsImV4cCI6MTYyOTU0Mjg2MSwiaWF0IjoxNjI5NTE0MDYxLCJpc3MiOiJQSVMiLCJhdWQiOiJBUElNQU4ifQ.yHPNnEiz9WAcZ8mww3LWAZiAxmV3pPMDVtU-sUNRQyY`
+    });
+    //cambiar
+    this.http.get('https://pis-catalogos-qa.azurewebsites.net/api/Empresas/2/patente', { headers: header }).subscribe((res: any) => {
+    console.log(res);
+    this.patentes = res.valor;
     }, error => { });
   }
   getRecinto(): void {
-    this.http.get(`https://pis-api-recinto.azurewebsites.net/api/catRecintos`).subscribe((res: any) => {
+    this.http.get(`${environment.endpointApi}catRecintos`).subscribe((res: any) => {
       this.recintos = res;
     }, error => { 
       console.log(error);

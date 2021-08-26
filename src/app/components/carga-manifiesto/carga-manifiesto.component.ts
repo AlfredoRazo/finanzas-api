@@ -130,7 +130,7 @@ export class CargaManifiestoComponent implements OnInit {
       this.spinner.hide();
     },err =>{
       this.spinner.hide();
-      this.msj = 'No se pudo guardar su manifiesto';
+      this.msj = err.error.mensaje;
       this.hasError = true;
     });
   }

@@ -18,6 +18,9 @@ export class RecintoComponent implements OnInit {
   data: any[] = [];
   visualSolicitud: any;
   visualBL: any;
+  hasError = false;
+  hasSuccess = false;
+  msj = '';
 
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
@@ -31,7 +34,10 @@ export class RecintoComponent implements OnInit {
       this.spinner.show();
       this.http.get(`${environment.endpointRecinto}solicitud/v1`).subscribe((res: any) => {
         if(!res.error){
-          this.data = res.datos;
+          this.data = res.datos.map((item: any)=>{
+            item.selected = false;
+            return item;
+          });
         }else{
 
         }
@@ -69,5 +75,30 @@ export class RecintoComponent implements OnInit {
     visualizar(item: any): void{
       this.visualSolicitud = item;
       this.consultaBL(item.idBl);
+    }
+
+    autorizar():void{
+      this.hasError = false;
+      this.hasSuccess = false;
+      this.msj = '';
+      const payload = this.data.filter((item: any) => {
+        return item.selected
+      }).map((item: any) =>{
+        return {
+          idSolicitud: item.id,
+          estatus: 100
+        };
+      });
+      this.http.put(`${environment.endpointRecinto}Solicitud/v1/estatus/masivo`,payload).subscribe((res: any) =>{
+        if(!res.error){
+          this.getSolicitudesServicios();
+          this.hasSuccess = true;
+          this.msj = res.mensaje;
+        }else{
+          this.hasError
+          this.msj = res.mensaje;
+        }
+      },err=>{});
+      
     }
 }
