@@ -285,8 +285,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           const payload = {
             idSolicitud: res.valor,
             idBL: this.bls[1].id,
-            cantidad: this.bls[1].id,
-            peso: this.bls[1].id
+            cantidad: this.bls[1].cantidad,
+            peso: this.bls[1].pesoBruto
           };
           this.http.post(`${environment.endpointRecinto}bl/movimiento`, payload).subscribe((res: any) => {
             if (!res.error) {
@@ -295,11 +295,11 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
               this.blmsj = res.mensaje;
             } else {
               this.hasSuccessBL = false;
-              this.msjErrorpesos = '';
+              this.msjErrorpesos = res.mensaje;
               this.hasErrorPesos = true;
             }
           }, err => {
-            this.msjErrorpesos = '';
+            this.msjErrorpesos = 'Ocurrio algo inesperado';
             this.hasErrorPesos = true;
           });
         }
