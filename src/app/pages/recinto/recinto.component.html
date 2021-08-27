@@ -281,28 +281,7 @@
               </tbody>
             </table>
             
-            <div class="row" *ngIf="visualSolicitud?.idTipoSolicitud == '2'">
-
-              <div class="form-group col-md-4">
-                  <label class="control-label">Cantidad Salida</label>
-                  <input type="text" class="form-control" name="nuevacantidad" [(ngModel)]="nuevacantidad">
-              </div>
-              <div class="form-group col-md-4">
-                  <label class="control-label">Peso Salida</label>
-                  <input type="text" class="form-control" name="nuevopeso" [(ngModel)]="nuevopeso">
-              </div>
-              <div class="col-md-4">
-                  <button type="button" class="btn btn-sm btn-primary" style="margin-top: 33px;" (click)="addNuevosDatosBL()"
-                      [disabled]="!nuevopeso || !nuevacantidad" >Agregar</button>
-              </div>
-          </div>
-          <br>
-          <div class="alert alert-warning" *ngIf="hasSuccessBL">
-            {{blmsj}}
-        </div>
-          <div class="alert alert-warning" *ngIf="hasErrorPesos">
-            {{msjErrorpesos}}
-        </div>
+  
         <ng-container *ngIf="documentosVisual.length > 0">
           <h4>Documentos</h4>
           <hr class="red">

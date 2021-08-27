@@ -53,6 +53,14 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   viaje = '';
   lineanaviera = '';
   agenciaconsig = '';
+  idSolicitud: any;
+
+  nuevacantidad: any;
+  nuevopeso: any;
+  hasErrorPesos = false;
+  msjErrorpesos = '';
+  hasSuccessBL = false;
+  blmsj = '';
 
   search: any = (text$: Observable<any>) =>
     text$.pipe(
@@ -273,6 +281,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.http.post(`${environment.endpointRecinto}solicitud/v1/`, payload).subscribe((res: any) => {
       if (!res.error) {
         this.msjSuccess = res.mensaje + ' Solicitud:' + res.valor;
+        this.idSolicitud = res.valor;
       } else {
 
       }
@@ -291,15 +300,15 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     reader.onload = () => {
       switch (name) {
         case 'bl_revalidado':
-          this.blRevalidado.nombre = evt.target.files[0].name;
+          this.blRevalidado.nombre = name + '_' +evt.target.files[0].name;
           this.blRevalidado.archivo = reader.result?.toString().split(',')[1];
           break;
         case 'tarja':
-          this.tarja.nombre = evt.target.files[0].name;
+          this.tarja.nombre = name + '_' +evt.target.files[0].name;
           this.tarja.archivo = reader.result?.toString().split(',')[1];
           break;
         case 'solicitud':
-          this.solicitudFile.nombre = evt.target.files[0].name;
+          this.solicitudFile.nombre = name + '_' +evt.target.files[0].name;
           this.solicitudFile.archivo = reader.result?.toString().split(',')[1];
           break;
 
@@ -307,6 +316,44 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           break;
       }
     };
+  }
+  addNuevosDatosBL(): void {
+    let err = 0;
+    const lastitem = { ...this.bls[0] };
+    if (parseInt(lastitem.cantidad) < parseInt(this.nuevacantidad)) {
+      err++;
+    }
+    if (parseFloat(lastitem.pesoBruto) < parseFloat(this.nuevopeso)) {
+      err++;
+    }
+    if (err == 0) {
+      lastitem.cantidad = this.nuevacantidad;
+      lastitem.pesoBruto = this.nuevopeso;
+      const payload = {
+        idSolicitud: this.idSolicitud,
+        idBL: lastitem.id,
+        cantidad: +this.nuevacantidad,
+        peso: +this.nuevopeso
+      };
+      this.http.post(`${environment.endpointRecinto}bl/movimiento`, payload).subscribe((res: any) => {
+        if (!res.error) {
+          this.bls.push(lastitem);
+          this.hasSuccessBL = true;
+          this.blmsj = res.mensaje;
+        } else {
+          this.hasSuccessBL = false;
+          this.msjErrorpesos = '';
+          this.hasErrorPesos = true;
+        }
+      }, err => {
+        this.msjErrorpesos = '';
+        this.hasErrorPesos = true;
+      });
+
+    } else {
+      this.msjErrorpesos = 'La cantidad de salida o el peso de salida no pueden ser mayores';
+      this.hasErrorPesos = true;
+    }
   }
 
 }
