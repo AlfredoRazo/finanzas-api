@@ -257,7 +257,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       patente: this.patente,
       idCliente: 0,
       nombre: this.nombreCliente?.nombre ? this.nombreCliente?.nombre : this.nombreCliente,
-      buque: this.buque.nombre ? this.buque.nombre : this.buque,
+      buque: this.buque?.nombre ? this.buque?.nombre : this.buque,
       viaje: this.viaje,
       fechaArribo: this.fechaArribo + 'T00:00:00.861Z',
       fechaIniOperaciones: this.fechaInicioOp + 'T00:00:00.861Z',
@@ -281,7 +281,28 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.http.post(`${environment.endpointRecinto}solicitud/v1/`, payload).subscribe((res: any) => {
       if (!res.error) {
         this.msjSuccess = res.mensaje + ' Solicitud:' + res.valor;
-        this.idSolicitud = res.valor;
+        if (this.bls.length > 1) {
+          const payload = {
+            idSolicitud: res.valor,
+            idBL: this.bls[1].id,
+            cantidad: this.bls[1].id,
+            peso: this.bls[1].id
+          };
+          this.http.post(`${environment.endpointRecinto}bl/movimiento`, payload).subscribe((res: any) => {
+            if (!res.error) {
+
+              this.hasSuccessBL = true;
+              this.blmsj = res.mensaje;
+            } else {
+              this.hasSuccessBL = false;
+              this.msjErrorpesos = '';
+              this.hasErrorPesos = true;
+            }
+          }, err => {
+            this.msjErrorpesos = '';
+            this.hasErrorPesos = true;
+          });
+        }
       } else {
 
       }
@@ -300,15 +321,15 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     reader.onload = () => {
       switch (name) {
         case 'bl_revalidado':
-          this.blRevalidado.nombre = name + '_' +evt.target.files[0].name;
+          this.blRevalidado.nombre = name + '_' + evt.target.files[0].name;
           this.blRevalidado.archivo = reader.result?.toString().split(',')[1];
           break;
         case 'tarja':
-          this.tarja.nombre = name + '_' +evt.target.files[0].name;
+          this.tarja.nombre = name + '_' + evt.target.files[0].name;
           this.tarja.archivo = reader.result?.toString().split(',')[1];
           break;
         case 'solicitud':
-          this.solicitudFile.nombre = name + '_' +evt.target.files[0].name;
+          this.solicitudFile.nombre = name + '_' + evt.target.files[0].name;
           this.solicitudFile.archivo = reader.result?.toString().split(',')[1];
           break;
 
@@ -329,26 +350,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     if (err == 0) {
       lastitem.cantidad = this.nuevacantidad;
       lastitem.pesoBruto = this.nuevopeso;
-      const payload = {
-        idSolicitud: this.idSolicitud,
-        idBL: lastitem.id,
-        cantidad: +this.nuevacantidad,
-        peso: +this.nuevopeso
-      };
-      this.http.post(`${environment.endpointRecinto}bl/movimiento`, payload).subscribe((res: any) => {
-        if (!res.error) {
-          this.bls.push(lastitem);
-          this.hasSuccessBL = true;
-          this.blmsj = res.mensaje;
-        } else {
-          this.hasSuccessBL = false;
-          this.msjErrorpesos = '';
-          this.hasErrorPesos = true;
-        }
-      }, err => {
-        this.msjErrorpesos = '';
-        this.hasErrorPesos = true;
-      });
+      this.bls.push(lastitem);
+
 
     } else {
       this.msjErrorpesos = 'La cantidad de salida o el peso de salida no pueden ser mayores';
