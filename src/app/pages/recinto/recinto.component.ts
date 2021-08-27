@@ -21,6 +21,13 @@ export class RecintoComponent implements OnInit {
   hasError = false;
   hasSuccess = false;
   msj = '';
+  nuevacantidad:any;
+  nuevopeso:any;
+  hasErrorPesos = false;
+  msjErrorpesos = '';
+  hasSuccessBL = false;
+  blmsj = '';
+  documentosVisual:any[] = []
 
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
@@ -58,6 +65,7 @@ export class RecintoComponent implements OnInit {
       this.spinner.show();
       this.http.get(`${environment.endpointRecinto}bl/${idBL}`).subscribe((res: any) =>{
         this.visualBL = res.datos;
+        this.getDocumentos(res.datos.bl);
         this.spinner.hide();
       },err=>{
         this.spinner.hide();
@@ -117,5 +125,50 @@ export class RecintoComponent implements OnInit {
         }
       },err=>{});
       
+    }
+    addNuevosDatosBL(): void {
+      let err = 0;
+      const lastitem = this.visualBL;
+      if (parseInt(lastitem.cantidad) < parseInt(this.nuevacantidad)) {
+        err++;
+      }
+      if (parseFloat(lastitem.pesoBruto) < parseFloat(this.nuevopeso)) {
+        err++;
+      }
+      if (err == 0) {
+        lastitem.cantidad = this.nuevacantidad;
+        lastitem.pesoBruto = this.nuevopeso;
+        const payload = {
+          idSolicitud: this.visualSolicitud.id,
+          idBL: lastitem.id,
+          cantidad: +this.nuevacantidad,
+          peso: +this.nuevopeso
+        };
+        this.http.post(`${environment.endpointRecinto}bl/movimiento`, payload).subscribe((res: any) => {
+          if(!res.error){
+            this.hasSuccessBL = true;
+            this.blmsj = res.mensaje;
+          }else{
+            this.hasSuccessBL = false;
+            this.msjErrorpesos = '';
+            this.hasErrorPesos = true;
+          }
+        }, err => {
+          this.msjErrorpesos = '';
+          this.hasErrorPesos = true;
+        });
+  
+      } else {
+        this.msjErrorpesos = 'La cantidad de salida o el peso de salida no pueden ser mayores';
+        this.hasErrorPesos = true;
+      }
+    }
+    getDocumentos(bl:string){
+      this.http.get(`${environment.endpointApi}recintoDocumentos?bl=${bl}`).subscribe((res:any) =>{
+        if(res){
+          this.documentosVisual = res;
+          console.log(res);
+        }
+      });
     }
 }

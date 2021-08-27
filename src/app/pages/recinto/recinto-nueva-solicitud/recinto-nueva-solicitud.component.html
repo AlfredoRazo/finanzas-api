@@ -115,7 +115,7 @@
         <div class="col-md-4">
             <div class="form-group datepicker-group">
                 <label class="control-label">Fecha de termino de operaciones</label>
-                <input type="text" class="form-control" id="fecha-inicio-operaciones">
+                <input type="text" class="form-control" id="fecha-termino-operaciones">
                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
             </div>
         </div>
@@ -162,7 +162,6 @@
     </div>
     <div class="alert alert-warning" *ngIf="msjConsulta">
         {{msjConsulta}}
-
     </div>
 </form>
 <ng-container *ngIf="tipoSoli == '2'">
@@ -237,39 +236,22 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of bls; let i = index" [ngStyle]="{'background-color': i > 0 ? '#A9A9A9' : '#FFF'}">
-                <td style="white-space: nowrap;">{{item.bl}}</td>
-                <td style="white-space: nowrap;">{{item.embarcador}}</td>
-                <td style="white-space: nowrap;">{{item.consignatario}}</td>
-                <td style="white-space: nowrap;">{{item.notificarA}}</td>
-                <td style="white-space: nowrap;">{{item.marcasNumeros}}</td>
-                <td style="white-space: nowrap;">{{item.cantidad}}</td>
-                <td style="white-space: nowrap;">{{item.unidad}}</td>
+                <td >{{item.bl}}</td>
+                <td>{{item.embarcador}}</td>
+                <td>{{item.consignatario}}</td>
+                <td>{{item.notificarA}}</td>
+                <td>{{item.marcasNumeros}}</td>
+                <td>{{item.cantidad}}</td>
+                <td>{{item.unidad}}</td>
                 <td>{{item.descripcion}}</td>
-                <td style="white-space: nowrap;">{{item.pesoBruto}}</td>
-                <td style="white-space: nowrap;">{{item.volumen}}</td>
+                <td>{{item.pesoBruto}}</td>
+                <td>{{item.volumen}}</td>
             </tr>
 
         </tbody>
     </table>
 </div>
-<div class="row" *ngIf="bls.length > 0 && tipoSoli == '2'">
-
-    <div class="form-group col-md-4">
-        <label class="control-label">Cantidad Salida</label>
-        <input type="text" class="form-control" name="nuevacantidad" [(ngModel)]="nuevacantidad">
-    </div>
-    <div class="form-group col-md-4">
-        <label class="control-label">Peso Salida</label>
-        <input type="text" class="form-control" name="nuevopeso" [(ngModel)]="nuevopeso">
-    </div>
-    <div class="col-md-4">
-        <button type="button" class="btn btn-sm btn-primary" style="margin-top: 33px;" (click)="addNuevosDatosBL()"
-            [disabled]="!nuevopeso || !nuevacantidad">Agregar</button>
-    </div>
-</div>
-<div class="alert alert-warning" *ngIf="hasErrorPesos">
-    {{msjErrorpesos}}
-</div>
+<br><br>
 <div class="alert alert-success" *ngIf="msjSuccess">
     {{msjSuccess}}
 </div>

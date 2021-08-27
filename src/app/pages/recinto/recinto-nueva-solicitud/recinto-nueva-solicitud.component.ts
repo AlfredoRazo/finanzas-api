@@ -47,15 +47,12 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   fechaServ = '';
   fechaArribo = '';
   fechaInicioOp = '';
+  fechaTerminoOp = '';
   fechaZarpe = '';
   patente = '';
   viaje = '';
   lineanaviera = '';
   agenciaconsig = '';
-  nuevopeso = '';
-  nuevacantidad = '';
-  hasErrorPesos = false;
-  msjErrorpesos = 'La cantidad de salida o el peso de salida no pueden ser mayores';
 
   search: any = (text$: Observable<any>) =>
     text$.pipe(
@@ -132,6 +129,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     $('#fecha-servicio').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaServ = date } });
     $('#fecha-arribo').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaArribo = date } });
     $('#fecha-inicio-operaciones').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaInicioOp = date } });
+    $('#fecha-termino-operaciones').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaTerminoOp = date } });
     $('#fecha-zarpe').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaZarpe = date } });
   }
 
@@ -141,7 +139,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.http.get<any>(`${environment.endpointRecinto}bl/num/${this.bl}`).subscribe(res => {
       this.spinner.hide();
       if (!res.error) {
-        this.bls.push(res.datos);
+        this.bls[0] = res.datos;
       } else {
         this.msjConsulta = res.mensaje;
       }
@@ -238,25 +236,6 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.rfcCliente = evt.item;
   }
 
-  addNuevosDatosBL(): void {
-    let err = 0;
-    const lastitem = { ...this.bls[this.bls.length - 1] };
-    if (parseInt(lastitem.cantidad) < parseInt(this.nuevacantidad)) {
-      err++;
-    }
-    if (parseFloat(lastitem.pesoBruto) < parseFloat(this.nuevopeso)) {
-      err++;
-    }
-    if (err == 0) {
-      lastitem.cantidad = this.nuevacantidad;
-      lastitem.pesoBruto = this.nuevopeso;
-      this.hasErrorPesos = false;
-      this.bls.push(lastitem);
-    } else {
-      this.hasErrorPesos = true;
-    }
-  }
-
   guardarSolicitud(): void {
     const user = this.auth.getSession().userData;
     const payload = {
@@ -272,33 +251,35 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       nombre: this.nombreCliente?.nombre ? this.nombreCliente?.nombre : this.nombreCliente,
       buque: this.buque.nombre ? this.buque.nombre : this.buque,
       viaje: this.viaje,
-      fechaArribo: this.fechaArribo + 'T00:00:00.999Z',
-      fechaIniOperaciones: this.fechaInicioOp + 'T00:00:00.999Z',
+      fechaArribo: this.fechaArribo + 'T00:00:00.861Z',
+      fechaIniOperaciones: this.fechaInicioOp + 'T00:00:00.861Z',
+      fechaTerminoOperaciones: this.fechaTerminoOp + 'T00:00:00.861Z',
       fechaZarpe: this.fechaZarpe + 'T00:00:00.999Z',
       idLineaNaviera: +this.lineanaviera,
       idAgenciaConsignataria: +this.agenciaconsig,
       idBl: +this.bls[0]?.id,
-      estatus: 1
+      estatus: 1,
+      violacionDañoAlmacenado: this.infoRelativa
     };
     this.blRevalidado.bl = this.bls[0].bl;
     this.tarja.bl = this.bls[0].bl;
     this.solicitudFile.bl = this.bls[0].bl;
     this.msjSuccess = '';
-    if(this.blRevalidado.archivo){this.saveFiles(this.blRevalidado);}
-    if(this.tarja.archivo){this.saveFiles(this.tarja);}
-    if(this.solicitudFile.archivo){this.saveFiles(this.solicitudFile);}
-    
- 
+    if (this.blRevalidado.archivo) { this.saveFiles(this.blRevalidado); }
+    if (this.tarja.archivo) { this.saveFiles(this.tarja); }
+    if (this.solicitudFile.archivo) { this.saveFiles(this.solicitudFile); }
+
+
     this.http.post(`${environment.endpointRecinto}solicitud/v1/`, payload).subscribe((res: any) => {
       if (!res.error) {
-        this.msjSuccess = res.mensaje;
+        this.msjSuccess = res.mensaje + ' Solicitud:' + res.valor;
       } else {
 
       }
     });
   }
-  saveFiles(payload: BLFile): void{
-    this.http.post(`${environment.endpointApi}recintoDocumentos`,payload).subscribe(res =>{
+  saveFiles(payload: BLFile): void {
+    this.http.post(`${environment.endpointApi}recintoDocumentos`, payload).subscribe(res => {
       console.log(res);
     });
   }
