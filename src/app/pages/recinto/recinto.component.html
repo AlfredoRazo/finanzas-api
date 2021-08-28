@@ -57,17 +57,18 @@
                 class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="idBl">BL <span
                 class="glyphicon glyphicon-sort"></span></th>
-            
+
           </tr>
         </thead>
         <tbody style="white-space: nowrap;">
           <tr *ngFor="let item of data">
             <td style="vertical-align: middle;">
               <ng-container *ngIf="item.estatus == 1">
-                  <input type="checkbox" [(ngModel)]="item.selected">
+                <input type="checkbox" [(ngModel)]="item.selected">
               </ng-container>
-          </td>
-          <td><button class="btn btn-xs btn-primary" (click)="visualizar(item)" data-toggle="modal" data-target="#show-data">Revisar detalle</button></td>
+            </td>
+            <td><button class="btn btn-xs btn-primary" (click)="visualizar(item)" data-toggle="modal"
+                data-target="#show-data">Revisar detalle</button></td>
             <td>{{item.estatus == '1' ? 'Por Autorizar' : item.estatus == '100' ?'Autorizado': 'Por Definir' }}</td>
             <td>{{getTipoSolicitud(item.idTipoSolicitud)}}</td>
             <td>{{item.fechaServicio}}</td>
@@ -77,7 +78,9 @@
         </tbody>
       </table>
     </div>
-    <ngb-pagination [collectionSize]="10" [(page)]="page"></ngb-pagination><br>
+    <p>Registros encontrados: <b>{{total}}</b></p>
+    <ngb-pagination [collectionSize]="total" [pageSize]="collSize" [(page)]="page" (pageChange)="paginado($event)"
+      [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
   </div>
   <div *ngSwitchCase="2">
     <app-cfdi></app-cfdi>
@@ -174,114 +177,114 @@
 
 <div class="modal fade" id="show-data">
   <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h4 class="modal-title">Visualizar</h4>
-          </div>
-          <div class="modal-body">
-            <h4>Solicitud</h4>
-            <hr class="red">
-              <table class="table table-bordered table-striped">
-                <tbody>
-                  <tr>
-                    <td>Tipo Servicio</td>
-                    <td>{{visualSolicitud?.idTipoServicio == 1 ? 'Contenedores':'Carga suelta'}}</td>
-                  </tr>
-                  <tr>
-                    <td>Tipo Trámite</td>
-                    <td>{{getTipoTramite(visualSolicitud?.idTipoTramite)}}</td>
-                  </tr>
-                  <tr>
-                    <td>Tipo Solicitud</td>
-                    <td>{{getTipoSolicitud(visualSolicitud?.idTipoSolicitud)}}</td>
-                  </tr>
-                  <tr>
-                    <td>Tipo Transporte</td>
-                    <td>{{getTipoTransporte(visualSolicitud?.idTipoTransporte)}}</td>
-                  </tr>
-                <tr>
-                  <td>Fecha Servicio</td>
-                  <td>{{visualSolicitud?.fechaServicio}}</td>
-                </tr>
-                <tr>
-                  <td>Patente</td>
-                  <td>{{visualSolicitud?.patente}}</td>
-                </tr>
-                <tr>
-                  <td>Buque</td>
-                  <td>{{visualSolicitud?.buque}}</td>
-                </tr>
-                <tr>
-                  <td>Nombre</td>
-                  <td>{{visualSolicitud?.nombre}}</td>
-                </tr>
-                <tr>
-                  <td>Fecha Arribo</td>
-                  <td>{{visualSolicitud?.fechaArribo}}</td>
-                </tr>
-                <tr>
-                  <td>Fecha Inicio de Operaciones</td>
-                  <td>{{visualSolicitud?.fechaIniOperaciones}}</td>
-                </tr>
-                <tr>
-                  <td>Viaje</td>
-                  <td>{{visualSolicitud?.viaje}}</td>
-                </tr>
-                <tr>
-                  <td>Fecha Zarpe</td>
-                  <td>{{visualSolicitud?.fechaZarpe}}</td>
-                </tr>
-              
-              </tbody>
-              </table>
-              <h4>B/L</h4>
-            <hr class="red">
-            <table class="table table-bordered table-striped">
-              <tbody>
-              <tr>
-                <td>B/L</td>
-                <td>{{visualBL?.bl}}</td>
-              </tr>
-              <tr>
-                <td>Embarcador</td>
-                <td>{{visualBL?.embarcador}}</td>
-              </tr>
-              <tr>
-                <td>Consignatario</td>
-                <td>{{visualBL?.consignatario}}</td>
-              </tr>
-              <tr>
-                <td>Notificar</td>
-                <td>{{visualBL?.notificarA}}</td>
-              </tr>
-              <tr>
-                <td>Marcas y números</td>
-                <td>{{visualBL?.marcasNumeros}}</td>
-              </tr>
-              <tr>
-                <td>Cantidad</td>
-                <td>{{visualBL?.cantidad}}</td>
-              </tr>
-              <tr>
-                <td>Unidad</td>
-                <td>{{visualBL?.unidad}}</td>
-              </tr>
-              <tr>
-                <td>Descripción</td>
-                <td>{{visualBL?.descripcion}}</td>
-              </tr>
-              <tr>
-                <td>Peso Bruto</td>
-                <td>{{visualBL?.pesoBruto}}</td>
-              </tr>
-              <tr>
-                <td>Volumen</td>
-                <td>{{visualBL?.volumen}}</td>
-              </tr>
-              </tbody>
-            </table>
-            
-  
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Visualizar</h4>
+      </div>
+      <div class="modal-body">
+        <h4>Solicitud</h4>
+        <hr class="red">
+        <table class="table table-bordered table-striped">
+          <tbody>
+            <tr>
+              <td>Tipo Servicio</td>
+              <td>{{visualSolicitud?.idTipoServicio == 1 ? 'Contenedores':'Carga suelta'}}</td>
+            </tr>
+            <tr>
+              <td>Tipo Trámite</td>
+              <td>{{getTipoTramite(visualSolicitud?.idTipoTramite)}}</td>
+            </tr>
+            <tr>
+              <td>Tipo Solicitud</td>
+              <td>{{getTipoSolicitud(visualSolicitud?.idTipoSolicitud)}}</td>
+            </tr>
+            <tr>
+              <td>Tipo Transporte</td>
+              <td>{{getTipoTransporte(visualSolicitud?.idTipoTransporte)}}</td>
+            </tr>
+            <tr>
+              <td>Fecha Servicio</td>
+              <td>{{visualSolicitud?.fechaServicio}}</td>
+            </tr>
+            <tr>
+              <td>Patente</td>
+              <td>{{visualSolicitud?.patente}}</td>
+            </tr>
+            <tr>
+              <td>Buque</td>
+              <td>{{visualSolicitud?.buque}}</td>
+            </tr>
+            <tr>
+              <td>Nombre</td>
+              <td>{{visualSolicitud?.nombre}}</td>
+            </tr>
+            <tr>
+              <td>Fecha Arribo</td>
+              <td>{{visualSolicitud?.fechaArribo}}</td>
+            </tr>
+            <tr>
+              <td>Fecha Inicio de Operaciones</td>
+              <td>{{visualSolicitud?.fechaIniOperaciones}}</td>
+            </tr>
+            <tr>
+              <td>Viaje</td>
+              <td>{{visualSolicitud?.viaje}}</td>
+            </tr>
+            <tr>
+              <td>Fecha Zarpe</td>
+              <td>{{visualSolicitud?.fechaZarpe}}</td>
+            </tr>
+
+          </tbody>
+        </table>
+        <h4>B/L</h4>
+        <hr class="red">
+        <table class="table table-bordered table-striped">
+          <tbody>
+            <tr>
+              <td>B/L</td>
+              <td>{{visualBL?.bl}}</td>
+            </tr>
+            <tr>
+              <td>Embarcador</td>
+              <td>{{visualBL?.embarcador}}</td>
+            </tr>
+            <tr>
+              <td>Consignatario</td>
+              <td>{{visualBL?.consignatario}}</td>
+            </tr>
+            <tr>
+              <td>Notificar</td>
+              <td>{{visualBL?.notificarA}}</td>
+            </tr>
+            <tr>
+              <td>Marcas y números</td>
+              <td>{{visualBL?.marcasNumeros}}</td>
+            </tr>
+            <tr>
+              <td>Cantidad</td>
+              <td>{{visualBL?.cantidad}}</td>
+            </tr>
+            <tr>
+              <td>Unidad</td>
+              <td>{{visualBL?.unidad}}</td>
+            </tr>
+            <tr>
+              <td>Descripción</td>
+              <td>{{visualBL?.descripcion}}</td>
+            </tr>
+            <tr>
+              <td>Peso Bruto</td>
+              <td>{{visualBL?.pesoBruto}}</td>
+            </tr>
+            <tr>
+              <td>Volumen</td>
+              <td>{{visualBL?.volumen}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+
         <ng-container *ngIf="documentosVisual.length > 0">
           <h4>Documentos</h4>
           <hr class="red">
@@ -292,10 +295,10 @@
             </tr>
           </table>
         </ng-container>
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          </div>
-      </div><!-- /.modal-content -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
