@@ -23,6 +23,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   blRevalidado: BLFile = {} as BLFile;
   tarja: BLFile = {} as BLFile;
   solicitudFile: BLFile = {} as BLFile;
+  pedimentoSimplificado: BLFile = {} as BLFile;
+  pedimentoCompleto: BLFile = {} as BLFile;
   infoRelativa = false;
   patentes: any[] = [];
   bls: any[] = [];
@@ -61,7 +63,10 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   msjErrorpesos = '';
   hasSuccessBL = false;
   blmsj = '';
-
+  tipoMov: any;
+  pedSim: any;
+  pedCom: any;
+  blRev: any;
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -94,6 +99,18 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       )
     );
   formatterClienteNombre = (x: { nombre: string }) => x.nombre;
+  liberacion: any[] = [];
+  clavePedimento: any;
+  tipoPedimento: any;
+  numeroPartes: any;
+  numeroCopias: any;
+  cobe: any;
+  numeroPedimento: any;
+  tipoCambio: any;
+  valorAduana: any;
+  liberacionPiezas: any;
+  liberacionPeso: any;
+
   recintos: any[] = [];
   man: any = {};
   tipoSalida: any;
@@ -118,6 +135,13 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     { id: 1, descripcion: 'Carretero' },
     { id: 2, descripcion: 'Ferroviario' },
     { id: 3, descripcion: 'Marítimo' }
+  ];
+
+  tiposPedimentos = [
+    { id: 1, descripcion: 'Normal' },
+    { id: 2, descripcion: 'Parte 2' },
+    { id: 3, descripcion: 'Copia Simple' },
+    { id: 4, descripcion: 'Pedimento Consolidado' }
   ];
 
   constructor(
@@ -182,7 +206,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       //'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFjbGlAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiMjc1IiwiaWRBcHAiOiIxOCIsImlkUm9sIjoiNiIsImlkUm9sQXBwIjoiMTQwMSIsImlkUGVyc29uYSI6IjE3MTEiLCJpZEVtcHJlc2EiOiIxNCIsImlkQ29udHJhdG8iOiIxNDEiLCJuYmYiOjE2Mjk1MTQwNjEsImV4cCI6MTYyOTU0Mjg2MSwiaWF0IjoxNjI5NTE0MDYxLCJpc3MiOiJQSVMiLCJhdWQiOiJBUElNQU4ifQ.yHPNnEiz9WAcZ8mww3LWAZiAxmV3pPMDVtU-sUNRQyY`
     });
     //cambiar
-    this.http.get('https://pis-catalogos-qa.azurewebsites.net/api/empresas/select/4', { headers: header }).subscribe((res: any) => {
+    this.http.get(`${environment.endpointCat}empresas/select/4`, { headers: header }).subscribe((res: any) => {
       this.agenciasaduanales = res.valor;
     }, error => { });
   }
@@ -192,8 +216,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       'Authorization': `Bearer ${this.auth.getSession().token}`,
       //'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFjbGlAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiMjc1IiwiaWRBcHAiOiIxOCIsImlkUm9sIjoiNiIsImlkUm9sQXBwIjoiMTQwMSIsImlkUGVyc29uYSI6IjE3MTEiLCJpZEVtcHJlc2EiOiIxNCIsImlkQ29udHJhdG8iOiIxNDEiLCJuYmYiOjE2Mjk1MTQwNjEsImV4cCI6MTYyOTU0Mjg2MSwiaWF0IjoxNjI5NTE0MDYxLCJpc3MiOiJQSVMiLCJhdWQiOiJBUElNQU4ifQ.yHPNnEiz9WAcZ8mww3LWAZiAxmV3pPMDVtU-sUNRQyY`
     });
+    environment.endpointCat
     //cambiar
-    this.http.get('https://pis-catalogos-qa.azurewebsites.net/api/empresas/select/3', { headers: header }).subscribe((res: any) => {
+    this.http.get(`${environment.endpointCat}empresas/select/3`, { headers: header }).subscribe((res: any) => {
 
       this.lineasnavieras = res.valor;
     }, error => { });
@@ -206,7 +231,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       //'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiMjY4IiwiaWRBcHAiOiIwIiwiaWRSb2wiOiI2IiwiaWRSb2xBcHAiOiIwIiwiaWRQZXJzb25hIjoiMTcxMSIsImlkRW1wcmVzYSI6IjE0IiwiaWRDb250cmF0byI6IjE0MSIsIm5iZiI6MTYyOTk0MjkwMSwiZXhwIjoxNjI5OTcxNzAxLCJpYXQiOjE2Mjk5NDI5MDEsImlzcyI6IlBJUyIsImF1ZCI6IkFQSU1BTiJ9.T5PQTu8kOhfAGIkpdYarEXmuh_Zb_u6cz9wnHvX7id4`
     });
     //cambiar
-    this.http.get('https://pis-catalogos-qa.azurewebsites.net/api/Empresas/' + this.agenciaAduanal + '/patente', { headers: header }).subscribe((res: any) => {
+    this.http.get(environment.endpointCat + 'empresas/' + this.agenciaAduanal + '/patente', { headers: header }).subscribe((res: any) => {
       this.patente = res.valor[0];
       this.patentes = res.valor;
     }, error => { });
@@ -225,7 +250,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       //'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFjbGlAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiMjc1IiwiaWRBcHAiOiIxOCIsImlkUm9sIjoiNiIsImlkUm9sQXBwIjoiMTQwMSIsImlkUGVyc29uYSI6IjE3MTEiLCJpZEVtcHJlc2EiOiIxNCIsImlkQ29udHJhdG8iOiIxNDEiLCJuYmYiOjE2Mjk1MTQwNjEsImV4cCI6MTYyOTU0Mjg2MSwiaWF0IjoxNjI5NTE0MDYxLCJpc3MiOiJQSVMiLCJhdWQiOiJBUElNQU4ifQ.yHPNnEiz9WAcZ8mww3LWAZiAxmV3pPMDVtU-sUNRQyY`
     });
     //cambiar
-    this.http.get('https://pis-catalogos-qa.azurewebsites.net/api/empresas/select/1', { headers: header }).subscribe((res: any) => {
+    this.http.get(`${environment.endpointCat}empresas/select/1`, { headers: header }).subscribe((res: any) => {
       this.agenciasconsig = res.valor;
     }, error => { });
   }
@@ -266,6 +291,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       idLineaNaviera: +this.lineanaviera,
       idAgenciaConsignataria: +this.agenciaconsig,
       idBl: +this.bls[0]?.id,
+      tipoMovimiento: this.tipoMov,
       estatus: 1,
       violacionDañoAlmacenado: this.infoRelativa
     };
@@ -332,7 +358,14 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           this.solicitudFile.nombre = name + '_' + evt.target.files[0].name;
           this.solicitudFile.archivo = reader.result?.toString().split(',')[1];
           break;
-
+        case 'pedimento_simplificado':
+          this.pedimentoSimplificado.nombre = name + '_' + evt.target.files[0].name;
+          this.pedimentoSimplificado.archivo = reader.result?.toString().split(',')[1];
+          break;
+        case 'pedimento_completo':
+          this.pedimentoCompleto.nombre = name + '_' + evt.target.files[0].name;
+          this.pedimentoCompleto.archivo = reader.result?.toString().split(',')[1];
+          break;
         default:
           break;
       }
@@ -357,6 +390,41 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       this.msjErrorpesos = 'La cantidad de salida o el peso de salida no pueden ser mayores';
       this.hasErrorPesos = true;
     }
+  }
+  addLiberacion(): void {
+    this.liberacion.push(
+      {
+        pedimentoSimplificado: this.pedimentoSimplificado,
+        pedimentoCompleto: this.pedimentoCompleto,
+        blRevalidado: this.blRevalidado,
+        clavePedimento: this.clavePedimento,
+        tipoPedimento: this.tipoPedimento,
+        numeroPedimento: this.numeroPedimento,
+        tipoCambio: this.tipoCambio,
+        valorAduana: this.valorAduana,
+        piezas: this.liberacionPiezas,
+        peso: this.liberacionPeso,
+        numPartes: this.numeroPartes,
+        numCopias: this.numeroCopias,
+        cobe: this.cobe
+      }
+    );
+    this.pedimentoSimplificado = {} as BLFile;
+    this.pedimentoCompleto = {} as BLFile;
+    this.blRevalidado = {} as BLFile;
+    this.clavePedimento = null;
+    this.tipoPedimento = null;
+    this.numeroPedimento = null;
+    this.tipoCambio = null;
+    this.valorAduana = null;
+    this.liberacionPiezas = null;
+    this.liberacionPeso = null;
+    this.numeroPartes = null;
+    this.numeroCopias = null;
+    this.cobe = null;
+    this.pedCom = null;
+    this.pedSim = null;
+    this.blRev = null;
   }
 
 }

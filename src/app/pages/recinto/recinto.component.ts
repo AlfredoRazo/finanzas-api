@@ -26,7 +26,7 @@ export class RecintoComponent implements OnInit {
   descPaginado = '';
   collSize: any = 10;
   total = 0;
-
+  visualDetalleBL: any;
 
   documentosVisual: any[] = []
 
@@ -72,6 +72,7 @@ export class RecintoComponent implements OnInit {
     this.http.get(`${environment.endpointRecinto}bl/${idBL}`).subscribe((res: any) => {
       this.visualBL = res.datos;
       this.getDocumentos(res.datos.bl);
+      this.getDetalleBL(res.datos.bl);
       this.spinner.hide();
     }, err => {
       this.spinner.hide();
@@ -137,7 +138,6 @@ export class RecintoComponent implements OnInit {
     this.http.get(`${environment.endpointApi}recintoDocumentos?bl=${bl}`).subscribe((res: any) => {
       if (res) {
         this.documentosVisual = res;
-        console.log(res);
       }
     });
   }
@@ -152,4 +152,13 @@ export class RecintoComponent implements OnInit {
     var end = Math.min(start + this.collSize - 1, this.total);
     this.descPaginado = `Registros del <b>${start}</b> al <b>${end}</b>`;
   }
+  getDetalleBL(bl: string): void{
+    this.http.get(`https://pis-api-recinto.azurewebsites.net/api/BLObtenerSolicitudes?bl=${bl}`).subscribe((res: any) => {
+      if (res) {
+        console.log(res);
+        this.visualDetalleBL = res;
+      }
+    });
+  }
+
 }
