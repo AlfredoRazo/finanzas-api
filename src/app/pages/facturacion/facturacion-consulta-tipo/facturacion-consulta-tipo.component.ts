@@ -184,7 +184,7 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   getBuques(): void {
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.auth.getSession().userData.catToken}`
+      'Authorization': `Bearer ${this.auth.getSession().token}`
     });
     this.http.get(environment.endpointCat + 'buques', { headers: header }).subscribe((res: any) => {
       this.buques = res.valor;

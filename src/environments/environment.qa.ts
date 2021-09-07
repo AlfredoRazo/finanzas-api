@@ -5,7 +5,7 @@ export const environment = {
   endpointRecinto : 'https://pis-api-recinto-qa.azurewebsites.net/api/',
   endpointDoc: 'https://pis-api-documentacion-qa.azurewebsites.net/api/Documentos/v1/',
   endpointCat: 'https://pis-api-catalogos-prod.azurewebsites.net/api/',
-  endpointAuth: 'https://pis-autenticacion-qa.azurewebsites.net/api/validar/permisos',
+  endpointAuth: 'https://pis-autenticacion-qa.azurewebsites.net/api/',
   appKey: 'c53ea43376d653a43e10711de2da2d9b6f156ead',
   googleCaptchaKey: '6LcZ7w4bAAAAAAcogck-Te91o6SPDZYuNcWBlmHX',
   santanderEndpoint: 'https://www.santander.com.mx/Supernet2007/homeMicrositio.jsp',
