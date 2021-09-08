@@ -221,7 +221,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     }, error => { });
   }
   getPatente(): void {
-    console.log(this.agenciaAduanal);
+    
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.auth.getSession().token}`,
@@ -302,6 +302,33 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.http.post(`${environment.endpointRecinto}solicitud/v1/`, payload).subscribe((res: any) => {
       if (!res.error) {
         this.msjSuccess = res.mensaje + ' Solicitud:' + res.valor;
+        if(+this.tipoSoli == 3){
+
+          let payloadMov: any ={
+            appkey: "046965ea2db6a892359ed2c4cd9f957b",
+            usuario: this.auth.getSession().userData.username,
+            BL: this.bls[0].bl,
+            tipo: this.tipoMov,
+            cantidad: 0,
+            peso: 0,
+            volumen: 0,
+            fecha: this.fechaServ.split('-').reverse().join('-') + ' 00:00:00',
+            documentos:[]
+        };
+          if(+this.tipoMov == 2){
+            payloadMov.cantidad = this.bls[1].cantidad;
+            payloadMov.peso = this.bls[1].pesoBruto;
+          }else{
+            if(this.blRevalidado.archivo){
+              payloadMov.documentos.push({nombre: this.blRevalidado.nombre, archivo:this.blRevalidado.archivo});
+            }
+            if(this.solicitudFile.archivo){
+              payloadMov.documentos.push({nombre: this.solicitudFile.nombre, archivo:this.solicitudFile.archivo});
+            }
+          }
+          console.log(payloadMov);
+          this.http.post('https://pis-api-recinto.azurewebsites.net/api/Movimientos',payloadMov).subscribe((res:any) => {},err =>{});
+        }
         if (this.bls.length > 1) {
           const payload = {
             idSolicitud: res.valor,
@@ -309,33 +336,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             cantidad: this.bls[1].cantidad,
             peso: this.bls[1].pesoBruto
           };
-          if(this.tipoSoli == '3'){
-            
-            let payloadMov: any ={
-              appkey: "046965ea2db6a892359ed2c4cd9f957b",
-              usuario: this.auth.getSession().userData.username,
-              BL: this.bls[0].bl,
-              tipo: this.tipoMov,
-              cantidad: 0,
-              peso: 0,
-              volumen: 0,
-              fecha: this.fechaServ + 'T00:00:00.999Z',
-              documentos:[]
-          };
-            if(this.tipoMov == 1){
-              payloadMov.cantidad = this.bls[1].cantidad;
-              payloadMov.peso = this.bls[1].pesoBruto;
-            }else{
-              if(this.blRevalidado.archivo){
-                payloadMov.documentos.push({nombre: this.blRevalidado.nombre, archivo:this.blRevalidado.archivo});
-              }
-              if(this.solicitudFile.archivo){
-                payloadMov.documentos.push({nombre: this.solicitudFile.nombre, archivo:this.solicitudFile.archivo});
-              }
-            }
-            console.log(payloadMov);
-            this.http.post('https://pis-api-recinto.azurewebsites.net/api/Movimientos',payloadMov).subscribe((res:any) => {},err =>{});
-          }
+        
           this.http.post(`${environment.endpointRecinto}bl/movimiento`, payload).subscribe((res: any) => {
             if (!res.error) {
 
@@ -358,7 +359,6 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   }
   saveFiles(payload: BLFile): void {
     this.http.post(`${environment.endpointApi}recintoDocumentos`, payload).subscribe(res => {
-      console.log(res);
     });
   }
   handleUpload(evt: any, name: string): void {
