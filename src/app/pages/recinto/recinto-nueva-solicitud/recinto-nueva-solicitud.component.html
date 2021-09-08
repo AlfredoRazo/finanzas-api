@@ -207,12 +207,12 @@
     <div class="form-group col-md-4">
         <label class="control-label">Tipo Movimiento</label>
         <select class="form-control" name="tipoMov" [(ngModel)]="tipoMov">
-            <option value="1">Previo</option>
-            <option value="2">Separación</option>
+            <option value="13">Previo</option>
+            <option value="14">Separación</option>
         </select>
     </div>
 </div>
-<div class="row" *ngIf="tipoMov == '1'">
+<div class="row" *ngIf="tipoMov == '13'">
     <div class="form-group col-md-6">
         <label>B/L Revalidado</label>
         <input type="file" (change)="handleUpload($event, 'bl_revalidado')">
@@ -372,7 +372,7 @@
     </table>
 </div>
 <br>
-<div class="row" *ngIf="tipoSoli == '2' || tipoMov == '2'">
+<div class="row" *ngIf="tipoSoli == '2' || tipoMov == '14'">
 
     <div class="form-group col-md-4">
         <label class="control-label">Cantidad Salida</label>

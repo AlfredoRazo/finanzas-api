@@ -286,7 +286,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       idLineaNaviera: +this.lineanaviera,
       idAgenciaConsignataria: +this.agenciaconsig,
       idBl: +this.bls[0]?.id,
-      tipoMovimiento: this.tipoMov == 2 ? 14:this.tipoMov == 2 ? 13: null,
+      tipoMovimiento: this.tipoMov,
       estatus: 1,
       violacionDañoAlmacenado: this.infoRelativa
     };
@@ -315,12 +315,10 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             fecha: this.fechaServ.split('-').reverse().join('-') + ' 00:00:00',
             documentos:[]
         };
-          if(+this.tipoMov == 2){
-            payloadMov.tipo = 14;
+          if(+this.tipoMov == 14){
             payloadMov.cantidad = this.bls[1].cantidad;
             payloadMov.peso = this.bls[1].pesoBruto;
           }else{
-            payloadMov.tipo = 13;
             if(this.blRevalidado.archivo){
               payloadMov.documentos.push({nombre: this.blRevalidado.nombre, archivo:this.blRevalidado.archivo});
             }
