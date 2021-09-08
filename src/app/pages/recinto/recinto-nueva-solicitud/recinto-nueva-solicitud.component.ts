@@ -308,7 +308,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             appkey: "046965ea2db6a892359ed2c4cd9f957b",
             usuario: this.auth.getSession().userData.username,
             BL: this.bls[0].bl,
-            tipo: 0,
+            tipo: this.tipoMov,
             cantidad: 0,
             peso: 0,
             volumen: 0,
