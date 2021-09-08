@@ -49,15 +49,6 @@ export class RecintoComponent implements OnInit {
           item.selected = false;
           return item;
         });
-        this.originalData.sort(function(a,b){
-          if (a.id < b.id) {
-            return 1;
-          }
-          if (a.id > b.id) {
-            return -1;
-          }
-          return 0;
-        })
         const fir = [...this.originalData];
         this.data = this.pagina.paginate(fir, this.collSize, this.page);
       } else {
