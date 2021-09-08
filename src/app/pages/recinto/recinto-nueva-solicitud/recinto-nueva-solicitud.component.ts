@@ -286,7 +286,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       idLineaNaviera: +this.lineanaviera,
       idAgenciaConsignataria: +this.agenciaconsig,
       idBl: +this.bls[0]?.id,
-      tipoMovimiento: this.tipoMov,
+      tipoMovimiento: this.tipoMov == 2 ? 14:this.tipoMov == 2 ? 13: null,
       estatus: 1,
       violacionDañoAlmacenado: this.infoRelativa
     };
@@ -308,7 +308,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             appkey: "046965ea2db6a892359ed2c4cd9f957b",
             usuario: this.auth.getSession().userData.username,
             BL: this.bls[0].bl,
-            tipo: this.tipoMov,
+            tipo: 0,
             cantidad: 0,
             peso: 0,
             volumen: 0,
@@ -316,9 +316,11 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             documentos:[]
         };
           if(+this.tipoMov == 2){
+            payloadMov.tipo = 14;
             payloadMov.cantidad = this.bls[1].cantidad;
             payloadMov.peso = this.bls[1].pesoBruto;
           }else{
+            payloadMov.tipo = 13;
             if(this.blRevalidado.archivo){
               payloadMov.documentos.push({nombre: this.blRevalidado.nombre, archivo:this.blRevalidado.archivo});
             }
