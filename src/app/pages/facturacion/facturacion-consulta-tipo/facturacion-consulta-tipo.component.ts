@@ -104,6 +104,11 @@ export class FacturacionConsultaTipoComponent implements OnInit {
   getUnidadesMedida(): void {
     this.http.get(this.catalogos + 'unidadesmedida').subscribe((res: any) => {
       this.unidadesmedida = res.valores;
+      if (res.valores) {
+        this.unidadesmedida = this.unidadesmedida.filter(item => {
+          return (item.clave == '10' || item.clave == 'ST' || item.clave == 'KG')
+        });
+      }
     });
   }
 
