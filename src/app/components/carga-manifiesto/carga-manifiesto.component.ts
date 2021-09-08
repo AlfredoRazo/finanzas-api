@@ -2,8 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { AuthService } from '@serv/auth.service';
-import {Observable, OperatorFunction} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+import { Observable, OperatorFunction } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 
@@ -47,17 +47,17 @@ export class CargaManifiestoComponent implements OnInit {
   catalogos = environment.endpoint + 'sapCatalogos?catalogo=';
   indexEdit: any;
   viaje: any;
- 
-  search:any = (text$: Observable<any>) =>
+
+  search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      map(term => 
+      map(term =>
         term.length < 2 ? []
-        : this.buques.filter( (v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
-        )
+          : this.buques.filter((v: any) => v.nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+      )
     );
-    formatter = (x: {nombre: string}) => x.nombre;
+  formatter = (x: { nombre: string }) => x.nombre;
 
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
@@ -74,16 +74,18 @@ export class CargaManifiestoComponent implements OnInit {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.auth.getSession().token}`
     });
-    this.http.get(environment.endpointCat + 'buques',{headers: header}).subscribe((res: any) => {
+    this.http.get(environment.endpointCat + 'buques', { headers: header }).subscribe((res: any) => {
       this.buques = res.valor;
-    },error =>{});
+    }, error => { });
   }
   getUnidadesMedida(): void {
     this.http.get(this.catalogos + 'unidadesmedida').subscribe((res: any) => {
       this.unidadesmedida = res.valores;
-      this.unidadesmedida = this.unidadesmedida.filter(item =>{
-        return (item.clave == '10' || item.clave == 'ST' || item.clave == 'KG')
-      });
+      if (res.valores) {
+        this.unidadesmedida = this.unidadesmedida.filter(item => {
+          return (item.clave == '10' || item.clave == 'ST' || item.clave == 'KG')
+        });
+      }
     });
   }
   guardarData(): void {
@@ -103,7 +105,7 @@ export class CargaManifiestoComponent implements OnInit {
     this.indexEdit = index;
   }
 
-  cargarManifiesto(): void{
+  cargarManifiesto(): void {
     const payload = {
 
       nuManifiesto: this.manifiesto,
@@ -119,19 +121,19 @@ export class CargaManifiestoComponent implements OnInit {
       modificado: true
     };
     this.spinner.show();
-      this.msj = '';
-      this.hasError = false;
-      this.hasSuccess = false;
-    this.http.post(`${environment.endpointRecinto}manifiesto/v1`,payload).subscribe((response: any) => {
-      if(!response.error){
+    this.msj = '';
+    this.hasError = false;
+    this.hasSuccess = false;
+    this.http.post(`${environment.endpointRecinto}manifiesto/v1`, payload).subscribe((response: any) => {
+      if (!response.error) {
         this.msj = response.mensaje;
         this.hasSuccess = true;
-      }else{
+      } else {
         this.msj = response.mensaje;
         this.hasError = true;
       }
       this.spinner.hide();
-    },err =>{
+    }, err => {
       this.spinner.hide();
       this.msj = err.error.mensaje;
       this.hasError = true;
