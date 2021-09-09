@@ -283,16 +283,74 @@
             </tr>
           </tbody>
         </table>
-
-
+        <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;" *ngIf="blmovimiento.length > 0">
+          <table class="table table-bordered table-striped">
+              <thead>
+                  <tr style="cursor: pointer">
+                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                          data-name="bl">BL <span class="glyphicon glyphicon-sort"></span></th>
+                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                          data-name="embarcador">Embarcador <span class="glyphicon glyphicon-sort"></span></th>
+                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                          data-name="consignatario">Consignatario
+                          <span class="glyphicon glyphicon-sort"></span>
+                      </th>
+                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                          data-name="notificarA">Notificar a <span class="glyphicon glyphicon-sort"></span></th>
+                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                          data-name="marcasNumeros">Marcas y Números
+                          <span class="glyphicon glyphicon-sort"></span>
+                      </th>
+                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                          data-name="cantidad">Cantidad <span class="glyphicon glyphicon-sort"></span></th>
+                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                          data-name="unidad">Unidad <span class="glyphicon glyphicon-sort"></span></th>
+                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                          data-name="descripcion">Descripción <span class="glyphicon glyphicon-sort"></span></th>
+                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                          data-name="pesoBruto">Peso Bruto (KG) <span class="glyphicon glyphicon-sort"></span></th>
+                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                          data-name="volumen">Volumen <span class="glyphicon glyphicon-sort"></span></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let item of blmovimiento; let i = index" >
+                      <td>{{item.bl}}<br><b>{{item.Tipo}}</b></td>
+                      <td>{{item.embarcador}}</td>
+                      <td>{{item.consignatario}}</td>
+                      <td>{{item.notificarA}}</td>
+                      <td>{{item.marcasNumeros}}</td>
+                      <td>{{item.movimientoCant}}</td>
+                      <td>{{item.unidad}}</td>
+                      <td>{{item.descripcion}}</td>
+                      <td>{{item.movimientoPeso}}</td>
+                      <td>{{item.movimientovolumen}}</td>
+                  </tr>      
+              </tbody>
+          </table>
+      </div>
+      <ng-container *ngIf="bldocs.length > 0">
+        <h4>Movimiento Previo</h4>
+        <hr class="red">
+        <table class="table table-bordered table-striped">
+          <tbody>
+          <tr *ngFor="let doc of bldocs">
+            <td>{{doc.nombre}}</td>
+            <td><button class="btn btn-sm btn-primary">Descargar</button></td>
+          </tr>
+          </tbody>
+        </table>
+      </ng-container>
         <ng-container *ngIf="documentosVisual.length > 0">
           <h4>Documentos</h4>
           <hr class="red">
           <table class="table table-bordered table-striped">
+            <tbody>
             <tr *ngFor="let doc of documentosVisual">
               <td>{{doc.nombre}}</td>
               <td><button class="btn btn-sm btn-primary">Descargar</button></td>
             </tr>
+            </tbody>
           </table>
         </ng-container>
       </div>

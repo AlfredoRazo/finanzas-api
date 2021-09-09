@@ -27,7 +27,8 @@ export class RecintoComponent implements OnInit {
   collSize: any = 10;
   total = 0;
   visualDetalleBL: any;
-
+  blmovimiento: any[] = [];
+  bldocs: any[] = [];
   documentosVisual: any[] = []
 
   constructor(private auth: AuthService,
@@ -45,7 +46,7 @@ export class RecintoComponent implements OnInit {
       if (!res.error) {
 
         this.total = res.datos.length;
-        this.originalData =res.datos.map((item: any) => {
+        this.originalData = res.datos.map((item: any) => {
           item.selected = false;
           return item;
         });
@@ -73,6 +74,7 @@ export class RecintoComponent implements OnInit {
       this.visualBL = res.datos;
       this.getDocumentos(res.datos.bl);
       this.getDetalleBL(res.datos.bl);
+      this.getMovimientosBL(res.datos.bl);
       this.spinner.hide();
     }, err => {
       this.spinner.hide();
@@ -152,12 +154,31 @@ export class RecintoComponent implements OnInit {
     var end = Math.min(start + this.collSize - 1, this.total);
     this.descPaginado = `Registros del <b>${start}</b> al <b>${end}</b>`;
   }
-  getDetalleBL(bl: string): void{
+  getDetalleBL(bl: string): void {
     this.http.get(`https://pis-api-recinto.azurewebsites.net/api/BLObtenerSolicitudes?bl=${bl}`).subscribe((res: any) => {
       if (res) {
-        console.log(res);
+
         this.visualDetalleBL = res;
       }
+    });
+  }
+
+  getMovimientosBL(bl: string): void {
+    this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Separación&BL=${bl}`).subscribe(res => {
+      if (res.length > 2) {
+        this.blmovimiento = res[1];
+      } else {
+        this.blmovimiento = [];
+      }
+    }, error => {
+    });
+    this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Previo&BL=${bl}`).subscribe(res => {
+      if (res.length > 2) {
+        this.bldocs = res[2];
+      } else {
+        this.bldocs = [];
+      }
+    }, error => {
     });
   }
 

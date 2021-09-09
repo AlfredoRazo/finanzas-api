@@ -187,7 +187,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             this.blmovimiento = [];
           }
         }, error => {
-        })
+        });
     
       } else {
         this.bls = [];
