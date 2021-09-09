@@ -206,7 +206,7 @@
 <div class="row" *ngIf="tipoSoli == '3' && bls.length > 0">
     <div class="form-group col-md-4">
         <label class="control-label">Tipo Movimiento</label>
-        <select class="form-control" name="tipoMov" [(ngModel)]="tipoMov">
+        <select class="form-control" name="tipoMov" [disabled]="isSeparacion" [(ngModel)]="tipoMov">
             <option value="13">Previo</option>
             <option value="14">Separación</option>
         </select>
@@ -355,6 +355,18 @@
             </tr>
         </thead>
         <tbody>
+            <tr *ngFor="let item of blmovimiento; let i = index" >
+                <td>{{item.bl}}<br><b>{{item.Tipo}}</b></td>
+                <td>{{item.embarcador}}</td>
+                <td>{{item.consignatario}}</td>
+                <td>{{item.notificarA}}</td>
+                <td>{{item.marcasNumeros}}</td>
+                <td>{{item.movimientoCant}}</td>
+                <td>{{item.unidad}}</td>
+                <td>{{item.descripcion}}</td>
+                <td>{{item.movimientoPeso}}</td>
+                <td>{{item.movimientovolumen}}</td>
+            </tr>
             <tr *ngFor="let item of bls; let i = index" [ngStyle]="{'background-color': i > 0 ? '#A9A9A9' : '#FFF'}">
                 <td>{{item.bl}}</td>
                 <td>{{item.embarcador}}</td>
@@ -367,6 +379,7 @@
                 <td>{{item.pesoBruto}}</td>
                 <td>{{item.volumen}}</td>
             </tr>
+            
 
         </tbody>
     </table>

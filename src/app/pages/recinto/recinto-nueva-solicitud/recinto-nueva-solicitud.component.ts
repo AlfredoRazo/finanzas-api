@@ -53,10 +53,13 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   fechaZarpe = '';
   patente = '';
   viaje = '';
+  pesoDisponible = 0;
+  cantidadDisponible = 0;
+  isSeparacion = false;
   lineanaviera = '';
   agenciaconsig = '';
   idSolicitud: any;
-
+  blmovimiento: any = [];
   nuevacantidad: any;
   nuevopeso: any;
   hasErrorPesos = false;
@@ -172,7 +175,22 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       this.spinner.hide();
       if (!res.error) {
         this.bls[0] = res.datos;
+        this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Separación&BL=${this.bl}`).subscribe(res => {
+          if(res.length > 2){
+            this.cantidadDisponible = res[0].disponibleCantidad;
+            this.pesoDisponible = res[0].disponiblePeso;
+            this.isSeparacion = true;
+            this.tipoMov = '14';
+            this.blmovimiento = res[1];
+          }else{
+            this.isSeparacion = false;
+            this.blmovimiento = [];
+          }
+        }, error => {
+        })
+    
       } else {
+        this.bls = [];
         this.msjConsulta = res.mensaje;
       }
     }, error => {
@@ -297,8 +315,6 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     if (this.blRevalidado.archivo) { this.saveFiles(this.blRevalidado); }
     if (this.tarja.archivo) { this.saveFiles(this.tarja); }
     if (this.solicitudFile.archivo) { this.saveFiles(this.solicitudFile); }
-
-
     this.http.post(`${environment.endpointRecinto}solicitud/v1/`, payload).subscribe((res: any) => {
       if (!res.error) {
         this.msjSuccess = res.mensaje + ' Solicitud:' + res.valor;
@@ -357,10 +373,12 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       }
     });
   }
+
   saveFiles(payload: BLFile): void {
     this.http.post(`${environment.endpointApi}recintoDocumentos`, payload).subscribe(res => {
     });
   }
+
   handleUpload(evt: any, name: string): void {
 
     const file = evt.target.files[0];
@@ -396,10 +414,12 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   addNuevosDatosBL(): void {
     let err = 0;
     const lastitem = { ...this.bls[0] };
-    if (parseInt(lastitem.cantidad) < parseInt(this.nuevacantidad)) {
+    let pesocomp = this.isSeparacion ? this.pesoDisponible : parseFloat(lastitem.pesoBruto);
+    let cantidadComp = this.isSeparacion ?this.cantidadDisponible : parseInt(lastitem.cantidad);
+    if (cantidadComp < parseInt(this.nuevacantidad)) {
       err++;
     }
-    if (parseFloat(lastitem.pesoBruto) < parseFloat(this.nuevopeso)) {
+    if ( pesocomp < parseFloat(this.nuevopeso)) {
       err++;
     }
     if (err == 0) {
@@ -409,7 +429,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
 
 
     } else {
-      this.msjErrorpesos = 'La cantidad de salida o el peso de salida no pueden ser mayores';
+      let extra = this.isSeparacion ? ' Cantidad Disponible : ' + this.cantidadDisponible + ' Peso Disponible : ' + this.pesoDisponible : '';
+      this.msjErrorpesos = 'La cantidad de salida o el peso de salida no pueden ser mayores' + extra;
       this.hasErrorPesos = true;
     }
   }
