@@ -446,6 +446,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   }
   addLiberacion(): void {
     this.msjErrorpesos = '';
+    this.hasErrorPesos = false;
     let error = 0;
     if (this.indexBl == -1) {
       if (parseInt(this.restantes.disponibleCantidad) > parseInt(this.liberacionPiezas)) {
@@ -462,18 +463,18 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           totalCant = totalCant + item.piezas;
           totalPeso = totalPeso + item.peso;
         });
-        if (parseInt(this.blmovimiento[this.indexBl].movimientoCant) > totalCant) {
+        if (parseInt(this.blmovimiento[this.indexBl].movimientoCant) < totalCant) {
           error++;
         }
-        if (parseFloat(this.blmovimiento[this.indexBl].movimientoPeso) > totalPeso) {
+        if (parseFloat(this.blmovimiento[this.indexBl].movimientoPeso) < totalPeso) {
           error++;
         }
 
       } else {
-        if (parseInt(this.blmovimiento[this.indexBl].movimientoCant) > parseInt(this.liberacionPiezas)) {
+        if (parseInt(this.blmovimiento[this.indexBl].movimientoCant) < parseInt(this.liberacionPiezas)) {
           error++;
         }
-        if (parseFloat(this.blmovimiento[this.indexBl].movimientoPeso) > parseFloat(this.liberacionPeso)) {
+        if (parseFloat(this.blmovimiento[this.indexBl].movimientoPeso) < parseFloat(this.liberacionPeso)) {
           error++;
         }
       }
@@ -481,6 +482,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     }
     if (error > 0) {
       this.msjErrorpesos = 'La cantidad de liberación del peso de salida no pueden ser mayores';
+      this.hasErrorPesos = true;
     } else {
       this.liberacion.push(
         {
@@ -499,23 +501,24 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           cobe: this.cobe
         }
       );
+      this.pedimentoSimplificado = {} as BLFile;
+      this.pedimentoCompleto = {} as BLFile;
+      this.blRevalidado = {} as BLFile;
+      this.clavePedimento = null;
+      this.tipoPedimento = null;
+      this.numeroPedimento = null;
+      this.tipoCambio = null;
+      this.valorAduana = null;
+      this.liberacionPiezas = null;
+      this.liberacionPeso = null;
+      this.numeroPartes = null;
+      this.numeroCopias = null;
+      this.cobe = null;
+      this.pedCom = null;
+      this.pedSim = null;
+      this.blRev = null;
     }
-    this.pedimentoSimplificado = {} as BLFile;
-    this.pedimentoCompleto = {} as BLFile;
-    this.blRevalidado = {} as BLFile;
-    this.clavePedimento = null;
-    this.tipoPedimento = null;
-    this.numeroPedimento = null;
-    this.tipoCambio = null;
-    this.valorAduana = null;
-    this.liberacionPiezas = null;
-    this.liberacionPeso = null;
-    this.numeroPartes = null;
-    this.numeroCopias = null;
-    this.cobe = null;
-    this.pedCom = null;
-    this.pedSim = null;
-    this.blRev = null;
+   
   }
 
   getClavePedimentos(): void {
