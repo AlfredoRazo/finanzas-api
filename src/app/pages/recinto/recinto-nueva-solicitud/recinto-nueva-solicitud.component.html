@@ -241,7 +241,10 @@
     <div class="row">
         <div class="form-group col-md-4">
             <label>Clave Pedimento</label>
-            <input type="text" class="form-control" name="clavePedimento" [(ngModel)]="clavePedimento">
+            <select class="form-control" name="clavePedimento" [(ngModel)]="clavePedimento">
+                <option *ngFor="let item of clavesPedimento" [value]="item.catalogoDetNombre">{{item.catalogoDetNombre}}
+                </option>
+            </select>
         </div>
         <div class="form-group col-md-4">
             <label>Tipo Pedimento</label>
@@ -324,6 +327,68 @@
 </ng-container>
 <br>
 <br>
+<ng-container *ngIf="blmovimiento.length > 0">
+    <h4>Movimientos Separación</h4>
+    <hr class="red" />
+    <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr style="cursor: pointer">
+                    <th></th>
+                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                        data-name="bl">BL <span class="glyphicon glyphicon-sort"></span></th>
+                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                        data-name="embarcador">Embarcador <span class="glyphicon glyphicon-sort"></span></th>
+                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                        data-name="consignatario">Consignatario
+                        <span class="glyphicon glyphicon-sort"></span>
+                    </th>
+                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                        data-name="notificarA">Notificar a <span class="glyphicon glyphicon-sort"></span></th>
+                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                        data-name="marcasNumeros">Marcas y Números
+                        <span class="glyphicon glyphicon-sort"></span>
+                    </th>
+                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                        data-name="cantidad">Cantidad <span class="glyphicon glyphicon-sort"></span></th>
+                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                        data-name="unidad">Unidad <span class="glyphicon glyphicon-sort"></span></th>
+                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                        data-name="descripcion">Descripción <span class="glyphicon glyphicon-sort"></span></th>
+                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                        data-name="pesoBruto">Peso Bruto (KG) <span class="glyphicon glyphicon-sort"></span></th>
+                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                        data-name="volumen">Volumen <span class="glyphicon glyphicon-sort"></span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of blmovimiento; let i = index">
+                    <td style="vertical-align: middle; text-align: center;"> <input type="radio" name="selectbl" [(ngModel)]="indexBl" [value]="i"></td>
+                    <td>{{item.bl}}<br><b>{{item.Tipo}}</b></td>
+                    <td>{{item.embarcador}}</td>
+                    <td>{{item.consignatario}}</td>
+                    <td>{{item.notificarA}}</td>
+                    <td>{{item.marcasNumeros}}</td>
+                    <td>{{item.movimientoCant}}</td>
+                    <td>{{item.unidad}}</td>
+                    <td>{{item.descripcion}}</td>
+                    <td>{{item.movimientoPeso}}</td>
+                    <td>{{item.movimientovolumen}}</td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle; text-align: center;"> <input type="radio" name="selectbl" [(ngModel)]="indexBl" [value]="blmovimiento.length"></td>
+                    <td>{{restantes.bl}}</td>
+                    <td><b>Cantidad Disponible</b><br>{{restantes.disponibleCantidad}}</td>
+                    <td><b>Peso Disponible</b><br>{{restantes.disponiblePeso}}</td>
+                    <td colspan="2"><b>Volumen Disponible</b><br>{{restantes.disponibleVolumen}}</td>
+                    <td><b>Total Cantidad</b><br>{{restantes.totalMovimientoCantidad}}</td>
+                    <td><b>Total Peso</b><br>{{restantes.totalMovimientoPeso}}</td>
+                    <td colspan="2"><b>Total Volumen</b><br>{{restantes.totalMovimientoVolumen}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-container>
 <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
     <table class="table table-bordered table-striped">
         <thead>
@@ -355,18 +420,6 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of blmovimiento; let i = index" >
-                <td>{{item.bl}}<br><b>{{item.Tipo}}</b></td>
-                <td>{{item.embarcador}}</td>
-                <td>{{item.consignatario}}</td>
-                <td>{{item.notificarA}}</td>
-                <td>{{item.marcasNumeros}}</td>
-                <td>{{item.movimientoCant}}</td>
-                <td>{{item.unidad}}</td>
-                <td>{{item.descripcion}}</td>
-                <td>{{item.movimientoPeso}}</td>
-                <td>{{item.movimientovolumen}}</td>
-            </tr>
             <tr *ngFor="let item of bls; let i = index" [ngStyle]="{'background-color': i > 0 ? '#A9A9A9' : '#FFF'}">
                 <td>{{item.bl}}</td>
                 <td>{{item.embarcador}}</td>
@@ -379,13 +432,13 @@
                 <td>{{item.pesoBruto}}</td>
                 <td>{{item.volumen}}</td>
             </tr>
-            
+
 
         </tbody>
     </table>
 </div>
 <br>
-<div class="row" *ngIf="tipoSoli == '2' || tipoMov == '14'">
+<div class="row" *ngIf="tipoSoli == '2' || (tipoSoli == '3' && tipoMov == '14')">
 
     <div class="form-group col-md-4">
         <label class="control-label">Cantidad Salida</label>

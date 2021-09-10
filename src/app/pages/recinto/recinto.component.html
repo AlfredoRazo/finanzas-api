@@ -336,12 +336,12 @@
           <tbody>
           <tr *ngFor="let doc of bldocs">
             <td>{{doc.nombre}}</td>
-            <td><button class="btn btn-sm btn-primary">Descargar</button></td>
+            <td><a class="btn btn-sm btn-primary" target="_blank" [href]="'https://pis-api-recinto.azurewebsites.net/' + doc.archivo">Descargar</a></td>
           </tr>
           </tbody>
         </table>
       </ng-container>
-        <ng-container *ngIf="documentosVisual.length > 0">
+        <!--ng-container *ngIf="documentosVisual.length > 0">
           <h4>Documentos</h4>
           <hr class="red">
           <table class="table table-bordered table-striped">
@@ -352,7 +352,7 @@
             </tr>
             </tbody>
           </table>
-        </ng-container>
+        </ng-container-->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>

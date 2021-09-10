@@ -60,6 +60,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   agenciaconsig = '';
   idSolicitud: any;
   blmovimiento: any = [];
+  restantes:any;
   nuevacantidad: any;
   nuevopeso: any;
   hasErrorPesos = false;
@@ -70,6 +71,10 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   pedSim: any;
   pedCom: any;
   blRev: any;
+  restanteCheck = false;
+  checkeddis = false;
+  clavesPedimento: any[] = [];
+  indexBl:any;
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -161,6 +166,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.getLineaNaviera();
     this.getAgenciaConsignataria();
     this.getRecinto();
+    this.getClavePedimentos();
     $('#fecha-servicio').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaServ = date } });
     $('#fecha-arribo').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaArribo = date } });
     $('#fecha-inicio-operaciones').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaInicioOp = date } });
@@ -179,9 +185,14 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           if(res.length > 2){
             this.cantidadDisponible = res[0].disponibleCantidad;
             this.pesoDisponible = res[0].disponiblePeso;
+            this.restantes = res[0];
             this.isSeparacion = true;
             this.tipoMov = '14';
-            this.blmovimiento = res[1];
+            this.blmovimiento = res[1].map((item:any) =>{
+              item.selected = false;
+              item.disabled = false;
+              return item;
+            });
           }else{
             this.isSeparacion = false;
             this.blmovimiento = [];
@@ -312,9 +323,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.tarja.bl = this.bls[0].bl;
     this.solicitudFile.bl = this.bls[0].bl;
     this.msjSuccess = '';
-    if (this.blRevalidado.archivo) { this.saveFiles(this.blRevalidado); }
-    if (this.tarja.archivo) { this.saveFiles(this.tarja); }
-    if (this.solicitudFile.archivo) { this.saveFiles(this.solicitudFile); }
+    //if (this.blRevalidado.archivo) { this.saveFiles(this.blRevalidado); }
+    //if (this.tarja.archivo) { this.saveFiles(this.tarja); }
+    //if (this.solicitudFile.archivo) { this.saveFiles(this.solicitudFile); }
     this.http.post(`${environment.endpointRecinto}solicitud/v1/`, payload).subscribe((res: any) => {
       if (!res.error) {
         this.msjSuccess = res.mensaje + ' Solicitud:' + res.valor;
@@ -468,6 +479,12 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.pedCom = null;
     this.pedSim = null;
     this.blRev = null;
+  }
+
+  getClavePedimentos(): void{
+    this.http.get('https://pis-api-recinto.azurewebsites.net/api/catalogos?catalogo=pedimentos').subscribe((res:any) =>{
+      this.clavesPedimento  = res[0];
+    },err=>{});
   }
 
 }
