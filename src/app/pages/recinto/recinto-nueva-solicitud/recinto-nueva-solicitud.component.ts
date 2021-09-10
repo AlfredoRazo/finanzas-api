@@ -112,7 +112,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   tipoPedimento: any;
   numeroPartes: any;
   numeroCopias: any;
-  cobe: any;
+  cove: any;
   numeroPedimento: any;
   tipoCambio: any;
   valorAduana: any;
@@ -355,6 +355,13 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           console.log(payloadMov);
           this.http.post('https://pis-api-recinto.azurewebsites.net/api/Movimientos', payloadMov).subscribe((res: any) => { }, err => { });
         }
+        if (+this.tipoSoli == 4) {
+          const payloadLib = {
+            appkey: "046965ea2db6a892359ed2c4cd9f957b",
+            liberaciones: this.liberacion
+          };
+          this.http.post('https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion', payloadLib).subscribe((res: any) => { }, err => { });
+        }
         if (this.bls.length > 1) {
           const payload = {
             idSolicitud: res.valor,
@@ -463,10 +470,10 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           totalCant = totalCant + item.piezas;
           totalPeso = totalPeso + item.peso;
         });
-        if (parseInt(this.blmovimiento[this.indexBl].movimientoCant) < totalCant) {
+        if (parseInt(this.liberacionPiezas) > totalCant) {
           error++;
         }
-        if (parseFloat(this.blmovimiento[this.indexBl].movimientoPeso) < totalPeso) {
+        if (parseFloat(this.liberacionPeso) > totalPeso) {
           error++;
         }
 
@@ -486,19 +493,23 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     } else {
       this.liberacion.push(
         {
-          pedimentoSimplificado: this.pedimentoSimplificado,
-          pedimentoCompleto: this.pedimentoCompleto,
-          blRevalidado: this.blRevalidado,
+          usuario: this.auth.getSession().userData.username,
+          BL: this.restantes.bl,
+          piezas: parseInt(this.liberacionPiezas),
+          peso: parseFloat(this.liberacionPeso),
           clavePedimento: this.clavePedimento,
           tipoPedimento: this.tipoPedimento,
           numeroPedimento: this.numeroPedimento,
           tipoCambio: this.tipoCambio,
           valorAduana: this.valorAduana,
-          piezas: parseInt(this.liberacionPiezas),
-          peso: parseFloat(this.liberacionPeso),
-          numPartes: this.numeroPartes,
-          numCopias: this.numeroCopias,
-          cobe: this.cobe
+          movimientoId:this.indexBl == -1 ? 999 : this.blmovimiento[this.indexBl].movimientoId,
+          TipoLiberacion:1,
+          docPedimentoSimplificado: this.pedimentoSimplificado,
+          docPedimentoCompleto: this.pedimentoCompleto,
+          documentoBLRevalidado: this.blRevalidado,
+          numeroPartes: this.numeroPartes,
+          numeroCopias: this.numeroCopias,
+          COVE: this.cove
         }
       );
       this.pedimentoSimplificado = {} as BLFile;
@@ -513,7 +524,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       this.liberacionPeso = null;
       this.numeroPartes = null;
       this.numeroCopias = null;
-      this.cobe = null;
+      this.cove = null;
       this.pedCom = null;
       this.pedSim = null;
       this.blRev = null;

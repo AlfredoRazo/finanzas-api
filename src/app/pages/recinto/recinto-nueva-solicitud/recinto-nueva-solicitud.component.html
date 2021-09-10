@@ -399,8 +399,8 @@
             <input type="text" class="form-control" name="numeroCopias" [(ngModel)]="numeroCopias">
         </div>
         <div class="form-group col-md-4" *ngIf="tipoPedimento == 4">
-            <label>COBE</label>
-            <input type="text" class="form-control" name="cobe" [(ngModel)]="cobe">
+            <label>COVE</label>
+            <input type="text" class="form-control" name="cove" [(ngModel)]="cove">
         </div>
     </div>
     <div class="row">
@@ -449,7 +449,7 @@
             <tbody>
                 <tr *ngFor="let item of liberacion; let i = index">
                     <td><button class="btn btn-xs btn-primary" (click)="liberacion.splice(i, 1)">Eliminar</button></td>
-                    <td>{{item.pedimentoSimplificado.nombre}}{{item.pedimentoCompleto.nombre}}{{item.blRevalidado.nombre}}
+                    <td>{{item.docPedimentoSimplificado?.nombre}}{{item.docPedimentoCompleto?.nombre}}{{item.documentoBLRevalidado?.nombre}}
                     </td>
                     <td>{{item.clavePedimento}}</td>
                     <td>{{item.tipoPedimento}}</td>
