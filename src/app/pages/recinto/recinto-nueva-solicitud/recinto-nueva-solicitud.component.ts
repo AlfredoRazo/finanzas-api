@@ -60,7 +60,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   agenciaconsig = '';
   idSolicitud: any;
   blmovimiento: any = [];
-  restantes:any;
+  restantes: any;
   nuevacantidad: any;
   nuevopeso: any;
   hasErrorPesos = false;
@@ -74,7 +74,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   restanteCheck = false;
   checkeddis = false;
   clavesPedimento: any[] = [];
-  indexBl:any;
+  indexBl: any;
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -162,7 +162,6 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.getAgenciaAduanal();
     this.getBuques();
     this.getClientes();
-    this.getAgenciaAduanal();
     this.getLineaNaviera();
     this.getAgenciaConsignataria();
     this.getRecinto();
@@ -182,24 +181,24 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       if (!res.error) {
         this.bls[0] = res.datos;
         this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Separación&BL=${this.bl}`).subscribe(res => {
-          if(res.length > 2){
+          if (res.length > 2) {
             this.cantidadDisponible = res[0].disponibleCantidad;
             this.pesoDisponible = res[0].disponiblePeso;
             this.restantes = res[0];
             this.isSeparacion = true;
             this.tipoMov = '14';
-            this.blmovimiento = res[1].map((item:any) =>{
+            this.blmovimiento = res[1].map((item: any) => {
               item.selected = false;
               item.disabled = false;
               return item;
             });
-          }else{
+          } else {
             this.isSeparacion = false;
             this.blmovimiento = [];
           }
         }, error => {
         });
-    
+
       } else {
         this.bls = [];
         this.msjConsulta = res.mensaje;
@@ -250,7 +249,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     }, error => { });
   }
   getPatente(): void {
-    
+
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.auth.getSession().token}`,
@@ -302,7 +301,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       idTipoSolicitud: +this.tipoSoli,
       idTipoTransporte: +this.tipoTrans,
       fechaServicio: this.fechaServ + 'T00:00:00.999Z',
-      idAgenciaAduanal: +user.empresaid,
+      idAgenciaAduanal: this.agenciaAduanal,
       patente: this.patente,
       idCliente: 0,
       nombre: this.nombreCliente?.nombre ? this.nombreCliente?.nombre : this.nombreCliente,
@@ -329,9 +328,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.http.post(`${environment.endpointRecinto}solicitud/v1/`, payload).subscribe((res: any) => {
       if (!res.error) {
         this.msjSuccess = res.mensaje + ' Solicitud:' + res.valor;
-        if(+this.tipoSoli == 3){
+        if (+this.tipoSoli == 3) {
 
-          let payloadMov: any ={
+          let payloadMov: any = {
             appkey: "046965ea2db6a892359ed2c4cd9f957b",
             usuario: this.auth.getSession().userData.username,
             BL: this.bls[0].bl,
@@ -340,21 +339,21 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             peso: 0,
             volumen: 0,
             fecha: this.fechaServ.split('-').reverse().join('-') + ' 00:00:00',
-            documentos:[]
-        };
-          if(+this.tipoMov == 14){
+            documentos: []
+          };
+          if (+this.tipoMov == 14) {
             payloadMov.cantidad = this.bls[1].cantidad;
             payloadMov.peso = this.bls[1].pesoBruto;
-          }else{
-            if(this.blRevalidado.archivo){
-              payloadMov.documentos.push({nombre: this.blRevalidado.nombre, archivo:this.blRevalidado.archivo});
+          } else {
+            if (this.blRevalidado.archivo) {
+              payloadMov.documentos.push({ nombre: this.blRevalidado.nombre, archivo: this.blRevalidado.archivo });
             }
-            if(this.solicitudFile.archivo){
-              payloadMov.documentos.push({nombre: this.solicitudFile.nombre, archivo:this.solicitudFile.archivo});
+            if (this.solicitudFile.archivo) {
+              payloadMov.documentos.push({ nombre: this.solicitudFile.nombre, archivo: this.solicitudFile.archivo });
             }
           }
           console.log(payloadMov);
-          this.http.post('https://pis-api-recinto.azurewebsites.net/api/Movimientos',payloadMov).subscribe((res:any) => {},err =>{});
+          this.http.post('https://pis-api-recinto.azurewebsites.net/api/Movimientos', payloadMov).subscribe((res: any) => { }, err => { });
         }
         if (this.bls.length > 1) {
           const payload = {
@@ -363,7 +362,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             cantidad: this.bls[1].cantidad,
             peso: this.bls[1].pesoBruto
           };
-        
+
           this.http.post(`${environment.endpointRecinto}bl/movimiento`, payload).subscribe((res: any) => {
             if (!res.error) {
 
@@ -426,11 +425,11 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     let err = 0;
     const lastitem = { ...this.bls[0] };
     let pesocomp = this.isSeparacion ? this.pesoDisponible : parseFloat(lastitem.pesoBruto);
-    let cantidadComp = this.isSeparacion ?this.cantidadDisponible : parseInt(lastitem.cantidad);
+    let cantidadComp = this.isSeparacion ? this.cantidadDisponible : parseInt(lastitem.cantidad);
     if (cantidadComp < parseInt(this.nuevacantidad)) {
       err++;
     }
-    if ( pesocomp < parseFloat(this.nuevopeso)) {
+    if (pesocomp < parseFloat(this.nuevopeso)) {
       err++;
     }
     if (err == 0) {
@@ -446,23 +445,61 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     }
   }
   addLiberacion(): void {
-    this.liberacion.push(
-      {
-        pedimentoSimplificado: this.pedimentoSimplificado,
-        pedimentoCompleto: this.pedimentoCompleto,
-        blRevalidado: this.blRevalidado,
-        clavePedimento: this.clavePedimento,
-        tipoPedimento: this.tipoPedimento,
-        numeroPedimento: this.numeroPedimento,
-        tipoCambio: this.tipoCambio,
-        valorAduana: this.valorAduana,
-        piezas: this.liberacionPiezas,
-        peso: this.liberacionPeso,
-        numPartes: this.numeroPartes,
-        numCopias: this.numeroCopias,
-        cobe: this.cobe
+    this.msjErrorpesos = '';
+    let error = 0;
+    if (this.indexBl == -1) {
+      if (parseInt(this.restantes.disponibleCantidad) > parseInt(this.liberacionPiezas)) {
+        error++;
       }
-    );
+      if (parseFloat(this.restantes.disponiblePeso) > parseFloat(this.liberacionPeso)) {
+        error++;
+      }
+    } else {
+      if (this.liberacion.length > 0) {
+        let totalCant = 0
+        let totalPeso = 0;
+        this.liberacion.forEach(item => {
+          totalCant = totalCant + item.piezas;
+          totalPeso = totalPeso + item.peso;
+        });
+        if (parseInt(this.blmovimiento[this.indexBl].movimientoCant) > totalCant) {
+          error++;
+        }
+        if (parseFloat(this.blmovimiento[this.indexBl].movimientoPeso) > totalPeso) {
+          error++;
+        }
+
+      } else {
+        if (parseInt(this.blmovimiento[this.indexBl].movimientoCant) > parseInt(this.liberacionPiezas)) {
+          error++;
+        }
+        if (parseFloat(this.blmovimiento[this.indexBl].movimientoPeso) > parseFloat(this.liberacionPeso)) {
+          error++;
+        }
+      }
+
+    }
+    if (error > 0) {
+      this.msjErrorpesos = 'La cantidad de liberación del peso de salida no pueden ser mayores';
+    } else {
+      this.liberacion.push(
+        {
+          pedimentoSimplificado: this.pedimentoSimplificado,
+          pedimentoCompleto: this.pedimentoCompleto,
+          blRevalidado: this.blRevalidado,
+          clavePedimento: this.clavePedimento,
+          tipoPedimento: this.tipoPedimento,
+          numeroPedimento: this.numeroPedimento,
+          tipoCambio: this.tipoCambio,
+          valorAduana: this.valorAduana,
+          piezas: parseInt(this.liberacionPiezas),
+          peso: parseFloat(this.liberacionPeso),
+          numPartes: this.numeroPartes,
+          numCopias: this.numeroCopias,
+          cobe: this.cobe
+        }
+      );
+    }
     this.pedimentoSimplificado = {} as BLFile;
     this.pedimentoCompleto = {} as BLFile;
     this.blRevalidado = {} as BLFile;
@@ -481,10 +518,10 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.blRev = null;
   }
 
-  getClavePedimentos(): void{
-    this.http.get('https://pis-api-recinto.azurewebsites.net/api/catalogos?catalogo=pedimentos').subscribe((res:any) =>{
-      this.clavesPedimento  = res[0];
-    },err=>{});
+  getClavePedimentos(): void {
+    this.http.get('https://pis-api-recinto.azurewebsites.net/api/catalogos?catalogo=pedimentos').subscribe((res: any) => {
+      this.clavesPedimento = res[0];
+    }, err => { });
   }
 
 }
