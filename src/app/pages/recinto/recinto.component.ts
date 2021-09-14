@@ -5,7 +5,7 @@ import { AuthService } from '@serv/auth.service';
 import { PaginateService } from '@serv/paginate.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
-
+//Se intentó tener un orden en los endpoint, pero el backend esta desorganizado
 @Component({
   selector: 'app-recinto',
   templateUrl: './recinto.component.html',
@@ -28,8 +28,10 @@ export class RecintoComponent implements OnInit {
   total = 0;
   visualDetalleBL: any;
   blmovimiento: any[] = [];
+  blliberacion: any[] = [];
+  blliberacionDocs: any[] = [];
   bldocs: any[] = [];
-  documentosVisual: any[] = []
+  documentosVisual: any[] = [];
 
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
@@ -42,19 +44,14 @@ export class RecintoComponent implements OnInit {
 
   getSolicitudesServicios(): void {
     this.spinner.show();
-    this.http.get(`${environment.endpointRecinto}solicitud/v1`).subscribe((res: any) => {
-      if (!res.error) {
-
-        this.total = res.datos.length;
-        this.originalData = res.datos.map((item: any) => {
-          item.selected = false;
-          return item;
-        });
-        const fir = [...this.originalData];
-        this.data = this.pagina.paginate(fir, this.collSize, this.page);
-      } else {
-
-      }
+    this.http.get(`https://pis-api-recinto.azurewebsites.net/api/solicitudes`).subscribe((res: any) => {
+      this.total = res[0].length;
+      this.originalData = res[0].map((item: any) => {
+        item.selected = false;
+        return item;
+      });
+      const fir = [...this.originalData];
+      this.data = this.pagina.paginate(fir, this.collSize, this.page);
       this.spinner.hide();
     }, err => { this.spinner.hide(); });
   }
@@ -81,30 +78,7 @@ export class RecintoComponent implements OnInit {
     });
 
   }
-  getTipoSolicitud(id: string): string {
-    return [
-      { id: '1', descripcion: 'Entrada' },
-      { id: '2', descripcion: 'Salida' },
-      { id: '3', descripcion: 'Movimientos' },
-      { id: '4', descripcion: 'Liberación' },
-    ].filter(item => { return id == item.id })[0]?.descripcion;
-  }
 
-  getTipoTramite(id: string): string {
-    return [
-      { id: '1', descripcion: 'Importación' },
-      { id: '2', descripcion: 'Exportación' },
-      { id: '3', descripcion: 'Transbordo' }
-    ].filter(item => { return id == item.id })[0]?.descripcion;
-  }
-
-  getTipoTransporte(id: string): string {
-    return [
-      { id: '1', descripcion: 'Carretero' },
-      { id: '2', descripcion: 'Ferroviario' },
-      { id: '3', descripcion: 'Marítimo' }
-    ].filter(item => { return id == item.id })[0]?.descripcion;
-  }
 
   visualizar(item: any): void {
     this.visualSolicitud = item;
@@ -172,6 +146,23 @@ export class RecintoComponent implements OnInit {
       }
     }, error => {
     });
+
+    this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?referencia=${bl}&idMovimiento=${this.visualSolicitud.movimientoId}`).subscribe(res => {
+      if (res.length == 3) {
+        this.blliberacion = res[0];
+        this.blliberacionDocs = res[1];
+      }
+      if (res.length == 2) {
+        if (res[0][0].archivo) {
+          this.blliberacionDocs = res[0];
+        } else {
+          this.blliberacion = res[0];
+        }
+      }
+    }, error => {
+      this.blliberacion = [];
+      this.blliberacionDocs = [];
+    });
     this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Previo&BL=${bl}`).subscribe(res => {
       if (res.length > 2) {
         this.bldocs = res[2];
@@ -180,6 +171,22 @@ export class RecintoComponent implements OnInit {
       }
     }, error => {
     });
+  }
+
+  getTipoPedimento(id: string): string {
+    switch (id) {
+      case '1':
+        return 'Normal';
+      case '2':
+        return 'Parte 2';
+      case '3':
+        return 'Copia Simple';
+      case '4':
+        return 'Pedimento Consolidado';
+      default:
+        return '';
+        break;
+    }
   }
 
 }

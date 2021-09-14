@@ -455,6 +455,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.msjErrorpesos = '';
     this.hasErrorPesos = false;
     let error = 0;
+    if(this.blmovimiento.lengt > 0){
     if (this.indexBl == -1) {
       if (parseInt(this.restantes.disponibleCantidad) > parseInt(this.liberacionPiezas)) {
         error++;
@@ -487,14 +488,29 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       }
 
     }
+    }else{
+      if (parseInt(this.bls[0].cantidad) < parseInt(this.liberacionPiezas)) {
+        error++;
+      }
+      if (parseFloat(this.bls[0].pesoBruto) < parseFloat(this.liberacionPeso)) {
+        error++
+      }
+      
+    }
     if (error > 0) {
       this.msjErrorpesos = 'La cantidad de liberación del peso de salida no pueden ser mayores';
       this.hasErrorPesos = true;
     } else {
+      let movimientoid = 0;
+      let tipoliberacion = 1;
+      if(this.blmovimiento.lengt > 0){
+        movimientoid = this.indexBl == -1 ? 999 : this.blmovimiento[this.indexBl].movimientoId;
+        tipoliberacion = 2;
+      }
       this.liberacion.push(
         {
           usuario: this.auth.getSession().userData.username,
-          BL: this.restantes.bl,
+          BL: this.bls[0].bl,
           piezas: parseInt(this.liberacionPiezas),
           peso: parseFloat(this.liberacionPeso),
           clavePedimento: this.clavePedimento,
@@ -502,14 +518,14 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           numeroPedimento: this.numeroPedimento,
           tipoCambio: this.tipoCambio,
           valorAduana: this.valorAduana,
-          movimientoId:this.indexBl == -1 ? 999 : this.blmovimiento[this.indexBl].movimientoId,
-          TipoLiberacion:1,
+          movimientoId:movimientoid,
+          TipoLiberacion:tipoliberacion,
           docPedimentoSimplificado: this.pedimentoSimplificado,
           docPedimentoCompleto: this.pedimentoCompleto,
           documentoBLRevalidado: this.blRevalidado,
           numeroPartes: this.numeroPartes,
           numeroCopias: this.numeroCopias,
-          COVE: this.cove
+          cove: this.cove
         }
       );
       this.pedimentoSimplificado = {} as BLFile;

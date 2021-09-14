@@ -70,10 +70,10 @@
             <td><button class="btn btn-xs btn-primary" (click)="visualizar(item)" data-toggle="modal"
                 data-target="#show-data">Revisar detalle</button></td>
             <td>{{item.estatus == '1' ? 'Por Autorizar' : item.estatus == '100' ?'Autorizado': 'Por Definir' }}</td>
-            <td>{{getTipoSolicitud(item.idTipoSolicitud)}}</td>
+            <td>{{item.tipoSolicitud}}</td>
             <td>{{item.fechaServicio}}</td>
             <td>{{item.nombre}}</td>
-            <td>{{item.numBL}}</td>
+            <td>{{item.bl}}</td>
           </tr>
         </tbody>
       </table>
@@ -188,19 +188,19 @@
           <tbody>
             <tr>
               <td>Tipo Servicio</td>
-              <td>{{visualSolicitud?.idTipoServicio == 1 ? 'Contenedores':'Carga suelta'}}</td>
+              <td>{{visualSolicitud?.tipoServicio}}</td>
             </tr>
             <tr>
               <td>Tipo Trámite</td>
-              <td>{{getTipoTramite(visualSolicitud?.idTipoTramite)}}</td>
+              <td>{{visualSolicitud?.tipoTramite}}</td>
             </tr>
             <tr>
               <td>Tipo Solicitud</td>
-              <td>{{getTipoSolicitud(visualSolicitud?.idTipoSolicitud)}}</td>
+              <td>{{visualSolicitud?.tipoSolicitud}}</td>
             </tr>
             <tr>
               <td>Tipo Transporte</td>
-              <td>{{getTipoTransporte(visualSolicitud?.idTipoTransporte)}}</td>
+              <td>{{visualSolicitud?.tipoTransporte}}</td>
             </tr>
             <tr>
               <td>Fecha Servicio</td>
@@ -288,29 +288,29 @@
               <thead>
                   <tr style="cursor: pointer">
                       <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="bl">BL <span class="glyphicon glyphicon-sort"></span></th>
+                          data-name="bl">BL </th>
                       <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="embarcador">Embarcador <span class="glyphicon glyphicon-sort"></span></th>
+                          data-name="embarcador">Embarcador </th>
                       <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
                           data-name="consignatario">Consignatario
-                          <span class="glyphicon glyphicon-sort"></span>
+                          
                       </th>
                       <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="notificarA">Notificar a <span class="glyphicon glyphicon-sort"></span></th>
+                          data-name="notificarA">Notificar a </th>
                       <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
                           data-name="marcasNumeros">Marcas y Números
-                          <span class="glyphicon glyphicon-sort"></span>
+                          
                       </th>
                       <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="cantidad">Cantidad <span class="glyphicon glyphicon-sort"></span></th>
+                          data-name="cantidad">Cantidad </th>
                       <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="unidad">Unidad <span class="glyphicon glyphicon-sort"></span></th>
+                          data-name="unidad">Unidad </th>
                       <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="descripcion">Descripción <span class="glyphicon glyphicon-sort"></span></th>
+                          data-name="descripcion">Descripción </th>
                       <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="pesoBruto">Peso Bruto (KG) <span class="glyphicon glyphicon-sort"></span></th>
+                          data-name="pesoBruto">Peso Bruto (KG) </th>
                       <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="volumen">Volumen <span class="glyphicon glyphicon-sort"></span></th>
+                          data-name="volumen">Volumen </th>
                   </tr>
               </thead>
               <tbody>
@@ -329,6 +329,54 @@
               </tbody>
           </table>
       </div>
+      <ng-container *ngIf="blliberacion.length > 0">
+        <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;" *ngIf="blmovimiento.length > 0">
+          <table class="table table-bordered table-striped">
+              <thead>
+                  <tr>
+                      <th style="white-space: nowrap;">BL</th>
+                      <th style="white-space: nowrap;">Clave Pedimento</th>
+                      <th style="white-space: nowrap;">Tipo Pedimento</th>
+                      <th style="white-space: nowrap;">Tipo Cambio</th>
+                      <th style="white-space: nowrap;">Valor Aduana</th>
+                      <th style="white-space: nowrap;">Piezas</th>
+                      <th style="white-space: nowrap;">Peso</th>
+                      <th style="white-space: nowrap;">Tipo Liberacion</th>
+                      <th style="white-space: nowrap;">Número de Partes</th>
+                      <th style="white-space: nowrap;">Número de Copias</th>
+                      <th style="white-space: nowrap;">COVE</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let item of blliberacion; let i = index" >
+                      <td>{{item.solicitudBL}}<br><b>Liberación</b></td>
+                      <td>{{item.solicitudClavePedimento}}</td>
+                      <td>{{getTipoPedimento(item.solicitudTipoPedimento)}}</td>
+                      <td>{{item.solicitudtipoCambio}}</td>
+                      <td>{{item.solicitudValorAduana}}</td>
+                      <td>{{item.solicitudPiezas}}</td>
+                      <td>{{item.solicitudPeso}}</td>
+                      <td>{{item.solicitudTipoLiberacion}}</td>
+                      <td>{{item.solicitudNumPartes}}</td>
+                      <td>{{item.solicitudNumCopias}}</td>
+                      <td>{{item.solicitudCoves}}</td>
+                  </tr>      
+              </tbody>
+          </table>
+      </div>
+      </ng-container>
+      <ng-container *ngIf="blliberacionDocs.length > 0">
+        <h4>Liberación</h4>
+        <hr class="red">
+        <table class="table table-bordered table-striped">
+          <tbody>
+          <tr *ngFor="let doc of blliberacionDocs">
+            <td>{{doc.nombre}}</td>
+            <td><a class="btn btn-sm btn-primary" target="_blank" [href]="'https://pis-api-recinto.azurewebsites.net/' + doc.archivo">Descargar</a></td>
+          </tr>
+          </tbody>
+        </table>
+      </ng-container>
       <ng-container *ngIf="bldocs.length > 0">
         <h4>Movimiento Previo</h4>
         <hr class="red">
