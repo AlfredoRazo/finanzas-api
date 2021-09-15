@@ -170,17 +170,17 @@
         <div class="form-group col-md-4">
             <label class="control-label">Tipo Salida</label>
             <select class="form-control" name="tipoSalida" [(ngModel)]="tipoSalida">
-                <option value="1">Normal</option>
-                <option value="2">Transferencia</option>
+                <option value="91">Normal</option>
+                <option value="92">Transferencia</option>
             </select>
         </div>
-        <div class="form-group col-md-8" *ngIf="tipoSalida == '2'">
+        <div class="form-group col-md-8" *ngIf="tipoSalida == '92'">
             <label class="control-label">Recinto Origen</label>
             <select class="form-control" name="recintoOrigen" [(ngModel)]="recintoOrigen" disabled>
                 <option *ngFor="let item of recintos" [value]="item.clave">{{item.nombre}}</option>
             </select>
         </div>
-        <div class="form-group col-md-12" *ngIf="tipoSalida == '2'">
+        <div class="form-group col-md-12" *ngIf="tipoSalida == '92'">
             <label class="control-label">Recinto Destino</label>
             <select class="form-control" name="recintoDestino" [(ngModel)]="recintoDestino">
                 <option *ngFor="let item of recintos" [value]="item.clave">{{item.nombre}}</option>
@@ -225,7 +225,46 @@
 
 <br>
 <br>
-<ng-container *ngIf="blmovimiento.length > 0">
+<ng-container *ngIf="blliber.length > 0 && tipoSoli == '2'">
+    <h4>Liberación</h4>
+    <hr class="red" />
+    <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr style="cursor: pointer">
+                    <th></th>
+                    <th style="white-space: nowrap;">BL </th>
+                    <th style="white-space: nowrap;">Embarcador </th>
+                    <th style="white-space: nowrap;">Consignatario</th>
+                    <th style="white-space: nowrap;">Notificar a </th>
+                    <th style="white-space: nowrap;">Marcas y Números</th>
+                    <th style="white-space: nowrap;">Cantidad </th>
+                    <th style="white-space: nowrap;">Unidad </th>
+                    <th style="white-space: nowrap;">Descripción </th>
+                    <th style="white-space: nowrap;">Peso Bruto (KG) </th>
+                    <th style="white-space: nowrap;">Volumen </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of blliber; let i = index">
+                    <td style="vertical-align: middle; text-align: center;"> <input type="radio"
+                            name="selectbl" [(ngModel)]="indexLib" [value]="i"></td>
+                    <td>{{item.solicitudBL}}</td>
+                    <td>{{item.embarcador}}</td>
+                    <td>{{item.consignatario}}</td>
+                    <td>{{item.notificarA}}</td>
+                    <td>{{item.marcasNumeros}}</td>
+                    <td>{{item.movimientoCant}}</td>
+                    <td>{{item.unidad}}</td>
+                    <td>{{item.descripcion}}</td>
+                    <td>{{item.movimientoPeso}}</td>
+                    <td>{{item.movimientovolumen}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-container>
+<ng-container *ngIf="blmovimiento.length > 0 && (tipoSoli == '3' || tipoSoli == '4')">
     <h4>Movimientos Separación</h4>
     <hr class="red" />
     <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
@@ -295,35 +334,21 @@
         </table>
     </div>
 </ng-container>
-
+<br>
 <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
     <table class="table table-bordered table-striped">
         <thead>
             <tr style="cursor: pointer">
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
-                    data-name="bl">BL <span class="glyphicon glyphicon-sort"></span></th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
-                    data-name="embarcador">Embarcador <span class="glyphicon glyphicon-sort"></span></th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
-                    data-name="consignatario">Consignatario
-                    <span class="glyphicon glyphicon-sort"></span>
-                </th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
-                    data-name="notificarA">Notificar a <span class="glyphicon glyphicon-sort"></span></th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
-                    data-name="marcasNumeros">Marcas y Números
-                    <span class="glyphicon glyphicon-sort"></span>
-                </th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
-                    data-name="cantidad">Cantidad <span class="glyphicon glyphicon-sort"></span></th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
-                    data-name="unidad">Unidad <span class="glyphicon glyphicon-sort"></span></th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
-                    data-name="descripcion">Descripción <span class="glyphicon glyphicon-sort"></span></th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
-                    data-name="pesoBruto">Peso Bruto (KG) <span class="glyphicon glyphicon-sort"></span></th>
-                <th style="white-space: nowrap;" scope="col" [appSort]="manifiestoData" data-order="desc"
-                    data-name="volumen">Volumen <span class="glyphicon glyphicon-sort"></span></th>
+                <th style="white-space: nowrap;">BL </th>
+                <th style="white-space: nowrap;">Embarcador </th>
+                <th style="white-space: nowrap;">Consignatario</th>
+                <th style="white-space: nowrap;">Notificar a </th>
+                <th style="white-space: nowrap;">Marcas y Números</th>
+                <th style="white-space: nowrap;">Cantidad </th>
+                <th style="white-space: nowrap;">Unidad </th>
+                <th style="white-space: nowrap;" >Descripción </th>
+                <th style="white-space: nowrap;">Peso Bruto (KG) </th>
+                <th style="white-space: nowrap;">Volumen </th>
             </tr>
         </thead>
         <tbody>
@@ -345,7 +370,7 @@
     </table>
 </div>
 <br>
-<div class="row" *ngIf="tipoSoli == '2' || (tipoSoli == '3' && tipoMov == '14')">
+<div class="row" *ngIf="tipoSoli == '3' && tipoMov == '14'">
 
     <div class="form-group col-md-4">
         <label class="control-label">Cantidad Salida</label>

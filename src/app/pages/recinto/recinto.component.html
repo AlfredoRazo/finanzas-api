@@ -365,6 +365,7 @@
           </table>
       </div>
       </ng-container>
+     
       <ng-container *ngIf="blliberacionDocs.length > 0">
         <h4>Liberación</h4>
         <hr class="red">
@@ -376,6 +377,42 @@
           </tr>
           </tbody>
         </table>
+      </ng-container>
+      
+      <ng-container *ngIf="blsalidaDocs.length > 0">
+        <h4>Salida</h4>
+        <hr class="red">
+        <table class="table table-bordered table-striped">
+          <tbody>
+          <tr *ngFor="let doc of blsalidaDocs">
+            <td>{{doc.nombre}}</td>
+            <td><a class="btn btn-sm btn-primary" target="_blank" [href]="'https://pis-api-recinto.azurewebsites.net/' + doc.archivo">Descargar</a></td>
+          </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-container *ngIf="blsalida.length > 0">
+        <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;" >
+          <table class="table table-bordered table-striped">
+              <thead>
+                  <tr>
+                      <th style="white-space: nowrap;">BL</th>
+                      <th style="white-space: nowrap;">Tipo Salida</th>
+                      <th style="white-space: nowrap;">Recinto Origen</th>
+                      <th style="white-space: nowrap;">Recinto Destino</th>
+                     
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let item of blsalida; let i = index" >
+                      <td>{{item.BL}}</td>
+                      <td>{{item.salidaTipo == '91'? 'Normal' : 'Transferencia'}}</td>
+                      <td>{{item.salidaRecintoOrigen}}</td>
+                      <td>{{item.salidaRecintoDestino}}</td>
+                  </tr>      
+              </tbody>
+          </table>
+      </div>
       </ng-container>
       <ng-container *ngIf="bldocs.length > 0">
         <h4>Movimiento Previo</h4>

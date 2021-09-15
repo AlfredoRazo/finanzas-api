@@ -60,6 +60,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   agenciaconsig = '';
   idSolicitud: any;
   blmovimiento: any = [];
+  blliber:any[] = [];
   restantes: any;
   nuevacantidad: any;
   nuevopeso: any;
@@ -75,6 +76,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   checkeddis = false;
   clavesPedimento: any[] = [];
   indexBl: any;
+  indexLib: any;
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -180,6 +182,10 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       this.spinner.hide();
       if (!res.error) {
         this.bls[0] = res.datos;
+        this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?Referencia=${this.bl}`).subscribe(resP => {
+          this.blliber = resP[0];
+        }, error => {
+        });
         this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Separación&BL=${this.bl}`).subscribe(res => {
           if (res.length > 2) {
             this.cantidadDisponible = res[0].disponibleCantidad;
@@ -189,7 +195,6 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             this.tipoMov = '14';
             this.blmovimiento = res[1].map((item: any) => {
               item.selected = false;
-              item.disabled = false;
               return item;
             });
           } else {
@@ -328,6 +333,26 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.http.post(`${environment.endpointRecinto}solicitud/v1/`, payload).subscribe((res: any) => {
       if (!res.error) {
         this.msjSuccess = res.mensaje + ' Solicitud:' + res.valor;
+        if (+this.tipoSoli == 2) {
+          let payloadSalida: any = {
+            appkey: "046965ea2db6a892359ed2c4cd9f957b",
+            salidas: [
+              {
+                usuario: this.auth.getSession().userData.username,
+                BL: this.blliber[this.indexLib].solicitudBL,
+                tipoSalida: this.tipoSalida,
+                recintoOrigen: this.recintoOrigen,
+                recintoDestino: this.recintoDestino,
+                liberacionId: this.blliber[this.indexLib].solicitudId,
+                docPedimentoSimplificado: this.pedimentoSimplificado,
+                docSolicitud: this.solicitudFile,
+                docTarja: this.tarja
+              }
+            ]
+            
+          };
+          this.http.post('https://pis-api-recinto.azurewebsites.net/api/solicitudSalida', payloadSalida).subscribe((resmo: any) => { }, err => { });
+        }
         if (+this.tipoSoli == 3) {
 
           let payloadMov: any = {
@@ -356,6 +381,10 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           this.http.post('https://pis-api-recinto.azurewebsites.net/api/Movimientos', payloadMov).subscribe((resmo: any) => { }, err => { });
         }
         if (+this.tipoSoli == 4) {
+          let liber = this.liberacion.map(item =>{
+            item.idSolicitud = res.valor;
+            return item;
+          });
           const payloadLimo = {
             appkey: '046965ea2db6a892359ed2c4cd9f957b',
             movimientoID: this.liberacion[0].movimientoId,
@@ -364,11 +393,12 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           };
           this.http.post(`https://pis-api-recinto.azurewebsites.net/api/movimientoActualizar`, payloadLimo).subscribe((res: any) => {
           }, err => {});
+          
           const payloadLib = {
             appkey: "046965ea2db6a892359ed2c4cd9f957b",
-            liberaciones: this.liberacion
+            liberaciones: liber
           };
-          this.http.post('https://pis-api-recinto.azurewebsites.net/api/Movimientos', payloadLib).subscribe((resLib: any) => {
+          this.http.post('https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion', payloadLib).subscribe((resLib: any) => {
           }, err => { });
         }
         if (this.bls.length > 1) {

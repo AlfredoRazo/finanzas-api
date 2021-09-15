@@ -30,6 +30,8 @@ export class RecintoComponent implements OnInit {
   blmovimiento: any[] = [];
   blliberacion: any[] = [];
   blliberacionDocs: any[] = [];
+  blsalidaDocs: any[] = [];
+  blsalida: any[] = [];
   bldocs: any[] = [];
   documentosVisual: any[] = [];
 
@@ -162,6 +164,22 @@ export class RecintoComponent implements OnInit {
     }, error => {
       this.blliberacion = [];
       this.blliberacionDocs = [];
+    });
+    this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudSalida?referencia=${bl}`).subscribe(res => {
+      if (res.length == 3) {
+        this.blsalida = res[0];
+        this.blsalidaDocs = res[1];
+      }
+      /*if (res.length == 2) {
+        if (res[0][0].archivo) {
+          this.blliberacionDocs = res[0];
+        } else {
+          this.blliberacion = res[0];
+        }
+      }*/
+    }, error => {
+      this.blsalida = [];
+      this.blsalidaDocs = [];
     });
     this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Previo&BL=${bl}`).subscribe(res => {
       if (res.length > 2) {
