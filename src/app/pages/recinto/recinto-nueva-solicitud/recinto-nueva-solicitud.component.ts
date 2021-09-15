@@ -352,15 +352,24 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
               payloadMov.documentos.push({ nombre: this.solicitudFile.nombre, archivo: this.solicitudFile.archivo });
             }
           }
-          console.log(payloadMov);
-          this.http.post('https://pis-api-recinto.azurewebsites.net/api/Movimientos', payloadMov).subscribe((res: any) => { }, err => { });
+          
+          this.http.post('https://pis-api-recinto.azurewebsites.net/api/Movimientos', payloadMov).subscribe((resmo: any) => { }, err => { });
         }
         if (+this.tipoSoli == 4) {
+          const payloadLimo = {
+            appkey: '046965ea2db6a892359ed2c4cd9f957b',
+            movimientoID: this.liberacion[0].movimientoId,
+            idSolicitud: res.valor,
+            BL: this.bls[0].bl
+          };
+          this.http.post(`https://pis-api-recinto.azurewebsites.net/api/movimientoActualizar`, payloadLimo).subscribe((res: any) => {
+          }, err => {});
           const payloadLib = {
             appkey: "046965ea2db6a892359ed2c4cd9f957b",
             liberaciones: this.liberacion
           };
-          this.http.post('https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion', payloadLib).subscribe((res: any) => { }, err => { });
+          this.http.post('https://pis-api-recinto.azurewebsites.net/api/Movimientos', payloadLib).subscribe((resLib: any) => {
+          }, err => { });
         }
         if (this.bls.length > 1) {
           const payload = {
@@ -369,6 +378,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             cantidad: this.bls[1].cantidad,
             peso: this.bls[1].pesoBruto
           };
+
 
           this.http.post(`${environment.endpointRecinto}bl/movimiento`, payload).subscribe((res: any) => {
             if (!res.error) {
@@ -455,47 +465,47 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.msjErrorpesos = '';
     this.hasErrorPesos = false;
     let error = 0;
-    if(this.blmovimiento.lengt > 0){
-    if (this.indexBl == -1) {
-      if (parseInt(this.restantes.disponibleCantidad) > parseInt(this.liberacionPiezas)) {
-        error++;
-      }
-      if (parseFloat(this.restantes.disponiblePeso) > parseFloat(this.liberacionPeso)) {
-        error++;
+    if (this.blmovimiento.lengt > 0) {
+      if (this.indexBl == -1) {
+        if (parseInt(this.restantes.disponibleCantidad) > parseInt(this.liberacionPiezas)) {
+          error++;
+        }
+        if (parseFloat(this.restantes.disponiblePeso) > parseFloat(this.liberacionPeso)) {
+          error++;
+        }
+      } else {
+        if (this.liberacion.length > 0) {
+          let totalCant = 0
+          let totalPeso = 0;
+          this.liberacion.forEach(item => {
+            totalCant = totalCant + item.piezas;
+            totalPeso = totalPeso + item.peso;
+          });
+          if (parseInt(this.liberacionPiezas) > totalCant) {
+            error++;
+          }
+          if (parseFloat(this.liberacionPeso) > totalPeso) {
+            error++;
+          }
+
+        } else {
+          if (parseInt(this.blmovimiento[this.indexBl].movimientoCant) < parseInt(this.liberacionPiezas)) {
+            error++;
+          }
+          if (parseFloat(this.blmovimiento[this.indexBl].movimientoPeso) < parseFloat(this.liberacionPeso)) {
+            error++;
+          }
+        }
+
       }
     } else {
-      if (this.liberacion.length > 0) {
-        let totalCant = 0
-        let totalPeso = 0;
-        this.liberacion.forEach(item => {
-          totalCant = totalCant + item.piezas;
-          totalPeso = totalPeso + item.peso;
-        });
-        if (parseInt(this.liberacionPiezas) > totalCant) {
-          error++;
-        }
-        if (parseFloat(this.liberacionPeso) > totalPeso) {
-          error++;
-        }
-
-      } else {
-        if (parseInt(this.blmovimiento[this.indexBl].movimientoCant) < parseInt(this.liberacionPiezas)) {
-          error++;
-        }
-        if (parseFloat(this.blmovimiento[this.indexBl].movimientoPeso) < parseFloat(this.liberacionPeso)) {
-          error++;
-        }
-      }
-
-    }
-    }else{
       if (parseInt(this.bls[0].cantidad) < parseInt(this.liberacionPiezas)) {
         error++;
       }
       if (parseFloat(this.bls[0].pesoBruto) < parseFloat(this.liberacionPeso)) {
         error++
       }
-      
+
     }
     if (error > 0) {
       this.msjErrorpesos = 'La cantidad de liberación del peso de salida no pueden ser mayores';
@@ -503,10 +513,12 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     } else {
       let movimientoid = 0;
       let tipoliberacion = 1;
-      if(this.blmovimiento.lengt > 0){
+
+      if (this.blmovimiento.length > 0) {
         movimientoid = this.indexBl == -1 ? 999 : this.blmovimiento[this.indexBl].movimientoId;
         tipoliberacion = 2;
       }
+
       this.liberacion.push(
         {
           usuario: this.auth.getSession().userData.username,
@@ -518,8 +530,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           numeroPedimento: this.numeroPedimento,
           tipoCambio: this.tipoCambio,
           valorAduana: this.valorAduana,
-          movimientoId:movimientoid,
-          TipoLiberacion:tipoliberacion,
+          movimientoId: movimientoid,
+          TipoLiberacion: tipoliberacion,
           docPedimentoSimplificado: this.pedimentoSimplificado,
           docPedimentoCompleto: this.pedimentoCompleto,
           documentoBLRevalidado: this.blRevalidado,
@@ -545,7 +557,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       this.pedSim = null;
       this.blRev = null;
     }
-   
+
   }
 
   getClavePedimentos(): void {
