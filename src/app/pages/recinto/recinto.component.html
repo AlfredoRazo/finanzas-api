@@ -184,7 +184,7 @@
       <div class="modal-body">
         <h4>Solicitud</h4>
         <hr class="red">
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped" style="font-size: 0.65em;">
           <tbody>
             <tr>
               <td>Tipo Servicio</td>
@@ -239,7 +239,7 @@
         </table>
         <h4>B/L</h4>
         <hr class="red">
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped" style="font-size: 0.65em;">
           <tbody>
             <tr>
               <td>B/L</td>
@@ -283,6 +283,10 @@
             </tr>
           </tbody>
         </table>
+        <div *ngIf="blmovimiento.length > 0">
+          <h4>Movimientos</h4>
+          <hr class="red">
+        </div>
         <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;" *ngIf="blmovimiento.length > 0">
           <table class="table table-bordered table-striped">
               <thead>
@@ -369,7 +373,7 @@
       <ng-container *ngIf="blliberacionDocs.length > 0">
         <h4>Liberación</h4>
         <hr class="red">
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped" style="font-size: 0.65em;">
           <tbody>
           <tr *ngFor="let doc of blliberacionDocs">
             <td>{{doc.nombre}}</td>
@@ -382,7 +386,7 @@
       <ng-container *ngIf="blsalidaDocs.length > 0">
         <h4>Salida</h4>
         <hr class="red">
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped" style="font-size: 0.65em;">
           <tbody>
           <tr *ngFor="let doc of blsalidaDocs">
             <td>{{doc.nombre}}</td>
@@ -417,7 +421,7 @@
       <ng-container *ngIf="bldocs.length > 0">
         <h4>Movimiento Previo</h4>
         <hr class="red">
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped" style="font-size: 0.65em;">
           <tbody>
           <tr *ngFor="let doc of bldocs">
             <td>{{doc.nombre}}</td>

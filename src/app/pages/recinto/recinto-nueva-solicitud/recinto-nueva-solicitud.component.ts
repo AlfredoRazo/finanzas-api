@@ -178,7 +178,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   consulta(): void {
     this.msjConsulta = '';
     this.spinner.show();
-    this.http.get<any>(`${environment.endpointRecinto}bl/num/${this.bl}`).subscribe(res => {
+    this.http.get<any>(`https://pis-api-recinto-prod.azurewebsites.net/api/bl/num/${this.bl}`).subscribe(res => {
       this.spinner.hide();
       if (!res.error) {
         this.bls[0] = res.datos;
