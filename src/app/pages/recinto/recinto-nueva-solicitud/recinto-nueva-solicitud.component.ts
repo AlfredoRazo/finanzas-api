@@ -542,11 +542,12 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       this.hasErrorPesos = true;
     } else {
       let movimientoid = 0;
-      let tipoliberacion = 1;
-
+      let tipoliberacion = 0;
       if (this.blmovimiento.length > 0) {
         movimientoid = this.indexBl == -1 ? 999 : this.blmovimiento[this.indexBl].movimientoId;
-        tipoliberacion = 2;
+        tipoliberacion = this.indexBl == -1 ? 1:2;
+      }else{
+        tipoliberacion = 3;
       }
 
       this.liberacion.push(

@@ -95,7 +95,7 @@ export class RecintoComponent implements OnInit {
       return item.selected
     }).map((item: any) => {
       return {
-        idSolicitud: item.id,
+        idSolicitud: item.idSolicitud,
         estatus: 100
       };
     });
