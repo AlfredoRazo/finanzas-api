@@ -47,6 +47,8 @@
           <tr style="cursor: pointer;">
             <th></th>
             <th></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="idSolicitud">ID Solicitud <span
+              class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="estatus">Estatus <span
                 class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="idTipoSolicitud">Tipo Solicitud<span
@@ -68,7 +70,8 @@
               </ng-container>
             </td>
             <td><button class="btn btn-xs btn-primary" (click)="visualizar(item)" data-toggle="modal"
-                data-target="#show-data">Revisar detalle</button></td>
+              data-target="#show-data">Revisar detalle</button></td>
+            <td>{{item.idSolicitud}}</td>
             <td>{{item.estatus == '1' ? 'Por Autorizar' : item.estatus == '100' ?'Autorizado': 'Por Definir' }}</td>
             <td>{{item.tipoSolicitud}}</td>
             <td>{{item.fechaServicio}}</td>
@@ -182,8 +185,11 @@
         <h4 class="modal-title">Visualizar</h4>
       </div>
       <div class="modal-body">
+        <button *ngIf="visualSolicitud?.estatus == '100' && visualSolicitud?.tipoSolicitud == 'Liberación' && imprimeFormato" class="btn btn-primary btn-sm pull-right" (click)="imprimir()">Imprimir Liberación</button>
         <h4>Solicitud</h4>
+       
         <hr class="red">
+        
         <table class="table table-bordered table-striped" style="font-size: 0.65em;">
           <tbody>
             <tr>
@@ -449,3 +455,98 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+
+<div id="contenido-imprimir" style="font-size: 0.7em" *ngIf="isPrint"> 
+  <img src="assets/img/headerpdf.png" width="100%">
+  <h4 style="text-align: center;">Liberación</h4>
+
+  <br>
+  <br>
+  <table class="table table-striped" style="font-size: 0.7em">
+    <tbody>
+      <tr>
+        <td><b>Boleta</b></td>
+        <td>{{imprimeFormato?.boleta}}</td>
+        <td><b>Código de entrada</b></td>
+        <td>{{imprimeFormato?.codigoEntrada}}</td>
+      </tr>
+      <tr>
+        <td><b>Buque</b></td>
+        <td>{{imprimeFormato?.buque}}</td>
+        <td><b>Agencia Aduanal</b></td>
+        <td>{{imprimeFormato?.agenciaAduanal}}</td>
+      </tr>
+      <tr>
+        <td><b>Consignatario</b></td>
+        <td>{{imprimeFormato?.consignatario}}</td>
+        <td><b>Tipo Trámite</b></td>
+        <td>{{imprimeFormato?.tipoTramite}}</td>
+        
+      </tr>
+      <tr>
+        <td><b>Fecha Servicio</b></td>
+        <td>{{imprimeFormato?.fechaServicio}}</td>
+        <td><b>Viaje</b></td>
+        <td>{{imprimeFormato?.viaje}}</td>
+        
+      </tr>
+      <tr>
+        <td><b>Patente</b></td>
+        <td>{{imprimeFormato?.patente}}</td>
+        <td><b>Cliente</b></td>
+        <td>{{imprimeFormato?.cliente}}</td>
+        
+      </tr>
+      <tr>
+        <td><b>Tipo Solicitud</b></td>
+        <td>{{imprimeFormato?.tiposolicitud}}</td>
+        <td><b>BL</b></td>
+        <td>{{imprimeFormato?.bl}}</td>
+        
+      </tr>
+      <tr>
+        <td><b>Pedimento</b></td>
+        <td>{{imprimeFormato?.pedimento}}</td>
+        <td><b>Mercancia</b></td>
+        <td>{{imprimeFormato?.mercancia}}</td>
+        
+      </tr>
+      <tr>
+        <td><b>Clave Pedimento</b></td>
+        <td>{{imprimeFormato?.solicitudClavePedimento}}</td>
+        <td><b>Número de Pedimento</b></td>
+        <td>{{imprimeFormato?.solicitudNumPedimento}}</td>
+        
+      </tr>
+      <tr>
+        <td><b>Tipo Cambio</b></td>
+        <td>{{imprimeFormato?.solicitudtipoCambio}}</td>
+        <td><b>Valor Aduana</b></td>
+        <td>{{imprimeFormato?.solicitudValorAduana}}</td>
+      </tr>
+      <tr>
+        <td><b>Piezas</b></td>
+        <td>{{imprimeFormato?.solicitudPiezas}}</td>
+        <td><b>Peso</b></td>
+        <td>{{imprimeFormato?.solicitudPeso}}</td>
+      </tr>
+      <tr>
+        <td><b>Número de Partes</b></td>
+        <td>{{imprimeFormato?.solicitudNumPartes}}</td>
+        <td><b>Número de Copias</b></td>
+        <td>{{imprimeFormato?.solicitudNumCopias}}</td>
+      </tr>
+      <tr>
+        <td><b>COVE</b></td>
+        <td>{{imprimeFormato?.solicitudCoves}}</td>
+        <td><b>Tipo Liberación</b></td>
+        <td>{{imprimeFormato?.tipoLiberacion}}</td>
+      </tr>
+    </tbody>
+
+  </table>
+  <br><br>
+  
+</div>

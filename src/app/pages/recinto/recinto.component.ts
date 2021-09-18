@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { AuthService } from '@serv/auth.service';
 import { PaginateService } from '@serv/paginate.service';
+import { PdfService } from '@serv/pdf.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 //Se intentó tener un orden en los endpoint, pero el backend esta desorganizado
@@ -16,6 +17,8 @@ export class RecintoComponent implements OnInit {
   manifiestoData: any;
   submenu = 1;
   page = 1;
+  hoy = new Date();
+  isPrint = false;
   data: any[] = [];
   originalData: any[] = [];
   visualSolicitud: any;
@@ -34,9 +37,11 @@ export class RecintoComponent implements OnInit {
   blsalida: any[] = [];
   bldocs: any[] = [];
   documentosVisual: any[] = [];
+  imprimeFormato: any;
 
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
+    private pdf: PdfService,
     private pagina: PaginateService,
     private http: HttpClient) { }
   ngOnInit(): void {
@@ -85,6 +90,10 @@ export class RecintoComponent implements OnInit {
   visualizar(item: any): void {
     this.visualSolicitud = item;
     this.consultaBL(item.idBl);
+    console.log(this.visualSolicitud);
+    if(item.estatus == '100' && item.tipoSolicitud == 'Liberación'){
+      this.getDetalleFormato(item.bl, '5');
+    }
   }
 
   autorizar(): void {
@@ -135,6 +144,13 @@ export class RecintoComponent implements OnInit {
       if (res) {
 
         this.visualDetalleBL = res;
+      }
+    });
+  }
+  getDetalleFormato(bl: string, idLiberacion: string): void {
+    this.http.get(`https://pis-api-recinto.azurewebsites.net/api/rptAutLiberacion?Referencia=${bl}&idLiberacion=${idLiberacion}`).subscribe((res: any) => {
+      if (res[0][0]) {
+        this.imprimeFormato = res[0][0];
       }
     });
   }
@@ -207,4 +223,15 @@ export class RecintoComponent implements OnInit {
     }
   }
 
+  async imprimir() {
+    this.isPrint = true;
+    await this.sleep(1000);
+    const DATA = document.getElementById('contenido-imprimir');
+    this.pdf.downloadPdf(DATA);
+    this.isPrint = false;
+  }
+   sleep(ms:any) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  
 }
