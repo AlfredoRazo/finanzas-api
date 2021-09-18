@@ -92,7 +92,7 @@ export class RecintoComponent implements OnInit {
     this.consultaBL(item.idBl);
     console.log(this.visualSolicitud);
     if(item.estatus == '100' && item.tipoSolicitud == 'Liberación'){
-      this.getDetalleFormato(item.bl, '5');
+      this.getDetalleFormato('POBUSHAZLO210706', '5');
     }
   }
 
@@ -225,7 +225,7 @@ export class RecintoComponent implements OnInit {
 
   async imprimir() {
     this.isPrint = true;
-    await this.sleep(1000);
+    await this.sleep(800);
     const DATA = document.getElementById('contenido-imprimir');
     this.pdf.downloadPdf(DATA);
     this.isPrint = false;
