@@ -48,7 +48,7 @@
             <th></th>
             <th></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="idSolicitud">ID Solicitud <span
-              class="glyphicon glyphicon-sort"></span></th>
+                class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="estatus">Estatus <span
                 class="glyphicon glyphicon-sort"></span></th>
             <th scope="col" [appSort]="data" data-order="desc" data-name="idTipoSolicitud">Tipo Solicitud<span
@@ -70,7 +70,7 @@
               </ng-container>
             </td>
             <td><button class="btn btn-xs btn-primary" (click)="visualizar(item)" data-toggle="modal"
-              data-target="#show-data">Revisar detalle</button></td>
+                data-target="#show-data">Revisar detalle</button></td>
             <td>{{item.idSolicitud}}</td>
             <td>{{item.estatus == '1' ? 'Por Autorizar' : item.estatus == '100' ?'Autorizado': 'Por Definir' }}</td>
             <td>{{item.tipoSolicitud}}</td>
@@ -185,11 +185,13 @@
         <h4 class="modal-title">Visualizar</h4>
       </div>
       <div class="modal-body">
-        <button *ngIf="visualSolicitud?.estatus == '100' && visualSolicitud?.tipoSolicitud == 'Liberación' && imprimeFormato" class="btn btn-primary btn-sm pull-right" (click)="imprimir()">Imprimir Liberación</button>
+        <button
+          *ngIf="visualSolicitud?.estatus == '100' && visualSolicitud?.tipoSolicitud == 'Liberación' && imprimeFormato"
+          class="btn btn-primary btn-sm pull-right" (click)="imprimir()">Imprimir Liberación</button>
         <h4>Solicitud</h4>
-       
+
         <hr class="red">
-        
+
         <table class="table table-bordered table-striped" style="font-size: 0.65em;">
           <tbody>
             <tr>
@@ -295,147 +297,150 @@
         </div>
         <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;" *ngIf="blmovimiento.length > 0">
           <table class="table table-bordered table-striped">
+            <thead>
+              <tr style="cursor: pointer">
+                <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc" data-name="bl">
+                  BL </th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                  data-name="embarcador">Embarcador </th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                  data-name="consignatario">Consignatario
+
+                </th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                  data-name="notificarA">Notificar a </th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                  data-name="marcasNumeros">Marcas y Números
+
+                </th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                  data-name="cantidad">Cantidad </th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                  data-name="unidad">Unidad </th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                  data-name="descripcion">Descripción </th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                  data-name="pesoBruto">Peso Bruto (KG) </th>
+                <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                  data-name="volumen">Volumen </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of blmovimiento; let i = index">
+                <td>{{item.bl}}<br><b>{{item.Tipo}}</b></td>
+                <td>{{item.embarcador}}</td>
+                <td>{{item.consignatario}}</td>
+                <td>{{item.notificarA}}</td>
+                <td>{{item.marcasNumeros}}</td>
+                <td>{{item.movimientoCant}}</td>
+                <td>{{item.unidad}}</td>
+                <td>{{item.descripcion}}</td>
+                <td>{{item.movimientoPeso}}</td>
+                <td>{{item.movimientovolumen}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ng-container *ngIf="blliberacion.length > 0">
+          <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;" *ngIf="blmovimiento.length > 0">
+            <table class="table table-bordered table-striped">
               <thead>
-                  <tr style="cursor: pointer">
-                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="bl">BL </th>
-                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="embarcador">Embarcador </th>
-                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="consignatario">Consignatario
-                          
-                      </th>
-                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="notificarA">Notificar a </th>
-                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="marcasNumeros">Marcas y Números
-                          
-                      </th>
-                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="cantidad">Cantidad </th>
-                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="unidad">Unidad </th>
-                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="descripcion">Descripción </th>
-                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="pesoBruto">Peso Bruto (KG) </th>
-                      <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                          data-name="volumen">Volumen </th>
-                  </tr>
+                <tr>
+                  <th style="white-space: nowrap;">BL</th>
+                  <th style="white-space: nowrap;">Clave Pedimento</th>
+                  <th style="white-space: nowrap;">Tipo Pedimento</th>
+                  <th style="white-space: nowrap;">Tipo Cambio</th>
+                  <th style="white-space: nowrap;">Valor Aduana</th>
+                  <th style="white-space: nowrap;">Piezas</th>
+                  <th style="white-space: nowrap;">Peso</th>
+                  <th style="white-space: nowrap;">Tipo Liberacion</th>
+                  <th style="white-space: nowrap;">Número de Partes</th>
+                  <th style="white-space: nowrap;">Número de Copias</th>
+                  <th style="white-space: nowrap;">COVE</th>
+                </tr>
               </thead>
               <tbody>
-                  <tr *ngFor="let item of blmovimiento; let i = index" >
-                      <td>{{item.bl}}<br><b>{{item.Tipo}}</b></td>
-                      <td>{{item.embarcador}}</td>
-                      <td>{{item.consignatario}}</td>
-                      <td>{{item.notificarA}}</td>
-                      <td>{{item.marcasNumeros}}</td>
-                      <td>{{item.movimientoCant}}</td>
-                      <td>{{item.unidad}}</td>
-                      <td>{{item.descripcion}}</td>
-                      <td>{{item.movimientoPeso}}</td>
-                      <td>{{item.movimientovolumen}}</td>
-                  </tr>      
+                <tr *ngFor="let item of blliberacion; let i = index">
+                  <td>{{item.solicitudBL}}<br><b>Liberación</b></td>
+                  <td>{{item.solicitudClavePedimento}}</td>
+                  <td>{{getTipoPedimento(item.solicitudTipoPedimento)}}</td>
+                  <td>{{item.solicitudtipoCambio}}</td>
+                  <td>{{item.solicitudValorAduana}}</td>
+                  <td>{{item.solicitudPiezas}}</td>
+                  <td>{{item.solicitudPeso}}</td>
+                  <td>{{item.solicitudTipoLiberacion}}</td>
+                  <td>{{item.solicitudNumPartes}}</td>
+                  <td>{{item.solicitudNumCopias}}</td>
+                  <td>{{item.solicitudCoves}}</td>
+                </tr>
               </tbody>
+            </table>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="blliberacionDocs.length > 0">
+          <h4>Liberación</h4>
+          <hr class="red">
+          <table class="table table-bordered table-striped" style="font-size: 0.65em;">
+            <tbody>
+              <tr *ngFor="let doc of blliberacionDocs">
+                <td>{{doc.nombre}}</td>
+                <td><a class="btn btn-sm btn-primary" target="_blank"
+                    [href]="'https://pis-api-recinto.azurewebsites.net/' + doc.archivo">Descargar</a></td>
+              </tr>
+            </tbody>
           </table>
-      </div>
-      <ng-container *ngIf="blliberacion.length > 0">
-        <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;" *ngIf="blmovimiento.length > 0">
-          <table class="table table-bordered table-striped">
+        </ng-container>
+
+        <ng-container *ngIf="blsalidaDocs.length > 0">
+          <h4>Salida</h4>
+          <hr class="red">
+          <table class="table table-bordered table-striped" style="font-size: 0.65em;">
+            <tbody>
+              <tr *ngFor="let doc of blsalidaDocs">
+                <td>{{doc.nombre}}</td>
+                <td><a class="btn btn-sm btn-primary" target="_blank"
+                    [href]="'https://pis-api-recinto.azurewebsites.net/' + doc.archivo">Descargar</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <ng-container *ngIf="blsalida.length > 0">
+          <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
+            <table class="table table-bordered table-striped">
               <thead>
-                  <tr>
-                      <th style="white-space: nowrap;">BL</th>
-                      <th style="white-space: nowrap;">Clave Pedimento</th>
-                      <th style="white-space: nowrap;">Tipo Pedimento</th>
-                      <th style="white-space: nowrap;">Tipo Cambio</th>
-                      <th style="white-space: nowrap;">Valor Aduana</th>
-                      <th style="white-space: nowrap;">Piezas</th>
-                      <th style="white-space: nowrap;">Peso</th>
-                      <th style="white-space: nowrap;">Tipo Liberacion</th>
-                      <th style="white-space: nowrap;">Número de Partes</th>
-                      <th style="white-space: nowrap;">Número de Copias</th>
-                      <th style="white-space: nowrap;">COVE</th>
-                  </tr>
+                <tr>
+                  <th style="white-space: nowrap;">BL</th>
+                  <th style="white-space: nowrap;">Tipo Salida</th>
+                  <th style="white-space: nowrap;">Recinto Origen</th>
+                  <th style="white-space: nowrap;">Recinto Destino</th>
+
+                </tr>
               </thead>
               <tbody>
-                  <tr *ngFor="let item of blliberacion; let i = index" >
-                      <td>{{item.solicitudBL}}<br><b>Liberación</b></td>
-                      <td>{{item.solicitudClavePedimento}}</td>
-                      <td>{{getTipoPedimento(item.solicitudTipoPedimento)}}</td>
-                      <td>{{item.solicitudtipoCambio}}</td>
-                      <td>{{item.solicitudValorAduana}}</td>
-                      <td>{{item.solicitudPiezas}}</td>
-                      <td>{{item.solicitudPeso}}</td>
-                      <td>{{item.solicitudTipoLiberacion}}</td>
-                      <td>{{item.solicitudNumPartes}}</td>
-                      <td>{{item.solicitudNumCopias}}</td>
-                      <td>{{item.solicitudCoves}}</td>
-                  </tr>      
+                <tr *ngFor="let item of blsalida; let i = index">
+                  <td>{{item.BL}}</td>
+                  <td>{{item.salidaTipo == '91'? 'Normal' : 'Transferencia'}}</td>
+                  <td>{{item.salidaRecintoOrigen}}</td>
+                  <td>{{item.salidaRecintoDestino}}</td>
+                </tr>
               </tbody>
+            </table>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="bldocs.length > 0">
+          <h4>Movimiento Previo</h4>
+          <hr class="red">
+          <table class="table table-bordered table-striped" style="font-size: 0.65em;">
+            <tbody>
+              <tr *ngFor="let doc of bldocs">
+                <td>{{doc.nombre}}</td>
+                <td><a class="btn btn-sm btn-primary" target="_blank"
+                    [href]="'https://pis-api-recinto.azurewebsites.net/' + doc.archivo">Descargar</a></td>
+              </tr>
+            </tbody>
           </table>
-      </div>
-      </ng-container>
-     
-      <ng-container *ngIf="blliberacionDocs.length > 0">
-        <h4>Liberación</h4>
-        <hr class="red">
-        <table class="table table-bordered table-striped" style="font-size: 0.65em;">
-          <tbody>
-          <tr *ngFor="let doc of blliberacionDocs">
-            <td>{{doc.nombre}}</td>
-            <td><a class="btn btn-sm btn-primary" target="_blank" [href]="'https://pis-api-recinto.azurewebsites.net/' + doc.archivo">Descargar</a></td>
-          </tr>
-          </tbody>
-        </table>
-      </ng-container>
-      
-      <ng-container *ngIf="blsalidaDocs.length > 0">
-        <h4>Salida</h4>
-        <hr class="red">
-        <table class="table table-bordered table-striped" style="font-size: 0.65em;">
-          <tbody>
-          <tr *ngFor="let doc of blsalidaDocs">
-            <td>{{doc.nombre}}</td>
-            <td><a class="btn btn-sm btn-primary" target="_blank" [href]="'https://pis-api-recinto.azurewebsites.net/' + doc.archivo">Descargar</a></td>
-          </tr>
-          </tbody>
-        </table>
-      </ng-container>
-      <ng-container *ngIf="blsalida.length > 0">
-        <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;" >
-          <table class="table table-bordered table-striped">
-              <thead>
-                  <tr>
-                      <th style="white-space: nowrap;">BL</th>
-                      <th style="white-space: nowrap;">Tipo Salida</th>
-                      <th style="white-space: nowrap;">Recinto Origen</th>
-                      <th style="white-space: nowrap;">Recinto Destino</th>
-                     
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr *ngFor="let item of blsalida; let i = index" >
-                      <td>{{item.BL}}</td>
-                      <td>{{item.salidaTipo == '91'? 'Normal' : 'Transferencia'}}</td>
-                      <td>{{item.salidaRecintoOrigen}}</td>
-                      <td>{{item.salidaRecintoDestino}}</td>
-                  </tr>      
-              </tbody>
-          </table>
-      </div>
-      </ng-container>
-      <ng-container *ngIf="bldocs.length > 0">
-        <h4>Movimiento Previo</h4>
-        <hr class="red">
-        <table class="table table-bordered table-striped" style="font-size: 0.65em;">
-          <tbody>
-          <tr *ngFor="let doc of bldocs">
-            <td>{{doc.nombre}}</td>
-            <td><a class="btn btn-sm btn-primary" target="_blank" [href]="'https://pis-api-recinto.azurewebsites.net/' + doc.archivo">Descargar</a></td>
-          </tr>
-          </tbody>
-        </table>
-      </ng-container>
+        </ng-container>
         <!--ng-container *ngIf="documentosVisual.length > 0">
           <h4>Documentos</h4>
           <hr class="red">
@@ -458,95 +463,99 @@
 
 
 
-<div id="contenido-imprimir" style="font-size: 0.7em" *ngIf="isPrint"> 
+<div id="contenido-imprimir" style="font-size: 0.9em" *ngIf="isPrint">
   <img src="assets/img/headerpdf.png" width="100%">
-  <h4 style="text-align: center;">Liberación</h4>
+  <h4 style="text-align: center;">Autorización de Salida</h4>
 
   <br>
   <br>
-  <table class="table table-striped" >
+  <table class="table-print">
     <tbody>
       <tr>
-        <td><b>Boleta</b></td>
+        <td><b>Boleta de Liberación</b></td>
         <td>{{imprimeFormato?.boleta}}</td>
-        <td><b>Código de entrada</b></td>
-        <td>{{imprimeFormato?.codigoEntrada}}</td>
+        <td><b>Tipo de Trámite</b></td>
+        <td>{{imprimeFormato?.tipoTramite}}</td>
+      </tr>
+      <tr>
+        <td><b>Código de Entrada</b></td>
+        <td></td>
+        <td><b>Fecha de Entrada</b></td>
+        <td>{{imprimeFormato?.fechaServicio}}</td>
       </tr>
       <tr>
         <td><b>Buque</b></td>
         <td>{{imprimeFormato?.buque}}</td>
+        <td><b>Número de Viaje</b></td>
+        <td>{{imprimeFormato?.viaje}}</td>
+      </tr>
+      <tr>
         <td><b>Agencia Aduanal</b></td>
         <td>{{imprimeFormato?.agenciaAduanal}}</td>
+        <td><b>Patente</b></td>
+        <td>{{imprimeFormato?.patente}}</td>
       </tr>
       <tr>
         <td><b>Consignatario</b></td>
         <td>{{imprimeFormato?.consignatario}}</td>
-        <td><b>Tipo Trámite</b></td>
-        <td>{{imprimeFormato?.tipoTramite}}</td>
-        
-      </tr>
-      <tr>
-        <td><b>Fecha Servicio</b></td>
-        <td>{{imprimeFormato?.fechaServicio}}</td>
-        <td><b>Viaje</b></td>
-        <td>{{imprimeFormato?.viaje}}</td>
-        
-      </tr>
-      <tr>
-        <td><b>Patente</b></td>
-        <td>{{imprimeFormato?.patente}}</td>
         <td><b>Cliente</b></td>
         <td>{{imprimeFormato?.cliente}}</td>
-        
-      </tr>
-      <tr>
-        <td><b>Tipo Solicitud</b></td>
-        <td>{{imprimeFormato?.tiposolicitud}}</td>
-        <td><b>BL</b></td>
-        <td>{{imprimeFormato?.bl}}</td>
-        
-      </tr>
-      <tr>
-        <td><b>Pedimento</b></td>
-        <td>{{imprimeFormato?.pedimento}}</td>
-        <td><b>Mercancia</b></td>
-        <td>{{imprimeFormato?.mercancia}}</td>
-        
-      </tr>
-      <tr>
-        <td><b>Clave Pedimento</b></td>
-        <td>{{imprimeFormato?.solicitudClavePedimento}}</td>
-        <td><b>Número de Pedimento</b></td>
-        <td>{{imprimeFormato?.solicitudNumPedimento}}</td>
-        
-      </tr>
-      <tr>
-        <td><b>Tipo Cambio</b></td>
-        <td>{{imprimeFormato?.solicitudtipoCambio}}</td>
-        <td><b>Valor Aduana</b></td>
-        <td>{{imprimeFormato?.solicitudValorAduana}}</td>
-      </tr>
-      <tr>
-        <td><b>Piezas</b></td>
-        <td>{{imprimeFormato?.solicitudPiezas}}</td>
-        <td><b>Peso</b></td>
-        <td>{{imprimeFormato?.solicitudPeso}}</td>
-      </tr>
-      <tr>
-        <td><b>Número de Partes</b></td>
-        <td>{{imprimeFormato?.solicitudNumPartes}}</td>
-        <td><b>Número de Copias</b></td>
-        <td>{{imprimeFormato?.solicitudNumCopias}}</td>
-      </tr>
-      <tr>
-        <td><b>COVE</b></td>
-        <td>{{imprimeFormato?.solicitudCoves}}</td>
-        <td><b>Tipo Liberación</b></td>
-        <td>{{imprimeFormato?.tipoLiberacion}}</td>
       </tr>
     </tbody>
-
   </table>
   <br><br>
-  
+  <br>
+  <p>Conforme a los Artículos 26 Inciso VII y 41 de la Ley Aduanera y su reglamento en vigor, respectivamente. Permitase
+    la salida del Recinto Fiscalizado de la mercancía de Importación que a continución se señalan.</p>
+  <br><br>
+  <table class="table-print">
+    <thead>
+      <tr>
+        <th><b>Contenedor/BL</b></th>
+        <th><b>Pedimento</b></th>
+        <th><b>Mercancía</b></th>
+        <th><b>Piezas</b></th>
+        <th><b>Peso</b></th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>{{imprimeFormato?.bl}}</b></td>
+        <td>{{imprimeFormato?.pedimento}}</td>
+        <td>{{imprimeFormato?.mercancia}}</td>
+        <td>{{imprimeFormato?.solicitudPiezas}}</td>
+        <td>{{imprimeFormato?.solicitudPeso}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <br>
+  <br>
+  <br>
+  <table style="width: 100%; text-align: center;">
+    <tr>
+      <td>
+        <p>________________________________________________</p>
+        <b>
+          <p>RECIBIÓ</p>
+          <p>POR LA AGENCIA ADUANAL</p>
+        </b>
+      </td>
+      <td>
+        <br>
+        <p>________________________________________________</p>
+        <b>
+          <p>ENTREGÓ</p>
+          <p>POR LA ADMINISTRACIÓN PORTUARIA INTEGRAL</p>
+          <p> DE MANZANILLO, S.A. DE C.V.</p>
+        </b>
+      </td>
+    </tr>
+    <tr>
+      <td><b>FIRMA ELECTRÓNICA</b> Pendiente</td>
+      <td>{{hoy | date:'dd-MM-yy'}}</td>
+    </tr>
+
+  </table>
 </div>
