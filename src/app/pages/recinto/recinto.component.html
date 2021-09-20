@@ -522,7 +522,7 @@
     <tbody>
       <tr>
         <td><b>{{imprimeFormato?.bl}}</b></td>
-        <td>{{imprimeFormato?.pedimento}}</td>
+        <td>{{imprimeFormato?.solicitudNumPedimento}}</td>
         <td>{{imprimeFormato?.mercancia}}</td>
         <td>{{imprimeFormato?.solicitudPiezas}}</td>
         <td>{{imprimeFormato?.solicitudPeso}}</td>
@@ -554,7 +554,7 @@
     </tr>
     <tr>
       <td><b>FIRMA ELECTRÓNICA</b> Pendiente</td>
-      <td>{{hoy | date:'dd-MM-yy'}}</td>
+      <td>{{imprimeFormato?.fechaActual}}</td>
     </tr>
 
   </table>
