@@ -47,6 +47,7 @@ import { ClienteGenerarConsultaComponent } from './pages/clientes/cliente/client
 import { TablaBuquesComponent } from './components/tabla-buques/tabla-buques.component';
 import { CargaManifiestoComponent } from './components/carga-manifiesto/carga-manifiesto.component';
 import { PersonalRecintoComponent } from './components/personal-recinto/personal-recinto.component';
+import { SolicitudServicioComponent } from './components/solicitud-servicio/solicitud-servicio.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { PersonalRecintoComponent } from './components/personal-recinto/personal
     ClienteGenerarConsultaComponent,
     TablaBuquesComponent,
     CargaManifiestoComponent,
-    PersonalRecintoComponent
+    PersonalRecintoComponent,
+    SolicitudServicioComponent
   ],
   imports: [
     BrowserAnimationsModule,

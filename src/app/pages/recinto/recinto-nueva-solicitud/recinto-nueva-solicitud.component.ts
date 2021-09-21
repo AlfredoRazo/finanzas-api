@@ -468,6 +468,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       }
     };
   }
+  
   addNuevosDatosBL(): void {
     let err = 0;
     const lastitem = { ...this.bls[0] };
@@ -566,9 +567,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           docPedimentoSimplificado: this.pedimentoSimplificado,
           docPedimentoCompleto: this.pedimentoCompleto,
           documentoBLRevalidado: this.blRevalidado,
-          numeroPartes: this.numeroPartes,
-          numeroCopias: this.numeroCopias,
-          cove: this.cove
+          numeroPartes: this.numeroPartes ? this.numeroPartes : 0,
+          numeroCopias: this.numeroCopias ? this.numeroCopias : 0,
+          cove: this.cove ? this.cove : 0
         }
       );
       this.pedimentoSimplificado = {} as BLFile;
