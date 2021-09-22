@@ -128,6 +128,11 @@
                 <td>Fecha Zarpe</td>
                 <td>{{visualSolicitud?.fechaZarpe}}</td>
               </tr>
+              <tr *ngIf="visualSolicitud?.violacionDanyoExtravioAlmacenado">
+                <td colspan="2">Información relativa a la
+                  violación, daño o extravío de los bultos o mercancías almacenados.</td>
+                
+              </tr>
   
             </tbody>
           </table>

@@ -32,7 +32,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   agenciasconsig: any[] = [];
   lineasnavieras: any[] = [];
   agenciaAduanal = '';
-  rfcCliente:any ;
+  rfcCliente: any;
   msjerror = '';
   nombreCliente: any;
   manifiestoData: any = [];
@@ -270,7 +270,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.http.get(`${environment.endpointApi}catRecintos`).subscribe((res: any) => {
       this.recintos = res;
     }, error => {
-      console.log(error);
+
     });
   }
   getAgenciaConsignataria(): void {
@@ -299,42 +299,46 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   }
 
   guardarSolicitud(): void {
-    
+
     const user = this.auth.getSession().userData;
     this.msjSuccess = '';
-    if (+this.tipoSoli != 1) {
-      const payload = {
-        idEmpresa: +user.empresaid,
-        idTipoServicio: +this.tipoServ,
-        idTipoTramite: +this.tipoTram,
-        idTipoSolicitud: +this.tipoSoli,
-        idTipoTransporte: +this.tipoTrans,
-        fechaServicio: this.fechaServ + 'T00:00:00.999Z',
-        idAgenciaAduanal: this.agenciaAduanal,
-        patente: this.patente,
-        idCliente: 0,
-        nombre: this.nombreCliente?.nombre ? this.nombreCliente?.nombre : this.nombreCliente,
-        buque: this.buque?.nombre ? this.buque?.nombre : this.buque,
-        viaje: this.viaje,
-        fechaArribo: this.fechaArribo + 'T00:00:00.861Z',
-        fechaIniOperaciones: this.fechaInicioOp + 'T00:00:00.861Z',
-        fechaTerminoOperaciones: this.fechaTerminoOp + 'T00:00:00.861Z',
-        fechaZarpe: this.fechaZarpe + 'T00:00:00.999Z',
-        idLineaNaviera: +this.lineanaviera,
-        idAgenciaConsignataria: +this.agenciaconsig,
-        idBl: +this.bls[0]?.id,
-        tipoMovimiento: this.tipoMov,
-        estatus: 1,
-        violacionDañoAlmacenado: this.infoRelativa
-      };
-      this.blRevalidado.bl = this.bls[0].bl;
-      this.tarja.bl = this.bls[0].bl;
-      this.solicitudFile.bl = this.bls[0].bl;
+    this.msjError = '';
+    const payload = {
+      appkey: '046965ea2db6a892359ed2c4cd9f957b',
+      solicitudDatos: [
+        {
+          idEmpresa: +user.empresaid,
+          idCliente: 0,
+          idTipoServicio: +this.tipoServ,
+          idTipoTramite: +this.tipoTram,
+          idTipoSolicitud: +this.tipoSoli,
+          idTipoTransporte: +this.tipoTrans,
+          fechaServicio: this.fechaServ.split('-').reverse().join('-') + ' 00:00:00',
+          idAgenciaAduanal: +this.agenciaAduanal,
+          patente: this.patente,
+          rfc: this.rfcCliente?.rfc ? this.rfcCliente?.rfc : this.rfcCliente,
+          nombreAgenciaAduanal: this.nombreCliente?.nombre ? this.nombreCliente?.nombre : this.nombreCliente,
+          buque: this.buque?.nombre ? this.buque?.nombre : this.buque,
+          viaje: this.viaje,
+          fechaArribo: this.fechaArribo.split('-').reverse().join('-') + ' 00:00:00',
+          fechaIniOperaciones: this.fechaInicioOp.split('-').reverse().join('-') + ' 00:00:00',
+          fechaZarpe: this.fechaZarpe.split('-').reverse().join('-') + ' 00:00:00',
+          fechaTermOperaciones: this.fechaTerminoOp.split('-').reverse().join('-') + ' 00:00:00',
+          idLineaNaviera: +this.lineanaviera,
+          idAgenciaConsignataria: +this.agenciaconsig,
+          idBl: +this.bls[0]?.id,
+          danyoExtravio: this.infoRelativa ? 1 : 0,
+          idUsuAlta: +user.idusuario,
+          UsuAlta: user.username
+        }
+      ]
+    };
+    this.http.post(`https://pis-api-recinto.azurewebsites.net/api/solicitudes`, payload).subscribe((resSolicitudF: any) => {
 
-      this.http.post(`${environment.endpointRecinto}solicitud/v1/`, payload).subscribe((res: any) => {
-        if (!res.error) {
-          this.msjSuccess = res.mensaje + ' Solicitud:' + res.valor;
-          if (+this.tipoSoli == 2) {
+      if (!resSolicitudF.error) {
+        this.msjSuccess = 'Se guardó correctamente con número de solicitud: ' + resSolicitudF.message;
+        switch (+this.tipoSoli) {
+          case 2:
             let payloadSalida: any = {
               appkey: "046965ea2db6a892359ed2c4cd9f957b",
               salidas: [
@@ -353,9 +357,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
 
             };
             this.http.post('https://pis-api-recinto.azurewebsites.net/api/solicitudSalida', payloadSalida).subscribe((resmo: any) => { }, err => { });
-          }
-          if (+this.tipoSoli == 3) {
-
+            break;
+          case 3:
             let payloadMov: any = {
               appkey: "046965ea2db6a892359ed2c4cd9f957b",
               usuario: this.auth.getSession().userData.username,
@@ -380,40 +383,16 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             }
 
             this.http.post('https://pis-api-recinto.azurewebsites.net/api/Movimientos', payloadMov).subscribe((resmo: any) => { }, err => { });
-            if (this.bls.length > 1) {
-              const payload = {
-                idSolicitud: res.valor,
-                idBL: this.bls[1].id,
-                cantidad: this.bls[1].cantidad,
-                peso: this.bls[1].pesoBruto
-              };
-
-
-              this.http.post(`${environment.endpointRecinto}bl/movimiento`, payload).subscribe((res: any) => {
-                if (!res.error) {
-
-                  this.hasSuccessBL = true;
-                  this.blmsj = res.mensaje;
-                } else {
-                  this.hasSuccessBL = false;
-                  this.msjErrorpesos = res.mensaje;
-                  this.hasErrorPesos = true;
-                }
-              }, err => {
-                this.msjErrorpesos = 'Ocurrio algo inesperado';
-                this.hasErrorPesos = true;
-              });
-            }
-          }
-          if (+this.tipoSoli == 4) {
+            break;
+          case 4:
             let liber = this.liberacion.map(item => {
-              item.idSolicitud = res.valor;
+              item.idSolicitud = resSolicitudF.message;
               return item;
             });
             const payloadLimo = {
               appkey: '046965ea2db6a892359ed2c4cd9f957b',
               movimientoID: this.liberacion[0].movimientoId,
-              idSolicitud: res.valor,
+              idSolicitud: resSolicitudF.message,
               BL: this.bls[0].bl
             };
             this.http.post(`https://pis-api-recinto.azurewebsites.net/api/movimientoActualizar`, payloadLimo).subscribe((res: any) => {
@@ -425,52 +404,15 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             };
             this.http.post('https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion', payloadLib).subscribe((resLib: any) => {
             }, err => { });
-          }
-
-        } else {
-
+            break;
         }
-      });
-    } else {
-      const payload = {
-        appkey: "046965ea2db6a892359ed2c4cd9f957b",
-        entradas: [
-          {
-            idEmpresa: +user.empresaid,
-            idCliente: 0,
-            idTipoServicio: +this.tipoServ,
-            idTipoTramite: +this.tipoTram,
-            idTipoSolicitud: +this.tipoSoli,
-            idTipoTransporte: +this.tipoTrans,
-            fechaServicio: this.fechaServ.split('-').reverse().join('-') + ' 00:00:00',
-            idAgenciaAduanal: +this.agenciaAduanal,
-            patente: this.patente,
-            rfc:this.rfcCliente?.rfc ? this.rfcCliente?.rfc : this.rfcCliente,
-            nombreAgenciaAduanal: this.nombreCliente?.nombre ? this.nombreCliente?.nombre : this.nombreCliente,
-            buque: this.buque?.nombre ? this.buque?.nombre : this.buque,
-            viaje: this.viaje,
-            fechaArribo: this.fechaArribo.split('-').reverse().join('-') + ' 00:00:00',
-            fechaIniOperaciones: this.fechaInicioOp.split('-').reverse().join('-') + ' 00:00:00',
-            fechaZarpe: this.fechaZarpe.split('-').reverse().join('-') + ' 00:00:00',
-            fechaTermOperaciones: this.fechaTerminoOp.split('-').reverse().join('-') + ' 00:00:00',
-            idLineaNaviera: +this.lineanaviera,
-            idAgenciaConsignataria: +this.agenciaconsig,
-            idBl: +this.bls[0]?.id,
-            danyoExtravio: this.infoRelativa ? 1 : 0,
-            idUsuAlta: +user.idusuario
-          }
-        ]
-      };
-      this.http.post(`https://pis-api-recinto.azurewebsites.net/api/solicitudEntrada`, payload).subscribe((res: any) => {
-      console.log(res);  
-      if (!res.error) {
-          this.msjSuccess = 'Se guardó correctamente con número de solicitud: ' + res.message;
-        }{
+      } {
 
-        }
-      });
+        this.msjError = resSolicitudF.message
 
-    }
+      }
+    });
+
   }
 
   saveFiles(payload: BLFile): void {

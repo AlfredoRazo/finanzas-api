@@ -50,7 +50,9 @@ export class SolicitudServicioComponent implements OnInit {
 
   getSolicitudesServicios(): void {
     this.spinner.show();
-    this.http.get(`https://pis-api-recinto.azurewebsites.net/api/solicitudes`).subscribe((res: any) => {
+    const user = this.auth.getSession().userData;
+
+    this.http.get(`https://pis-api-recinto.azurewebsites.net/api/solicitudes?idEmpresa=${user.empresaid}`).subscribe((res: any) => {
       this.total = res[0].length;
       this.originalData = res[0].map((item: any) => {
         item.selected = false;
@@ -67,9 +69,6 @@ export class SolicitudServicioComponent implements OnInit {
     this.spinner.show();
     this.http.get(`${environment.endpointRecinto}bl/${idBL}`).subscribe((res: any) => {
       this.visualBL = res.datos;
-      this.getDocumentos(res.datos.bl);
-      this.getDetalleBL(res.datos.bl);
-      this.getMovimientosBL(res.datos.bl);
       this.spinner.hide();
     }, err => {
       this.spinner.hide();
@@ -81,10 +80,21 @@ export class SolicitudServicioComponent implements OnInit {
   visualizar(item: any): void {
     this.visualSolicitud = item;
     this.consultaBL(item.idBl);
-    console.log(this.visualSolicitud);
-    if (item.estatus == '100' && item.tipoSolicitud == 'Liberación') {
-      this.getDetalleFormato('POBUSHAZLO210706', '5');
+
+    switch (item.tipoSolicitud) {
+      case 'Entrada':
+        break;
+      default:
+        this.getDocumentos(item.bl);
+        this.getDetalleBL(item.bl);
+        this.getMovimientosBL(item.bl);
+        if (item.estatus == '100' && item.tipoSolicitud == 'Liberación') {
+          this.getDetalleFormato('POBUSHAZLO210706', '5');
+        }
+        break;
+
     }
+
   }
 
   autorizar(): void {
@@ -177,13 +187,6 @@ export class SolicitudServicioComponent implements OnInit {
         this.blsalida = res[0];
         this.blsalidaDocs = res[1];
       }
-      /*if (res.length == 2) {
-        if (res[0][0].archivo) {
-          this.blliberacionDocs = res[0];
-        } else {
-          this.blliberacion = res[0];
-        }
-      }*/
     }, error => {
       this.blsalida = [];
       this.blsalidaDocs = [];
@@ -224,6 +227,4 @@ export class SolicitudServicioComponent implements OnInit {
   sleep(ms: any) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
-
-
 }
