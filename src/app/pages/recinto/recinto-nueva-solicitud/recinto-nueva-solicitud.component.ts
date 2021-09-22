@@ -367,6 +367,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
               cantidad: 0,
               peso: 0,
               volumen: 0,
+              idSolicitud: resSolicitudF.message,
               fecha: this.fechaServ.split('-').reverse().join('-') + ' 00:00:00',
               documentos: []
             };
@@ -389,15 +390,6 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
               item.idSolicitud = resSolicitudF.message;
               return item;
             });
-            const payloadLimo = {
-              appkey: '046965ea2db6a892359ed2c4cd9f957b',
-              movimientoID: this.liberacion[0].movimientoId,
-              idSolicitud: resSolicitudF.message,
-              BL: this.bls[0].bl
-            };
-            this.http.post(`https://pis-api-recinto.azurewebsites.net/api/movimientoActualizar`, payloadLimo).subscribe((res: any) => {
-            }, err => { });
-
             const payloadLib = {
               appkey: "046965ea2db6a892359ed2c4cd9f957b",
               liberaciones: liber

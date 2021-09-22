@@ -233,7 +233,9 @@
             </table>
           </div>
           <ng-container *ngIf="blliberacion.length > 0">
-            <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;" *ngIf="blmovimiento.length > 0">
+            <h4>Liberación</h4>
+            <hr class="red">
+            <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
               <table class="table table-bordered table-striped">
                 <thead>
                   <tr>
@@ -270,8 +272,8 @@
           </ng-container>
   
           <ng-container *ngIf="blliberacionDocs.length > 0">
-            <h4>Liberación</h4>
-            <hr class="red">
+           
+            
             <table class="table table-bordered table-striped" style="font-size: 0.65em;">
               <tbody>
                 <tr *ngFor="let doc of blliberacionDocs">
@@ -354,7 +356,7 @@
   
   
   
-  <div id="contenido-imprimir" style="font-size: 0.9em" *ngIf="isPrint">
+  <div id="contenido-imprimir" style="font-size: 0.8em" *ngIf="isPrint">
     <img src="assets/img/headerpdf.png" width="100%">
     <h4 style="text-align: center;">Autorización de Salida</h4>
   

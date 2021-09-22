@@ -53,13 +53,15 @@ export class SolicitudServicioComponent implements OnInit {
     const user = this.auth.getSession().userData;
 
     this.http.get(`https://pis-api-recinto.azurewebsites.net/api/solicitudes?idEmpresa=${user.empresaid}`).subscribe((res: any) => {
-      this.total = res[0].length;
-      this.originalData = res[0].map((item: any) => {
-        item.selected = false;
-        return item;
-      });
-      const fir = [...this.originalData];
-      this.data = this.pagina.paginate(fir, this.collSize, this.page);
+      if (res.length > 1) {
+        this.total = res[0].length;
+        this.originalData = res[0].map((item: any) => {
+          item.selected = false;
+          return item;
+        });
+        const fir = [...this.originalData];
+        this.data = this.pagina.paginate(fir, this.collSize, this.page);
+      }
       this.spinner.hide();
     }, err => { this.spinner.hide(); });
   }
@@ -88,9 +90,7 @@ export class SolicitudServicioComponent implements OnInit {
         this.getDocumentos(item.bl);
         this.getDetalleBL(item.bl);
         this.getMovimientosBL(item.bl);
-        if (item.estatus == '100' && item.tipoSolicitud == 'Liberación') {
-          this.getDetalleFormato('POBUSHAZLO210706', '5');
-        }
+        
         break;
 
     }
@@ -168,6 +168,7 @@ export class SolicitudServicioComponent implements OnInit {
 
     this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?referencia=${bl}&idMovimiento=${this.visualSolicitud.movimientoId}`).subscribe(res => {
       if (res.length == 3) {
+       
         this.blliberacion = res[0];
         this.blliberacionDocs = res[1];
       }
@@ -177,6 +178,9 @@ export class SolicitudServicioComponent implements OnInit {
         } else {
           this.blliberacion = res[0];
         }
+      }
+      if (this.blliberacion[0]?.solicitudBL) {
+        this.getDetalleFormato(this.blliberacion[0]?.solicitudBL, this.blliberacion[0]?.solicitudId);
       }
     }, error => {
       this.blliberacion = [];
