@@ -500,6 +500,9 @@
 <div class="alert alert-success" *ngIf="msjSuccess">
     {{msjSuccess}}
 </div>
+<div class="alert alert-danger" *ngIf="msjerror">
+    {{msjSuccess}}
+</div>
 <button type="button" class="btn btn-default" routerLink="/recinto">Regresar</button>
 <button type="button" class="btn btn-primary" style="margin-left: 15px;" (click)="guardarSolicitud()"
     [disabled]="bls.length < 1"> Guardar</button>

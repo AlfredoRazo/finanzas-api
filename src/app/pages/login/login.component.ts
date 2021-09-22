@@ -90,8 +90,8 @@ export class LoginComponent implements OnInit {
     });
     this.http.get(`${environment.endpointAuth}validar/permisos`, { headers: header }).subscribe((res: any) => {
       this.http.post(environment.endpointCat + 'login', environment.catlogin).subscribe((rescat: any) => {
-        console.log(res);
         this.spinner.hide();
+        console.log(res);
         const rol = this.role.getRolById(res.valor.idRolApp);
         const user = {
           usuariokey: res.mensaje,
