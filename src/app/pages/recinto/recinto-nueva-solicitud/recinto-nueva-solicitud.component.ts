@@ -31,7 +31,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   agenciasaduanales: any[] = [];
   agenciasconsig: any[] = [];
   lineasnavieras: any[] = [];
-  agenciaAduanal = '';
+  agenciaAduanal:any ;
   rfcCliente: any;
   msjerror = '';
   nombreCliente: any;
@@ -240,6 +240,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     });
     this.http.get(`${environment.endpointCat}empresas/select/4`, { headers: header }).subscribe((res: any) => {
       this.agenciasaduanales = res.valor;
+      this.agenciaAduanal = +this.auth.getSession().userData.empresaid;
+      console.log(this.agenciaAduanal);
+      this.getPatente();
     }, error => { });
   }
   getLineaNaviera(): void {
@@ -344,11 +347,12 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
               salidas: [
                 {
                   usuario: this.auth.getSession().userData.username,
-                  BL: this.blliber[this.indexLib].solicitudBL,
+                  BL: this.blliber.length > 0 ? this.blliber[this.indexLib].solicitudBL :this.bls[0].bl,
                   tipoSalida: this.tipoSalida,
                   recintoOrigen: this.recintoOrigen,
                   recintoDestino: this.recintoDestino,
-                  liberacionId: this.blliber[this.indexLib].solicitudId,
+                  idSolicitud: resSolicitudF.message,
+                  liberacionId: this.blliber.length > 0 ?  this.blliber[this.indexLib].solicitudId: 0,
                   docPedimentoSimplificado: this.pedimentoSimplificado,
                   docSolicitud: this.solicitudFile,
                   docTarja: this.tarja
