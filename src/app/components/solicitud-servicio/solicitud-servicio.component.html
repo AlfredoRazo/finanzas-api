@@ -34,7 +34,7 @@
               class="glyphicon glyphicon-sort"></span></th>
           <th scope="col" [appSort]="data" data-order="desc" data-name="fechaServicio">Fecha Servicio<span
               class="glyphicon glyphicon-sort"></span></th>
-          <th scope="col" [appSort]="data" data-order="desc" data-name="nombre">Nombre <span
+          <th scope="col" [appSort]="data" data-order="desc" data-name="nombre">Cliente <span
               class="glyphicon glyphicon-sort"></span></th>
           <th scope="col" [appSort]="data" data-order="desc" data-name="idBl">BL <span
               class="glyphicon glyphicon-sort"></span></th>
@@ -109,7 +109,7 @@
                 <td>{{visualSolicitud?.buque}}</td>
               </tr>
               <tr>
-                <td>Nombre</td>
+                <td>Cliente</td>
                 <td>{{visualSolicitud?.nombre}}</td>
               </tr>
               <tr>
@@ -127,6 +127,14 @@
               <tr>
                 <td>Fecha Zarpe</td>
                 <td>{{visualSolicitud?.fechaZarpe}}</td>
+              </tr>
+              <tr>
+                <td>Linea Naviera</td>
+                <td>{{visualSolicitud?.lineaNaviera}}</td>
+              </tr>
+              <tr>
+                <td>Agencia Consignataria</td>
+                <td>{{visualSolicitud?.agenciaConsignataria}}</td>
               </tr>
               <tr *ngIf="visualSolicitud?.violacionDanyoExtravioAlmacenado">
                 <td colspan="2">Información relativa a la
@@ -393,6 +401,12 @@
           <td>{{imprimeFormato?.consignatario}}</td>
           <td><b>Cliente</b></td>
           <td>{{imprimeFormato?.cliente}}</td>
+        </tr>
+        <tr>
+          <td><b>Linea Naviera</b></td>
+          <td>{{visualSolicitud?.lineaNaviera}}</td>
+          <td><b>Agencia Consignataria</b></td>
+          <td>{{visualSolicitud?.agenciaConsignataria}}</td>
         </tr>
       </tbody>
     </table>

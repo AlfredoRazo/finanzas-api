@@ -340,7 +340,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           idLineaNaviera: +this.lineanaviera.id,
           idAgenciaConsignataria: +this.agenciaconsig.id,
           lineaNaviera: this.lineanaviera.valor,
-          agenciaConsignataria: +this.agenciaconsig.valor,
+          agenciaConsignataria: this.agenciaconsig.valor,
           idBl: +this.bls[0]?.idBL,
           danyoExtravio: this.infoRelativa ? 1 : 0,
           idUsuAlta: +user.idusuario,
