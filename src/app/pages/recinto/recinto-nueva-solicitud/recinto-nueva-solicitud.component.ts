@@ -31,13 +31,14 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   agenciasaduanales: any[] = [];
   agenciasconsig: any[] = [];
   lineasnavieras: any[] = [];
-  agenciaAduanal:any ;
+  agenciaAduanal: any;
   rfcCliente: any;
   msjerror = '';
   nombreCliente: any;
   manifiestoData: any = [];
   public buque: any;
   buques: any[] = [];
+  msjWarn = '';
   clientes: any[] = [];
   clientesRFC: any[] = [];
   msjConsulta = '';
@@ -163,7 +164,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   ngOnInit(): void {
     const user = this.auth.getSession().userData;
     this.getAgenciaAduanal();
-    this.getBuques();
+    //this.getBuques();
     this.getClientes();
     this.getLineaNaviera();
     this.getAgenciaConsignataria();
@@ -178,33 +179,43 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
 
   consulta(): void {
     this.msjConsulta = '';
+    this.msjWarn = '';
     this.spinner.show();
-    this.http.get<any>(`https://pis-api-recinto-prod.azurewebsites.net/api/bl/num/${this.bl}`).subscribe(res => {
+    this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/consultarBl?BL=${this.bl}`).subscribe(res => {
       this.spinner.hide();
       if (!res.error) {
-        this.bls[0] = res.datos;
-        this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?Referencia=${this.bl}`).subscribe(resP => {
-          this.blliber = resP[0];
-        }, error => {
-        });
-        this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Separación&BL=${this.bl}`).subscribe(res => {
-          if (res.length > 2) {
-            this.cantidadDisponible = res[0].disponibleCantidad;
-            this.pesoDisponible = res[0].disponiblePeso;
-            this.restantes = res[0];
-            this.isSeparacion = true;
-            this.tipoMov = '14';
-            this.blmovimiento = res[1].map((item: any) => {
-              item.selected = false;
-              return item;
-            });
-          } else {
-            this.isSeparacion = false;
-            this.blmovimiento = [];
-          }
-        }, error => {
-        });
-
+        if (res[0][0]) {
+          
+          this.bls = res[0];
+          if(this.bls[0].estatus){
+          this.buque = this.bls[0]?.buque;
+          this.viaje = this.bls[0]?.viaje;
+          this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?Referencia=${this.bl}`).subscribe(resP => {
+            this.blliber = resP[0];
+          }, error => {
+          });
+          this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Separación&BL=${this.bl}`).subscribe(res => {
+            if (res.length > 2) {
+              this.cantidadDisponible = res[0].disponibleCantidad;
+              this.pesoDisponible = res[0].disponiblePeso;
+              this.restantes = res[0];
+              this.isSeparacion = true;
+              this.tipoMov = '14';
+              this.blmovimiento = res[1].map((item: any) => {
+                item.selected = false;
+                return item;
+              });
+            } else {
+              this.isSeparacion = false;
+              this.blmovimiento = [];
+            }
+          }, error => {
+          });
+        }else{
+          this.bls = [];
+          this.msjWarn = 'No hay entradas autorizadas';
+        }
+        }
       } else {
         this.bls = [];
         this.msjConsulta = res.mensaje;
@@ -241,7 +252,6 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.http.get(`${environment.endpointCat}empresas/select/4`, { headers: header }).subscribe((res: any) => {
       this.agenciasaduanales = res.valor;
       this.agenciaAduanal = +this.auth.getSession().userData.empresaid;
-      console.log(this.agenciaAduanal);
       this.getPatente();
     }, error => { });
   }
@@ -329,7 +339,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           fechaTermOperaciones: this.fechaTerminoOp.split('-').reverse().join('-') + ' 00:00:00',
           idLineaNaviera: +this.lineanaviera,
           idAgenciaConsignataria: +this.agenciaconsig,
-          idBl: +this.bls[0]?.id,
+          idBl: +this.bls[0]?.idBL,
           danyoExtravio: this.infoRelativa ? 1 : 0,
           idUsuAlta: +user.idusuario,
           UsuAlta: user.username
@@ -347,12 +357,12 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
               salidas: [
                 {
                   usuario: this.auth.getSession().userData.username,
-                  BL: this.blliber.length > 0 ? this.blliber[this.indexLib].solicitudBL :this.bls[0].bl,
+                  BL: this.blliber.length > 0 ? this.blliber[this.indexLib].solicitudBL : this.bls[0].bl,
                   tipoSalida: this.tipoSalida,
                   recintoOrigen: this.recintoOrigen,
                   recintoDestino: this.recintoDestino,
                   idSolicitud: resSolicitudF.message,
-                  liberacionId: this.blliber.length > 0 ?  this.blliber[this.indexLib].solicitudId: 0,
+                  liberacionId: this.blliber.length > 0 ? this.blliber[this.indexLib].solicitudId : 0,
                   docPedimentoSimplificado: this.pedimentoSimplificado,
                   docSolicitud: this.solicitudFile,
                   docTarja: this.tarja

@@ -37,6 +37,7 @@ export class SolicitudServicioComponent implements OnInit {
   bldocs: any[] = [];
   documentosVisual: any[] = [];
   imprimeFormato: any;
+  puedeAutorizar = true;
 
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
@@ -51,6 +52,10 @@ export class SolicitudServicioComponent implements OnInit {
   getSolicitudesServicios(): void {
     this.spinner.show();
     const user = this.auth.getSession().userData;
+    console.log(user);
+    if(user.idRol == 2101){
+      this.puedeAutorizar = false;
+    }
 
     this.http.get(`https://pis-api-recinto.azurewebsites.net/api/solicitudes?idEmpresa=${user.empresaid}`).subscribe((res: any) => {
       if (res.length > 1) {
