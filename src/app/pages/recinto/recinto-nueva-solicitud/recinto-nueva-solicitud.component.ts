@@ -58,8 +58,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   pesoDisponible = 0;
   cantidadDisponible = 0;
   isSeparacion = false;
-  lineanaviera = '';
-  agenciaconsig = '';
+  lineanaviera:any;
+  agenciaconsig:any;
   idSolicitud: any;
   blmovimiento: any = [];
   blliber: any[] = [];
@@ -185,36 +185,36 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       this.spinner.hide();
       if (!res.error) {
         if (res[0][0]) {
-          
+
           this.bls = res[0];
-          if(this.bls[0].estatus){
-          this.buque = this.bls[0]?.buque;
-          this.viaje = this.bls[0]?.viaje;
-          this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?Referencia=${this.bl}`).subscribe(resP => {
-            this.blliber = resP[0];
-          }, error => {
-          });
-          this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Separación&BL=${this.bl}`).subscribe(res => {
-            if (res.length > 2) {
-              this.cantidadDisponible = res[0].disponibleCantidad;
-              this.pesoDisponible = res[0].disponiblePeso;
-              this.restantes = res[0];
-              this.isSeparacion = true;
-              this.tipoMov = '14';
-              this.blmovimiento = res[1].map((item: any) => {
-                item.selected = false;
-                return item;
-              });
-            } else {
-              this.isSeparacion = false;
-              this.blmovimiento = [];
-            }
-          }, error => {
-          });
-        }else{
-          this.bls = [];
-          this.msjWarn = 'No hay entradas autorizadas';
-        }
+          if (this.bls[0].estatus || this.tipoSoli == '1') {
+            this.buque = this.bls[0]?.buque;
+            this.viaje = this.bls[0]?.viaje;
+            this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?Referencia=${this.bl}`).subscribe(resP => {
+              this.blliber = resP[0];
+            }, error => {
+            });
+            this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Separación&BL=${this.bl}`).subscribe(res => {
+              if (res.length > 2) {
+                this.cantidadDisponible = res[0].disponibleCantidad;
+                this.pesoDisponible = res[0].disponiblePeso;
+                this.restantes = res[0];
+                this.isSeparacion = true;
+                this.tipoMov = '14';
+                this.blmovimiento = res[1].map((item: any) => {
+                  item.selected = false;
+                  return item;
+                });
+              } else {
+                this.isSeparacion = false;
+                this.blmovimiento = [];
+              }
+            }, error => {
+            });
+          } else {
+            this.bls = [];
+            this.msjWarn = 'No hay entradas autorizadas';
+          }
         }
       } else {
         this.bls = [];
@@ -337,8 +337,10 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           fechaIniOperaciones: this.fechaInicioOp.split('-').reverse().join('-') + ' 00:00:00',
           fechaZarpe: this.fechaZarpe.split('-').reverse().join('-') + ' 00:00:00',
           fechaTermOperaciones: this.fechaTerminoOp.split('-').reverse().join('-') + ' 00:00:00',
-          idLineaNaviera: +this.lineanaviera,
-          idAgenciaConsignataria: +this.agenciaconsig,
+          idLineaNaviera: +this.lineanaviera.id,
+          idAgenciaConsignataria: +this.agenciaconsig.id,
+          lineaNaviera: this.lineanaviera.valor,
+          agenciaConsignataria: +this.agenciaconsig.valor,
           idBl: +this.bls[0]?.idBL,
           danyoExtravio: this.infoRelativa ? 1 : 0,
           idUsuAlta: +user.idusuario,

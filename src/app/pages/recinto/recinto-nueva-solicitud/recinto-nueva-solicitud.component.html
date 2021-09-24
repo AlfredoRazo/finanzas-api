@@ -141,13 +141,13 @@
         <div class="form-group col-md-4">
             <label class="control-label">Linea naviera</label>
             <select class="form-control" name="lineanaviera" [(ngModel)]="lineanaviera">
-                <option *ngFor="let item of lineasnavieras" [value]="item.id">{{item.valor}}</option>
+                <option *ngFor="let item of lineasnavieras" [ngValue]="item">{{item.valor}}</option>
             </select>
         </div>
         <div class="form-group col-md-4">
             <label class="control-label">Agencia consignataria</label>
             <select class="form-control" [(ngModel)]="agenciaconsig" name="agenciaconsig">
-                <option *ngFor="let item of agenciasconsig" [value]="item.id">{{item.valor}}</option>
+                <option *ngFor="let item of agenciasconsig" [ngValue]="item">{{item.valor}}</option>
             </select>
         </div>
     </div>
