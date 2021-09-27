@@ -55,12 +55,15 @@ export class RecintoConsultaTipoComponent implements OnInit {
   isHora = false;
   numeroviaje: any;
   tarifa = '';
+  solicitadospor: any = [];
   catTarifa: any = [
     { clave: '00', descripcion: 'N/A' },
     { clave: 'CG1', descripcion: 'Tarifa 1' },
     { clave: 'CG2', descripcion: 'Tarifa 2' },
     { clave: 'CG3', descripcion: 'Tarifa 3' }
   ];
+
+  buscarEmp = '';
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -294,5 +297,20 @@ export class RecintoConsultaTipoComponent implements OnInit {
   editData(index: any, item: any): void {
     this.tabledat = item;
     this.indexEdit = index;
+  }
+  buscarEmpresa(): void {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().token}`,
+    });
+    //cambiar
+    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas?buscar=${this.buscarEmp}&orden=idEmpresa&tipo_orden=ASC&pagina=1&registros_por_pagina=10`, { headers: header }).subscribe((res: any) => {
+      console.log(res);
+      if (!res.error) {
+        this.solicitadospor = res.valor?.resultado;
+      }
+      
+    }, error => { });
+
   }
 }

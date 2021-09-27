@@ -52,7 +52,6 @@ export class SolicitudServicioComponent implements OnInit {
   getSolicitudesServicios(): void {
     this.spinner.show();
     const user = this.auth.getSession().userData;
-    console.log(user);
     if(user.idRol == 2101){
       this.puedeAutorizar = false;
     }
