@@ -6,7 +6,7 @@
 
     <div class="form-horizontal">
         <div class="form-group">
-            <label class="col-sm-2 control-label" style="text-align: left;">Buscar Empresa: </label>
+            <label class="col-sm-2 control-label" style="text-align: left;">Buscar Solicitado: </label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" name="buscarEmp" [(ngModel)]="buscarEmp" >
             </div>
@@ -18,7 +18,7 @@
         <div class="form-group" [class.has-error]="solicitado.invalid && (solicitado.dirty || solicitado.touched)">
         <label class="col-sm-2 control-label" style="text-align: left;">Solicitado Por: </label>
             <div class="col-sm-10">
-                <select name="solicitados" [(ngModel)]="solicitados" class="form-control" name="solicitado" #solicitado="ngModel">
+                <select name="solicitados" [(ngModel)]="solicitados" (change)="buscarDetalleEmpresa()" class="form-control" name="solicitado" #solicitado="ngModel">
                     <option *ngFor="let item of solicitadospor" [ngValue]="item">{{item.nombre}}</option>
 
                 </select>

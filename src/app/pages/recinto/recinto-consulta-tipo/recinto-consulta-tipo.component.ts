@@ -305,10 +305,22 @@ export class RecintoConsultaTipoComponent implements OnInit {
     });
     //cambiar
     this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas?buscar=${this.buscarEmp}&orden=idEmpresa&tipo_orden=ASC&pagina=1&registros_por_pagina=10`, { headers: header }).subscribe((res: any) => {
-      console.log(res);
       if (!res.error) {
         this.solicitadospor = res.valor?.resultado;
       }
+      
+    }, error => { });
+
+  }
+
+  buscarDetalleEmpresa(): void {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().token}`,
+    });
+    //cambiar
+    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas/${this.solicitados.id}`, { headers: header }).subscribe((res: any) => {
+      console.log(res);
       
     }, error => { });
 
