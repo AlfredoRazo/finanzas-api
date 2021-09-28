@@ -73,7 +73,7 @@ export class SolicitudServicioComponent implements OnInit {
 
   consultaBL(idBL: string): void {
     this.spinner.show();
-    this.http.get(`${environment.endpointRecinto}bl/${idBL}`).subscribe((res: any) => {
+    this.http.get(`${environment.endpointRec}bl/${idBL}`).subscribe((res: any) => {
       this.visualBL = res.datos;
       this.spinner.hide();
     }, err => {
