@@ -61,6 +61,25 @@
 
     </div>
     <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">Buscar Cliente </label>
+            <input type="text" class="form-control" name="buscarEmp" [(ngModel)]="buscarEmp">
+        </div>
+        <div class="col-sm-1">
+            <button class="btn btn-sm btn-primary" style="margin-top: 35px;" (click)="buscarEmpresa()">Buscar</button>
+        </div>
+        <div class="form-group col-md-7">
+            <label class="control-label">Cliente </label>
+
+            <select name="solicitados" [(ngModel)]="cliente" (change)="buscarDetalleEmpresa()" class="form-control"
+                name="solicitado" #solicitado="ngModel" [disabled]="clientes.length == 0">
+                <option *ngFor="let item of clientes" [ngValue]="item">{{item.nombre}}</option>
+
+            </select>
+
+        </div>
+    </div>
+    <!--<div class="row">
         <ng-template #rt2 let-r="result" let-t="term">
             <ngb-highlight [result]="r.rfc" [term]="t"></ngb-highlight>
         </ng-template>
@@ -76,9 +95,9 @@
                 [ngbTypeahead]="searchClienteNombre" [inputFormatter]="formatterClienteNombre" [resultTemplate]="rt"
                 (selectItem)="selected($event)">
         </div>
-    </div>
+    </div>-->
 
-    
+
     <div class="row">
         <div class="form-group col-md-4">
             <label class="control-label">B/L</label>
@@ -151,7 +170,7 @@
             </select>
         </div>
     </div>
-    
+
     <div class="row" *ngIf="tipoSoli == '1'">
         <div class="checkbox col-md-6">
             <label>
@@ -246,8 +265,8 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of blliber; let i = index">
-                    <td style="vertical-align: middle; text-align: center;"> <input type="radio"
-                            name="selectbl" [(ngModel)]="indexLib" [value]="i"></td>
+                    <td style="vertical-align: middle; text-align: center;"> <input type="radio" name="selectbl"
+                            [(ngModel)]="indexLib" [value]="i"></td>
                     <td>{{item.solicitudBL}}</td>
                     <td>{{item.embarcador}}</td>
                     <td>{{item.consignatario}}</td>
@@ -345,7 +364,7 @@
                 <th style="white-space: nowrap;">Marcas y Números</th>
                 <th style="white-space: nowrap;">Cantidad </th>
                 <th style="white-space: nowrap;">Unidad </th>
-                <th style="white-space: nowrap;" >Descripción </th>
+                <th style="white-space: nowrap;">Descripción </th>
                 <th style="white-space: nowrap;">Peso Bruto (KG) </th>
                 <th style="white-space: nowrap;">Volumen </th>
             </tr>

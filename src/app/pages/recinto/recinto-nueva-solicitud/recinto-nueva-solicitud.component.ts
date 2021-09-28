@@ -41,6 +41,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   msjWarn = '';
   clientes: any[] = [];
   clientesRFC: any[] = [];
+  cliente: any;
+  clienteDetalle:any;
   msjConsulta = '';
   msjSuccess = '';
   msjError = '';
@@ -79,6 +81,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   clavesPedimento: any[] = [];
   indexBl: any;
   indexLib: any;
+  buscarEmp = '';
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -165,7 +168,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     const user = this.auth.getSession().userData;
     this.getAgenciaAduanal();
     //this.getBuques();
-    this.getClientes();
+    //this.getClientes();
     this.getLineaNaviera();
     this.getAgenciaConsignataria();
     this.getRecinto();
@@ -263,9 +266,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     });
     environment.endpointCat
     //cambiar
-    this.http.get(`${environment.endpointCat}empresas/select/3`, { headers: header }).subscribe((res: any) => {
-
-      this.lineasnavieras = res.valor;
+    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas/select/45`, { headers: header }).subscribe((res: any) => {
+    
+      this.lineasnavieras = res.datos;
     }, error => { });
   }
  
@@ -293,8 +296,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
     //cambiar
-    this.http.get(`${environment.endpointCat}empresas/select/1`, { headers: header }).subscribe((res: any) => {
-      this.agenciasconsig = res.valor;
+    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas/select/41`, { headers: header }).subscribe((res: any) => {
+      this.agenciasconsig = res.datos;
+      console.log(res.datos);
     }, error => { });
   }
 
@@ -322,7 +326,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       solicitudDatos: [
         {
           idEmpresa: +user.empresaid,
-          idCliente: 0,
+          idCliente: this.clienteDetalle?.id,
           idTipoServicio: +this.tipoServ,
           idTipoTramite: +this.tipoTram,
           idTipoSolicitud: +this.tipoSoli,
@@ -330,9 +334,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           fechaServicio: this.fechaServ.split('-').reverse().join('-') + ' 00:00:00',
           idAgenciaAduanal: +this.agenciaAduanal,
           patente: this.patente,
-          rfc: this.rfcCliente?.rfc ? this.rfcCliente?.rfc : this.rfcCliente,
+          rfc: this.clienteDetalle?.rfc,
           nombreAgenciaAduanal: this.nombreCliente?.nombre ? this.nombreCliente?.nombre : this.nombreCliente,
-          cliente: this.nombreCliente?.nombre ? this.nombreCliente?.nombre : this.nombreCliente,
+          cliente: this.clienteDetalle?.nombre,
           buque: this.buque?.nombre ? this.buque?.nombre : this.buque,
           viaje: this.viaje,
           fechaArribo: this.fechaArribo.split('-').reverse().join('-') + ' 00:00:00',
@@ -589,6 +593,31 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.http.get('https://pis-api-recinto.azurewebsites.net/api/catalogos?catalogo=pedimentos').subscribe((res: any) => {
       this.clavesPedimento = res[0];
     }, err => { });
+  }
+  buscarEmpresa(): void {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().token}`,
+    });
+    //cambiar
+    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas?buscar=${this.buscarEmp}&orden=idEmpresa&tipo_orden=ASC&pagina=1&registros_por_pagina=10`, { headers: header }).subscribe((res: any) => {
+      if (!res.error) {
+        this.clientes = res.valor?.resultado;
+      }
+      
+    }, error => { });
+  }
+
+  buscarDetalleEmpresa(tipo = 1): void {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().token}`,
+    });
+    //cambiar
+    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas/${this.cliente.id}`, { headers: header }).subscribe((res: any) => {
+        this.clienteDetalle = res.datos;
+    }, error => { });
+
   }
 
 }

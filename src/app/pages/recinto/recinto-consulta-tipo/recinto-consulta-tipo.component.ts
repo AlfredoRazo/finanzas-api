@@ -55,6 +55,7 @@ export class RecintoConsultaTipoComponent implements OnInit {
   isHora = false;
   numeroviaje: any;
   tarifa = '';
+  facturardata:any = [];
   solicitadospor: any = [];
   catTarifa: any = [
     { clave: '00', descripcion: 'N/A' },
@@ -62,8 +63,10 @@ export class RecintoConsultaTipoComponent implements OnInit {
     { clave: 'CG2', descripcion: 'Tarifa 2' },
     { clave: 'CG3', descripcion: 'Tarifa 3' }
   ];
-
   buscarEmp = '';
+  buscarFacturar = '';
+  solicitadoDetalle:any;
+  facturaraDetalle: any;
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -93,7 +96,7 @@ export class RecintoConsultaTipoComponent implements OnInit {
   ngOnInit(): void {
 
     this.initDatePickers();
-    this.getClientes();
+    //this.getClientes();
     this.getConceptos();
     this.getUnidadesMedida();
     this.getBuques();
@@ -264,8 +267,8 @@ export class RecintoConsultaTipoComponent implements OnInit {
     const payload = {
       detalle: this.data,
       tipo: parseInt(this.concepto),
-      clienteSolicita: this.solicitados?.claveSAP,
-      clientefacturar: this.facturaa?.claveSAP,
+      clienteSolicita: this.solicitadoDetalle?.codigoSAP,
+      clientefacturar: this.facturaraDetalle?.codigoSAP,
       nombrebuque: this.buque.nombre ? this.buque.nombre : this.buque,
       numeroviaje: this.numeroviaje,
       workorder: "",
@@ -310,17 +313,34 @@ export class RecintoConsultaTipoComponent implements OnInit {
       }
       
     }, error => { });
+  }
+  buscarEmpresaF(): void {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().token}`,
+    });
+    //cambiar
+    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas?buscar=${this.buscarEmp}&orden=idEmpresa&tipo_orden=ASC&pagina=1&registros_por_pagina=10`, { headers: header }).subscribe((res: any) => {
+      if (!res.error) {
+        this.facturardata = res.valor?.resultado;
+      }
+      
+    }, error => { });
 
   }
 
-  buscarDetalleEmpresa(): void {
+  buscarDetalleEmpresa(tipo = 1): void {
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
     //cambiar
     this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas/${this.solicitados.id}`, { headers: header }).subscribe((res: any) => {
-      console.log(res);
+      if(tipo === 1){
+        this.solicitadoDetalle = res.datos;
+      }else{
+        this.facturaraDetalle = res.datos;
+      }
       
     }, error => { });
 
