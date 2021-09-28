@@ -5,7 +5,39 @@
 <form #formConsulta="ngForm">
 
     <div class="form-horizontal">
-        <div class="form-group" [class.has-error]="solicitado.invalid && (solicitado.dirty || solicitado.touched)">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="text-align: left;">Buscar Solicitado: </label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" name="buscarEmp" [(ngModel)]="buscarEmp" >
+                </div>
+                <div class="col-sm-1">
+                    <button class="btn btn-xs btn-primary" (click)="buscarEmpresa()">Buscar</button>
+                </div>
+                <label class="col-sm-2 control-label" style="text-align: left;">Solicitado Por: </label>
+                <div class="col-sm-4">
+                    <select name="solicitados" [(ngModel)]="solicitados" (change)="buscarDetalleEmpresa(1)" class="form-control" name="solicitado" #solicitado="ngModel">
+                        <option *ngFor="let item of solicitadospor" [ngValue]="item">{{item.nombre}}</option>
+    
+                    </select>
+                </div> 
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="text-align: left;">Buscar Facturar: </label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" name="buscarEmp" [(ngModel)]="buscarFacturar" >
+                </div>
+                <div class="col-sm-1">
+                    <button class="btn btn-xs btn-primary" (click)="buscarEmpresaF()">Buscar</button>
+                </div>
+                <label class="col-sm-2 control-label" style="text-align: left;">Facturar a: </label>
+                <div class="col-sm-4">
+                    <select name="facturara" [(ngModel)]="facturaa" (change)="buscarDetalleEmpresa(2)" class="form-control" name="facturaa" #facturara="ngModel">
+                        <option *ngFor="let item of facturardata" [ngValue]="item">{{item.nombre}}</option>
+    
+                    </select>
+                </div> 
+            </div>
+        <!--<div class="form-group" [class.has-error]="solicitado.invalid && (solicitado.dirty || solicitado.touched)">
             <ng-template #rts let-rs="result" let-ts="term">
                 <ngb-highlight [result]="rs.nombre" [term]="ts"></ngb-highlight>
             </ng-template>
@@ -44,7 +76,7 @@
             <span class="col-sm-2"></span>
             <span class="help-block col-sm-9"
                 *ngIf="facturara.invalid && (facturara.touched || facturara.dirty)"></span>
-        </div>
+        </div>-->
     </div>
 
         <div class="row">

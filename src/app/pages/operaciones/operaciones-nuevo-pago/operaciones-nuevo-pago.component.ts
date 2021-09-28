@@ -57,6 +57,12 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   horaini: any;
   horafin: any;
   isHora = false;
+  solicitadoDetalle:any;
+  facturaraDetalle:any;
+  solicitadospor: any[] = [];
+  facturardata: any[] = [];
+  buscarEmp = '';
+  buscarFacturar = '';
   catTramo = [
     '01',
     '02',
@@ -118,7 +124,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
           this.numeroviaje = params?.viaje;
     });
     this.initDatePickers();
-    this.getClientes();
+    //this.getClientes();
     this.getConceptos();
     this.getUnidadesMedida();
     this.getBuques();
@@ -301,8 +307,8 @@ export class OperacionesNuevoPagoComponent implements OnInit {
     const payload = {
       detalle: this.data,
       tipo: parseInt(this.concepto),
-      clienteSolicita: this.solicitados?.claveSAP,
-      clientefacturar: this.facturaa?.claveSAP,
+      clienteSolicita: this.solicitadoDetalle?.codigoSAP,
+      clientefacturar: this.facturaraDetalle?.codigoSAP,
       nombrebuque: this.buque.nombre ? this.buque.nombre : this.buque,
       numeroviaje: this.numeroviaje,
       workorder: "",
@@ -335,5 +341,49 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   editData(index: any, item: any): void {
     this.tabledat = item;
     this.indexEdit = index;
+  }
+  buscarEmpresa(): void {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().token}`,
+    });
+    //cambiar
+    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas?buscar=${this.buscarEmp}&orden=idEmpresa&tipo_orden=ASC&pagina=1&registros_por_pagina=10`, { headers: header }).subscribe((res: any) => {
+      if (!res.error) {
+        this.solicitadospor = res.valor?.resultado;
+      }
+      
+    }, error => { });
+  }
+  buscarEmpresaF(): void {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().token}`,
+    });
+    //cambiar
+    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas?buscar=${this.buscarEmp}&orden=idEmpresa&tipo_orden=ASC&pagina=1&registros_por_pagina=10`, { headers: header }).subscribe((res: any) => {
+      if (!res.error) {
+        this.facturardata = res.valor?.resultado;
+      }
+      
+    }, error => { });
+
+  }
+
+  buscarDetalleEmpresa(tipo = 1): void {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().token}`,
+    });
+    //cambiar
+    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas/${this.solicitados.id}`, { headers: header }).subscribe((res: any) => {
+      if(tipo === 1){
+        this.solicitadoDetalle = res.datos;
+      }else{
+        this.facturaraDetalle = res.datos;
+      }
+      
+    }, error => { });
+
   }
 }
