@@ -278,7 +278,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
     //cambiar
-    this.http.get(environment.endpointCat + 'empresas/' + this.agenciaAduanal + '/patente', { headers: header }).subscribe((res: any) => {
+    this.http.get(environment.endpointCat + 'empresas/' + this.agenciaAduanal.id + '/patente', { headers: header }).subscribe((res: any) => {
       this.patente = res.valor[0];
       this.patentes = res.valor;
     }, error => { });
@@ -298,7 +298,6 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     //cambiar
     this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas/select/41`, { headers: header }).subscribe((res: any) => {
       this.agenciasconsig = res.datos;
-      console.log(res.datos);
     }, error => { });
   }
 
@@ -332,11 +331,12 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           idTipoSolicitud: +this.tipoSoli,
           idTipoTransporte: +this.tipoTrans,
           fechaServicio: this.fechaServ.split('-').reverse().join('-') + ' 00:00:00',
-          idAgenciaAduanal: +this.agenciaAduanal,
+          idAgenciaAduanal: +this.agenciaAduanal.id,
           patente: this.patente,
           rfc: this.clienteDetalle?.rfc,
-          nombreAgenciaAduanal: this.nombreCliente?.nombre ? this.nombreCliente?.nombre : this.nombreCliente,
+          nombreAgenciaAduanal: this.agenciaAduanal.valor,
           cliente: this.clienteDetalle?.nombre,
+          nombre: this.clienteDetalle?.nombre,
           buque: this.buque?.nombre ? this.buque?.nombre : this.buque,
           viaje: this.viaje,
           fechaArribo: this.fechaArribo.split('-').reverse().join('-') + ' 00:00:00',

@@ -48,7 +48,7 @@
         <div class="form-group col-md-8">
             <label class="control-label">Agencia aduanal</label>
             <select class="form-control" name="agenciaAduanal" [(ngModel)]="agenciaAduanal" (change)="getPatente()">
-                <option *ngFor="let item of agenciasaduanales" [value]="item.id">{{item.valor}}</option>
+                <option *ngFor="let item of agenciasaduanales" [ngValue]="item">{{item.valor}}</option>
             </select>
         </div>
         <div class="form-group col-md-4">

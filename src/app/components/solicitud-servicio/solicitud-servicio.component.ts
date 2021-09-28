@@ -91,7 +91,7 @@ export class SolicitudServicioComponent implements OnInit {
       case 'Entrada':
         break;
       default:
-        this.getDocumentos(item.bl);
+        //this.getDocumentos(item.bl);
         this.getDetalleBL(item.bl);
         this.getMovimientosBL(item.bl);
         
