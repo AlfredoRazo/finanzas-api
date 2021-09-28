@@ -361,7 +361,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
     //cambiar
-    this.http.get(`${environment.endpointEmpresas}api/empresas?buscar=${this.buscarEmp}&orden=idEmpresa&tipo_orden=ASC&pagina=1&registros_por_pagina=10`, { headers: header }).subscribe((res: any) => {
+    this.http.get(`${environment.endpointEmpresas}api/empresas?buscar=${this.buscarFacturar}&orden=idEmpresa&tipo_orden=ASC&pagina=1&registros_por_pagina=10`, { headers: header }).subscribe((res: any) => {
       if (!res.error) {
         this.facturardata = res.valor?.resultado;
       }
@@ -371,16 +371,21 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   }
 
   buscarDetalleEmpresa(tipo = 1): void {
+
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
+    let id = tipo == 1 ? this.solicitados.id : this.facturaa.id;
+
     //cambiar
-    this.http.get(`${environment.endpointEmpresas}api/empresas/${this.solicitados.id}`, { headers: header }).subscribe((res: any) => {
-      if(tipo === 1){
+    this.http.get(`${environment.endpointEmpresas}api/empresas/${id}`, { headers: header }).subscribe((res: any) => {
+      
+      if(tipo == 1){
         this.solicitadoDetalle = res.datos;
       }else{
         this.facturaraDetalle = res.datos;
+       
       }
       
     }, error => { });
