@@ -525,4 +525,4 @@
 </div>
 <button type="button" class="btn btn-default" routerLink="/recinto">Regresar</button>
 <button type="button" class="btn btn-primary" style="margin-left: 15px;" (click)="guardarSolicitud()"
-    [disabled]="bls.length < 1"> Guardar</button>
+    [disabled]="bls.length < 1 || (tipoSoli == '4' && liberacion.length < 0)"> Guardar</button>

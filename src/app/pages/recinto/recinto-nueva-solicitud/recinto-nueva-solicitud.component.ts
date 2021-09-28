@@ -42,7 +42,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   clientes: any[] = [];
   clientesRFC: any[] = [];
   cliente: any;
-  clienteDetalle:any;
+  clienteDetalle: any;
   msjConsulta = '';
   msjSuccess = '';
   msjError = '';
@@ -60,8 +60,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   pesoDisponible = 0;
   cantidadDisponible = 0;
   isSeparacion = false;
-  lineanaviera:any;
-  agenciaconsig:any;
+  lineanaviera: any;
+  agenciaconsig: any;
   idSolicitud: any;
   blmovimiento: any = [];
   blliber: any[] = [];
@@ -252,7 +252,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
-    
+
     this.http.get(`${environment.endpointEmpresas}api/empresas/select/38`, { headers: header }).subscribe((res: any) => {
       this.agenciasaduanales = res.datos;
       this.agenciaAduanal = +this.auth.getSession().userData.empresaid;
@@ -267,11 +267,11 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     environment.endpointCat
     //cambiar
     this.http.get(`${environment.endpointEmpresas}api/empresas/select/45`, { headers: header }).subscribe((res: any) => {
-    
+
       this.lineasnavieras = res.datos;
     }, error => { });
   }
- 
+
   getPatente(): void {
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -547,7 +547,21 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       } else {
         tipoliberacion = 3;
       }
-
+      if (!this.pedimentoSimplificado.archivo) {
+        this.msjErrorpesos = 'El archivo pedimento simplificado es requerido';
+        this.hasErrorPesos = true;
+        return;
+      }
+      if (!this.pedimentoCompleto.archivo) {
+        this.msjErrorpesos = 'El archivo pedimento completo es requerido';
+        this.hasErrorPesos = true;
+        return;
+      }
+      if (!this.blRevalidado.archivo) {
+        this.msjErrorpesos = 'El archivo bl revalidado es requerido';
+        this.hasErrorPesos = true;
+        return;
+      }
       this.liberacion.push(
         {
           usuario: this.auth.getSession().userData.username,
@@ -604,7 +618,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       if (!res.error) {
         this.clientes = res.valor?.resultado;
       }
-      
+
     }, error => { });
   }
 
@@ -615,7 +629,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     });
     //cambiar
     this.http.get(`${environment.endpointEmpresas}api/empresas/${this.cliente.id}`, { headers: header }).subscribe((res: any) => {
-        this.clienteDetalle = res.datos;
+      this.clienteDetalle = res.datos;
     }, error => { });
 
   }
