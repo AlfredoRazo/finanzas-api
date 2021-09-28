@@ -253,7 +253,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
     
-    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas/select/38`, { headers: header }).subscribe((res: any) => {
+    this.http.get(`${environment.endpointEmpresas}api/empresas/select/38`, { headers: header }).subscribe((res: any) => {
       this.agenciasaduanales = res.datos;
       this.agenciaAduanal = +this.auth.getSession().userData.empresaid;
       this.getPatente();
@@ -266,7 +266,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     });
     environment.endpointCat
     //cambiar
-    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas/select/45`, { headers: header }).subscribe((res: any) => {
+    this.http.get(`${environment.endpointEmpresas}api/empresas/select/45`, { headers: header }).subscribe((res: any) => {
     
       this.lineasnavieras = res.datos;
     }, error => { });
@@ -296,7 +296,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
     //cambiar
-    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas/select/41`, { headers: header }).subscribe((res: any) => {
+    this.http.get(`${environment.endpointEmpresas}api/empresas/select/41`, { headers: header }).subscribe((res: any) => {
       this.agenciasconsig = res.datos;
     }, error => { });
   }
@@ -600,7 +600,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
     //cambiar
-    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas?buscar=${this.buscarEmp}&orden=idEmpresa&tipo_orden=ASC&pagina=1&registros_por_pagina=10`, { headers: header }).subscribe((res: any) => {
+    this.http.get(`${environment.endpointEmpresas}api/empresas?buscar=${this.buscarEmp}&orden=idEmpresa&tipo_orden=ASC&pagina=1&registros_por_pagina=10`, { headers: header }).subscribe((res: any) => {
       if (!res.error) {
         this.clientes = res.valor?.resultado;
       }
@@ -614,7 +614,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
     //cambiar
-    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas/${this.cliente.id}`, { headers: header }).subscribe((res: any) => {
+    this.http.get(`${environment.endpointEmpresas}api/empresas/${this.cliente.id}`, { headers: header }).subscribe((res: any) => {
         this.clienteDetalle = res.datos;
     }, error => { });
 

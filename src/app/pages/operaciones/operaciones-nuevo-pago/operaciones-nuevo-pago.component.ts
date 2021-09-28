@@ -348,7 +348,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
     //cambiar
-    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas?buscar=${this.buscarEmp}&orden=idEmpresa&tipo_orden=ASC&pagina=1&registros_por_pagina=10`, { headers: header }).subscribe((res: any) => {
+    this.http.get(`${environment.endpointEmpresas}api/empresas?buscar=${this.buscarEmp}&orden=idEmpresa&tipo_orden=ASC&pagina=1&registros_por_pagina=10`, { headers: header }).subscribe((res: any) => {
       if (!res.error) {
         this.solicitadospor = res.valor?.resultado;
       }
@@ -361,7 +361,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
     //cambiar
-    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas?buscar=${this.buscarEmp}&orden=idEmpresa&tipo_orden=ASC&pagina=1&registros_por_pagina=10`, { headers: header }).subscribe((res: any) => {
+    this.http.get(`${environment.endpointEmpresas}api/empresas?buscar=${this.buscarEmp}&orden=idEmpresa&tipo_orden=ASC&pagina=1&registros_por_pagina=10`, { headers: header }).subscribe((res: any) => {
       if (!res.error) {
         this.facturardata = res.valor?.resultado;
       }
@@ -376,7 +376,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
     //cambiar
-    this.http.get(`https://pis-api-empresas-qa.azurewebsites.net/api/empresas/${this.solicitados.id}`, { headers: header }).subscribe((res: any) => {
+    this.http.get(`${environment.endpointEmpresas}api/empresas/${this.solicitados.id}`, { headers: header }).subscribe((res: any) => {
       if(tipo === 1){
         this.solicitadoDetalle = res.datos;
       }else{
