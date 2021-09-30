@@ -1,66 +1,99 @@
 <div class="row">
-    <div class="col-md-4 form-group">
-        <input type="text" class="form-control" placeholder="Nombre" name="nombre" [(ngModel)]="nombre"
-            (keyup)="busqueda()">
-    </div>
-    <div class="col-md-4 form-group">
+        <div class="col-md-4 form-group">
+                <input type="text" class="form-control" placeholder="Nombre" name="nombre" [(ngModel)]="nombre"
+                        (keyup)="busqueda()">
+        </div>
+        <!--<div class="col-md-4 form-group">
         <input type="text" class="form-control" placeholder="Clave SAP" name="claveSap" [(ngModel)]="claveSap"
             (keyup)="busqueda()">
     </div>
     <div class="col-md-4 form-group">
         <input type="text" class="form-control" placeholder="RFC" name="rfc" [(ngModel)]="rfc" (keyup)="busqueda()">
-    </div>
+    </div>-->
 </div>
 <br>
 <div class="table-responsive">
-    <table class="table table-bordered" style="font-size: 0.65em;">
-        <thead style="white-space: nowrap;">
-            <tr style="cursor: pointer;">
-                <th scope="col" [appSort]="dataClientes" data-order="desc" data-name="claveSAP">Clave SAP <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataClientes" data-order="desc" data-name="nombre">Nombre <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataClientes" data-order="desc" data-name="rfc">RFC <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataClientes" data-order="desc" data-name="calle">Calle <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataClientes" data-order="desc" data-name="numExt">Número Ext. <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataClientes" data-order="desc" data-name="numInt">Número Int. <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataClientes" data-order="desc" data-name="colonia">Colonia <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataClientes" data-order="desc" data-name="cp">CP <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataClientes" data-order="desc" data-name="ciudad">Ciudad <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataClientes" data-order="desc" data-name="estado">Estado <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataClientes" data-order="desc" data-name="pais">País <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th scope="col" [appSort]="dataClientes" data-order="desc" data-name="email">Email <span
-                        class="glyphicon glyphicon-sort"></span></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of dataClientes">
-                <td>{{item.claveSAP}}</td>
-                <td>{{item.nombre}}</td>
-                <td>{{item.rfc}}</td>
-                <td>{{item.calle}}</td>
-                <td>{{item.numExt}}</td>
-                <td>{{item.numInt}}</td>
-                <td>{{item.colonia}}</td>
-                <td>{{item.cp}}</td>
-                <td>{{item.ciudad}}</td>
-                <td>{{item.estado}}</td>
-                <td>{{item.pais}}</td>
-                <td>{{item.email}}</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table table-bordered" style="font-size: 0.65em;">
+                <thead style="white-space: nowrap;">
+                        <tr style="cursor: pointer;">
+                                <th></th>
+                                <th scope="col" [appSort]="dataClientes" data-order="desc" data-name="valor">Nombre
+                                        <span class="glyphicon glyphicon-sort"></span>
+                                </th>
+                        </tr>
+                </thead>
+                <tbody>
+                        <tr *ngFor="let item of dataClientes">
+                                <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#detalle"
+                                                (click)="getDetalleCliente(item.id)">Detalle</button></td>
+                                <td>{{item.valor}}</td>
+
+                        </tr>
+                </tbody>
+        </table>
 </div>
 <br>
 <p>Registros encontrados: <b>{{totalClientes}}</b></p>
 <ngb-pagination [collectionSize]="totalClientes" [(page)]="pageClientes" (pageChange)="paginado($event)" [maxSize]="3"
-    [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
+        [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
+
+<div class="modal fade" id="detalle">
+        <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <h4 class="modal-title">Detalle Cliente</h4>
+                        </div>
+                        <div class="modal-body">
+                                <table class="table table-striped table-bordered">
+                                        <tbody>
+                                                <tr>
+                                                        <td>RFC</td>
+                                                        <td>{{this.detalleCliente?.rfc}}</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Nombre</td>
+                                                        <td>{{this.detalleCliente?.nombre}}</td>
+                                                </tr>
+                                                <tr *ngIf="this.detalleCliente?.siglas">
+                                                        <td>Siglas</td>
+                                                        <td>{{this.detalleCliente?.siglas}}</td>
+                                                </tr>
+                                                <tr *ngIf="this.detalleCliente?.clavePatronal">
+                                                        <td>Clave Patronal</td>
+                                                        <td>{{this.detalleCliente?.clavePatronal}}</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Código SAP</td>
+                                                        <td>{{this.detalleCliente?.codigoSAP}}</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Extranjera</td>
+                                                        <td>{{this.detalleCliente?.extranjera ? 'SI' : 'NO'}}</td>
+                                                </tr>
+                                                <tr *ngIf="this.detalleCliente?.tiposEmpresa.length > 0">
+                                                        <td>Tipo Empresa</td>
+                                                        <td>{{this.detalleCliente?.tiposEmpresa[0]?.tipo}}</td>
+                                                </tr>
+                                                <tr  *ngIf="this.detalleCliente?.datos?.telefono">
+                                                        <td>Teléfono</td>
+                                                        <td>{{this.detalleCliente?.datos?.telefono}}</td>
+                                                </tr>
+                                                <tr  *ngIf="this.detalleCliente?.datos?.mail">
+                                                        <td>Email</td>
+                                                        <td>{{this.detalleCliente?.datos?.mail}}</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Dirección</td>
+                                                        <td>{{this.detalleCliente?.direccion?.calle}} {{this.detalleCliente?.direccion?.numExt}} {{this.detalleCliente?.direccion?.numInt}} {{this.detalleCliente?.direccion?.colonia}} {{this.detalleCliente?.direccion?.cp}} {{this.detalleCliente?.direccion?.municipio}} {{this.detalleCliente?.direccion?.estado}} </td>
+                                                </tr>
+                                        </tbody>
+                                </table>
+
+                        </div>
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
+                        </div>
+                </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { AuthService } from '@serv/auth.service';
@@ -24,6 +24,7 @@ export class ClientesTableComponent implements OnInit {
   claveSap = '';
   rfc= '';
   filtro = false;
+  detalleCliente: any;
 
   constructor(private http: HttpClient,
     private pagina: PaginateService,
@@ -34,17 +35,39 @@ export class ClientesTableComponent implements OnInit {
   ngOnInit(): void {
     this.getClientes();
   }
+
   getClientes(): void{
     this.spinner.show();
-    this.http.get(`${environment.endpoint}clientes`).subscribe((res: any) => {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().token}`,
+    });
+    this.http.get(`${environment.endpointEmpresas}api/Empresas/select`, { headers: header }).subscribe((res: any) => {
+     
       this.spinner.hide();
       this.pageClientes = 1;
-      this.totalClientes = res[0].length;
-      this.originalDataClientes = [...res[0]];
-      this.dataClientes = this.pagina.paginate(res[0], 10, this.pageClientes);
+      this.totalClientes = res.valor.length;
+      this.originalDataClientes = [...res.valor];
+      this.dataClientes = this.pagina.paginate(res.valor, 10, this.pageClientes);
     }, error => {this.spinner.hide();})
 
   }
+
+  getDetalleCliente(id: any): void{
+    this.spinner.show();
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth.getSession().token}`,
+    });
+    this.http.get(`${environment.endpointEmpresas}api/Empresas/${id}`, { headers: header }).subscribe((res: any) => {
+      this.spinner.hide();
+      this.detalleCliente = res.datos;
+      
+    }, error => {this.spinner.hide();})
+
+  }
+
+  
   paginado(evt: any = null): void {
     if(this.filtro){
       this.dataClientes = this.pagina.paginate(this.filterDataClientes, 10, this.pageClientes);
@@ -70,27 +93,27 @@ export class ClientesTableComponent implements OnInit {
     } else {
       this.filtro = true;
       this.filterDataClientes = [...this.originalDataClientes];
-      if (this.claveSap) {
+      /*if (this.claveSap) {
         this.filterDataClientes = this.filterDataClientes.filter( (element: any) => {
           if (element.claveSAP.toLowerCase().includes(this.claveSap.toLowerCase())) {
             return element;
           }
         });
-      }
+      }*/
       if (this.nombre) {
         this.filterDataClientes = this.filterDataClientes.filter((element: any) => {
-          if (element.nombre.toLowerCase().includes(this.nombre.toLowerCase())) {
+          if (element.valor.toLowerCase().includes(this.nombre.toLowerCase())) {
             return element;
           }
         });
       }
-      if (this.rfc) {
+      /*if (this.rfc) {
         this.filterDataClientes = this.filterDataClientes.filter((element: any) => {
           if (element.rfc.toLowerCase().includes(this.rfc.toLowerCase())) {
             return element;
           }
         });
-      }
+      }*/
       this.totalClientes = this.filterDataClientes.length;
       this.pageClientes = 1;
       this.paginado();
