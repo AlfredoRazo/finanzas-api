@@ -84,6 +84,7 @@ export class SolicitudServicioComponent implements OnInit {
 
 
   visualizar(item: any): void {
+    this.imprimeFormato = null;
     this.visualSolicitud = item;
     this.consultaBL(item.idBl);
 
@@ -130,6 +131,8 @@ export class SolicitudServicioComponent implements OnInit {
     this.http.get(`${environment.endpointApi}recintoDocumentos?bl=${bl}`).subscribe((res: any) => {
       if (res) {
         this.documentosVisual = res;
+      }else{
+        this.documentosVisual = [];
       }
     });
   }
@@ -153,7 +156,7 @@ export class SolicitudServicioComponent implements OnInit {
     });
   }
   getDetalleFormato(bl: string, idLiberacion: string): void {
-    this.http.get(`https://pis-api-recinto.azurewebsites.net/api/rptAutLiberacion?Referencia=${bl}&idLiberacion=${idLiberacion}`).subscribe((res: any) => {
+    this.http.get(`https://pis-api-recinto.azurewebsites.net/api/rptAutLiberacion?Referencia=${bl}&idLiberacion=${this.visualSolicitud.solicitudId}`).subscribe((res: any) => {
       if (res[0][0]) {
         this.imprimeFormato = res[0][0];
       }

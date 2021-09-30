@@ -361,6 +361,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
         this.msjSuccess = 'Se guardó correctamente con número de solicitud: ' + resSolicitudF.message;
         switch (+this.tipoSoli) {
           case 2:
+            this.spinner.show();
             let payloadSalida: any = {
               appkey: "046965ea2db6a892359ed2c4cd9f957b",
               salidas: [
@@ -379,9 +380,10 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
               ]
 
             };
-            this.http.post('https://pis-api-recinto.azurewebsites.net/api/solicitudSalida', payloadSalida).subscribe((resmo: any) => { }, err => { });
+            this.http.post('https://pis-api-recinto.azurewebsites.net/api/solicitudSalida', payloadSalida).subscribe((resmo: any) => { this.spinner.hide(); }, err => { this.spinner.hide();});
             break;
           case 3:
+            this.spinner.show();
             let payloadMov: any = {
               appkey: "046965ea2db6a892359ed2c4cd9f957b",
               usuario: this.auth.getSession().userData.username,
@@ -406,9 +408,10 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
               }
             }
 
-            this.http.post('https://pis-api-recinto.azurewebsites.net/api/Movimientos', payloadMov).subscribe((resmo: any) => { }, err => { });
+            this.http.post('https://pis-api-recinto.azurewebsites.net/api/Movimientos', payloadMov).subscribe((resmo: any) => {this.spinner.hide(); }, err => { this.spinner.hide();});
             break;
           case 4:
+            this.spinner.show();
             let liber = this.liberacion.map(item => {
               item.idSolicitud = resSolicitudF.message;
               return item;
@@ -417,8 +420,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
               appkey: "046965ea2db6a892359ed2c4cd9f957b",
               liberaciones: liber
             };
-            this.http.post('https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion', payloadLib).subscribe((resLib: any) => {
-            }, err => { });
+            this.http.post('https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion', payloadLib).subscribe((resLib: any) => { this.spinner.hide();
+            }, err => { this.spinner.hide(); });
             break;
         }
       } {
