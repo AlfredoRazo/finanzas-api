@@ -277,10 +277,11 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
-    //cambiar
-    this.http.get(environment.endpointCat + 'empresas/' + this.agenciaAduanal.id + '/patente', { headers: header }).subscribe((res: any) => {
-      this.patente = res.valor[0];
-      this.patentes = res.valor;
+    
+    this.http.get(`${environment.endpointEmpresas}api/empresas/${this.agenciaAduanal.id}/patente`, { headers: header }).subscribe((res: any) => {
+      if(res.valor){
+        this.patentes = res.valor;
+      }
     }, error => { });
   }
   getRecinto(): void {
@@ -371,7 +372,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
                   recintoDestino: this.recintoDestino,
                   idSolicitud: resSolicitudF.message,
                   liberacionId: this.blliber.length > 0 ? this.blliber[this.indexLib].solicitudId : 0,
-                  docPedimentoSimplificado: this.pedimentoSimplificado,
+                  docPedimentoSimplificado: this.blRevalidado,
                   docSolicitud: this.solicitudFile,
                   docTarja: this.tarja
                 }

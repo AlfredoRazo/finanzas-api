@@ -47,16 +47,16 @@
         </div>
         <div class="form-group col-md-8">
             <label class="control-label">Agencia aduanal</label>
-            <select class="form-control" name="agenciaAduanal" [(ngModel)]="agenciaAduanal">
+            <select class="form-control" name="agenciaAduanal" [(ngModel)]="agenciaAduanal" (change)="getPatente()">
                 <option *ngFor="let item of agenciasaduanales" [ngValue]="item">{{item.valor}}</option>
             </select>
         </div>
         <div class="form-group col-md-4">
             <label class="control-label">Patente</label>
-            <input type="text" class="form-control" name="patente" [(ngModel)]="patente" >
-            <!--<select class="form-control" *ngIf="patentes.length > 1" name="patente" [(ngModel)]="patente">
+            <input type="text" class="form-control" name="patente" [(ngModel)]="patente" *ngIf="patentes.length <= 1">
+            <select class="form-control" *ngIf="patentes.length > 1" name="patente" [(ngModel)]="patente">
                 <option *ngFor="let item of patentes" [value]="item">{{item}}</option>
-            </select>-->
+            </select>
         </div>
 
     </div>
