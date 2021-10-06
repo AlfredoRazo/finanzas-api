@@ -365,7 +365,7 @@
   
   
   <div id="contenido-imprimir" style="font-size: 0.8em" *ngIf="isPrint">
-    <img src="assets/img/headerpdf.png" width="100%">
+    <img src="assets/logoAPI.jpeg" height="150">
     <h4 style="text-align: center;">Autorización de Salida</h4>
   
     <br>
@@ -427,12 +427,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><b>{{imprimeFormato?.bl}}</b></td>
-          <td>{{imprimeFormato?.solicitudNumPedimento}}</td>
-          <td>{{imprimeFormato?.mercancia}}</td>
-          <td>{{imprimeFormato?.solicitudPiezas}}</td>
-          <td>{{imprimeFormato?.solicitudPeso}}</td>
+        <tr *ngFor="let item of formatobls">
+          <td><b>{{item?.bl}}</b></td>
+          <td>{{item?.solicitudNumPedimento}}</td>
+          <td>{{item?.mercancia}}</td>
+          <td>{{item?.solicitudPiezas}}</td>
+          <td>{{item?.solicitudPeso}}</td>
         </tr>
       </tbody>
     </table>

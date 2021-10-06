@@ -32,12 +32,14 @@ export class SolicitudServicioComponent implements OnInit {
   blmovimiento: any[] = [];
   blliberacion: any[] = [];
   blliberacionDocs: any[] = [];
+  formatobls:any [] = [];
   blsalidaDocs: any[] = [];
   blsalida: any[] = [];
   bldocs: any[] = [];
   documentosVisual: any[] = [];
   imprimeFormato: any;
   puedeAutorizar = true;
+  imgheader:any;
 
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
@@ -52,7 +54,7 @@ export class SolicitudServicioComponent implements OnInit {
   getSolicitudesServicios(): void {
     this.spinner.show();
     const user = this.auth.getSession().userData;
-    if(user.idRol == 2101){
+    if (user.idRol == 2101) {
       this.puedeAutorizar = false;
     }
 
@@ -84,6 +86,12 @@ export class SolicitudServicioComponent implements OnInit {
 
 
   visualizar(item: any): void {
+    this.blliberacion = [];
+    this.blliberacionDocs = [];
+    this.blmovimiento = [];
+    this.blsalida = [];
+    this.blsalidaDocs = [];
+    this.bldocs = [];
     this.imprimeFormato = null;
     this.visualSolicitud = item;
     this.consultaBL(item.idBl);
@@ -91,11 +99,14 @@ export class SolicitudServicioComponent implements OnInit {
     switch (item.tipoSolicitud) {
       case 'Entrada':
         break;
+        case 'Liberación':
+          this.getLiberaciones(item.bl);
+          break
       default:
         //this.getDocumentos(item.bl);
         this.getDetalleBL(item.bl);
         this.getMovimientosBL(item.bl);
-        
+
         break;
 
     }
@@ -131,7 +142,7 @@ export class SolicitudServicioComponent implements OnInit {
     this.http.get(`${environment.endpointApi}recintoDocumentos?bl=${bl}`).subscribe((res: any) => {
       if (res) {
         this.documentosVisual = res;
-      }else{
+      } else {
         this.documentosVisual = [];
       }
     });
@@ -157,13 +168,14 @@ export class SolicitudServicioComponent implements OnInit {
   }
   getDetalleFormato(bl: string, idLiberacion: string): void {
     this.http.get(`https://pis-api-recinto.azurewebsites.net/api/rptAutLiberacion?Referencia=${bl}&idLiberacion=${this.visualSolicitud.solicitudId}`).subscribe((res: any) => {
-      if (res[0][0]) {
-        this.imprimeFormato = res[0][0];
-      }
+      this.imprimeFormato = res[0][0];
+      this.formatobls = res[0]
     });
   }
 
   getMovimientosBL(bl: string): void {
+
+
     this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Separación&BL=${bl}`).subscribe(res => {
       if (res.length > 2) {
         this.blmovimiento = res[1];
@@ -171,27 +183,6 @@ export class SolicitudServicioComponent implements OnInit {
         this.blmovimiento = [];
       }
     }, error => {
-    });
-
-    this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?referencia=${bl}&idMovimiento=${this.visualSolicitud.movimientoId}`).subscribe(res => {
-      if (res.length == 3) {
-       
-        this.blliberacion = res[0];
-        this.blliberacionDocs = res[1];
-      }
-      if (res.length == 2) {
-        if (res[0][0].archivo) {
-          this.blliberacionDocs = res[0];
-        } else {
-          this.blliberacion = res[0];
-        }
-      }
-      if (this.blliberacion[0]?.solicitudBL) {
-        this.getDetalleFormato(this.blliberacion[0]?.solicitudBL, this.blliberacion[0]?.solicitudId);
-      }
-    }, error => {
-      this.blliberacion = [];
-      this.blliberacionDocs = [];
     });
     this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudSalida?referencia=${bl}`).subscribe(res => {
       if (res.length == 3) {
@@ -231,11 +222,37 @@ export class SolicitudServicioComponent implements OnInit {
   async imprimir() {
     this.isPrint = true;
     await this.sleep(800);
+   
     const DATA = document.getElementById('contenido-imprimir');
     this.pdf.downloadPdf(DATA);
     this.isPrint = false;
   }
   sleep(ms: any) {
     return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  getLiberaciones(bl: string): void {
+   
+    this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?referencia=${bl}&idLiberacion=${this.visualSolicitud.idSolicitud}`).subscribe(res => {
+     
+      if (res.length == 3) {
+        this.blliberacion = res[0];
+        this.blliberacionDocs = res[1];
+      }
+      if (res.length == 2) {
+        if (res[0][0].archivo) {
+          this.blliberacionDocs = res[0];
+        } else {
+          this.blliberacion = res[0];
+        }
+      }
+
+      if (this.blliberacion[0]?.solicitudBL) {
+        this.getDetalleFormato(this.blliberacion[0]?.solicitudBL, this.blliberacion[0]?.solicitudId);
+      }
+    }, error => {
+      this.blliberacion = [];
+      this.blliberacionDocs = [];
+    });
   }
 }

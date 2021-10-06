@@ -14,7 +14,8 @@ export class PdfService {
     const options = {
       background: 'white',
       scale: 3,
-      scrollY: 0
+      scrollY: 0,
+      useCORS: true
     };
     html2canvas(data, options).then((canvas) => {
 
