@@ -362,17 +362,21 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
         switch (+this.tipoSoli) {
           case 2:
             this.spinner.show();
+            let liberacionId = 0
+            if(this.tipoSalida == '92'){
+              liberacionId = this.blliber.length > 0 ? this.blliber[this.indexLib].solicitudId : 0;
+            }
             let payloadSalida: any = {
               appkey: "046965ea2db6a892359ed2c4cd9f957b",
               salidas: [
                 {
                   usuario: this.auth.getSession().userData.username,
-                  BL: this.blliber.length > 0 ? this.blliber[this.indexLib].solicitudBL : this.bls[0].bl,
+                  BL: this.bls[0].bl,
                   tipoSalida: this.tipoSalida,
                   recintoOrigen: this.recintoOrigen,
                   recintoDestino: this.recintoDestino,
                   idSolicitud: resSolicitudF.message,
-                  liberacionId: this.blliber.length > 0 ? this.blliber[this.indexLib].solicitudId : 0,
+                  liberacionId: liberacionId,
                   docPedimentoSimplificado: this.blRevalidado,
                   docSolicitud: this.solicitudFile,
                   docTarja: this.tarja
