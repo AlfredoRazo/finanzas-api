@@ -282,6 +282,11 @@
         </table>
     </div>
 </ng-container>
+<ng-container *ngIf="blliber.length < 0 && tipoSoli == '2' && tipoSalida == '92'">
+<div class="alert alert-warning">
+    El bl debe tener una liberación previa
+</div>
+</ng-container>
 <ng-container *ngIf="blmovimiento.length > 0 && (tipoSoli == '3' || tipoSoli == '4')">
     <h4>Movimientos Separación</h4>
     <hr class="red" />
