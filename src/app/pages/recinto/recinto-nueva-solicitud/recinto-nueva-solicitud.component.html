@@ -192,20 +192,20 @@
                 <option value="92">Transferencia</option>
             </select>
         </div>
-        <div class="form-group col-md-8" *ngIf="tipoSalida == '92'">
+        <div class="form-group col-md-8" *ngIf="tipoSalida == '92' && blliber.length > 0">
             <label class="control-label">Recinto Origen</label>
             <select class="form-control" name="recintoOrigen" [(ngModel)]="recintoOrigen" disabled>
                 <option *ngFor="let item of recintos" [value]="item.clave">{{item.nombre}}</option>
             </select>
         </div>
-        <div class="form-group col-md-12" *ngIf="tipoSalida == '92'">
+        <div class="form-group col-md-12" *ngIf="tipoSalida == '92' && blliber.length > 0">
             <label class="control-label">Recinto Destino</label>
             <select class="form-control" name="recintoDestino" [(ngModel)]="recintoDestino">
                 <option *ngFor="let item of recintos" [value]="item.clave">{{item.nombre}}</option>
             </select>
         </div>
     </div>
-    <div class="row" *ngIf="tipoSalida == '92'">
+    <div class="row" *ngIf="tipoSalida == '92' && blliber.length > 0">
         <div class="form-group col-md-6">
             <label>B/L Revalidado</label>
             <input type="file" (change)="handleUpload($event, 'bl_revalidado')">
@@ -252,15 +252,13 @@
                 <tr style="cursor: pointer">
                     <th></th>
                     <th style="white-space: nowrap;">BL </th>
-                    <th style="white-space: nowrap;">Embarcador </th>
-                    <th style="white-space: nowrap;">Consignatario</th>
-                    <th style="white-space: nowrap;">Notificar a </th>
-                    <th style="white-space: nowrap;">Marcas y Números</th>
-                    <th style="white-space: nowrap;">Cantidad </th>
-                    <th style="white-space: nowrap;">Unidad </th>
-                    <th style="white-space: nowrap;">Descripción </th>
-                    <th style="white-space: nowrap;">Peso Bruto (KG) </th>
-                    <th style="white-space: nowrap;">Volumen </th>
+                    <th style="white-space: nowrap;">Clave Pedimento </th>
+                    <th style="white-space: nowrap;">Tipo Pedimento</th>
+                    <th style="white-space: nowrap;">Número de Pedimento</th>
+                    <th style="white-space: nowrap;">Tipo Cambio</th>
+                    <th style="white-space: nowrap;">Valor Aduana </th>
+                    <th style="white-space: nowrap;">Piezas </th>
+                    <th style="white-space: nowrap;">Peso </th>
                 </tr>
             </thead>
             <tbody>
@@ -268,21 +266,19 @@
                     <td style="vertical-align: middle; text-align: center;"> <input type="radio" name="selectbl"
                             [(ngModel)]="indexLib" [value]="i"></td>
                     <td>{{item.solicitudBL}}</td>
-                    <td>{{item.embarcador}}</td>
-                    <td>{{item.consignatario}}</td>
-                    <td>{{item.notificarA}}</td>
-                    <td>{{item.marcasNumeros}}</td>
-                    <td>{{item.movimientoCant}}</td>
-                    <td>{{item.unidad}}</td>
-                    <td>{{item.descripcion}}</td>
-                    <td>{{item.movimientoPeso}}</td>
-                    <td>{{item.movimientovolumen}}</td>
+                    <td>{{item.solicitudClavePedimento}}</td>
+                    <td>{{item.solicitudTipoPedimento}}</td>
+                    <td>{{item.solicitudNumPedimento}}</td>
+                    <td>{{item.solicitudtipoCambio}}</td>
+                    <td>{{item.solicitudValorAduana}}</td>
+                    <td>{{item.solicitudPiezas}}</td>
+                    <td>{{item.solicitudPeso}}</td>     
                 </tr>
             </tbody>
         </table>
     </div>
 </ng-container>
-<ng-container *ngIf="blliber.length < 0 && tipoSoli == '2' && tipoSalida == '92'">
+<ng-container *ngIf="blliber.length == 0 && tipoSoli == '2' && tipoSalida == '92'">
 <div class="alert alert-warning">
     El bl debe tener una liberación previa
 </div>
@@ -528,6 +524,7 @@
 <div class="alert alert-warning" *ngIf="msjWarn">
     {{msjWarn}}
 </div>
+
 <button type="button" class="btn btn-default" routerLink="/recinto">Regresar</button>
 <button type="button" class="btn btn-primary" style="margin-left: 15px;" (click)="guardarSolicitud()"
-    [disabled]="bls.length < 1 || (tipoSoli == '4' && liberacion.length < 0) || (blliber.length < 0 && tipoSoli == '2')"> Guardar</button>
+    [disabled]="bls.length < 1 || (tipoSoli == '4' && liberacion.length < 0) || (tipoSoli == '2' && blliber.length == 0 && tipoSalida == '92')"> Guardar</button>

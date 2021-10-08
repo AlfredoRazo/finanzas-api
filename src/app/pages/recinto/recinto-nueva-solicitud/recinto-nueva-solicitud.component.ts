@@ -183,6 +183,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   consulta(): void {
     this.msjConsulta = '';
     this.msjWarn = '';
+    this.bls = [];
+    this.buque = '';
+    this.viaje = '';
     this.spinner.show();
     this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/consultarBl?BL=${this.bl}`).subscribe(res => {
       this.spinner.hide();
@@ -194,7 +197,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             this.buque = this.bls[0]?.buque;
             this.viaje = this.bls[0]?.viaje;
             this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?Referencia=${this.bl}`).subscribe(resP => {
-              this.blliber = resP[0];
+              if(!resP[0].error){
+                this.blliber = resP[0];
+              }
             }, error => {
             });
             this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Separación&BL=${this.bl}`).subscribe(res => {
