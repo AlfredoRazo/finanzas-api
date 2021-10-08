@@ -82,6 +82,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   indexBl: any;
   indexLib: any;
   buscarEmp = '';
+  cantidadSalida = '';
+  pesoSalida = '';
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -384,7 +386,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
                   liberacionId: liberacionId,
                   docPedimentoSimplificado: this.blRevalidado,
                   docSolicitud: this.solicitudFile,
-                  docTarja: this.tarja
+                  docTarja: this.tarja,
+                  salidaCantidad: this.nuevacantidad,
+                  salidaPeso: this.nuevopeso
                 }
               ]
 

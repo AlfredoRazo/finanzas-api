@@ -389,7 +389,18 @@
     </table>
 </div>
 <br>
-<div class="row" *ngIf="(tipoSoli == '3' && tipoMov == '14') || tipoSoli == '2'">
+<div class="row" *ngIf="tipoSoli == '2'">
+
+    <div class="form-group col-md-4">
+        <label class="control-label">Cantidad Salida</label>
+        <input type="text" class="form-control" name="cantidadSalida" [(ngModel)]="cantidadSalida">
+    </div>
+    <div class="form-group col-md-4">
+        <label class="control-label">Peso Salida</label>
+        <input type="text" class="form-control" name="pesoSalida" [(ngModel)]="pesoSalida">
+    </div>
+</div>
+<div class="row" *ngIf="tipoSoli == '3' && tipoMov == '14'">
 
     <div class="form-group col-md-4">
         <label class="control-label">Cantidad Salida</label>
