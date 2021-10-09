@@ -292,21 +292,10 @@
               </tbody>
             </table>
           </ng-container>
-  
-          <ng-container *ngIf="blsalidaDocs.length > 0">
+          
+          <ng-container *ngIf="blsalida.length > 0">
             <h4>Salida</h4>
             <hr class="red">
-            <table class="table table-bordered table-striped" style="font-size: 0.65em;">
-              <tbody>
-                <tr *ngFor="let doc of blsalidaDocs">
-                  <td>{{doc.nombre}}</td>
-                  <td><a class="btn btn-sm btn-primary" target="_blank"
-                      [href]="'https://pis-api-recinto.azurewebsites.net/' + doc.archivo">Descargar</a></td>
-                </tr>
-              </tbody>
-            </table>
-          </ng-container>
-          <ng-container *ngIf="blsalida.length > 0">
             <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
               <table class="table table-bordered table-striped">
                 <thead>
@@ -328,6 +317,18 @@
                 </tbody>
               </table>
             </div>
+          </ng-container>
+          <ng-container *ngIf="blsalidaDocs.length > 0">
+            
+            <table class="table table-bordered table-striped" style="font-size: 0.65em;">
+              <tbody>
+                <tr *ngFor="let doc of blsalidaDocs">
+                  <td>{{doc.nombre}}</td>
+                  <td><a class="btn btn-sm btn-primary" target="_blank"
+                      [href]="'https://pis-api-recinto.azurewebsites.net/' + doc.archivo">Descargar</a></td>
+                </tr>
+              </tbody>
+            </table>
           </ng-container>
           <ng-container *ngIf="bldocs.length > 0">
             <h4>Movimiento Previo</h4>

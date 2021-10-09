@@ -189,6 +189,9 @@ export class SolicitudServicioComponent implements OnInit {
         this.blsalida = res[0];
         this.blsalidaDocs = res[1];
       }
+      if (res.length == 2) {
+        this.blsalida = res[0];
+      }
     }, error => {
       this.blsalida = [];
       this.blsalidaDocs = [];
