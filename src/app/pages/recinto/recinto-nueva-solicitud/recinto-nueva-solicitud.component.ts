@@ -387,8 +387,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
                   docPedimentoSimplificado: this.blRevalidado,
                   docSolicitud: this.solicitudFile,
                   docTarja: this.tarja,
-                  salidaCantidad: +this.cantidadSalida,
-                  salidaPeso: +this.pesoSalida
+                  cantidad: +this.cantidadSalida,
+                  peso: +this.pesoSalida
                 }
               ]
 
