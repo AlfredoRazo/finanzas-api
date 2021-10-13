@@ -84,6 +84,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   buscarEmp = '';
   cantidadSalida = '';
   pesoSalida = '';
+  blsalida:any [] = [];
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -133,6 +134,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   tipoSalida: any;
   recintoOrigen: string = '035';
   recintoDestino: any;
+  totalPesoSalida = 0;
+  totalCantidadSalida = 0;
   tipoServicio = [
     { id: 1, descripcion: 'Contenedores' },
     { id: 2, descripcion: 'Carga suelta' }
@@ -196,6 +199,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
 
           this.bls = res[0];
           if (this.bls[0].estatus || this.tipoSoli == '1') {
+
             this.buque = this.bls[0]?.buque;
             this.viaje = this.bls[0]?.viaje;
             this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?Referencia=${this.bl}`).subscribe(resP => {
@@ -203,6 +207,20 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
                 this.blliber = resP[0];
               }
             }, error => {
+            });
+            this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudSalida?referencia=${this.bl}`).subscribe(res => {
+              if (res.length == 3) {
+                this.blsalida = res[0];
+              }
+              if (res.length == 2) {
+                this.blsalida = res[0];
+              }
+                this.blsalida.forEach(item =>{
+                  this.totalCantidadSalida += item.salidaCantidad;
+                  this.totalPesoSalida += item.salidaPeso;
+                });
+            }, error => {
+              this.blsalida = [];
             });
             this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Separación&BL=${this.bl}`).subscribe(res => {
               if (res.length > 2) {

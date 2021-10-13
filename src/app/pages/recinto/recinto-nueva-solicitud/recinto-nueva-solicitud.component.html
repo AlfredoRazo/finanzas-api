@@ -389,6 +389,41 @@
     </table>
 </div>
 <br>
+
+<div *ngIf="tipoSoli == '2' && tipoSalida == '91'">
+    <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th style="white-space: nowrap;">BL</th>
+              <th style="white-space: nowrap;">Tipo Salida</th>
+              <th style="white-space: nowrap;">Recinto Origen</th>
+              <th style="white-space: nowrap;">Recinto Destino</th>
+              <th style="white-space: nowrap;">Cantidad</th>
+              <th style="white-space: nowrap;">Peso</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of blsalida; let i = index">
+              <td>{{item.BL}}</td>
+              <td>{{item.salidaTipo == '91'? 'Normal' : 'Transferencia'}}</td>
+              <td>{{item.salidaRecintoOrigen}}</td>
+              <td>{{item.salidaRecintoDestino}}</td>
+              <td>{{item.salidaCantidad}}</td>
+              <td>{{item.salidaPeso}}</td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td><b>Total Cantidad: </b> {{totalCantidadSalida}}</td>
+                <td colspan="2"><b>Total Peso: </b> {{totalPesoSalida}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      
+</div>
 <div class="row" *ngIf="tipoSoli == '2'">
 
     <div class="form-group col-md-4">
