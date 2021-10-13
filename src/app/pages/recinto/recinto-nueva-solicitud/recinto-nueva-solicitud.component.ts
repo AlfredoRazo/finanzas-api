@@ -219,6 +219,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
                   this.totalCantidadSalida += item.salidaCantidad;
                   this.totalPesoSalida += item.salidaPeso;
                 });
+                this.totalCantidadSalida =  this.bls[0]?.cantidad -this.totalCantidadSalida;
+                this.totalPesoSalida = this.bls[0]?.pesoBruto - this.totalPesoSalida;
             }, error => {
               this.blsalida = [];
             });
