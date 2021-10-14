@@ -382,6 +382,11 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
         }
       ]
     };
+    if(this.tipoSoli == '2' && (+this.cantidadSalida > this.totalCantidadSalida || +this.pesoSalida > this.totalPesoSalida)){
+      this.msjErrorpesos = 'La cantidad de salida o el peso de salida no pueden ser mayores a lo sobrante';
+      this.hasErrorPesos = true;
+      return;
+    }
     this.http.post(`https://pis-api-recinto.azurewebsites.net/api/solicitudes`, payload).subscribe((resSolicitudF: any) => {
 
       if (!resSolicitudF.error) {
