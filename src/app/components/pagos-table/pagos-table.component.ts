@@ -111,7 +111,7 @@ export class PagosTableComponent implements OnInit {
     this.spinner.show();
     let query = '';
     //if(this.parent != 'facturacion'){
-      query = '?rfc=' + this.auth.getSession().userData.rfc;
+      query = '?rfc=' + encodeURIComponent(this.auth.getSession().userData.rfc);
     //}
     this.http.get(`${environment.endpoint}consultasDetalle${query}`).subscribe((res: any) => {
       this.spinner.hide();
