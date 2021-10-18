@@ -40,7 +40,9 @@
               "xlsx",
               "core-js-pure",
               "raf",
-              "dayjs/locale/es"
+              "dayjs/locale/es",
+              "canvg",
+              "core-js"
            ]
           },
           "configurations": {

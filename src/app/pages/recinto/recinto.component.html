@@ -13,6 +13,8 @@
   </li>
   <li role="presentation" [class.active]="submenu==7"><a [routerLink]="" (click)="submenu=7">Consulta de manifiesto</a>
   </li>
+  <li role="presentation" [class.active]="submenu==8"><a [routerLink]="" (click)="submenu=8">Inventario</a>
+  </li>
 </ul>
 <br>
 <br>
@@ -106,6 +108,9 @@
         </table>
       </div>
     </div>
+  </div>
+  <div *ngSwitchCase="8">
+    <app-bl-inventario></app-bl-inventario>
   </div>
 </container-element>
 <br>

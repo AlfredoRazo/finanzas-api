@@ -1,0 +1,98 @@
+<div class="row">
+    <div class="form-group col-md-4">
+        <label class="control-label">Buscar B/L</label>
+        <input type="text" class="form-control" name="bl" [(ngModel)]="bl">
+    </div>
+    <div class="col-md-8">
+        <button class="btn btn-primary btn-sm" style="margin-top: 30px;" (click)="consulta()"
+            [disabled]="!bl">Buscar</button>
+    </div>
+</div>
+<div *ngIf="visualBL">
+<h4>B/L</h4>
+<hr class="red">
+<table class="table table-bordered table-striped" style="font-size: 0.65em;">
+    <tbody>
+        <tr>
+            <td>B/L</td>
+            <td>{{visualBL?.bl}}</td>
+        </tr>
+        <tr>
+            <td>Fecha Alta BL</td>
+            <td>{{visualBL?.fechaAltaBl}}</td>
+        </tr>
+        <tr>
+            <td>Buque</td>
+            <td>{{visualBL?.buque}}</td>
+        </tr>
+        
+        <tr>
+            <td>Embarcador</td>
+            <td>{{visualBL?.embarcador}}</td>
+        </tr>
+        <tr>
+            <td>Consignatario</td>
+            <td>{{visualBL?.consignatario}}</td>
+        </tr>
+        <tr>
+            <td>Notificar</td>
+            <td>{{visualBL?.notificarA}}</td>
+        </tr>
+        <tr>
+            <td>Marcas y números</td>
+            <td>{{visualBL?.marcasNumeros}}</td>
+        </tr>
+        <tr>
+            <td>Cantidad</td>
+            <td>{{visualBL?.cantidad}}</td>
+        </tr>
+        <tr>
+            <td>Unidad</td>
+            <td>{{visualBL?.unidad}}</td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td>{{visualBL?.descripcion}}</td>
+        </tr>
+        <tr>
+            <td>Peso Bruto</td>
+            <td>{{visualBL?.pesoBruto}}</td>
+        </tr>
+        <tr>
+            <td>Volumen</td>
+            <td>{{visualBL?.volumen}}</td>
+        </tr>
+        <tr>
+            <td>Fecha Alta Manifiesto</td>
+            <td>{{visualBL?.fechaAltaManifiesto}}</td>
+        </tr>
+        <tr>
+            <td>Fecha Entrada/Salida</td>
+            <td>{{visualBL?.fechaEntradaSalida}}</td>
+        </tr>
+        <tr>
+            <td>Fecha Servicio Entrada</td>
+            <td>{{visualBL?.fechaServicioEntrada}}</td>
+        </tr>
+        <tr>
+            <td>Manifiesto</td>
+            <td>{{visualBL?.manifiesto}}</td>
+        </tr>
+        <tr>
+            <td>Puerto Descarga</td>
+            <td>{{visualBL?.puertoDescarga}}</td>
+        </tr>
+        <tr>
+            <td>Puerto Embarque</td>
+            <td>{{visualBL?.puertoEmbarque}}</td>
+        </tr>
+        <tr>
+            <td>Puerto Emisión</td>
+            <td>{{visualBL?.puertoEmision}}</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<div class="alert alert-warning" *ngIf="mensajeErr">
+{{mensajeErr}}
+</div>

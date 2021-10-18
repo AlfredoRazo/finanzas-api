@@ -48,6 +48,8 @@ import { TablaBuquesComponent } from './components/tabla-buques/tabla-buques.com
 import { CargaManifiestoComponent } from './components/carga-manifiesto/carga-manifiesto.component';
 import { PersonalRecintoComponent } from './components/personal-recinto/personal-recinto.component';
 import { SolicitudServicioComponent } from './components/solicitud-servicio/solicitud-servicio.component';
+import { BlInventarioComponent } from './components/bl-inventario/bl-inventario.component';
+
 
 @NgModule({
   declarations: [
@@ -87,7 +89,8 @@ import { SolicitudServicioComponent } from './components/solicitud-servicio/soli
     TablaBuquesComponent,
     CargaManifiestoComponent,
     PersonalRecintoComponent,
-    SolicitudServicioComponent
+    SolicitudServicioComponent,
+    BlInventarioComponent,
   ],
   imports: [
     BrowserAnimationsModule,
