@@ -92,6 +92,300 @@
         </tr>
     </tbody>
 </table>
+
+<div class="table-responsive" style="max-height: 500px;">
+    <table class="table table-bordered">
+      <thead style="white-space: nowrap;">
+        <tr style="cursor: pointer;">
+          
+          <th></th>
+          <th scope="col" [appSort]="data" data-order="desc" data-name="idSolicitud">ID Solicitud <span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="data" data-order="desc" data-name="estatus">Estatus <span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="data" data-order="desc" data-name="idTipoSolicitud">Tipo Solicitud<span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="data" data-order="desc" data-name="fechaServicio">Fecha Servicio<span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="data" data-order="desc" data-name="nombre">Cliente <span
+              class="glyphicon glyphicon-sort"></span></th>
+          <th scope="col" [appSort]="data" data-order="desc" data-name="idBl">BL <span
+              class="glyphicon glyphicon-sort"></span></th>
+
+        </tr>
+      </thead>
+      <tbody style="white-space: nowrap;">
+        <tr *ngFor="let item of data">
+          <td><button class="btn btn-xs btn-primary" (click)="visualizar(item)" data-toggle="modal"
+              data-target="#show-data">Revisar detalle</button></td>
+          <td>{{item.idSolicitud}}</td>
+          <td>{{item.estatus == '1' ? 'Por Autorizar' : item.estatus == '100' ?'Autorizado': 'Por Definir' }}</td>
+          <td>{{item.tipoSolicitud}}</td>
+          <td>{{item.fechaServicio}}</td>
+          <td>{{item.nombre}}</td>
+          <td>{{item.bl}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Registros encontrados: <b>{{total}}</b></p>
+  <ngb-pagination [collectionSize]="total" [pageSize]="collSize" [(page)]="page" (pageChange)="paginado($event)"
+    [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
+
+<div class="modal fade" id="show-data">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Visualizar</h4>
+        </div>
+        <div class="modal-body">
+   
+          <h4>Solicitud</h4>
+  
+          <hr class="red">
+  
+          <table class="table table-bordered table-striped" style="font-size: 0.65em;">
+            <tbody>
+              <tr>
+                <td>Tipo Servicio</td>
+                <td>{{visualSolicitud?.tipoServicio}}</td>
+              </tr>
+              <tr>
+                <td>Tipo Trámite</td>
+                <td>{{visualSolicitud?.tipoTramite}}</td>
+              </tr>
+              <tr>
+                <td>Tipo Solicitud</td>
+                <td>{{visualSolicitud?.tipoSolicitud}}</td>
+              </tr>
+              <tr>
+                <td>Tipo Transporte</td>
+                <td>{{visualSolicitud?.tipoTransporte}}</td>
+              </tr>
+              <tr>
+                <td>Fecha Servicio</td>
+                <td>{{visualSolicitud?.fechaServicio}}</td>
+              </tr>
+              <tr>
+                <td>Patente</td>
+                <td>{{visualSolicitud?.patente}}</td>
+              </tr>
+              <tr>
+                <td>Buque</td>
+                <td>{{visualSolicitud?.buque}}</td>
+              </tr>
+              <tr>
+                <td>Cliente</td>
+                <td>{{visualSolicitud?.nombre}}</td>
+              </tr>
+              <tr>
+                <td>Fecha Arribo</td>
+                <td>{{visualSolicitud?.fechaArribo}}</td>
+              </tr>
+              <tr>
+                <td>Fecha Inicio de Operaciones</td>
+                <td>{{visualSolicitud?.fechaIniOperaciones}}</td>
+              </tr>
+              <tr>
+                <td>Viaje</td>
+                <td>{{visualSolicitud?.viaje}}</td>
+              </tr>
+              <tr>
+                <td>Fecha Zarpe</td>
+                <td>{{visualSolicitud?.fechaZarpe}}</td>
+              </tr>
+              <tr>
+                <td>Linea Naviera</td>
+                <td>{{visualSolicitud?.lineaNaviera}}</td>
+              </tr>
+              <tr>
+                <td>Agencia Consignataria</td>
+                <td>{{visualSolicitud?.agenciaConsignataria}}</td>
+              </tr>
+              <tr *ngIf="visualSolicitud?.violacionDanyoExtravioAlmacenado">
+                <td colspan="2">Información relativa a la
+                  violación, daño o extravío de los bultos o mercancías almacenados.</td>
+                
+              </tr>
+  
+            </tbody>
+          </table>
+          <div *ngIf="blmovimiento.length > 0">
+            <h4>Movimientos</h4>
+            <hr class="red">
+          </div>
+          <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;" *ngIf="blmovimiento.length > 0">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr style="cursor: pointer">
+                  <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc" data-name="bl">
+                    BL </th>
+                  <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                    data-name="embarcador">Embarcador </th>
+                  <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                    data-name="consignatario">Consignatario
+  
+                  </th>
+                  <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                    data-name="notificarA">Notificar a </th>
+                  <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                    data-name="marcasNumeros">Marcas y Números
+  
+                  </th>
+                  <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                    data-name="cantidad">Cantidad </th>
+                  <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                    data-name="unidad">Unidad </th>
+                  <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                    data-name="descripcion">Descripción </th>
+                  <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                    data-name="pesoBruto">Peso Bruto (KG) </th>
+                  <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                    data-name="volumen">Volumen </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of blmovimiento; let i = index">
+                  <td>{{item.bl}}<br><b>{{item.Tipo}}</b></td>
+                  <td>{{item.embarcador}}</td>
+                  <td>{{item.consignatario}}</td>
+                  <td>{{item.notificarA}}</td>
+                  <td>{{item.marcasNumeros}}</td>
+                  <td>{{item.movimientoCant}}</td>
+                  <td>{{item.unidad}}</td>
+                  <td>{{item.descripcion}}</td>
+                  <td>{{item.movimientoPeso}}</td>
+                  <td>{{item.movimientovolumen}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ng-container *ngIf="blliberacion.length > 0">
+            <h4>Liberación</h4>
+            <hr class="red">
+            <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="white-space: nowrap;">BL</th>
+                    <th style="white-space: nowrap;">Clave Pedimento</th>
+                    <th style="white-space: nowrap;">Tipo Pedimento</th>
+                    <th style="white-space: nowrap;">Tipo Cambio</th>
+                    <th style="white-space: nowrap;">Valor Aduana</th>
+                    <th style="white-space: nowrap;">Piezas</th>
+                    <th style="white-space: nowrap;">Peso</th>
+                    <th style="white-space: nowrap;">Tipo Liberacion</th>
+                    <th style="white-space: nowrap;">Número de Partes</th>
+                    <th style="white-space: nowrap;">Número de Copias</th>
+                    <th style="white-space: nowrap;">COVE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of blliberacion; let i = index">
+                    <td>{{item.solicitudBL}}<br><b>Liberación</b></td>
+                    <td>{{item.solicitudClavePedimento}}</td>
+                    <td>{{getTipoPedimento(item.solicitudTipoPedimento)}}</td>
+                    <td>{{item.solicitudtipoCambio}}</td>
+                    <td>{{item.solicitudValorAduana}}</td>
+                    <td>{{item.solicitudPiezas}}</td>
+                    <td>{{item.solicitudPeso}}</td>
+                    <td>{{item.solicitudTipoLiberacion}}</td>
+                    <td>{{item.solicitudNumPartes}}</td>
+                    <td>{{item.solicitudNumCopias}}</td>
+                    <td>{{item.solicitudCoves}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-container>
+  
+          <ng-container *ngIf="blliberacionDocs.length > 0">
+           
+            
+            <table class="table table-bordered table-striped" style="font-size: 0.65em;">
+              <tbody>
+                <tr *ngFor="let doc of blliberacionDocs">
+                  <td>{{doc.nombre}}</td>
+                  <td><a class="btn btn-sm btn-primary" target="_blank"
+                      [href]="'https://pis-api-recinto.azurewebsites.net/' + doc.archivo">Descargar</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+          
+          <ng-container *ngIf="blsalida.length > 0">
+            <h4>Salida</h4>
+            <hr class="red">
+            <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="white-space: nowrap;">BL</th>
+                    <th style="white-space: nowrap;">Tipo Salida</th>
+                    <th style="white-space: nowrap;">Recinto Origen</th>
+                    <th style="white-space: nowrap;">Recinto Destino</th>
+                    <th style="white-space: nowrap;">Cantidad</th>
+                    <th style="white-space: nowrap;">Peso</th>
+  
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of blsalida; let i = index">
+                    <td>{{item.BL}}</td>
+                    <td>{{item.salidaTipo == '91'? 'Normal' : 'Transferencia'}}</td>
+                    <td>{{item.salidaRecintoOrigen}}</td>
+                    <td>{{item.salidaRecintoDestino}}</td>
+                    <td>{{item.salidaCantidad}}</td>
+                    <td>{{item.salidaPeso}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="blsalidaDocs.length > 0">
+            
+            <table class="table table-bordered table-striped" style="font-size: 0.65em;">
+              <tbody>
+                <tr *ngFor="let doc of blsalidaDocs">
+                  <td>{{doc.nombre}}</td>
+                  <td><a class="btn btn-sm btn-primary" target="_blank"
+                      [href]="'https://pis-api-recinto.azurewebsites.net/' + doc.archivo">Descargar</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+          <ng-container *ngIf="bldocs.length > 0">
+            <h4>Movimiento Previo</h4>
+            <hr class="red">
+            <table class="table table-bordered table-striped" style="font-size: 0.65em;">
+              <tbody>
+                <tr *ngFor="let doc of bldocs">
+                  <td>{{doc.nombre}}</td>
+                  <td><a class="btn btn-sm btn-primary" target="_blank"
+                      [href]="'https://pis-api-recinto.azurewebsites.net/' + doc.archivo">Descargar</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+          <!--ng-container *ngIf="documentosVisual.length > 0">
+            <h4>Documentos</h4>
+            <hr class="red">
+            <table class="table table-bordered table-striped">
+              <tbody>
+              <tr *ngFor="let doc of documentosVisual">
+                <td>{{doc.nombre}}</td>
+                <td><button class="btn btn-sm btn-primary">Descargar</button></td>
+              </tr>
+              </tbody>
+            </table>
+          </ng-container-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 </div>
 <div class="alert alert-warning" *ngIf="mensajeErr">
 {{mensajeErr}}
