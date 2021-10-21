@@ -243,7 +243,7 @@
 </div>
 
 
-<ng-container *ngIf="blliber.length > 0 && tipoSoli == '2' && tipoSalida == '92'">
+<ng-container *ngIf="blliber.length > 0 && tipoSoli == '2' && tipoSalida == '91'">
     <h4>Liberación</h4>
     <hr class="red" />
     <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
@@ -573,4 +573,4 @@
 
 <button type="button" class="btn btn-default" routerLink="/recinto">Regresar</button>
 <button type="button" class="btn btn-primary" style="margin-left: 15px;" (click)="guardarSolicitud()"
-    [disabled]="bls.length < 1 || (tipoSoli == '4' && liberacion.length < 0) || (tipoSoli == '2' && blliber.length == 0 && tipoSalida == '92')"> Guardar</button>
+    [disabled]="bls.length < 1 || (tipoSoli == '4' && liberacion.length < 0) || (tipoSoli == '2' && blliber.length == 0 && tipoSalida == '91')"> Guardar</button>

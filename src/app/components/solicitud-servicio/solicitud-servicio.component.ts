@@ -40,6 +40,8 @@ export class SolicitudServicioComponent implements OnInit {
   imprimeFormato: any;
   puedeAutorizar = true;
   imgheader:any;
+  criterio = 'BL';
+  buscador = '';
 
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
@@ -57,8 +59,11 @@ export class SolicitudServicioComponent implements OnInit {
     if (user.idRol == 2101) {
       this.puedeAutorizar = false;
     }
-
-    this.http.get(`https://pis-api-recinto.azurewebsites.net/api/solicitudes?idEmpresa=${user.empresaid}`).subscribe((res: any) => {
+    let query = '';
+    if(this.buscador){
+      query = '&' + this.criterio + '=' + this.buscador;
+    }
+    this.http.get(`https://pis-api-recinto.azurewebsites.net/api/solicitudes?idEmpresa=${user.empresaid}${query}`).subscribe((res: any) => {
       if (res.length > 1) {
         this.total = res[0].length;
         this.originalData = res[0].map((item: any) => {

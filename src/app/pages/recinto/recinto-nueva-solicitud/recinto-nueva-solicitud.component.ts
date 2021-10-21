@@ -395,7 +395,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           case 2:
             this.spinner.show();
             let liberacionId = 0
-            if(this.tipoSalida == '92'){
+            if(this.tipoSalida == '91'){
               liberacionId = this.blliber.length > 0 ? this.blliber[this.indexLib].solicitudId : 0;
             }
             let payloadSalida: any = {
