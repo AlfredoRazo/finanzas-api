@@ -535,7 +535,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.msjErrorpesos = '';
     this.hasErrorPesos = false;
     let error = 0;
-    if (this.blmovimiento.lengt > 0) {
+    if (this.blmovimiento.length > 0) {
       if (this.indexBl == -1) {
         if (parseInt(this.restantes.disponibleCantidad) > parseInt(this.liberacionPiezas)) {
           error++;
