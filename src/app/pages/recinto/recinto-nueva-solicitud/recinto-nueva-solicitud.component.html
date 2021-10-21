@@ -518,7 +518,7 @@
         </div>
         <div class="col-md-4">
 
-            <button class="btn btn-sm btn-primary" style="margin-top: 32px;" (click)="addLiberacion()">Agregar</button>
+            <button class="btn btn-sm btn-primary" style="margin-top: 32px;" (click)="addLiberacion()" [disabled]="blmovimiento.length > 0 && indexBl == undefined">Agregar</button>
         </div>
     </div>
     <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
