@@ -192,13 +192,13 @@
                 <option value="92">Transferencia</option>
             </select>
         </div>
-        <div class="form-group col-md-8" *ngIf="tipoSalida == '92' && blliber.length > 0">
+        <div class="form-group col-md-8" *ngIf="tipoSalida == '92'">
             <label class="control-label">Recinto Origen</label>
             <select class="form-control" name="recintoOrigen" [(ngModel)]="recintoOrigen" disabled>
                 <option *ngFor="let item of recintos" [value]="item.clave">{{item.nombre}}</option>
             </select>
         </div>
-        <div class="form-group col-md-12" *ngIf="tipoSalida == '92' && blliber.length > 0">
+        <div class="form-group col-md-12" *ngIf="tipoSalida == '92'">
             <label class="control-label">Recinto Destino</label>
             <select class="form-control" name="recintoDestino" [(ngModel)]="recintoDestino">
                 <option *ngFor="let item of recintos" [value]="item.clave">{{item.nombre}}</option>
@@ -241,7 +241,6 @@
         <input type="file" (change)="handleUpload($event, 'solicitud')">
     </div>
 </div>
-
 
 <ng-container *ngIf="blliber.length > 0 && tipoSoli == '2' && tipoSalida == '91'">
     <h4>Liberación</h4>
