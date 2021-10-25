@@ -382,6 +382,14 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
         }
       ]
     };
+    
+    if((this.tipoSoli == '2' && this.tipoSalida == '91') && (this.indexLib != undefined && this.blliber.length > 0)){
+      if(this.pesoSalida != this.blliber[this.indexLib].solicitudPeso && this.cantidadSalida != this.blliber[this.indexLib].solicitudPiezas){
+      this.msjErrorpesos = 'La cantidad de salida ó el peso de salida debe ser igual al peso ó salida de la liberación';
+      this.hasErrorPesos = true;
+      return;
+      }
+    }
     if(this.tipoSoli == '2' && (+this.cantidadSalida > this.totalCantidadSalida || +this.pesoSalida > this.totalPesoSalida)){
       this.msjErrorpesos = 'La cantidad de salida o el peso de salida no pueden ser mayores a lo sobrante';
       this.hasErrorPesos = true;
@@ -529,6 +537,11 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       this.msjErrorpesos = 'La cantidad de salida o el peso de salida no pueden ser mayores' + extra;
       this.hasErrorPesos = true;
     }
+  }
+
+  salidaLiberacion(){
+    this.pesoSalida = this.blliber[this.indexLib].solicitudPeso;
+    this.cantidadSalida = this.blliber[this.indexLib].solicitudPiezas;
   }
 
   addLiberacion(): void {

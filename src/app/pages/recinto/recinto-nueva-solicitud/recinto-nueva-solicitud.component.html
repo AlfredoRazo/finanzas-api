@@ -264,7 +264,7 @@
             <tbody>
                 <tr *ngFor="let item of blliber; let i = index">
                     <td style="vertical-align: middle; text-align: center;"> <input type="radio" name="selectbl"
-                            [(ngModel)]="indexLib" [value]="i"></td>
+                            [(ngModel)]="indexLib" (change)="salidaLiberacion()" [value]="i"></td>
                     <td>{{item.solicitudBL}}</td>
                     <td>{{item.solicitudClavePedimento}}</td>
                     <td>{{item.solicitudTipoPedimento}}</td>
@@ -278,7 +278,7 @@
         </table>
     </div>
 </ng-container>
-<ng-container *ngIf="blliber.length == 0 && tipoSoli == '2' && tipoSalida == '92'">
+<ng-container *ngIf="blliber.length == 0 && tipoSoli == '2' && tipoSalida == '91'">
 <div class="alert alert-warning">
     El bl debe tener una liberación previa
 </div>

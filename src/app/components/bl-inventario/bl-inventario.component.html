@@ -268,6 +268,7 @@
                 <thead>
                   <tr>
                     <th style="white-space: nowrap;">BL</th>
+                    <th style="white-space: nowrap;">Número de Pedimento</th>
                     <th style="white-space: nowrap;">Clave Pedimento</th>
                     <th style="white-space: nowrap;">Tipo Pedimento</th>
                     <th style="white-space: nowrap;">Tipo Cambio</th>
@@ -283,6 +284,7 @@
                 <tbody>
                   <tr *ngFor="let item of blliberacion; let i = index">
                     <td>{{item.solicitudBL}}<br><b>Liberación</b></td>
+                    <td>{{item.solicitudNumPedimento}}</td>
                     <td>{{item.solicitudClavePedimento}}</td>
                     <td>{{item.solicitudTipoPedimento}}</td>
                     <td>{{item.solicitudtipoCambio}}</td>
