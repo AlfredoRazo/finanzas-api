@@ -18,12 +18,14 @@
   <br>
   <button type="button" class="btn btn-primary btn-sm" routerLink="nueva-solicitud">Nueva solicitud</button>
   <button class="btn btn-primary btn-sm pull-right" (click)="autorizar()" *ngIf="puedeAutorizar">Autorizar</button>
+  <button class="btn btn-primary btn-sm pull-right"  *ngIf="puedeAutorizar" style="margin-right: 10px ;">Inventario</button>
   <br>
   <br>
   <div class="table-responsive" style="max-height: 500px;">
     <table class="table table-bordered">
       <thead style="white-space: nowrap;">
         <tr style="cursor: pointer;">
+          <th *ngIf="puedeAutorizar"></th>
           <th *ngIf="puedeAutorizar"></th>
           <th></th>
           <th scope="col" [appSort]="data" data-order="desc" data-name="idSolicitud">ID Solicitud <span
@@ -43,6 +45,11 @@
       </thead>
       <tbody style="white-space: nowrap;">
         <tr *ngFor="let item of data">
+          <td style="vertical-align: middle;" *ngIf="puedeAutorizar">
+            <ng-container *ngIf="item.estatus == 100">
+              <input type="checkbox" [(ngModel)]="item.selectedhechos">
+            </ng-container>
+          </td>
           <td style="vertical-align: middle;" *ngIf="puedeAutorizar">
             <ng-container *ngIf="item.estatus == 1">
               <input type="checkbox" [(ngModel)]="item.selected">

@@ -68,6 +68,7 @@ export class SolicitudServicioComponent implements OnInit {
         this.total = res[0].length;
         this.originalData = res[0].map((item: any) => {
           item.selected = false;
+          item.selectedhechos = false;
           return item;
         });
         const fir = [...this.originalData];
