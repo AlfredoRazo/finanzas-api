@@ -34,6 +34,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   clientes: any[] = [];
   conceptos: any[] = [];
   unidadesmedida: any[] = [];
+  unidadesmedidaVol: any[] = [];
   data: any[] = [];
   buque: any = {};
   buques: any[] = [];
@@ -152,10 +153,13 @@ export class OperacionesNuevoPagoComponent implements OnInit {
   }
   getUnidadesMedida(): void {
     this.http.get(this.catalogos + 'unidadesmedida').subscribe((res: any) => {
-      this.unidadesmedida = res.valores;
+      const valores = res.valores;
       if (res.valores) {
-        this.unidadesmedida = this.unidadesmedida.filter(item => {
+        this.unidadesmedida = valores.filter((item: any) => {
           return (item.clave == '10' || item.clave == 'ST' || item.clave == 'KG')
+        });
+        this.unidadesmedidaVol = valores.filter((item: any) =>{
+          return (item.clave == '10' || item.clave == 'ST' || item.clave == 'KG' || item.clave == 'M/E')
         });
       }
     });
