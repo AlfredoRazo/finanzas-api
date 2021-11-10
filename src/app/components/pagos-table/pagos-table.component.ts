@@ -28,7 +28,7 @@ export class PagosTableComponent implements OnInit {
   filtro = false;
   filterData:any = [];
   originalData : any = [];
-  collSize = 50;
+  collSize = 10;
   descPaginado = '';
   data: any = [];
   isPagar = false;
@@ -72,10 +72,11 @@ export class PagosTableComponent implements OnInit {
         item.selected = this.checkAll; 
       }
       return item; });
-    this.data = this.pagina.paginate(this.originalData, 10, this.pagePago);
+    this.data = this.pagina.paginate(this.originalData, this.collSize, this.pagePago);
   }
 
   filtrado(): void{
+
     this.pagePago = 1;
     if(this.criterio && this.filtrarpor){
       this.filtro = true;
@@ -94,9 +95,9 @@ export class PagosTableComponent implements OnInit {
 
   paginado(evt: any = null): void {
     if(this.filtro){
-      this.data = this.pagina.paginate(this.filterData, 10, this.pagePago);
+      this.data = this.pagina.paginate(this.filterData, this.collSize, this.pagePago);
     }else{
-      this.data = this.pagina.paginate(this.originalData, 10, this.pagePago);
+      this.data = this.pagina.paginate(this.originalData, this.collSize, this.pagePago);
     }
     this.descripcionPaginado();
   }

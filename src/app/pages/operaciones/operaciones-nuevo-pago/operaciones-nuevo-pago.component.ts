@@ -156,7 +156,7 @@ export class OperacionesNuevoPagoComponent implements OnInit {
       const valores = res.valores;
       if (res.valores) {
         this.unidadesmedida = valores.filter((item: any) => {
-          return (item.clave == '10' || item.clave == 'ST' || item.clave == 'KG')
+          return (item.clave == '10' || item.clave == 'ST' || item.clave == 'KG' || item.clave == 'TRB')
         });
         this.unidadesmedidaVol = valores.filter((item: any) =>{
           return (item.clave == '10' || item.clave == 'ST' || item.clave == 'KG' || item.clave == 'M/E')
