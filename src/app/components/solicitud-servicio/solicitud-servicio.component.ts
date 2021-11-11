@@ -123,15 +123,20 @@ export class SolicitudServicioComponent implements OnInit {
     this.hasError = false;
     this.hasSuccess = false;
     this.msj = '';
-    const payload = this.data.filter((item: any) => {
+    const reg = this.data.filter((item: any) => {
       return item.selected
     }).map((item: any) => {
       return {
         idSolicitud: item.idSolicitud,
-        estatus: 100
+        value: 100
       };
     });
-    this.http.put(`${environment.endpointRecinto}Solicitud/v1/estatus/masivo`, payload).subscribe((res: any) => {
+    const payload = {
+      appkey : "c53ea43376d653a43e10711de2da2d9b6f156ead",
+      registros: reg
+    }
+  
+    this.http.post(`https://pis-api-recinto.azurewebsites.net/api/solicitudActualizar`, payload).subscribe((res: any) => {
       if (!res.error) {
         this.getSolicitudesServicios();
         this.hasSuccess = true;
@@ -141,7 +146,34 @@ export class SolicitudServicioComponent implements OnInit {
         this.msj = res.mensaje;
       }
     }, err => { });
+  }
 
+  inventario(): void {
+    this.hasError = false;
+    this.hasSuccess = false;
+    this.msj = '';
+    const reg = this.data.filter((item: any) => {
+      return item.selectedhechos
+    }).map((item: any) => {
+      return {
+        idSolicitud: item.idSolicitud,
+      };
+    });
+    const payload = {
+      appkey : "c53ea43376d653a43e10711de2da2d9b6f156ead",
+      registros: reg
+    }
+  
+    this.http.post(`https://pis-api-recinto.azurewebsites.net/api/solicitudInventario`, payload).subscribe((res: any) => {
+      if (!res.error) {
+        this.getSolicitudesServicios();
+        this.hasSuccess = true;
+        this.msj = res.mensaje;
+      } else {
+        this.hasError
+        this.msj = res.mensaje;
+      }
+    }, err => { });
   }
 
   getDocumentos(bl: string) {
