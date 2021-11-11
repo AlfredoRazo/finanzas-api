@@ -67,12 +67,24 @@ export class PagosTableComponent implements OnInit {
   }
 
   checks(): void {
-    this.originalData = this.originalData.map((item: any) => { 
-      if(item.estatus == 'Nuevo'){
-        item.selected = this.checkAll; 
-      }
-      return item; });
-    this.data = this.pagina.paginate(this.originalData, this.collSize, this.pagePago);
+    if(this.criterio && this.filtrarpor){
+    
+      this.filterData = this.filterData.map((item: any) => { 
+        if(item.estatus == 'Nuevo'){
+          item.selected = this.checkAll; 
+        }
+        return item; });
+      this.data = this.pagina.paginate(this.filterData, this.collSize, this.pagePago);
+    }else{
+      this.originalData = this.originalData.map((item: any) => { 
+        if(item.estatus == 'Nuevo'){
+          item.selected = this.checkAll; 
+        }
+        return item; });
+      this.data = this.pagina.paginate(this.originalData, this.collSize, this.pagePago);
+    }
+    
+    
   }
 
   filtrado(): void{
@@ -137,7 +149,12 @@ export class PagosTableComponent implements OnInit {
   }
 
   pagarMode(): void {
-    this.apagar = this.data.filter((item: any) => item.selected);
+    
+    if(this.filtro){
+      this.apagar = this.filterData.filter((item: any) => item.selected);
+    }else{
+      this.apagar = this.originalData.filter((item: any) => item.selected);
+    }
     if (this.apagar.length > 0) {
       this.apagar.forEach((element: any) => {
         const monto = Number(element.total.replace(/\$/g, '').replace(/\,/g, ''));
