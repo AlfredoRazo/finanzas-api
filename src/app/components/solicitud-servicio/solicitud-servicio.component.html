@@ -18,7 +18,8 @@
   <br>
   <button type="button" class="btn btn-primary btn-sm" routerLink="nueva-solicitud">Nueva solicitud</button>
   <button class="btn btn-primary btn-sm pull-right" (click)="autorizar()" *ngIf="puedeAutorizar">Autorizar</button>
-  <button class="btn btn-primary btn-sm pull-right" (click)="inventario()" *ngIf="puedeAutorizar" style="margin-right: 10px ;">Inventario</button>
+  <button class="btn btn-primary btn-sm pull-right"  *ngIf="puedeAutorizar" data-toggle="modal"
+  data-target="#send-inventario"  style="margin-right: 10px ;">Inventario</button>
   <br>
   <br>
   <div class="table-responsive" style="max-height: 500px;">
@@ -385,7 +386,7 @@
   
     <br>
     <br>
-    <table class="table-print">
+    <table class="table-print" style="width: 100%;">
       <tbody>
         <tr>
           <td><b>Boleta de Liberación</b></td>
@@ -455,6 +456,12 @@
     <br>
     <br>
     <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <table style="width: 100%; text-align: center;">
       <tr>
         <td>
@@ -469,8 +476,8 @@
           <p>________________________________________________</p>
           <b>
             <p>ENTREGÓ</p>
-            <p>POR LA ADMINISTRACIÓN PORTUARIA INTEGRAL</p>
-            <p> DE MANZANILLO, S.A. DE C.V.</p>
+            <p>ADMINISTRACIÓN DEL SISTEMA PORTUARIO </p>
+            <p> NACIONAL MANZANILLO S.A DE C.V.</p>
           </b>
         </td>
       </tr>
@@ -481,3 +488,27 @@
   
     </table>
   </div>
+
+  <div class="modal fade" id="send-inventario">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Inventario</h4>
+        </div>
+        <div class="modal-body" >
+          <div class="form-group">
+            <label>Área</label>
+            <select class="form-control" name="area" [(ngModel)]="areaInventario">
+              <option *ngFor="let area of areas" [value]="area.texto">{{area.texto}}</option>
+            </select>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cerrar</button>
+          <button class="btn btn-sm btn-primary" (click)="inventario()" [disabled]="!areaInventario">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

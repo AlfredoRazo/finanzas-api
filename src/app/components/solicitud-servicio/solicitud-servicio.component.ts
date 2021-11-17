@@ -42,6 +42,17 @@ export class SolicitudServicioComponent implements OnInit {
   imgheader:any;
   criterio = 'BL';
   buscador = '';
+  areaInventario = '';
+  areas : any[] = [
+    {identificado:'', texto:'Patio 15'},
+    {identificado:'', texto:'T1'},
+    {identificado:'', texto:'T2'},
+    {identificado:'', texto:'T3'},
+    {identificado:'', texto:'Abandono'},
+    {identificado:'', texto:'Reconocimiento'},
+    {identificado:'', texto:'Rondion'},
+    {identificado:'', texto:'R1'}
+  ];
 
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
@@ -261,11 +272,11 @@ export class SolicitudServicioComponent implements OnInit {
   }
 
   async imprimir() {
+    this.spinner.show();
     this.isPrint = true;
     await this.sleep(800);
-   
     const DATA = document.getElementById('contenido-imprimir');
-    this.pdf.downloadPdf(DATA);
+    this.pdf.downloadPdf(DATA, this.spinner);
     this.isPrint = false;
   }
   sleep(ms: any) {

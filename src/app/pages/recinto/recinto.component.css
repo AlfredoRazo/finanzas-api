@@ -27,13 +27,3 @@
   color: #6c757d;
   background-color: transparent;
 }
-
-.table-print {
-  width: 100%;
-}
-
-.table-print td {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
-}

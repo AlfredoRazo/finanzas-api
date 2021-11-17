@@ -306,8 +306,9 @@ export class PagosTableComponent implements OnInit {
   }
 
   imprimir(): void {
+    this.spinner.show();
     const DATA = document.getElementById('contenido-imprimir');
-    this.pdf.downloadPdf(DATA);
+    this.pdf.downloadPdf(DATA,this.spinner);
 
   }
   sendUsoCfdi(): void{
