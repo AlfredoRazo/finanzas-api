@@ -6,6 +6,7 @@ import { PdfService } from '@serv/pdf.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 declare var $: any;
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-solicitud-servicio',
@@ -43,16 +44,7 @@ export class SolicitudServicioComponent implements OnInit {
   criterio = 'BL';
   buscador = '';
   areaInventario = '';
-  areas : any[] = [
-    {identificado:'', texto:'Patio 15'},
-    {identificado:'', texto:'T1'},
-    {identificado:'', texto:'T2'},
-    {identificado:'', texto:'T3'},
-    {identificado:'', texto:'Abandono'},
-    {identificado:'', texto:'Reconocimiento'},
-    {identificado:'', texto:'Rondion'},
-    {identificado:'', texto:'R1'}
-  ];
+  areas : any[] = [];
 
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
@@ -62,6 +54,14 @@ export class SolicitudServicioComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSolicitudesServicios();
+    this.getCatInventario();
+  }
+
+  getCatInventario(): void{
+    this.http.get('https://pis-api-recinto.azurewebsites.net/api/catalogos?catalogo=areas').subscribe((res:any)=>{
+    this.areas = res[0];
+    },error=>{});
+    
   }
 
   getSolicitudesServicios(): void {
@@ -168,18 +168,26 @@ export class SolicitudServicioComponent implements OnInit {
     }).map((item: any) => {
       return {
         idSolicitud: item.idSolicitud,
+        value: 100,
+        usuarioModifica: this.auth.getSession().userData.username,
+        area:this.areaInventario
       };
     });
     const payload = {
       appkey : "c53ea43376d653a43e10711de2da2d9b6f156ead",
       registros: reg
     }
-  
+ 
     this.http.post(`https://pis-api-recinto.azurewebsites.net/api/solicitudInventario`, payload).subscribe((res: any) => {
       if (!res.error) {
         this.getSolicitudesServicios();
         this.hasSuccess = true;
-        this.msj = res.mensaje;
+        Swal.fire({
+          icon: 'success',
+          title:  res.mensaje ?  res.mensaje : 'Se añadió correctamente al inventario',
+          showConfirmButton: false,
+          timer: 2500
+        })
       } else {
         this.hasError
         this.msj = res.mensaje;

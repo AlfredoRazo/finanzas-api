@@ -499,7 +499,7 @@
           <div class="form-group">
             <label>Área</label>
             <select class="form-control" name="area" [(ngModel)]="areaInventario">
-              <option *ngFor="let area of areas" [value]="area.texto">{{area.texto}}</option>
+              <option *ngFor="let area of areas" [value]="area.catalogoDetId">{{area.catalogoDetNombre}}</option>
             </select>
           </div>
           
