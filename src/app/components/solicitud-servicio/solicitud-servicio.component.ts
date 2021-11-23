@@ -291,6 +291,15 @@ export class SolicitudServicioComponent implements OnInit {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  async imprimirSolicitud() {
+    this.spinner.show();
+    this.isPrint = true;
+    await this.sleep(800);
+    const DATA = document.getElementById('imprimir-solicitud');
+    this.pdf.downloadPdf(DATA, this.spinner);
+    this.isPrint = false;
+  }
+
   getLiberaciones(bl: string): void {
    
     this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?referencia=${bl}&idLiberacion=${this.visualSolicitud.idSolicitud}`).subscribe(res => {

@@ -82,7 +82,8 @@
         <div class="modal-body">
           <button
             *ngIf="visualSolicitud?.estatus == '100' && visualSolicitud?.tipoSolicitud == 'Liberación' && imprimeFormato"
-            class="btn btn-primary btn-sm pull-right" (click)="imprimir()">Imprimir Liberación</button>
+            class="btn btn-primary btn-sm pull-right" style="margin-left: 15px;" (click)="imprimir()">Imprimir Liberación</button>
+            <button class="btn btn-primary btn-sm pull-right" (click)="imprimirSolicitud()">Imprimir Solicitud</button>
           <h4>Solicitud</h4>
   
           <hr class="red">
@@ -378,7 +379,28 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
   
-  
+  <div class="modal fade" id="send-inventario">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Inventario</h4>
+        </div>
+        <div class="modal-body" >
+          <div class="form-group">
+            <label>Área</label>
+            <select class="form-control" name="area" [(ngModel)]="areaInventario">
+              <option *ngFor="let area of areas" [value]="area.catalogoDetId">{{area.catalogoDetNombre}}</option>
+            </select>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cerrar</button>
+          <button class="btn btn-sm btn-primary" (click)="inventario()" [disabled]="!areaInventario">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
   
   <div id="contenido-imprimir" style="font-size: 0.8em" *ngIf="isPrint">
     <img src="assets/logoAPI.jpeg" height="150">
@@ -452,16 +474,7 @@
         </tr>
       </tbody>
     </table>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+   <br style="margin-top: 20px;">
     <table style="width: 100%; text-align: center;">
       <tr>
         <td>
@@ -489,26 +502,149 @@
     </table>
   </div>
 
-  <div class="modal fade" id="send-inventario">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Inventario</h4>
-        </div>
-        <div class="modal-body" >
-          <div class="form-group">
-            <label>Área</label>
-            <select class="form-control" name="area" [(ngModel)]="areaInventario">
-              <option *ngFor="let area of areas" [value]="area.catalogoDetId">{{area.catalogoDetNombre}}</option>
-            </select>
-          </div>
+  <div id="imprimir-solicitud" style="font-size: 0.8em" *ngIf="isPrint">
+    <img src="assets/logoAPI.jpeg" height="150">
+    <h4 style="text-align: center;">Detalle de Solicitud de Servicio</h4>
+  
+    <br>
+    <br>
+    <table class="tabla-print">
+      <tbody>
+        <tr>
+          <td><b>Solicitud de Servicio</b></td>
+          <td></td>
+          <td><b>Estatus</b></td>
+          <td><b>{{visualSolicitud?.estatus == '1' ? 'Por Autorizar' : visualSolicitud.estatus == '100' ?'Autorizado': 'Por Definir' }}</b></td>
+        </tr>
+        <tr>
+          <td><b>Fecha Solicitud</b></td>
+          <td>{{visualSolicitud?.fechaAlta}}</td>
+          <td><b>Fecha Servicio</b></td>
+          <td>{{visualSolicitud?.fechaServicio}}</td>
+        </tr>
+        <tr>
+          <td><b>Usuario</b></td>
+          <td></td>
+          <td><b>Servidor Remoto</b></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><b>Agencia Aduanal</b></td>
+          <td>{{visualSolicitud?.AgenciaAduanal}}</td>
+          <td><b>Patente</b></td>
+          <td>{{visualSolicitud?.patente}}</td>
+        </tr>
+        <tr>
+          <td><b>Cliente</b></td>
+          <td colspan="3"> {{visualSolicitud?.nombre}}</td>
           
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cerrar</button>
-          <button class="btn btn-sm btn-primary" (click)="inventario()" [disabled]="!areaInventario">Guardar</button>
-        </div>
-      </div>
-    </div>
+        </tr>
+        <tr>
+          <td><b>Buque</b></td>
+          <td>{{visualSolicitud?.buque}}</td>
+          <td><b>Viaje</b></td>
+          <td>{{visualSolicitud?.viaje}}</td>
+        </tr>
+        <tr>
+          <td><b>Fecha de Arribo</b></td>
+          <td>{{visualSolicitud?.fechaArribo}}</td>
+          <td><b>Fecha de Zarpe</b></td>
+          <td>{{visualSolicitud?.fechaZarpe}}</td>
+        </tr>
+        <tr>
+          <td><b>F. Inicio Operaciones</b></td>
+          <td>{{visualSolicitud?.fechaIniOperaciones}}</td>
+          <td><b>F. Termino Operaciones</b></td>
+          <td>{{visualSolicitud?.fechaTerminoOperaciones}}</td>
+        </tr>
+        <tr>
+          <td><b>A. Consignataria</b></td>
+          <td>{{visualSolicitud?.agenciaConsignataria}}</td>
+          <td><b>Linea Naviera</b></td>
+          <td>{{visualSolicitud?.lineaNaviera}}</td>
+        </tr>
+        <tr>
+          <td><b>BL</b></td>
+          <td>{{visualSolicitud?.bl}}</td>
+          <td><b>Referencia</b></td>
+          <td>N/D</td>
+        </tr>
+        <tr>
+          <td><b>Fecha Entrada</b></td>
+          <td></td>
+          <td><b>F. Libre Almacenaje</b></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><b>Remitente</b></td>
+          <td colspan="3">{{visualBL?.embarcador}}</td>
+          
+        </tr>
+        <tr>
+          <td><b>Consignatario</b></td>
+          <td colspan="3">{{visualBL?.consignatario}}</td>
+          
+        </tr>
+        <tr>
+          <td><b>Notificador</b></td>
+          <td colspan="3">{{visualBL?.notificarA}}</td>
+        </tr>
+        <tr>
+          <td><b>Medio de Transporte</b></td>
+          <td></td>
+          <td><b>Tipo de Trámite</b></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><b>Tipo de Servicio</b></td>
+          <td></td>
+          <td><b>Tipo de Solicitud</b></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><b>Recinto Origen</b></td>
+          <td>{{visualBL?.puertoEmbarque}}</td>
+          <td><b>Recinto Destino</b></td>
+          <td>{{visualBL?.puertoDescarga}}</td>
+        </tr>
+        <tr>
+          <td><b>Observaciones</b></td>
+          <td colspan="3"></td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Cantidad</th>
+          <th>Descripción</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>MP</th>
+          <th>Manifiesto</th>
+          <th>BL</th>
+          <th>Mercancia</th>
+          <th>Marca</th>
+          <th>Embalaje</th>
+          <th>Piezas</th>
+          <th>Peso</th>
+          <th>Unidades</th>
+          <th>Volumen</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+    
   </div>
+
+  
   

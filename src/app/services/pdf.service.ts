@@ -10,7 +10,7 @@ export class PdfService {
   constructor() { }
 
   downloadPdf(data: any, spinner: any = undefined): void {
-    const doc = new jsPDF();
+    const doc = new jsPDF('p','mm',[297, 210]);
     const options = {
       background: 'white',
       scale: 3,
@@ -24,10 +24,13 @@ export class PdfService {
       const pageHeight = 280;
       
       const bufferX = 15;
-      let bufferY = 15;
+      let bufferY = 10;
       const imgProps = (doc as any).getImageProperties(img);
       const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
-      const pdfHeight = ((imgProps.height * pdfWidth) / imgProps.width) -25;
+      let pdfHeight = ((imgProps.height * pdfWidth) / imgProps.width);
+      if(pdfHeight > 297){
+        pdfHeight -= 65
+      }
       let heightLeft = pdfHeight;
       let heightLeftTotal = pdfHeight;
       doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
@@ -41,14 +44,14 @@ export class PdfService {
         heightLeftTotal -= pageHeight;
         total++;
       }
-      doc.text('Pagina ' + pagina + '/' + total, 190,290 );
+      doc.text('Pagina ' + pagina + '/' + total, 190,280 );
       pagina ++;
       while (heightLeft >= 0) {
         bufferY = heightLeft - pdfHeight
         doc.addPage();
         doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
         heightLeft -= pageHeight;
-        doc.text('Pagina ' + pagina + '/' + total, 190,290 );
+        doc.text('Pagina ' + pagina + '/' + total, 190,280 );
         pagina ++;
       }
       return doc;

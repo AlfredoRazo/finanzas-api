@@ -1,0 +1,6 @@
+.tabla-print{
+    width: 100%;
+}
+.tabla-print tr td{
+    padding: 5px;
+}

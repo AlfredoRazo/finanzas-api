@@ -16,9 +16,15 @@ export class InventarioComponent implements OnInit {
   page = 1;
   collSize: any = 10;
   descPaginado = '';
-  bl:any;
-  fechaini:any;
-  fechafin:any;
+  bl: any;
+  fechaini: any;
+  fechafin: any;
+  opcionesInventario = [
+    { id: 1, display: 'Entradas' },
+    { id: 2, display: 'Existencias' },
+    { id: 3, display: 'Salidas' }
+  ];
+  inventarioId: any;
 
   constructor(private pagina: PaginateService,
     private spinner: NgxSpinnerService,
@@ -32,20 +38,20 @@ export class InventarioComponent implements OnInit {
 
   getData(): void {
     let query = '';
-    if(this.bl){
+    if (this.bl) {
       query += `&BL=${this.bl}`;
     }
-    if(this.fechaini && this.fechafin){
+    if (this.fechaini && this.fechafin) {
       query += `&fechaInicial=${this.fechaini}&fechaFin=${this.fechafin}`;
     }
     this.spinner.show();
     this.http.get(`https://pis-api-recinto.azurewebsites.net/api/inventario?t=${query}`).subscribe((res: any) => {
-      
-        this.total = res[0].length;
-        this.originalData = [...res[0]];
-        this.data = this.pagina.paginate([...this.originalData], this.collSize, this.page);
-        console.log(this.data);
-      
+
+      this.total = res[0].length;
+      this.originalData = [...res[0]];
+      this.data = this.pagina.paginate([...this.originalData], this.collSize, this.page);
+      console.log(this.data);
+
       this.spinner.hide();
     }, err => { this.spinner.hide(); });
   }
