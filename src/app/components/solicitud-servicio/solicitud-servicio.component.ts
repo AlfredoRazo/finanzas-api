@@ -45,6 +45,8 @@ export class SolicitudServicioComponent implements OnInit {
   buscador = '';
   areaInventario = '';
   areas : any[] = [];
+  moves: any[] = [];
+  detalleMov: any;
 
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
@@ -109,8 +111,10 @@ export class SolicitudServicioComponent implements OnInit {
     this.blsalida = [];
     this.blsalidaDocs = [];
     this.bldocs = [];
+    this.moves = [];
     this.imprimeFormato = null;
     this.visualSolicitud = item;
+    this.detalleMov = null;
     this.consultaBL(item.idBl);
 
     switch (item.tipoSolicitud) {
@@ -232,7 +236,6 @@ export class SolicitudServicioComponent implements OnInit {
 
   getMovimientosBL(bl: string): void {
 
-
     this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Separación&BL=${bl}`).subscribe(res => {
       if (res.length > 2) {
         this.blmovimiento = res[1];
@@ -255,8 +258,11 @@ export class SolicitudServicioComponent implements OnInit {
     });
     this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Previo&BL=${bl}`).subscribe(res => {
       if (res.length > 2) {
+        this.detalleMov = res[0];
+        this.moves = res[1];
         this.bldocs = res[2];
       } else {
+        this.moves = [];
         this.bldocs = [];
       }
     }, error => {
