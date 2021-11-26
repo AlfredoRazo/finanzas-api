@@ -515,7 +515,7 @@
     <tbody>
       <tr>
         <td><b>Solicitud de Servicio</b></td>
-        <td></td>
+        <td>{{visualSolicitud?.idSolicitud}}</td>
         <td><b>Estatus</b></td>
         <td><b>{{visualSolicitud?.estatus == '1' ? 'Por Autorizar' : visualSolicitud.estatus == '100' ?'Autorizado':
             'Por Definir' }}</b></td>
@@ -571,14 +571,9 @@
         <td><b>BL</b></td>
         <td>{{visualSolicitud?.bl}}</td>
         <td><b>Referencia</b></td>
-        <td>N/D</td>
-      </tr>
-      <tr>
-        <td><b>Fecha Entrada</b></td>
-        <td></td>
-        <td><b>F. Libre Almacenaje</b></td>
         <td></td>
       </tr>
+  
       <tr>
         <td><b>Remitente</b></td>
         <td colspan="3">{{visualBL?.embarcador}}</td>
@@ -605,12 +600,7 @@
         <td><b>Tipo de Solicitud</b></td>
         <td>{{visualSolicitud?.tipoSolicitud}}</td>
       </tr>
-      <tr>
-        <td><b>Recinto Origen</b></td>
-        <td>{{visualBL?.puertoEmbarque}}</td>
-        <td><b>Recinto Destino</b></td>
-        <td>{{visualBL?.puertoDescarga}}</td>
-      </tr>
+  
       <tr>
         <td><b>Observaciones</b></td>
         <td colspan="3"></td>
