@@ -20,9 +20,11 @@ export class InventarioComponent implements OnInit {
   fechaini: any;
   fechafin: any;
   opcionesInventario = [
-    { id: 1, display: 'Entradas' },
-    { id: 2, display: 'Existencias' },
-    { id: 3, display: 'Salidas' }
+    { id: 1, display: 'Entrada Importación' },
+    { id: 2, display: 'Salida Importación' },
+    { id: 3, display: 'Entrada Exportación' },
+    { id: 4, display: 'Salida Exportación' },
+
   ];
   inventarioId: any;
 
@@ -31,13 +33,53 @@ export class InventarioComponent implements OnInit {
     private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.getData();
+
     $('#fecha-inis').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fechaini = date } });
     $('#fecha-fins').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fechafin = date } });
   }
 
   getData(): void {
-    let query = '';
+    this.total = 0;
+    this.data = [];
+    this.originalData = [];
+   this.spinner.show();
+    switch (this.inventarioId) {
+      case '1':
+        this.http.get(`https://pis-api-recinto.azurewebsites.net/api/inventarioEntradaImpo`).subscribe(
+          (res: any) => { 
+            this.total = res[0].length;
+            this.originalData = [...res[0]];
+            this.data = this.pagina.paginate([...this.originalData], this.collSize, this.page);
+
+            this.spinner.hide();
+          }, err => {this.spinner.hide(); });
+        break;
+      case '2':
+        this.http.get(`https://pis-api-recinto.azurewebsites.net/api/inventarioSalidaImpo`).subscribe((res: any) => { 
+          this.total = res[0].length;
+          this.originalData = [...res[0]];
+          this.data = this.pagina.paginate([...this.originalData], this.collSize, this.page);
+          this.spinner.hide();}, err => { this.spinner.hide();});
+        break;
+      case '3':
+        this.http.get(`https://pis-api-recinto.azurewebsites.net/api/inventarioEntradaExpo`).subscribe((res: any) => {
+          this.total = res[0].length;
+          this.originalData = [...res[0]];
+          this.data = this.pagina.paginate([...this.originalData], this.collSize, this.page);
+          this.spinner.hide();}, err => { this.spinner.hide();});
+        break;
+      case '4':
+        this.http.get(`https://pis-api-recinto.azurewebsites.net/api/inventarioSalidaExpo`).subscribe((res: any) => {
+          this.total = res[0].length;
+            this.originalData = [...res[0]];
+            this.data = this.pagina.paginate([...this.originalData], this.collSize, this.page);  
+        this.spinner.hide(); }, err => {this.spinner.hide(); });
+        break;
+      default:
+        this.spinner.hide();
+        break;
+    }
+    /*let query = '';
     if (this.bl) {
       query += `&BL=${this.bl}`;
     }
@@ -47,13 +89,11 @@ export class InventarioComponent implements OnInit {
     this.spinner.show();
     this.http.get(`https://pis-api-recinto.azurewebsites.net/api/inventario?t=${query}`).subscribe((res: any) => {
 
-      this.total = res[0].length;
-      this.originalData = [...res[0]];
-      this.data = this.pagina.paginate([...this.originalData], this.collSize, this.page);
+     
       console.log(this.data);
 
       this.spinner.hide();
-    }, err => { this.spinner.hide(); });
+    }, err => { this.spinner.hide(); });*/
   }
   paginado(evt: any = null): void {
 

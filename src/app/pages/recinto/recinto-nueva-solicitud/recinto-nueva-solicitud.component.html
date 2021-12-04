@@ -96,17 +96,22 @@
                 (selectItem)="selected($event)">
         </div>
     </div>-->
-
-
     <div class="row">
         <div class="form-group col-md-4">
             <label class="control-label">B/L</label>
             <input type="text" class="form-control" name="bl" [(ngModel)]="bl">
         </div>
-        <div class="col-md-8">
+        <div class="col-md-1">
             <button class="btn btn-primary btn-sm" style="margin-top: 30px;" (click)="consulta()"
-                [disabled]="!bl">Buscar</button>
-
+                [disabled]="!bl || !tipoSoli">Buscar</button>
+        </div>
+       
+        <div class="form-group col-md-4" *ngIf="ismultiplebl">
+            <label class="control-label">Seleccione...</label>
+            <select (change)="selectbl()" class="form-control" name="multiplebl" [(ngModel)]="multiplebl">
+                <option *ngFor="let item of blsdesc" [ngValue]="item">{{item.buque}} {{item.viaje}} {{item.cantidad}} {{item.pesoBruto}}</option>
+            </select>
+            
         </div>
     </div>
     <ng-template #rt let-r="result" let-t="term">

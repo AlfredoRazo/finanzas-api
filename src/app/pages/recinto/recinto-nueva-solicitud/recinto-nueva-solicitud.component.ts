@@ -28,6 +28,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   infoRelativa = false;
   patentes: any[] = [];
   bls: any[] = [];
+  blsdesc: any[] = [];
   agenciasaduanales: any[] = [];
   agenciasconsig: any[] = [];
   lineasnavieras: any[] = [];
@@ -85,6 +86,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   cantidadSalida = '';
   pesoSalida = '';
   blsalida:any [] = [];
+  ismultiplebl = false;
+  multiplebl:any;
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -196,10 +199,15 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       this.spinner.hide();
       if (!res.error) {
         if (res[0][0]) {
-
           this.bls = res[0];
+          console.log(this.bls);
           if (this.bls[0].estatus || this.tipoSoli == '1') {
-
+            this.ismultiplebl = this.bls.length > 1;
+            if(this.ismultiplebl){
+              this.bls = [];
+              this.bls.push(res[0][0]);
+              this.blsdesc = res[0];
+            }
             this.buque = this.bls[0]?.buque;
             this.viaje = this.bls[0]?.viaje;
             this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?Referencia=${this.bl}`).subscribe(resP => {
@@ -264,6 +272,29 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     }, error => {
       this.spinner.hide();
     });
+  }
+  selectbl(): void{
+    this.buque = this.multiplebl?.buque;
+    this.viaje = this.multiplebl?.viaje;
+    this.bls = [];
+    this.bls.push(this.multiplebl);
+    this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudSalida?referencia=${this.bl}`).subscribe(res => {
+      if (res.length == 3) {
+        this.blsalida = res[0];
+      }
+      if (res.length == 2) {
+        this.blsalida = res[0];
+      }
+        this.blsalida.forEach(item =>{
+          this.totalCantidadSalida += item.salidaCantidad;
+          this.totalPesoSalida += item.salidaPeso;
+        });
+        this.totalCantidadSalida =  this.bls[0]?.cantidad -this.totalCantidadSalida;
+        this.totalPesoSalida = this.bls[0]?.pesoBruto - this.totalPesoSalida;
+    }, error => {
+      this.blsalida = [];
+    });
+    //this.bls = [...this.multiplebl]
   }
   getBuques(): void {
     const header = new HttpHeaders({

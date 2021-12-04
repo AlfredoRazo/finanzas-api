@@ -1,105 +1,78 @@
 <div class="row">
     <div class="form-group col-md-6">
         <label class="control-label">Seleccione</label>
-        <select name="inventarioId" [(ngModel)]="inventarioId" class="form-control">
+        <select name="inventarioId" [(ngModel)]="inventarioId" (change)="getData()" class="form-control">
             <option *ngFor="let item of opcionesInventario" [value]="item.id">{{item.display}}</option>
         </select>
     </div>
 </div>
-<div [ngSwitch]="inventarioId">
-    <div *ngSwitchCase="1">
-        <div class="row">
-            <div class="form-group col-md-4">
-                <label class="control-label">B/L</label>
-                <input type="text" class="form-control" name="bl" [(ngModel)]="bl">
-            </div>
-            <div class="col-md-2">
-                <div class="form-group datepicker-group">
-                    <label class="control-label">Fecha Inicio</label>
-                    <input type="text" class="form-control" id="fecha-inis" [(ngModel)]="fechaini" name="fechaini">
-                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group datepicker-group">
-                    <label class="control-label">Fecha Fin</label>
-                    <input type="text" class="form-control" id="fecha-fins" [(ngModel)]="fechafin" name="fechafin">
-                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-primary btn-sm btn-block" style="margin-top: 30px;" (click)="getData()">Buscar
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-primary btn-sm btn-block" style="margin-top: 30px;"
-                    (click)="fechaini = ''; fechafin = ''; bl='';getData()">Limpiar</button>
-            </div>
-        </div>
-        <br>
-        <div class="table-responsive" style="max-height: 500px; font-size: 0.8em;">
-            <table class="table table-bordered table-striped table-hover">
-                <thead style="white-space: nowrap;">
-                    <tr>
-                        <th>B/L</th>
-                        <th>Cantidad</th>
-                        <th>Peso</th>
-                        <th>Unidad</th>
-                        <th>Fecha Salida</th>
-                        <th>Fecha Autorización</th>
-                        <th>Fecha Entrada</th>
-                        <th>Recinto</th>
-                        <th>Área</th>
-                        <th>Recinto Destino</th>
-                        <th>C. Aduana</th>
-                        <th>A. Aduana</th>
-                        <th>Agencia Aduanal</th>
-                        <th>Patente</th>
-                        <th>Cliente</th>
-                        <th>Usuario</th>
-                        <th>Usuario Autoriza</th>
-                        <th>Manifiesto</th>
-                        <th>Buque</th>
-                        <th>Viaje</th>
-                        <th>Fecha Arribo</th>
-                        <th>Fecha Termino Operaciones</th>
-                        <th>Linea Naviera</th>
-                        <th>Agencia Consignataria</th>
-                    </tr>
-                </thead>
-                <tbody style="white-space: nowrap;">
-                    <tr *ngFor="let item of data">
-                        <td>{{item.BL}}</td>
-                        <td>{{item.salidaCantidad}}</td>
-                        <td>{{item.salidaPeso}}</td>
-                        <td>{{item.Unidad}}</td>
-                        <td>{{item.fechaSalida | date: 'dd/MM/yyyy HH:mm'}}</td>
-                        <td>{{item.fechaAutorizacion | date: 'dd/MM/yyyy HH:mm'}}</td>
-                        <td>{{item.fechaEntrada| date: 'dd/MM/yyyy HH:mm'}}</td>
-                        <td>{{item.Recinto}}</td>
-                        <td>{{item.Area}}</td>
-                        <td>{{item.recintoDestino}}</td>
-                        <td>{{item.CAduana}}</td>
-                        <td>{{item.AAduana}}</td>
-                        <td>{{item.agenciaAduanal}}</td>
-                        <td>{{item.Patente}}</td>
-                        <td>{{item.Cliente}}</td>
-                        <td>{{item.Usuario}}</td>
-                        <td>{{item.usuarioAutoriza}}</td>
-                        <td>{{item.Manifiesto}}</td>
-                        <td>{{item.Buque}}</td>
-                        <td>{{item.viaje}}</td>
-                        <td>{{item.fechaArribo | date: 'dd/MM/yyyy HH:mm'}}</td>
-                        <td>{{item.fechaTerminoOperaciones | date: 'dd/MM/yyyy HH:mm'}}</td>
-                        <td>{{item.lineaNaviera}}</td>
-                        <td>{{item.agenciaConsignataria}}</td>
-                    </tr>
-                </tbody>
+<ng-container *ngIf="data.length > 0">
+<div class="table-responsive" style="max-height: 500px; font-size: 0.8em;">
+    <table class="table table-bordered table-striped table-hover">
+        <thead style="white-space: nowrap;">
+            <tr>
+                <th>B/L</th>
+                <th>Tipo Entrada</th>
+                <th>Piezas</th>
+                <th>Peso</th>
+                <th>Piezas Disponibles</th>
+                <th>Peso Disponibles</th>
+                <th>Unidad</th>
+                <th>Fecha Entrada</th>
+                <th>Fecha Salida</th>
+                <th>Fecha Abandono</th>
+                <th>Recinto</th>
+                <th>Área</th>
+                <th>Recinto Destino</th>
+                <th>C. Aduana</th>
+                <th>A. Aduana</th>
+                <th>Agencia Aduanal</th>
+                <th>Cliente</th>
+                <th>Usuario</th>
+                <th>Manifiesto</th>
+                <th>Buque</th>
+                <th>Viaje</th>
+                <th>Fecha Arribo</th>
+                <th>Fecha Termino Operaciones</th>
+                <th>Linea Naviera</th>
+                <th>Agencia Consignataria</th>
+            </tr>
+        </thead>
+        <tbody style="white-space: nowrap;">
+            <tr *ngFor="let item of data">
+                <td>{{item.BL}}</td>
+                <td>{{item.tipoEntrada}}</td>
+                <td>{{item.piezas}}</td>
+                <td>{{item.peso}}</td>
+                <td>{{item.piezasDisponibles}}</td>
+                <td>{{item.pesoDisponible}}</td>
+                <td>{{item.unidades}}</td>
+                <td>{{item.fechaEntrada| date: 'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{item.fechaSalida | date: 'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{item.fechaAbandono | date: 'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{item.recintoOrigen}}</td>
+                <td>{{item.Area}}</td>
+                <td>{{item.Recinto}}</td>
+                <td>{{item.cAduana}}</td>
+                <td>{{item.aAduana}}</td>
+                <td>{{item.agenciaAduanal}}</td>
+            
+                <td>{{item.Cliente}}</td>
+                <td>{{item.usuario}}</td>
+                
+                <td>{{item.manifiesto}}</td>
+                <td>{{item.manifiestoBuque}}</td>
+                <td>{{item.manifiestoViaje}}</td>
+                <td>{{item.fechaArribo | date: 'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{item.fechaTerminoOperaciones | date: 'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{item.lineaNaviera}}</td>
+                <td>{{item.agenciaCOnsignataria}}</td>
+            </tr>
+        </tbody>
 
-            </table>
-        </div>
-        <p>Registros encontrados: <b>{{total}}</b></p>
-        <ngb-pagination [collectionSize]="total" [pageSize]="collSize" [(page)]="page" (pageChange)="paginado($event)"
-            [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
-    </div>
+    </table>
 </div>
+<p>Registros encontrados: <b>{{total}}</b></p>
+<ngb-pagination [collectionSize]="total" [pageSize]="collSize" [(page)]="page" (pageChange)="paginado($event)"
+    [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
+</ng-container>
