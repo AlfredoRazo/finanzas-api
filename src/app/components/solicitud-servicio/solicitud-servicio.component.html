@@ -39,8 +39,12 @@
             class="glyphicon glyphicon-sort"></span></th>
         <th scope="col" [appSort]="data" data-order="desc" data-name="nombre">Cliente <span
             class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="idBl">BL <span
+        <th scope="col" [appSort]="data" data-order="desc" data-name="bl">BL <span
             class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="idConsulta">Consulta <span
+              class="glyphicon glyphicon-sort"></span></th>
+              <th scope="col" [appSort]="data" data-order="desc" data-name="estatusConsulta">Estado Consulta<span
+                class="glyphicon glyphicon-sort"></span></th>
 
       </tr>
     </thead>
@@ -65,6 +69,8 @@
         <td>{{item.fechaServicio | date: 'dd/MM/yyyy HH:mm'}}</td>
         <td>{{item.nombre}}</td>
         <td>{{item.bl}}</td>
+        <td>{{item.idConsulta}}</td>
+        <td>{{item.estatusConsulta}}</td>
       </tr>
     </tbody>
   </table>
