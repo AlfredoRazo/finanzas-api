@@ -11,7 +11,9 @@
     <table class="table table-bordered table-striped table-hover">
         <thead style="white-space: nowrap;">
             <tr>
+                
                 <th>B/L</th>
+                <th>Fecha Inventario</th>
                 <th>Tipo Entrada</th>
                 <th>Piezas</th>
                 <th>Peso</th>
@@ -41,6 +43,7 @@
         <tbody style="white-space: nowrap;">
             <tr *ngFor="let item of data">
                 <td>{{item.BL}}</td>
+                <td>{{item.inventarioFecha | date: 'dd/MM/yyyy HH:mm'}}</td>
                 <td>{{item.tipoEntrada}}</td>
                 <td>{{item.piezas}}</td>
                 <td>{{item.peso}}</td>
