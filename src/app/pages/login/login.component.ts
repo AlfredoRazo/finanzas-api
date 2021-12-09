@@ -88,11 +88,8 @@ export class LoginComponent implements OnInit {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    let endp = 'validar/permisos';
-    if(environment.production){
-      endp = 'validar/v2/permisos';
-    }
-    this.http.get(`${environment.endpointAuth}${endp}`, { headers: header }).subscribe((res: any) => {
+ 
+    this.http.get(`${environment.endpointAuth}validar/v2/permisos`, { headers: header }).subscribe((res: any) => {
       this.http.post(environment.endpointCat + 'login', environment.catlogin).subscribe((rescat: any) => {
         this.spinner.hide();
         const rol = this.role.getRolById(res.valor.idRolApp);
@@ -103,9 +100,9 @@ export class LoginComponent implements OnInit {
           rol: rol,
           tipo: "TERMINAL",
           username: res.valor.usuario_Usuario,
-          empresa: res.valor.empresa_Nombre,
-          empresaid: res.valor.empresa_Id,
-          rfc: res.valor.empresa_Rfc,
+          empresa: res.valor.empresa.nombre,
+          empresaid: res.valor.empresa.id,
+          rfc: res.valor.empresa.rfc,
           idRol: res.valor.idRolApp,
           catToken: rescat.valor
         }
