@@ -397,15 +397,38 @@
       <div class="modal-body">
         <div class="form-group">
           <label>Área</label>
-          <select class="form-control" name="area" [(ngModel)]="areaInventario">
-            <option *ngFor="let area of areas" [value]="area.catalogoDetId">{{area.catalogoDetNombre}}</option>
+          <select class="form-control" name="area" [(ngModel)]="areaInventario" (change)="getZonas()">
+            <option *ngFor="let area of areas" [value]="area.catalogoDetNombre">{{area.catalogoDetNombre}}</option>
           </select>
         </div>
-
+        <div class="form-group">
+          <label>Zonas</label>
+          <select class="form-control" name="zona" [(ngModel)]="zonaInventario">
+            <option *ngFor="let item of zonas" [value]="item.catalogoDetId">{{item.catalogoDetNombre}}</option>
+          </select>
+        </div>
+        <div class="row">
+          <div class="col-md-9">
+            <label class="control-label">Fecha</label>
+            <div class="form-group datepicker-group">
+              <input type="text" class="form-control" id="fecha-inventario" placeholder="" [(ngModel)]="fechaInventario" name="fechaInventario">
+              <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label class="control-label">Hora</label>
+            <div class="input-group" >
+              <input type="text" class="form-control" required name="hora" [patterns]="patternshours" [dropSpecialCharacters]="false" mask="01:21" id="input-hora-ini" [(ngModel)]="hora">
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-time"></span>
+              </span>
+          </div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cerrar</button>
-        <button class="btn btn-sm btn-primary" (click)="inventario()" [disabled]="!areaInventario">Guardar</button>
+        <button class="btn btn-sm btn-primary" (click)="inventario()" [disabled]="!areaInventario || !zonaInventario || !fechaInventario || !hora">Guardar</button>
       </div>
     </div>
   </div>

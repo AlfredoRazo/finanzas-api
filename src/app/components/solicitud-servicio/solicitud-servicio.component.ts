@@ -47,7 +47,15 @@ export class SolicitudServicioComponent implements OnInit {
   areas : any[] = [];
   moves: any[] = [];
   detalleMov: any;
-
+  fechaInventario: any;
+  zonas: any[] = [];
+  zonaInventario: any;
+  hora: any;
+  patternshours = {
+    '0': { pattern: new RegExp(/[0-2]/) },
+    '1': { pattern: new RegExp(/[0-9]/) },
+    '2': { pattern: new RegExp(/[0-5]/) }
+  };
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
     private pdf: PdfService,
@@ -57,11 +65,19 @@ export class SolicitudServicioComponent implements OnInit {
   ngOnInit(): void {
     this.getSolicitudesServicios();
     this.getCatInventario();
+    this.getZonas();
+    $('#fecha-inventario').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fechaInventario = date } });
   }
 
   getCatInventario(): void{
     this.http.get('https://pis-api-recinto.azurewebsites.net/api/catalogos?catalogo=areas').subscribe((res:any)=>{
     this.areas = res[0];
+    },error=>{});
+    
+  }
+  getZonas(): void{
+    this.http.get('https://pis-api-recinto.azurewebsites.net/api/catalogos?catalogo=' + this.areaInventario).subscribe((res:any)=>{
+    this.zonas = res[0];
     },error=>{});
     
   }
@@ -174,7 +190,10 @@ export class SolicitudServicioComponent implements OnInit {
         idSolicitud: item.idSolicitud,
         value: 100,
         usuarioModifica: this.auth.getSession().userData.username,
-        area:this.areaInventario
+        area: this.zonaInventario,
+        //area:this.areaInventario,
+        //zona: this.zonaInventario,
+        fecha: this.fechaInventario + ' ' + this.hora + ':00'
       };
     });
     const payload = {

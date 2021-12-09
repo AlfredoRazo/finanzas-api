@@ -88,7 +88,11 @@ export class LoginComponent implements OnInit {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    this.http.get(`${environment.endpointAuth}validar/permisos`, { headers: header }).subscribe((res: any) => {
+    let endp = 'validar/permisos';
+    if(environment.production){
+      endp = 'validar/v2/permisos';
+    }
+    this.http.get(`${environment.endpointAuth}${endp}`, { headers: header }).subscribe((res: any) => {
       this.http.post(environment.endpointCat + 'login', environment.catlogin).subscribe((rescat: any) => {
         this.spinner.hide();
         const rol = this.role.getRolById(res.valor.idRolApp);

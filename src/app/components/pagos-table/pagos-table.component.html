@@ -8,7 +8,7 @@
                 </select>
             </div>
             <div class="col-sm-5">
-                <input type="text" class="form-control" placeholder="Criterio" name="criterio" [(ngModel)]="criterio" >
+                <input type="text" class="form-control" placeholder="Criterio" name="criterio" [(ngModel)]="criterio">
             </div>
             <div class="col-sm-2">
                 <button class="btn btn-danger btn-block btn-sm" type="button" (click)="filtrado()">Buscar <span
@@ -19,20 +19,21 @@
     <br>
     <div class="row">
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;" routerLink="consulta-por-tipo"
-        *ngIf="parent == 'cliente' ">Solicitud de Servicio</button>
+            *ngIf="parent == 'cliente' ">Solicitud de Servicio</button>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;" routerLink="consulta-por-tipo"
-        *ngIf="parent != 'maniobrista' && parent != 'cliente' ">Generar Consulta</button>
+            *ngIf="parent != 'maniobrista' && parent != 'cliente' ">Generar Consulta</button>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;" routerLink="consulta-buques"
-        *ngIf="parent == 'facturacion'">Generar Consulta Buques</button>
-        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;" (click)="getData()">Actualizar</button>
+            *ngIf="parent == 'facturacion'">Generar Consulta Buques</button>
+        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;"
+            (click)="getData()">Actualizar</button>
         <button class="btn btn-primary btn-sm pull-right" (click)="pagarMode()">Pagar</button>
-        
+
     </div>
 
     <br>
     <br>
     <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
-        <table class="table table-bordered table-striped" >
+        <table class="table table-bordered table-striped">
             <thead style="white-space: nowrap;">
                 <tr style="cursor: pointer;">
                     <th><input type="checkbox" [(ngModel)]="checkAll" (change)="checks()"></th>
@@ -68,6 +69,10 @@
                             class="glyphicon glyphicon-sort"></span></th>
                     <th scope="col" [appSort]="data" data-order="desc" data-name="referenciaPa">Referencia de pago <span
                             class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="buque">Buque<span
+                            class="glyphicon glyphicon-sort"></span></th>
+                    <th scope="col" [appSort]="data" data-order="desc" data-name="viaje">Viaje <span
+                            class="glyphicon glyphicon-sort"></span></th>
                 </tr>
             </thead>
             <tbody>
@@ -92,6 +97,8 @@
                     <td>{{item.total}}</td>
                     <td>{{item.fechaPago}}</td>
                     <td>{{item.referenciaPago}}</td>
+                    <td>{{item.buque}}</td>
+                    <td>{{item.viaje}}</td>
                 </tr>
             </tbody>
         </table>
@@ -104,7 +111,7 @@
         (pageChange)="paginado($event)" [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
 </div>
 <div *ngIf="isPagar">
-   
+
     <br>
     <table class="table table-bordered table-striped">
         <thead>
@@ -131,131 +138,133 @@
     <br>
     <div>
 
-    <div class="form-group">
-        <label class="control-label">Seleccione el uso CFDI para continuar</label>
-    <select class="form-control" name="cfdi" [(ngModel)]="cfdi">
-        <option value="">Seleccione</option>
-            <option *ngFor="let item of catCFDI" [value]="item.clave">{{item.clave}} - {{item.valor}}</option>
-        </select>
+        <div class="form-group">
+            <label class="control-label">Seleccione el uso CFDI para continuar</label>
+            <select class="form-control" name="cfdi" [(ngModel)]="cfdi">
+                <option value="">Seleccione</option>
+                <option *ngFor="let item of catCFDI" [value]="item.clave">{{item.clave}} - {{item.valor}}</option>
+            </select>
+        </div>
+        <div *ngIf="cfdi">
+            <h4>Selecciona el banco a pagar: </h4>
+            <br>
+            <table style="width: 100%;">
+                <tr>
+                    <td><img style="cursor: pointer;" (click)="sendPago('santander',totalApagar.toString())"
+                            src="assets/img/bancos/santander.gif" /></td>
+                    <td><img style="cursor: pointer;" data-toggle="modal"
+                            (click)="sendPago('bbva',totalApagar.toString())" src="assets/img/bancos/bbva.gif" /></td>
+                    <td><img style="cursor: pointer;" data-toggle="modal" data-target="#alerta"
+                            src="assets/img/bancos/spei.gif" /></td>
+                    <td><img style="cursor: pointer;" data-toggle="modal" data-target="#alerta"
+                            src="assets/img/bancos/visa-master.gif" /></td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <br>
+        <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#recibo">Imprimir</button>
+        <button class="btn btn-primary btn-sm" style="margin-left: 10px;"
+            (click)="isPagar=false; apagar=[]; referencia = ''; vigencia = ''; totalApagar=0;">Cancelar</button>
+        <div class="modal fade bs-example-modal-lg" id="recibo" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Recibo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="contenido-imprimir" style="font-size: 0.8em">
+                            <img src="assets/logoAPI.jpeg" style="width: 100%;">
+                            <h4 style="text-align: center;">Referencia de Pago</h4>
+
+                            <br>
+                            <br>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td><b>Código de Registro</b></td>
+                                    <td>0014932</td>
+                                    <td><b></b></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Tipo Entidad</b></td>
+                                    <td>Administración Portuaria</td>
+                                    <td><b>Entidad</b></td>
+                                    <td>API MANZANILLO</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Fecha</b></td>
+                                    <td>{{hoy | date:'yyyy-MM-dd'}}</td>
+                                    <td><b>Fecha Límite de Pago</b></td>
+                                    <td>{{vigencia}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Estatus</b></td>
+                                    <td>En proceso...</td>
+                                    <td><b>Referencia</b></td>
+                                    <td>{{pagosantander?.refSantander}}</td>
+                                </tr>
+                            </table>
+
+                            <br><br>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Cliente</th>
+                                    <th>Referencia</th>
+                                    <th>Fecha</th>
+                                    <th>Subtotal</th>
+                                    <th>IVA</th>
+                                    <th>Total</th>
+                                </tr>
+                                <tr *ngFor="let item of apagar">
+                                    <td>{{item.noConsulta}}</td>
+                                    <td>{{item.cliente}}</td>
+                                    <td>{{item.noConsulta}}</td>
+                                    <td>{{item.fechaConsulta}}</td>
+                                    <td>{{item.subtotal}}</td>
+                                    <td>{{item.iva}}</td>
+                                    <td>{{item.total}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6"></td>
+                                    <td colspan="2"><b>{{totalApagar}}</b></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                            <br>
+                            <br>
+                            <br>
+                            <h4>Información de pago</h4>
+                            <p><b>Válido para pagar únicamente en Santander</b></p>
+                            <p><b>Referencia {{pagosantander?.refSantander}}</b></p>
+                            <p><b>Convenio 7164</b></p>
+                            <p><b>Importe {{totalApagar}}</b></p>
+                            <p><b>Fecha limite de pago {{vigencia}}</b></p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" (click)="imprimir()">Imprimir</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
     </div>
-    <div *ngIf="cfdi">
-    <h4>Selecciona el banco a pagar: </h4>
-    <br>
-    <table style="width: 100%;">
-        <tr>
-            <td><img style="cursor: pointer;" (click)="sendPago('santander',totalApagar.toString())"
-                    src="assets/img/bancos/santander.gif" /></td>
-            <td><img style="cursor: pointer;"  data-toggle="modal" (click)="sendPago('bbva',totalApagar.toString())"
-                    src="assets/img/bancos/bbva.gif" /></td>
-            <td><img style="cursor: pointer;"  data-toggle="modal" data-target="#alerta" src="assets/img/bancos/spei.gif" /></td>
-            <td><img style="cursor: pointer;"  data-toggle="modal" data-target="#alerta" src="assets/img/bancos/visa-master.gif" /></td>
-        </tr>
-    </table>
-</div>
-    <br>
-    <br>
-    <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#recibo">Imprimir</button>
-    <button class="btn btn-primary btn-sm" style="margin-left: 10px;"
-        (click)="isPagar=false; apagar=[]; referencia = ''; vigencia = ''; totalApagar=0;">Cancelar</button>
-    <div class="modal fade bs-example-modal-lg" id="recibo" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="alerta" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Recibo</h4>
+                    <h4 class="modal-title">Atención</h4>
                 </div>
                 <div class="modal-body">
-                    <div id="contenido-imprimir" style="font-size: 0.8em">
-                        <img src="assets/logoAPI.jpeg"  style="width: 100%;">
-                        <h4 style="text-align: center;">Referencia de Pago</h4>
-
-                        <br>
-                        <br>
-                        <table style="width: 100%;">
-                            <tr>
-                                <td><b>Código de Registro</b></td>
-                                <td>0014932</td>
-                                <td><b></b></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><b>Tipo Entidad</b></td>
-                                <td>Administración Portuaria</td>
-                                <td><b>Entidad</b></td>
-                                <td>API MANZANILLO</td>
-                            </tr>
-                            <tr>
-                                <td><b>Fecha</b></td>
-                                <td>{{hoy | date:'yyyy-MM-dd'}}</td>
-                                <td><b>Fecha Límite de Pago</b></td>
-                                <td>{{vigencia}}</td>
-                            </tr>
-                            <tr>
-                                <td><b>Estatus</b></td>
-                                <td>En proceso...</td>
-                                <td><b>Referencia</b></td>
-                                <td>{{pagosantander?.refSantander}}</td>
-                            </tr>
-                        </table>
-
-                        <br><br>
-                        <table style="width: 100%;">
-                            <tr>
-                                <th>Código</th>
-                                <th>Cliente</th>
-                                <th>Referencia</th>
-                                <th>Fecha</th>
-                                <th>Subtotal</th>
-                                <th>IVA</th>
-                                <th>Total</th>
-                            </tr>
-                            <tr *ngFor="let item of apagar">
-                                <td>{{item.noConsulta}}</td>
-                                <td>{{item.cliente}}</td>
-                                <td>{{item.noConsulta}}</td>
-                                <td>{{item.fechaConsulta}}</td>
-                                <td>{{item.subtotal}}</td>
-                                <td>{{item.iva}}</td>
-                                <td>{{item.total}}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="6"></td>
-                                <td colspan="2"><b>{{totalApagar}}</b></td>
-                                <td></td>
-                            </tr>
-                        </table>
-                        <br>
-                        <br>
-                        <br>
-                        <h4>Información de pago</h4>
-                        <p><b>Válido para pagar únicamente en Santander</b></p>
-                        <p><b>Referencia {{pagosantander?.refSantander}}</b></p>
-                        <p><b>Convenio 7164</b></p>
-                        <p><b>Importe {{totalApagar}}</b></p>
-                        <p><b>Fecha limite de pago {{vigencia}}</b></p>
+                    <div class="alert alert-info">
+                        Próximamente
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" (click)="imprimir()">Imprimir</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-</div>
-<div class="modal fade bs-example-modal-lg" id="alerta" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Atención</h4>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-info">
-                    Próximamente
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
