@@ -267,8 +267,8 @@ export class RecintoConsultaTipoComponent implements OnInit {
     const payload = {
       detalle: this.data,
       tipo: parseInt(this.concepto),
-      clienteSolicita: this.solicitadoDetalle?.codigoSAP,
-      clientefacturar: this.facturaraDetalle?.codigoSAP,
+      clienteSolicita: this.solicitadoDetalle?.datos.codigoSAP,
+      clientefacturar: this.facturaraDetalle?.datos.codigoSAP,
       nombrebuque: this.buque.nombre ? this.buque.nombre : this.buque,
       numeroviaje: this.numeroviaje,
       workorder: "",

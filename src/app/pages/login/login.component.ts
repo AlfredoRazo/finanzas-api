@@ -43,11 +43,11 @@ export class LoginComponent implements OnInit {
         .subscribe(params => {
           if (params.token) {
             this.tokenLogin(params.token);
-          }else{
-            this.errorMsj ='El token de autorización es requerido';
-              this.spinner.hide();
+          } else {
+            this.errorMsj = 'El token de autorización es requerido';
+            this.spinner.hide();
           }
-        },error =>{this.spinner.hide()});
+        }, error => { this.spinner.hide() });
     }
   }
 
@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
     this.spinner.show();
 
     this.http.post(`${environment.endpointAuth}Usuario/v1/login`, payload).subscribe((res: any) => {
-      
+
       if (res.error) {
         this.spinner.hide();
         this.hasError = true;
@@ -83,16 +83,19 @@ export class LoginComponent implements OnInit {
 
   }
 
-  private tokenLogin(token: string): void{
+  private tokenLogin(token: string): void {
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
- 
-    this.http.get(`${environment.endpointAuth}validar/v2/permisos`, { headers: header }).subscribe((res: any) => {
-      this.http.post(environment.endpointCat + 'login', environment.catlogin).subscribe((rescat: any) => {
-        this.spinner.hide();
-        const rol = this.role.getRolById(res.valor.idRolApp);
+    let endp = 'validar/permisos';
+    if (environment.production) {
+      endp = 'validar/v2/permisos';
+    }
+    this.http.get(`${environment.endpointAuth}${endp}`, { headers: header }).subscribe((res: any) => {
+      this.spinner.hide();
+      const rol = this.role.getRolById(res.valor.idRolApp);
+      if (environment.production) {
         const user = {
           usuariokey: res.mensaje,
           idusuario: res.valor.usuario_Id,
@@ -104,16 +107,38 @@ export class LoginComponent implements OnInit {
           empresaid: res.valor.empresa.id,
           rfc: res.valor.empresa.rfc,
           idRol: res.valor.idRolApp,
-          catToken: rescat.valor
+          catToken: res.mensaje
         }
         this.authService.setSession({ token: token, userData: user });
         this.role.reditecByRole(rol);
-      }, error => {
-        this.spinner.hide();
-      });
+      } else {
+        this.http.post(environment.endpointCat + 'login', environment.catlogin).subscribe((rescat: any) => {
+          this.spinner.hide();
+          const rol = this.role.getRolById(res.valor.idRolApp);
+          const user = {
+            usuariokey: res.mensaje,
+            idusuario: res.valor.usuario_Id,
+            nombre: res.valor.usuario_Nombre,
+            rol: rol,
+            tipo: "TERMINAL",
+            username: res.valor.usuario_Usuario,
+            empresa: res.valor.empresa_Nombre,
+            empresaid: res.valor.empresa_Id,
+            rfc: res.valor.empresa_Rfc,
+            idRol: res.valor.idRolApp,
+            catToken: rescat.valor
+          }
+          this.authService.setSession({ token: token, userData: user });
+          this.role.reditecByRole(rol);
+        }, error => {
+          this.spinner.hide();
+        });
+
+      }
+
 
     }, err => {
-      this.errorMsj = err?.error?.mensaje ? err?.error?.mensaje :'Token invalido';
+      this.errorMsj = err?.error?.mensaje ? err?.error?.mensaje : 'Token invalido';
       this.spinner.hide();
     });
 
