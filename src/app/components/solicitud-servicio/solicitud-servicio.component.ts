@@ -70,13 +70,15 @@ export class SolicitudServicioComponent implements OnInit {
   }
 
   getCatInventario(): void{
-    this.http.get('https://pis-api-recinto.azurewebsites.net/api/catalogos?catalogo=areas').subscribe((res:any)=>{
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointRecinto}/api/catalogos?idAPI=${apiid}&catalogo=areas`).subscribe((res:any)=>{
     this.areas = res[0];
     },error=>{});
     
   }
   getZonas(): void{
-    this.http.get('https://pis-api-recinto.azurewebsites.net/api/catalogos?catalogo=' + this.areaInventario).subscribe((res:any)=>{
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointRecinto}/api/catalogos?idAPI=${apiid}&catalogo=` + this.areaInventario).subscribe((res:any)=>{
     this.zonas = res[0];
     },error=>{});
     
@@ -92,7 +94,8 @@ export class SolicitudServicioComponent implements OnInit {
     if(this.buscador){
       query = '&' + this.criterio + '=' + this.buscador;
     }
-    this.http.get(`https://pis-api-recinto.azurewebsites.net/api/solicitudes?idEmpresa=${user.empresaid}${query}`).subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointRecinto}/api/solicitudes?idAPI=${apiid}&idEmpresa=${user.empresaid}${query}`).subscribe((res: any) => {
       if (res.length > 1) {
         this.total = res[0].length;
         this.originalData = res[0].map((item: any) => {
@@ -110,7 +113,8 @@ export class SolicitudServicioComponent implements OnInit {
 
   consultaBL(idBL: string): void {
     this.spinner.show();
-    this.http.get(`${environment.endpointRec}bl/${idBL}`).subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointRecinto}bl/${idBL}?idAPI=${apiid}`).subscribe((res: any) => {
       this.visualBL = res.datos;
       this.spinner.hide();
     }, err => {
@@ -166,8 +170,8 @@ export class SolicitudServicioComponent implements OnInit {
       appkey : "c53ea43376d653a43e10711de2da2d9b6f156ead",
       registros: reg
     }
-  
-    this.http.post(`https://pis-api-recinto.azurewebsites.net/api/solicitudActualizar`, payload).subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.post(`${environment.endpointRecinto}/api/solicitudActualizar?idAPI=${apiid}`, payload).subscribe((res: any) => {
       if (!res.error) {
         this.getSolicitudesServicios();
         this.hasSuccess = true;
@@ -200,8 +204,8 @@ export class SolicitudServicioComponent implements OnInit {
       appkey : "c53ea43376d653a43e10711de2da2d9b6f156ead",
       registros: reg
     }
- 
-    this.http.post(`https://pis-api-recinto.azurewebsites.net/api/solicitudInventario`, payload).subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.post(`${environment.endpointRecinto}/api/solicitudInventario?idAPI=${apiid}`, payload).subscribe((res: any) => {
       if (!res.error) {
         this.getSolicitudesServicios();
         this.hasSuccess = true;
@@ -240,23 +244,24 @@ export class SolicitudServicioComponent implements OnInit {
     this.descPaginado = `Registros del <b>${start}</b> al <b>${end}</b>`;
   }
   getDetalleBL(bl: string): void {
-    this.http.get(`https://pis-api-recinto.azurewebsites.net/api/BLObtenerSolicitudes?bl=${bl}`).subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointRecinto}/api/BLObtenerSolicitudes?idAPI=${apiid}&bl=${bl}`).subscribe((res: any) => {
       if (res) {
-
         this.visualDetalleBL = res;
       }
     });
   }
   getDetalleFormato(bl: string, idLiberacion: string): void {
-    this.http.get(`https://pis-api-recinto.azurewebsites.net/api/rptAutLiberacion?Referencia=${bl}&idLiberacion=${this.visualSolicitud.solicitudId}`).subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointRecinto}/api/rptAutLiberacion?idAPI=${apiid}&Referencia=${bl}&idLiberacion=${this.visualSolicitud.solicitudId}`).subscribe((res: any) => {
       this.imprimeFormato = res[0][0];
       this.formatobls = res[0]
     });
   }
 
   getMovimientosBL(bl: string): void {
-
-    this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Separación&BL=${bl}`).subscribe(res => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get<any>(`${environment.endpointRecinto}/api/Movimientos?idAPI=${apiid}&tipoMovimiento=Separación&BL=${bl}`).subscribe(res => {
       if (res.length > 2) {
         this.blmovimiento = res[1];
       } else {
@@ -264,7 +269,7 @@ export class SolicitudServicioComponent implements OnInit {
       }
     }, error => {
     });
-    this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudSalida?referencia=${bl}`).subscribe(res => {
+    this.http.get<any>(`${environment.endpointRecinto}/api/solicitudSalida?idAPI=${apiid}&referencia=${bl}`).subscribe(res => {
       if (res.length == 3) {
         this.blsalida = res[0];
         this.blsalidaDocs = res[1];
@@ -276,7 +281,7 @@ export class SolicitudServicioComponent implements OnInit {
       this.blsalida = [];
       this.blsalidaDocs = [];
     });
-    this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Previo&BL=${bl}`).subscribe(res => {
+    this.http.get<any>(`${environment.endpointRecinto}/api/Movimientos?idAPI=${apiid}&tipoMovimiento=Previo&BL=${bl}`).subscribe(res => {
       if (res.length > 2) {
         this.detalleMov = res[0];
         this.moves = res[1];
@@ -327,8 +332,8 @@ export class SolicitudServicioComponent implements OnInit {
   }
 
   getLiberaciones(bl: string): void {
-   
-    this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?referencia=${bl}&idLiberacion=${this.visualSolicitud.idSolicitud}`).subscribe(res => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get<any>(`${environment.endpointRecinto}/api/solicitudLiberacion?idAPI=${apiid}&referencia=${bl}&idLiberacion=${this.visualSolicitud.idSolicitud}`).subscribe(res => {
      
       if (res.length == 3) {
         this.blliberacion = res[0];

@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { PaginateService } from '@serv/paginate.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
-
+import { environment } from '@env/environment';
+import { AuthService } from '@serv/auth.service';
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
@@ -29,6 +30,7 @@ export class InventarioComponent implements OnInit {
   inventarioId: any;
 
   constructor(private pagina: PaginateService,
+    private auth: AuthService,
     private spinner: NgxSpinnerService,
     private http: HttpClient) { }
 
@@ -42,38 +44,42 @@ export class InventarioComponent implements OnInit {
     this.total = 0;
     this.data = [];
     this.originalData = [];
-   this.spinner.show();
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.spinner.show();
     switch (this.inventarioId) {
       case '1':
-        this.http.get(`https://pis-api-recinto.azurewebsites.net/api/inventarioEntradaImpo`).subscribe(
-          (res: any) => { 
+        this.http.get(`${environment.endpointRecinto}/api/inventarioEntradaImpo?idAPI=${apiid}`).subscribe(
+          (res: any) => {
             this.total = res[0].length;
             this.originalData = [...res[0]];
             this.data = this.pagina.paginate([...this.originalData], this.collSize, this.page);
 
             this.spinner.hide();
-          }, err => {this.spinner.hide(); });
+          }, err => { this.spinner.hide(); });
         break;
       case '2':
-        this.http.get(`https://pis-api-recinto.azurewebsites.net/api/inventarioSalidaImpo`).subscribe((res: any) => { 
+        this.http.get(`${environment.endpointRecinto}/api/inventarioSalidaImpo?idAPI=${apiid}`).subscribe((res: any) => {
           this.total = res[0].length;
           this.originalData = [...res[0]];
           this.data = this.pagina.paginate([...this.originalData], this.collSize, this.page);
-          this.spinner.hide();}, err => { this.spinner.hide();});
+          this.spinner.hide();
+        }, err => { this.spinner.hide(); });
         break;
       case '3':
-        this.http.get(`https://pis-api-recinto.azurewebsites.net/api/inventarioEntradaExpo`).subscribe((res: any) => {
+        this.http.get(`${environment.endpointRecinto}/api/inventarioEntradaExpo?idAPI=${apiid}`).subscribe((res: any) => {
           this.total = res[0].length;
           this.originalData = [...res[0]];
           this.data = this.pagina.paginate([...this.originalData], this.collSize, this.page);
-          this.spinner.hide();}, err => { this.spinner.hide();});
+          this.spinner.hide();
+        }, err => { this.spinner.hide(); });
         break;
       case '4':
-        this.http.get(`https://pis-api-recinto.azurewebsites.net/api/inventarioSalidaExpo`).subscribe((res: any) => {
+        this.http.get(`${environment.endpointRecinto}/api/inventarioSalidaExpo?idAPI=${apiid}`).subscribe((res: any) => {
           this.total = res[0].length;
-            this.originalData = [...res[0]];
-            this.data = this.pagina.paginate([...this.originalData], this.collSize, this.page);  
-        this.spinner.hide(); }, err => {this.spinner.hide(); });
+          this.originalData = [...res[0]];
+          this.data = this.pagina.paginate([...this.originalData], this.collSize, this.page);
+          this.spinner.hide();
+        }, err => { this.spinner.hide(); });
         break;
       default:
         this.spinner.hide();
@@ -87,7 +93,7 @@ export class InventarioComponent implements OnInit {
       query += `&fechaInicial=${this.fechaini}&fechaFin=${this.fechafin}`;
     }
     this.spinner.show();
-    this.http.get(`https://pis-api-recinto.azurewebsites.net/api/inventario?t=${query}`).subscribe((res: any) => {
+    this.http.get(`${environment.endpointRecinto}/api/inventario?t=${query}`).subscribe((res: any) => {
 
      
       console.log(this.data);

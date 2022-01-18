@@ -195,7 +195,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.buque = '';
     this.viaje = '';
     this.spinner.show();
-    this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/consultarBl?BL=${this.bl}`).subscribe(res => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get<any>(`${environment.endpointRecinto}/api/consultarBl?idAPI=${apiid}&BL=${this.bl}`).subscribe(res => {
       this.spinner.hide();
       if (!res.error) {
         if (res[0][0]) {
@@ -210,13 +211,13 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             }
             this.buque = this.bls[0]?.buque;
             this.viaje = this.bls[0]?.viaje;
-            this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion?Referencia=${this.bl}`).subscribe(resP => {
+            this.http.get<any>(`${environment.endpointRecinto}/api/solicitudLiberacion?idAPI=${apiid}&Referencia=${this.bl}`).subscribe(resP => {
               if(!resP[0].error){
                 this.blliber = resP[0];
               }
             }, error => {
             });
-            this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudSalida?referencia=${this.bl}`).subscribe(res => {
+            this.http.get<any>(`${environment.endpointRecinto}/api/solicitudSalida?idAPI=${apiid}&referencia=${this.bl}`).subscribe(res => {
               if (res.length == 3) {
                 this.blsalida = res[0];
               }
@@ -232,7 +233,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             }, error => {
               this.blsalida = [];
             });
-            this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/Movimientos?tipoMovimiento=Separación&BL=${this.bl}`).subscribe(res => {
+            this.http.get<any>(`${environment.endpointRecinto}/api/Movimientos?idAPI=${apiid}&tipoMovimiento=Separación&BL=${this.bl}`).subscribe(res => {
               if (res.length > 2) {
                 this.cantidadDisponible = res[0].disponibleCantidad;
                 this.pesoDisponible = res[0].disponiblePeso;
@@ -278,7 +279,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.viaje = this.multiplebl?.viaje;
     this.bls = [];
     this.bls.push(this.multiplebl);
-    this.http.get<any>(`https://pis-api-recinto.azurewebsites.net/api/solicitudSalida?referencia=${this.bl}`).subscribe(res => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get<any>(`${environment.endpointRecinto}/api/solicitudSalida?idAPI=${apiid}&referencia=${this.bl}`).subscribe(res => {
       if (res.length == 3) {
         this.blsalida = res[0];
       }
@@ -428,7 +430,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       this.hasErrorPesos = true;
       return;
     }
-    this.http.post(`https://pis-api-recinto.azurewebsites.net/api/solicitudes`, payload).subscribe((resSolicitudF: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.post(`${environment.endpointRecinto}/api/solicitudes?idAPI=${apiid}`, payload).subscribe((resSolicitudF: any) => {
 
       if (!resSolicitudF.error) {
         this.msjSuccess = 'Se guardó correctamente con número de solicitud: ' + resSolicitudF.message;
@@ -459,7 +462,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
               ]
 
             };
-            this.http.post('https://pis-api-recinto.azurewebsites.net/api/solicitudSalida', payloadSalida).subscribe((resmo: any) => { this.spinner.hide(); }, err => { this.spinner.hide();});
+            
+            this.http.post(`${environment.endpointRecinto}/api/solicitudSalida?idAPI=${apiid}`, payloadSalida).subscribe((resmo: any) => { this.spinner.hide(); }, err => { this.spinner.hide();});
             break;
           case 3:
             this.spinner.show();
@@ -486,8 +490,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
                 payloadMov.documentos.push({ nombre: this.solicitudFile.nombre, archivo: this.solicitudFile.archivo });
               }
             }
-
-            this.http.post('https://pis-api-recinto.azurewebsites.net/api/Movimientos', payloadMov).subscribe((resmo: any) => {this.spinner.hide(); }, err => { this.spinner.hide();});
+      
+            this.http.post(`${environment.endpointRecinto}/api/Movimientos?idAPI=${apiid}`, payloadMov).subscribe((resmo: any) => {this.spinner.hide(); }, err => { this.spinner.hide();});
             break;
           case 4:
             this.spinner.show();
@@ -499,7 +503,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
               appkey: "046965ea2db6a892359ed2c4cd9f957b",
               liberaciones: liber
             };
-            this.http.post('https://pis-api-recinto.azurewebsites.net/api/solicitudLiberacion', payloadLib).subscribe((resLib: any) => { this.spinner.hide();
+            this.http.post(`${environment.endpointRecinto}/api/solicitudLiberacion?idAPI=${apiid}`, payloadLib).subscribe((resLib: any) => { this.spinner.hide();
             }, err => { this.spinner.hide(); });
             break;
         }
@@ -693,7 +697,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   }
 
   getClavePedimentos(): void {
-    this.http.get('https://pis-api-recinto.azurewebsites.net/api/catalogos?catalogo=pedimentos').subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointRecinto}/api/catalogos?idAPI=${apiid}&catalogo=pedimentos`).subscribe((res: any) => {
       this.clavesPedimento = res[0];
     }, err => { });
   }

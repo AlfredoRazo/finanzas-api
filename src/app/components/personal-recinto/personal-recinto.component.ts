@@ -21,7 +21,8 @@ export class PersonalRecintoComponent implements OnInit {
 
   getPersonal(): void {
     this.spinner.show();
-    this.http.get(`${environment.endpointRecinto}funcionarios`).subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointRecinto}funcionarios?idAPI=${apiid}`).subscribe((res: any) => {
       this.personal = res.datos;
       this.spinner.hide();
     }, err => { this.spinner.hide(); });
