@@ -284,7 +284,9 @@ export class RecintoConsultaTipoComponent implements OnInit {
       piezas: this.cantidadPiezas,
       tipotarifa: this.tarifa
     };
-    this.http.post(`${environment.endpointApi}facturacionGenerarOrden`, payload).subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    
+    this.http.post(`${environment.endpointApi}facturacionGenerarOrden?idAPI=${apiid}`, payload).subscribe((res: any) => {
       this.spinner.hide();
       if (res[0]?.error == 1) {
         this.hasError = true;

@@ -108,7 +108,8 @@ export class CesionarioComponent implements OnInit {
       idusuario: user.userData.idusuario,
       registros: this.dataHechos
     }
-    this.http.post(environment.endpointApi + 'estadodehechos', payload).subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.post(environment.endpointApi + `estadodehechos?idAPI=${apiid}`, payload).subscribe((res: any) => {
       this.spinner.hide();
       if (res[0].error !== 0) {
         this.hasSuccess = false;

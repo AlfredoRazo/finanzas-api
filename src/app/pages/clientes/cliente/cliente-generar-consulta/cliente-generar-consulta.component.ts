@@ -254,8 +254,8 @@ export class ClienteGenerarConsultaComponent implements OnInit {
       viaje: this.numeroviaje,
       rfc: this.auth.getSession()?.userData?.rfc
     } 
-
-    this.http.post(`${environment.endpointApi}buquesSolicitud`, payload).subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.post(`${environment.endpointApi}buquesSolicitud?idAPI=${apiid}`, payload).subscribe((res: any) => {
       this.spinner.hide();
       if (res[0]?.error == 1) {
         this.hasError = true;

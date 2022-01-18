@@ -219,7 +219,8 @@ export class SolicitudServicioComponent implements OnInit {
   }
 
   getDocumentos(bl: string) {
-    this.http.get(`${environment.endpointApi}recintoDocumentos?bl=${bl}`).subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointApi}recintoDocumentos?idAPI=${apiid}&bl=${bl}`).subscribe((res: any) => {
       if (res) {
         this.documentosVisual = res;
       } else {

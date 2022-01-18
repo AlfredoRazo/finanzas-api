@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
+import { AuthService } from '@serv/auth.service';
 import { HelpersService } from '@serv/helpers.service';
 import { PaginateService } from '@serv/paginate.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -14,6 +15,7 @@ export class RespuestaBancosComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private auth: AuthService,
     private pagina: PaginateService,
     private spinner: NgxSpinnerService,
     private help: HelpersService
@@ -35,7 +37,8 @@ export class RespuestaBancosComponent implements OnInit {
 
   getData() {
     this.spinner.show();
-    this.http.get(`${environment.endpointApi}bancosRespuesta?fechainicial=${this.fechaini}&fechafinal=${this.fechafin}`)
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointApi}bancosRespuesta?idAPI=${apiid}&fechainicial=${this.fechaini}&fechafinal=${this.fechafin}`)
       .subscribe((res: any) => {
        if(Array.isArray(res[0])){
         this.total = res[0].length;

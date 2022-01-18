@@ -47,7 +47,9 @@ export class CfdiComponent implements OnInit {
 
   getCFDI(): void {
     this.spinner.show();
-    this.http.get(`${environment.endpointApi}cfdi?rfc=${this.auth.getSession().userData.rfc}&fechaini=${this.fechaini}&fechafin=${this.fechafin}`).subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI
+
+    this.http.get(`${environment.endpointApi}cfdi?idAPI=${apiid}&rfc=${this.auth.getSession().userData.rfc}&fechaini=${this.fechaini}&fechafin=${this.fechafin}`).subscribe((res: any) => {
       this.pageCFDI = 1;
       this.spinner.hide();
       this.totalCFDI = res[0].length;

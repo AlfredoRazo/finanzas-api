@@ -23,7 +23,9 @@ export class EstadisticaComponent implements OnInit {
   ngOnInit(): void {
     this.spinner.show();
     const user = this.auth.getSession();
-    this.http.get(environment.endpointApi + 'estadodehechos?idEmpresa=' + user.userData.empresaid).subscribe((res: any) => {
+     let apiid = this.auth.getSession().userData.idAPI;
+
+    this.http.get(environment.endpointApi + `estadodehechos?idAPI=${apiid}&idEmpresa=` + user.userData.empresaid).subscribe((res: any) => {
       this.spinner.hide();
       if(res[0].error){
 

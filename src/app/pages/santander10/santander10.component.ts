@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '@env/environment';
+import { AuthService } from '@serv/auth.service';
 
 @Component({
   selector: 'app-santander10',
@@ -11,7 +12,7 @@ import { environment } from '@env/environment';
 export class Santander10Component implements OnInit {
   catCFDI: any[] = [];
   sendCFDI = false;
-  constructor(private activeRoute: ActivatedRoute, private http: HttpClient) { }
+  constructor(private activeRoute: ActivatedRoute, private http: HttpClient, private auth: AuthService) { }
   data = {
     appkey: environment.appKey,
     banco: 'Santander',
@@ -31,44 +32,48 @@ export class Santander10Component implements OnInit {
     this.getCatalogoCFDI();
     this.activeRoute.queryParams
       .subscribe(params => {
-            let valores = '';
-            Object.entries(params).forEach(item => {
-              valores += `${item[0]}:${item[1]}|`
-            })
-            this.type = 1;
-            this.estatus = params?.estatus;
-            this.data.estatus = params?.estatus;
-            this.data.mensaje = params?.mensaje;
-            this.data.folio = params?.folio_oper;
-            this.data.nombre = params?.nomUsuario;
-            this.data.referencia = params?.referencia;
-            this.data.valores = valores;
-            this.data.fecha = `${params?.fecha} ${params?.hora}`;
-            this.data.importe = params?.importe;
-            this.http.post(`${environment.endpointApi}bancosRespuesta`, this.data).subscribe((resBanco: any) => {
-            });
+        let valores = '';
+        Object.entries(params).forEach(item => {
+          valores += `${item[0]}:${item[1]}|`
+        })
+        this.type = 1;
+        this.estatus = params?.estatus;
+        this.data.estatus = params?.estatus;
+        this.data.mensaje = params?.mensaje;
+        this.data.folio = params?.folio_oper;
+        this.data.nombre = params?.nomUsuario;
+        this.data.referencia = params?.referencia;
+        this.data.valores = valores;
+        this.data.fecha = `${params?.fecha} ${params?.hora}`;
+        this.data.importe = params?.importe;
+        let apiid = this.auth.getSession().userData.idAPI;
+
+        this.http.post(`${environment.endpointApi}bancosRespuesta?idAPI=${apiid}`, this.data).subscribe((resBanco: any) => {
+        });
       });
   }
 
-  getCatalogoCFDI(): void{
-    this.http.get(`${environment.endpointApi}catUsoCFDI`).subscribe((res: any)=> {
+  getCatalogoCFDI(): void {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointApi}catUsoCFDI?idAPI=${apiid}`).subscribe((res: any) => {
       this.catCFDI = res;
     });
   }
 
-  sendUsoCfdi(): void{
-    const val = this.catCFDI.filter(item =>{ return item.clave === this.cfdi });
+  sendUsoCfdi(): void {
+    const val = this.catCFDI.filter(item => { return item.clave === this.cfdi });
     const payload = {
-      appkey : environment.appKey,
-      referencia:this.data.referencia,
+      appkey: environment.appKey,
+      referencia: this.data.referencia,
       clave: val[0].clave,
       uso: val[0].valor
     }
-    this.http.post(`${environment.endpointApi}catUsoCFDI`, payload).subscribe((res: any)=>{
-      if(res.error == 0){
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.post(`${environment.endpointApi}catUsoCFDI?idAPI=${apiid}`, payload).subscribe((res: any) => {
+      if (res.error == 0) {
         this.sendCFDI = true;
       }
-    },error=>{});
+    }, error => { });
   }
 
 }

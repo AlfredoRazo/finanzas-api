@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
     }
     this.spinner.show();
 
-    this.http.post(`${environment.endpointAuth}Usuario/v1/login`, payload).subscribe((res: any) => {
+    /*this.http.post(`${environment.endpointAuth}Usuario/v1/login`, payload).subscribe((res: any) => {
       console.log(res);
       if (res.error) {
         this.spinner.hide();
@@ -73,17 +73,17 @@ export class LoginComponent implements OnInit {
         this.errorMsj = res.mensaje;
       } else {
         // res.valor?.aplicaciones[0]?.url.split('?token=')[1]
-        //recinto
-        let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiNDI5IiwiaWRBcHAiOiIxOSIsIm5vbUFwcCI6IlJlY2ludG8gQVBJIiwiaWRSb2wiOiI2IiwiaWRSb2xBcHAiOiIyMDAxIiwiaWRQZXJzb25hIjoiNDQ2MSIsImlkRW1wcmVzYSI6Ijg1IiwiaWRDb250cmF0byI6IjEiLCJpZEFQSSI6IjciLCJuYmYiOjE2NDE1NzcyNDgsImV4cCI6MTY0MTYwNjA0OCwiaWF0IjoxNjQxNTc3MjQ4LCJpc3MiOiJQSVMiLCJhdWQiOiJBUElNQU4ifQ.gZHHi6w12NOvjRWnTk0Vx6lFXQNDbO-HKLFJa5Gm3xM';
+        //recinto*/
+        let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiNDI5IiwiaWRBcHAiOiIxOCIsIm5vbUFwcCI6IkZpbmFuemFzIiwiaWRSb2wiOiI2IiwiaWRSb2xBcHAiOiIxMDAxIiwiaWRQZXJzb25hIjoiNDQ2MSIsImlkRW1wcmVzYSI6Ijg1IiwiaWRDb250cmF0byI6IjEiLCJpZEFQSSI6IjciLCJuYmYiOjE2NDI1MjMwMjYsImV4cCI6MTY0MjU1MTgyNiwiaWF0IjoxNjQyNTIzMDI2LCJpc3MiOiJQSVMiLCJhdWQiOiJBUElNQU4ifQ.GNm3ziY0HP_cy7tdLUs8XNaIf48r_RCd7j5TWkM8aEk';
         //finanzas
         //let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiNDI5IiwiaWRBcHAiOiIxOCIsIm5vbUFwcCI6IkZpbmFuemFzIiwiaWRSb2wiOiI2IiwiaWRSb2xBcHAiOiIxMDAxIiwiaWRQZXJzb25hIjoiNDQ2MSIsImlkRW1wcmVzYSI6Ijg1IiwiaWRDb250cmF0byI6IjEiLCJpZEFQSSI6IjciLCJuYmYiOjE2NDE1NzcyNDgsImV4cCI6MTY0MTYwNjA0OCwiaWF0IjoxNjQxNTc3MjQ4LCJpc3MiOiJQSVMiLCJhdWQiOiJBUElNQU4ifQ.3VnGypL6ggd-78jrpLfhNLHxs8pkhMMEgkyE3txZJ0I';
         this.tokenLogin(token);
-      }
+      /*}
     }, error => {
       this.spinner.hide();
       this.hasError = true;
       this.errorMsj = error.error.Message;
-    });
+    });*/
 
 
   }
@@ -112,6 +112,7 @@ export class LoginComponent implements OnInit {
           empresaid: res.valor.empresa.id,
           rfc: res.valor.empresa.rfc,
           idRol: res.valor.idRolApp,
+          idAPI: res.valor.idAPI,
           catToken: res.mensaje
         }
         this.authService.setSession({ token: token, userData: user });

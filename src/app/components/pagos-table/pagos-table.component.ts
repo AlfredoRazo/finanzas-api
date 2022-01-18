@@ -115,7 +115,8 @@ export class PagosTableComponent implements OnInit {
   }
 
   getCatalogoCFDI(): void{
-    this.http.get(`${environment.endpointApi}catUsoCFDI`).subscribe((res: any)=> {
+    let apiid = this.auth.getSession().userData.idAPI
+    this.http.get(`${environment.endpointApi}catUsoCFDI?idAPI=${apiid}`).subscribe((res: any)=> {
       this.catCFDI = res;
     });
   }
@@ -166,7 +167,8 @@ export class PagosTableComponent implements OnInit {
         numconsultaSAP: this.apagar.map((item: any) => {return item.noConsulta})
       }
       this.spinner.show();
-      this.http.post(`${environment.endpointApi}referenciaGenerar`, payload).subscribe((res: any) =>{
+      let apiid = this.auth.getSession().userData.idAPI
+      this.http.post(`${environment.endpointApi}referenciaGenerar?idAPI=${apiid}`, payload).subscribe((res: any) =>{
         this.spinner.hide();
         this.isPagar = true;
         this.referencia = res[0].referencia;
@@ -319,7 +321,8 @@ export class PagosTableComponent implements OnInit {
       clave: val[0].clave,
       uso: val[0].valor
     }
-    this.http.post(`${environment.endpointApi}catUsoCFDI`, payload).subscribe((res: any)=>{
+    let apiid = this.auth.getSession().userData.idAPI
+    this.http.post(`${environment.endpointApi}catUsoCFDI?idAPI=${apiid}`, payload).subscribe((res: any)=>{
       if(res.error == 0){
       }
     },error=>{});

@@ -343,7 +343,9 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     }, error => { });
   }
   getRecinto(): void {
-    this.http.get(`${environment.endpointApi}catRecintos`).subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    
+    this.http.get(`${environment.endpointApi}catRecintos?idAPI=${apiid}`).subscribe((res: any) => {
       this.recintos = res;
     }, error => {
 
@@ -511,7 +513,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   }
 
   saveFiles(payload: BLFile): void {
-    this.http.post(`${environment.endpointApi}recintoDocumentos`, payload).subscribe(res => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.post(`${environment.endpointApi}recintoDocumentos?idAPI=${apiid}`, payload).subscribe(res => {
     });
   }
 

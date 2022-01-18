@@ -40,7 +40,8 @@ export class TablaBuquesComponent implements OnInit {
 
   getData(): void {
     this.spinner.show();
-    this.http.get(`${environment.endpointApi}buquesSolicitud`).subscribe((res: any) => {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointApi}buquesSolicitud?idAPI=${apiid}`).subscribe((res: any) => {
       this.pageData = 1;
       this.spinner.hide();
       this.totalData = res.length;
