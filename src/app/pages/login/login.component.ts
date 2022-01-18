@@ -66,13 +66,18 @@ export class LoginComponent implements OnInit {
     this.spinner.show();
 
     this.http.post(`${environment.endpointAuth}Usuario/v1/login`, payload).subscribe((res: any) => {
-
+      console.log(res);
       if (res.error) {
         this.spinner.hide();
         this.hasError = true;
         this.errorMsj = res.mensaje;
       } else {
-        this.tokenLogin(res.valor?.aplicaciones[0]?.url.split('?token=')[1]);
+        // res.valor?.aplicaciones[0]?.url.split('?token=')[1]
+        //recinto
+        let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiNDI5IiwiaWRBcHAiOiIxOSIsIm5vbUFwcCI6IlJlY2ludG8gQVBJIiwiaWRSb2wiOiI2IiwiaWRSb2xBcHAiOiIyMDAxIiwiaWRQZXJzb25hIjoiNDQ2MSIsImlkRW1wcmVzYSI6Ijg1IiwiaWRDb250cmF0byI6IjEiLCJpZEFQSSI6IjciLCJuYmYiOjE2NDE1NzcyNDgsImV4cCI6MTY0MTYwNjA0OCwiaWF0IjoxNjQxNTc3MjQ4LCJpc3MiOiJQSVMiLCJhdWQiOiJBUElNQU4ifQ.gZHHi6w12NOvjRWnTk0Vx6lFXQNDbO-HKLFJa5Gm3xM';
+        //finanzas
+        //let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiNDI5IiwiaWRBcHAiOiIxOCIsIm5vbUFwcCI6IkZpbmFuemFzIiwiaWRSb2wiOiI2IiwiaWRSb2xBcHAiOiIxMDAxIiwiaWRQZXJzb25hIjoiNDQ2MSIsImlkRW1wcmVzYSI6Ijg1IiwiaWRDb250cmF0byI6IjEiLCJpZEFQSSI6IjciLCJuYmYiOjE2NDE1NzcyNDgsImV4cCI6MTY0MTYwNjA0OCwiaWF0IjoxNjQxNTc3MjQ4LCJpc3MiOiJQSVMiLCJhdWQiOiJBUElNQU4ifQ.3VnGypL6ggd-78jrpLfhNLHxs8pkhMMEgkyE3txZJ0I';
+        this.tokenLogin(token);
       }
     }, error => {
       this.spinner.hide();
@@ -88,14 +93,14 @@ export class LoginComponent implements OnInit {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    let endp = 'validar/permisos';
+    /*let endp = 'validar/permisos';
     if (environment.production) {
-      endp = 'validar/v2/permisos';
-    }
+    }*/
+    let endp = 'validar/v2/permisos';
     this.http.get(`${environment.endpointAuth}${endp}`, { headers: header }).subscribe((res: any) => {
       this.spinner.hide();
       const rol = this.role.getRolById(res.valor.idRolApp);
-      if (environment.production) {
+      //if (environment.production) {
         const user = {
           usuariokey: res.mensaje,
           idusuario: res.valor.usuario_Id,
@@ -111,7 +116,7 @@ export class LoginComponent implements OnInit {
         }
         this.authService.setSession({ token: token, userData: user });
         this.role.reditecByRole(rol);
-      } else {
+      /*} else {
         this.http.post(environment.endpointCat + 'login', environment.catlogin).subscribe((rescat: any) => {
           this.spinner.hide();
           const rol = this.role.getRolById(res.valor.idRolApp);
@@ -134,7 +139,7 @@ export class LoginComponent implements OnInit {
           this.spinner.hide();
         });
 
-      }
+      }*/
 
 
     }, err => {

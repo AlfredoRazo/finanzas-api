@@ -92,7 +92,7 @@
           class="btn btn-primary btn-sm pull-right" style="margin-left: 15px;" (click)="imprimir()">Imprimir
           Liberación</button>
         <button class="btn btn-primary btn-sm pull-right" (click)="imprimirSolicitud()"
-          *ngIf="visualSolicitud?.estatus == '100' && moves[0]?.Tipo == 'Previo'">Imprimir Solicitud</button>
+          *ngIf="visualSolicitud?.estatus == '100' && (moves[0]?.Tipo == 'Previo' || moves[0]?.Tipo == 'Salida' )">Imprimir Solicitud</button>
         <h4>Solicitud</h4>
 
         <hr class="red">
