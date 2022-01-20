@@ -114,7 +114,7 @@ export class SolicitudServicioComponent implements OnInit {
   consultaBL(idBL: string): void {
     this.spinner.show();
     let apiid = this.auth.getSession().userData.idAPI;
-    this.http.get(`${environment.endpointRecinto}bl/${idBL}?idAPI=${apiid}`).subscribe((res: any) => {
+    this.http.get(`${environment.endpointRecinto}/api/bl/${idBL}?idAPI=${apiid}`).subscribe((res: any) => {
       this.visualBL = res.datos;
       this.spinner.hide();
     }, err => {
