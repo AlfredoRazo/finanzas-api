@@ -18,7 +18,8 @@
 <br>
 <button type="button" class="btn btn-primary btn-sm" routerLink="nueva-solicitud">Nueva solicitud</button>
 <button class="btn btn-primary btn-sm pull-right" (click)="autorizar()" *ngIf="puedeAutorizar">Autorizar</button>
-<button class="btn btn-primary btn-sm pull-right" (click)="cancelar()" *ngIf="puedeAutorizar">Cancelar</button>
+<button class="btn btn-primary btn-sm pull-right" style="margin-right: 10px ;" (click)="cancelar()"
+  *ngIf="puedeAutorizar">Cancelación</button>
 <button class="btn btn-primary btn-sm pull-right" *ngIf="puedeAutorizar" data-toggle="modal"
   data-target="#send-inventario" style="margin-right: 10px ;">Inventario</button>
 <br>
@@ -51,7 +52,7 @@
       </tr>
     </thead>
     <tbody style="white-space: nowrap;">
-      <tr *ngFor="let item of data">
+      <tr *ngFor="let item of data" [ngClass]="{'table-danger': item.estatus == 20}">
         <td>
           <button class="btn btn-xs btn-primary" (click)="visualizar(item)" data-toggle="modal"
             data-target="#show-data">Revisar detalle</button><br>
@@ -69,13 +70,14 @@
           </ng-container>
         </td>
         <td style="vertical-align: middle; text-align: center;" *ngIf="puedeAutorizar">
-          <ng-container *ngIf="item.estatus == 1">
+          <ng-container *ngIf="item.estatus != 20">
             <input type="checkbox" [(ngModel)]="item.selectedcancel">
           </ng-container>
         </td>
 
         <td>{{item.idSolicitud}}</td>
-        <td>{{item.estatus == '1' ? 'Por Autorizar' : item.estatus == '100' ?'Autorizado': 'Por Definir' }}</td>
+        <td>{{item.estatus == '1' ? 'Por Autorizar' : item.estatus == '100' ?'Autorizado': item.estatus == 20 ?
+          'Cancelado' : 'Por Definir' }}</td>
         <td>{{item.tipoSolicitud}}</td>
         <td>{{item.fechaServicio | date: 'dd/MM/yyyy HH:mm'}}</td>
         <td>{{item.nombre}}</td>
@@ -97,117 +99,177 @@
         <h4 class="modal-title">Editar</h4>
       </div>
       <div class="modal-body">
-        <h4>Solicitud</h4>
-        <hr class="red">
-        <div class="row">
-          <div class="form-group col-md-12">
-            <label class="control-label">Nombre de buque</label>
-            <input type="text" class="form-control" [(ngModel)]="editData.buque" name="buque">
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label class="control-label">Viaje</label>
-            <input type="text" class="form-control" [(ngModel)]="editData.viaje" name="viaje">
-          </div>
-          <div class="form-group col-md-6">
-            <label class="control-label">Patente</label>
-            <input type="text" class="form-control" [(ngModel)]="editData.patente" name="patente">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <div class="form-group datepicker-group">
-              <label class="control-label">Fecha de zarpe</label>
-              <input type="text" class="form-control" id="fecha-zarpe" [(ngModel)]="editData.fechaZarpe"
-                name="fechaZarpe">
-              <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        <ng-container>
+          <h4>Solicitud</h4>
+          <hr class="red">
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label class="control-label">Nombre de buque</label>
+              <input type="text" class="form-control" [(ngModel)]="editData.buque" name="buque">
             </div>
           </div>
-          <div class="col-12 col-md-6">
-            <div class="form-group datepicker-group">
-              <label class="control-label">Fecha arribo</label>
-              <input type="text" class="form-control" id="fecha-arribo" [(ngModel)]="editData.fechaArribo"
-                name="fechaArribo">
-              <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label">Viaje</label>
+              <input type="text" class="form-control" [(ngModel)]="editData.viaje" name="viaje">
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Patente</label>
+              <input type="text" class="form-control" [(ngModel)]="editData.patente" name="patente">
             </div>
           </div>
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group datepicker-group">
+                <label class="control-label">Fecha de zarpe</label>
+                <input type="text" class="form-control" id="fecha-zarpe" [(ngModel)]="editData.fechaZarpe"
+                  name="fechaZarpe">
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group datepicker-group">
+                <label class="control-label">Fecha arribo</label>
+                <input type="text" class="form-control" id="fecha-arribo" [(ngModel)]="editData.fechaArribo"
+                  name="fechaArribo">
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+              </div>
+            </div>
 
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <div class="form-group datepicker-group">
-              <label class="control-label">Fecha de servicio</label>
-              <input type="text" class="form-control" id="fecha-servicio" [(ngModel)]="editData.fechaServicio"
-                name="fechaServicio">
-              <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group datepicker-group">
+                <label class="control-label">Fecha de servicio</label>
+                <input type="text" class="form-control" id="fecha-servicio" [(ngModel)]="editData.fechaServicio"
+                  name="fechaServicio">
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group datepicker-group">
+                <label class="control-label">Fecha Inicio de operaciones</label>
+                <input type="text" class="form-control" id="fecha-iniop" [(ngModel)]="editData.fechaIniOperaciones"
+                  name="fechaIniOperaciones">
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+              </div>
             </div>
           </div>
-          <div class="col-12 col-md-6">
-            <div class="form-group datepicker-group">
-              <label class="control-label">Fecha Inicio de operaciones</label>
-              <input type="text" class="form-control" id="fecha-iniop" [(ngModel)]="editData.fechaIniOperaciones"
-                name="fechaIniOperaciones">
-              <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+          <button class="btn btn-sm btn-primary" (click)="saveEditSolicitud()">Guardar Solicitud</button>
+        </ng-container>
+        <ng-container>
+          <h4>BL</h4>
+          <hr class="red">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label">Embarcador</label>
+              <input type="text" class="form-control" [(ngModel)]="editBL.embarcador" name="embarcador">
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Consignatario</label>
+              <input type="text" class="form-control" [(ngModel)]="editBL.consignatario" name="consignatario">
             </div>
           </div>
-        </div>
-        <button class="btn btn-sm btn-primary" (click)="saveEditSolicitud()">Guardar Solicitud</button>
-        <h4>BL</h4>
-        <hr class="red">
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label class="control-label">Embarcador</label>
-            <input type="text" class="form-control" [(ngModel)]="editBL.embarcador" name="embarcador">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label">Notificar A</label>
+              <input type="text" class="form-control" [(ngModel)]="editBL.notificarA" name="notificarA">
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Marcas y números</label>
+              <input type="text" class="form-control" [(ngModel)]="editBL.marcasNumeros" name="marcasNumeros">
+            </div>
           </div>
-          <div class="form-group col-md-6">
-            <label class="control-label">Consignatario</label>
-            <input type="text" class="form-control" [(ngModel)]="editBL.consignatario" name="consignatario">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label">Cantidad</label>
+              <input type="text" class="form-control" [(ngModel)]="editBL.cantidad" name="cantidad">
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Unidad</label>
+              <input type="text" class="form-control" [(ngModel)]="editBL.unidad" name="unidad">
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label class="control-label">Notificar A</label>
-            <input type="text" class="form-control" [(ngModel)]="editBL.notificarA" name="notificarA">
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label class="control-label">Descripción</label>
+              <input type="text" class="form-control" [(ngModel)]="editBL.descripcion" name="descripcion">
+            </div>
           </div>
-          <div class="form-group col-md-6">
-            <label class="control-label">Marcas y números</label>
-            <input type="text" class="form-control" [(ngModel)]="editBL.marcasNumeros" name="marcasNumeros">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label">Vólumen</label>
+              <input type="text" class="form-control" [(ngModel)]="editBL.volumen" name="volumen">
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Peso Bruto</label>
+              <input type="text" class="form-control" [(ngModel)]="editBL.pesoBruto" name="pesoBruto">
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label class="control-label">Cantidad</label>
-            <input type="text" class="form-control" [(ngModel)]="editBL.cantidad" name="cantidad">
+          <button class="btn btn-sm btn-primary" (click)="saveEditBL()">Guardar BL</button>
+        </ng-container>
+        <ng-container *ngIf="editLiberacion.solicitudBL">
+          <h4>Liberación</h4>
+          <hr class="red">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label">Clave Pedimento</label>
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudClavePedimento" name="solicitudClavePedimento">
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Tipo Pedimento</label>
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudTipoPedimento" name="solicitudTipoPedimento">
+            </div>
           </div>
-          <div class="form-group col-md-6">
-            <label class="control-label">Unidad</label>
-            <input type="text" class="form-control" [(ngModel)]="editBL.unidad" name="unidad">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label">Número Pedimento</label>
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudNumPedimento" name="solicitudNumPedimento">
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Tipo Cambio</label>
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudtipoCambio" name="solicitudTipoPedimento">
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-12">
-            <label class="control-label">Descripción</label>
-            <input type="text" class="form-control" [(ngModel)]="editBL.descripcion" name="descripcion">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label">Valor Aduana</label>
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudValorAduana" name="solicitudValorAduana">
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Piezas</label>
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudPiezas" name="solicitudPiezas">
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label class="control-label">Vólumen</label>
-            <input type="text" class="form-control" [(ngModel)]="editBL.volumen" name="volumen">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label">Peso</label>
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudPeso" name="solicitudPeso">
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Número de Partes</label>
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudNumPartes" name="solicitudNumPartes">
+            </div>
           </div>
-          <div class="form-group col-md-6">
-            <label class="control-label">Peso Bruto</label>
-            <input type="text" class="form-control" [(ngModel)]="editBL.pesoBruto" name="pesoBruto">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label">Número de Copias</label>
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudNumCopias" name="solicitudNumCopias">
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Coves</label>
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudNumCopias" name="solicitudNumCopias">
+            </div>
           </div>
-        </div>
-        <button class="btn btn-sm btn-primary" (click)="saveEditBL()">Guardar BL</button>
+          <button class="btn btn-sm btn-primary" (click)="saveEditLiberacion()">Guardar Liberación</button>
+        </ng-container>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="getSolicitudesServicios()">Cerrar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"
+          (click)="getSolicitudesServicios()">Cerrar</button>
       </div>
     </div>
-   
+
   </div>
 </div>
 <div class="modal fade" id="show-data">

@@ -53,6 +53,7 @@ export class SolicitudServicioComponent implements OnInit {
   hora: any;
   editData: any = {};
   editBL: any = {};
+  editLiberacion: any = {};
   patternshours = {
     '0': { pattern: new RegExp(/[0-2]/) },
     '1': { pattern: new RegExp(/[0-9]/) },
@@ -91,6 +92,21 @@ export class SolicitudServicioComponent implements OnInit {
     }, err => {
       this.spinner.hide();
     });
+  
+    this.http.get<any>(`${environment.endpointRecinto}/api/solicitudLiberacion?idAPI=${apiid}&referencia=${this.editData.bl}&idLiberacion=${this.editData.idSolicitud}`).subscribe(res => {
+
+      if (res.length == 3) {
+        this.editLiberacion = res[0][0];
+      }
+      if (res.length == 2) {
+        if (res[0][0].archivo) {
+      
+        } else {
+          this.editLiberacion= res[0][0];
+        }
+      }
+
+    }, error => {});
   }
 
   saveEditSolicitud(): void {
@@ -155,7 +171,52 @@ export class SolicitudServicioComponent implements OnInit {
         this.hasSuccess = true;
         Swal.fire({
           icon: 'success',
-          title: res.mensaje ? res.mensaje : 'Se actualizo correctamente la solicitud',
+          title: res.mensaje ? res.mensaje : 'Se actualizo correctamente el BL',
+          showConfirmButton: false,
+          timer: 2500
+        })
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: res.mensaje ? res.mensaje : 'Ocurrió un error al actualizar',
+          showConfirmButton: false,
+          timer: 2500
+        })
+      }
+    }, err => {
+      this.spinner.hide();
+    });
+  }
+
+  saveEditLiberacion(): void {
+    this.spinner.show();
+    let apiid = this.auth.getSession().userData.idAPI;
+    const payload = {
+      appKey: 'prueba202201',
+      datostblSol: [{
+        idSolicitudMovimento: this.editLiberacion.solicitudId,
+        solicitudFechaAlta: this.editLiberacion.solicitudFechaAlta.substring(0,10) + ' 00:00:00',
+        solicitudUsuario:'',
+        solicitudBL:this.editLiberacion.solicitudBL,
+        solicitudClavePedimento:this.editLiberacion.solicitudClavePedimento,
+        solicitudTipoPedimento: this.editLiberacion.solicitudTipoPedimento,
+        solicitudNumPedimento:this.editLiberacion.solicitudNumPedimento,
+        solicitudtipoCambio:this.editLiberacion.solicitudClavePedimento,
+        solicitudValorAduana:this.editLiberacion.solicitudValorAduana,
+        solicitudPiezas:this.editLiberacion.solicitudPiezas,
+        solicitudPeso:this.editLiberacion.solicitudPeso,
+        solicitudNumPartes:this.editLiberacion.solicitudNumPartes,
+        solicitudNumCopias:this.editLiberacion.solicitudNumCopias,
+        solicitudCoves:this.editLiberacion.solicitudCoves
+	}]
+    };
+    this.http.post(`${environment.endpointRecinto}/api/tblSolEditar?idAPI=${apiid}`, payload).subscribe((res: any) => {
+      this.spinner.hide();
+      if (!res.error) {
+        this.hasSuccess = true;
+        Swal.fire({
+          icon: 'success',
+          title: res.mensaje ? res.mensaje : 'Se actualizo correctamente la liberación',
           showConfirmButton: false,
           timer: 2500
         })

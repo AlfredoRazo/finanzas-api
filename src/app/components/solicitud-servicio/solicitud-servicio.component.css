@@ -4,3 +4,7 @@
 .tabla-print tr td{
     padding: 5px;
 }
+
+.table-danger{
+    background-color: #f5c6cb;
+}
