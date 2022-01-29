@@ -33,29 +33,32 @@ export class SolicitudServicioComponent implements OnInit {
   blmovimiento: any[] = [];
   blliberacion: any[] = [];
   blliberacionDocs: any[] = [];
-  formatobls:any [] = [];
+  formatobls: any[] = [];
   blsalidaDocs: any[] = [];
   blsalida: any[] = [];
   bldocs: any[] = [];
   documentosVisual: any[] = [];
   imprimeFormato: any;
   puedeAutorizar = true;
-  imgheader:any;
+  imgheader: any;
   criterio = 'BL';
   buscador = '';
   areaInventario = '';
-  areas : any[] = [];
+  areas: any[] = [];
   moves: any[] = [];
   detalleMov: any;
   fechaInventario: any;
   zonas: any[] = [];
   zonaInventario: any;
   hora: any;
+  editData: any = {};
+  editBL: any = {};
   patternshours = {
     '0': { pattern: new RegExp(/[0-2]/) },
     '1': { pattern: new RegExp(/[0-9]/) },
     '2': { pattern: new RegExp(/[0-5]/) }
   };
+
   constructor(private auth: AuthService,
     private spinner: NgxSpinnerService,
     private pdf: PdfService,
@@ -69,19 +72,120 @@ export class SolicitudServicioComponent implements OnInit {
     $('#fecha-inventario').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fechaInventario = date } });
   }
 
-  getCatInventario(): void{
+  editMode(item: any): void {
+    this.spinner.show();
+    this.editData = { ...item };
+    this.editData.fechaServicio = this.editData.fechaServicio.substring(0,10);
+    this.editData.fechaArribo = this.editData.fechaArribo.substring(0,10);
+    this.editData.fechaZarpe = this.editData.fechaZarpe.substring(0,10);
+    this.editData.fechaIniOperaciones = this.editData.fechaIniOperaciones.substring(0,10);
+    $('#fecha-servicio').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => {  this.editData.fechaServicio = date } });
+    $('#fecha-arribo').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.editData.fechaArribo = date } });
+    $('#fecha-zarpe').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.editData.fechaZarpe = date } });
+    $('#fecha-iniop').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.editData.fechaIniOperaciones = date } });
+  
     let apiid = this.auth.getSession().userData.idAPI;
-    this.http.get(`${environment.endpointRecinto}/api/catalogos?idAPI=${apiid}&catalogo=areas`).subscribe((res:any)=>{
-    this.areas = res[0];
-    },error=>{});
-    
+    this.http.get(`${environment.endpointRecinto}/api/bl/${this.editData.idBl}?idAPI=${apiid}`).subscribe((res: any) => {
+      this.editBL = res[0][0];
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
   }
-  getZonas(): void{
+
+  saveEditSolicitud(): void {
+    this.spinner.show();
     let apiid = this.auth.getSession().userData.idAPI;
-    this.http.get(`${environment.endpointRecinto}/api/catalogos?idAPI=${apiid}&catalogo=` + this.areaInventario).subscribe((res:any)=>{
-    this.zonas = res[0];
-    },error=>{});
-    
+    const payload = {
+      appKey: "prueba202201",
+      solicitudDatos: [{
+        idSolicitud: this.editData.idSolicitud,
+        buque: this.editData.buque,
+        patente: this.editData.patente,
+        viaje:this.editData.viaje,
+        fechaServicio: this.editData.fechaServicio + ' 00:00:00',
+        fechaArribo: this.editData.fechaArribo + ' 00:00:00',
+        fechaIniOperaciones: this.editData.fechaIniOperaciones+ ' 00:00:00',
+        fechaZarpe: this.editData.fechaZarpe+ ' 00:00:00'
+      }]
+    };
+    this.http.post(`${environment.endpointRecinto}/api/solicitudEditar?idAPI=${apiid}`, payload).subscribe((res: any) => {
+      this.spinner.hide();
+      if (!res.error) {
+        Swal.fire({
+          icon: 'success',
+          title: res.mensaje ? res.mensaje : 'Se actualizo correctamente la solicitud',
+          showConfirmButton: false,
+          timer: 2500
+        })
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: res.mensaje ? res.mensaje : 'Ocurrió un error al actualizar',
+          showConfirmButton: false,
+          timer: 2500
+        })
+      }
+    }, err => {
+      this.spinner.hide();
+    });
+  }
+
+  saveEditBL(): void {
+    this.spinner.show();
+    let apiid = this.auth.getSession().userData.idAPI;
+    const payload = {
+      appKey: 'prueba202201',
+      solicitudDatosBL: [{
+        idBL: this.editBL.idBL,
+        embarcador: this.editBL.embarcador,
+        consignatario: this.editBL.consignatario,
+        notificarA: this.editBL.notificarA,
+        marcasNumeros: this.editBL.marcasNumeros,
+        cantidad: this.editBL.cantidad,
+        unidad: this.editBL.unidad,
+        descripcion: this.editBL.descripcion,
+        pesoBruto: this.editBL.pesoBruto,
+        volumen: this.editBL.volumen
+      }]
+    };
+    this.http.post(`${environment.endpointRecinto}/api/BLEditar?idAPI=${apiid}`, payload).subscribe((res: any) => {
+      this.spinner.hide();
+      if (!res.error) {
+        this.hasSuccess = true;
+        Swal.fire({
+          icon: 'success',
+          title: res.mensaje ? res.mensaje : 'Se actualizo correctamente la solicitud',
+          showConfirmButton: false,
+          timer: 2500
+        })
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: res.mensaje ? res.mensaje : 'Ocurrió un error al actualizar',
+          showConfirmButton: false,
+          timer: 2500
+        })
+      }
+    }, err => {
+      this.spinner.hide();
+    });
+
+  }
+
+  getCatInventario(): void {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointRecinto}/api/catalogos?idAPI=${apiid}&catalogo=areas`).subscribe((res: any) => {
+      this.areas = res[0];
+    }, error => { });
+
+  }
+  getZonas(): void {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointRecinto}/api/catalogos?idAPI=${apiid}&catalogo=` + this.areaInventario).subscribe((res: any) => {
+      this.zonas = res[0];
+    }, error => { });
+
   }
 
   getSolicitudesServicios(): void {
@@ -91,7 +195,7 @@ export class SolicitudServicioComponent implements OnInit {
       this.puedeAutorizar = false;
     }
     let query = '';
-    if(this.buscador){
+    if (this.buscador) {
       query = '&' + this.criterio + '=' + this.buscador;
     }
     let apiid = this.auth.getSession().userData.idAPI;
@@ -101,6 +205,7 @@ export class SolicitudServicioComponent implements OnInit {
         this.originalData = res[0].map((item: any) => {
           item.selected = false;
           item.selectedhechos = false;
+          item.selectedcancel = false;
           return item;
         });
         const fir = [...this.originalData];
@@ -115,7 +220,7 @@ export class SolicitudServicioComponent implements OnInit {
     this.spinner.show();
     let apiid = this.auth.getSession().userData.idAPI;
     this.http.get(`${environment.endpointRecinto}/api/bl/${idBL}?idAPI=${apiid}`).subscribe((res: any) => {
-      this.visualBL = res.datos;
+      this.visualBL = res[0][0];
       this.spinner.hide();
     }, err => {
       this.spinner.hide();
@@ -140,9 +245,9 @@ export class SolicitudServicioComponent implements OnInit {
     switch (item.tipoSolicitud) {
       case 'Entrada':
         break;
-        case 'Liberación':
-          this.getLiberaciones(item.bl);
-          break
+      case 'Liberación':
+        this.getLiberaciones(item.bl);
+        break
       default:
         //this.getDocumentos(item.bl);
         this.getDetalleBL(item.bl);
@@ -153,6 +258,35 @@ export class SolicitudServicioComponent implements OnInit {
     }
 
   }
+  cancelar(): void {
+    this.hasError = false;
+    this.hasSuccess = false;
+    this.msj = '';
+    const reg = this.data.filter((item: any) => {
+      return item.selectedcancel
+    }).map((item: any) => {
+      return {
+        idSolicitud: item.idSolicitud,
+        estatus:'Cancelado'
+      };
+    });
+    const payload = {
+      appKey: "prueba202201",
+      datosCancelar: reg
+    }
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.post(`${environment.endpointRecinto}/api/peticionCancelar?idAPI=${apiid}`, payload).subscribe((res: any) => {
+      if (!res.error) {
+        this.getSolicitudesServicios();
+        this.hasSuccess = true;
+        this.msj = res.mensaje;
+      } else {
+        this.hasError
+        this.msj = res.mensaje;
+      }
+    }, err => { });
+  }
+
 
   autorizar(): void {
     this.hasError = false;
@@ -167,7 +301,7 @@ export class SolicitudServicioComponent implements OnInit {
       };
     });
     const payload = {
-      appkey : "c53ea43376d653a43e10711de2da2d9b6f156ead",
+      appkey: "c53ea43376d653a43e10711de2da2d9b6f156ead",
       registros: reg
     }
     let apiid = this.auth.getSession().userData.idAPI;
@@ -201,7 +335,7 @@ export class SolicitudServicioComponent implements OnInit {
       };
     });
     const payload = {
-      appkey : "c53ea43376d653a43e10711de2da2d9b6f156ead",
+      appkey: "c53ea43376d653a43e10711de2da2d9b6f156ead",
       registros: reg
     }
     let apiid = this.auth.getSession().userData.idAPI;
@@ -211,7 +345,7 @@ export class SolicitudServicioComponent implements OnInit {
         this.hasSuccess = true;
         Swal.fire({
           icon: 'success',
-          title:  res.mensaje ?  res.mensaje : 'Se añadió correctamente al inventario',
+          title: res.mensaje ? res.mensaje : 'Se añadió correctamente al inventario',
           showConfirmButton: false,
           timer: 2500
         })
@@ -334,7 +468,7 @@ export class SolicitudServicioComponent implements OnInit {
   getLiberaciones(bl: string): void {
     let apiid = this.auth.getSession().userData.idAPI;
     this.http.get<any>(`${environment.endpointRecinto}/api/solicitudLiberacion?idAPI=${apiid}&referencia=${bl}&idLiberacion=${this.visualSolicitud.idSolicitud}`).subscribe(res => {
-     
+
       if (res.length == 3) {
         this.blliberacion = res[0];
         this.blliberacionDocs = res[1];
