@@ -3,15 +3,19 @@
     <label class="col-sm-2 control-label" style="text-align: left !important;">Filtrar por: </label>
     <div class="col-sm-3">
       <select class="form-control" name="criterio" [(ngModel)]="criterio">
-        <option [value]="'BL'">BL</option>
+        <option [value]="item.desc" *ngFor="let item of criteriosB">{{item.descripcion}}</option>
       </select>
     </div>
-    <div class="col-sm-5">
+    <div class="col-sm-3">
       <input type="email" class="form-control" placeholder="Criterio" name="buscador" [(ngModel)]="buscador">
     </div>
     <div class="col-sm-2">
-      <button (click)="getSolicitudesServicios()" class="btn btn-danger btn-block btn-sm" type="button">Buscar <span
+      <button (click)="filtrado()" class="btn btn-danger btn-block btn-sm" type="button">Buscar <span
           class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+    </div>
+    <div class="col-sm-2">
+      <button (click)="buscador = ''; criterio = '';getSolicitudesServicios()" class="btn btn-primary btn-block btn-sm" type="button">Limpiar <span
+          class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
     </div>
   </div>
 </form>
@@ -44,11 +48,6 @@
             class="glyphicon glyphicon-sort"></span></th>
         <th scope="col" [appSort]="data" data-order="desc" data-name="bl">BL <span
             class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="idConsulta">Consulta <span
-            class="glyphicon glyphicon-sort"></span></th>
-        <th scope="col" [appSort]="data" data-order="desc" data-name="estatusConsulta">Estado Consulta<span
-            class="glyphicon glyphicon-sort"></span></th>
-
       </tr>
     </thead>
     <tbody style="white-space: nowrap;">
@@ -56,7 +55,7 @@
         <td>
           <button class="btn btn-xs btn-primary" (click)="visualizar(item)" data-toggle="modal"
             data-target="#show-data">Revisar detalle</button><br>
-          <button class="btn btn-xs btn-warning" (click)="editMode(item)" data-toggle="modal"
+          <button class="btn btn-xs btn-warning" *ngIf="item.estatus != 100 && item.estatus != 20" (click)="editMode(item)" data-toggle="modal"
             data-target="#edit-data">Editar</button>
         </td>
         <td style="vertical-align: middle; text-align: center;" *ngIf="puedeAutorizar">
@@ -79,11 +78,9 @@
         <td>{{item.estatus == '1' ? 'Por Autorizar' : item.estatus == '100' ?'Autorizado': item.estatus == 20 ?
           'Cancelado' : 'Por Definir' }}</td>
         <td>{{item.tipoSolicitud}}</td>
-        <td>{{item.fechaServicio | date: 'dd/MM/yyyy HH:mm'}}</td>
+        <td>{{item.fechaServicio | date: 'yyyy-MM-dd HH:mm'}}</td>
         <td>{{item.nombre}}</td>
         <td>{{item.bl}}</td>
-        <td>{{item.idConsulta}}</td>
-        <td>{{item.estatusConsulta}}</td>
       </tr>
     </tbody>
   </table>

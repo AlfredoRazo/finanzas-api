@@ -41,8 +41,19 @@ export class SolicitudServicioComponent implements OnInit {
   imprimeFormato: any;
   puedeAutorizar = true;
   imgheader: any;
-  criterio = 'BL';
+  criterio = 'bl';
   buscador = '';
+  criteriosB = [
+    {desc: 'bl', descripcion: 'BL'},
+    {desc: 'idSolicitud', descripcion: 'ID Solicitud'},
+    {desc: 'tipoServicio', descripcion: 'Tipo Servicio'},
+    {desc: 'tipoTramite', descripcion: 'Tipo Trámite'},
+    {desc: 'tipoSolicitud', descripcion: 'Tipo Solicitud'},
+    {desc: 'tipoTransporte', descripcion: 'Tipo Transporte'},
+    {desc: 'patente', descripcion: 'Patente'},
+    {desc: 'fechaServicio', descripcion: 'Fecha Servicio'},
+    {desc: 'nombre', descripcion: 'Cliente'}
+  ];
   areaInventario = '';
   areas: any[] = [];
   moves: any[] = [];
@@ -54,6 +65,8 @@ export class SolicitudServicioComponent implements OnInit {
   editData: any = {};
   editBL: any = {};
   editLiberacion: any = {};
+  filtro = false;
+  filterData:any = [];
   patternshours = {
     '0': { pattern: new RegExp(/[0-2]/) },
     '1': { pattern: new RegExp(/[0-9]/) },
@@ -271,6 +284,7 @@ export class SolicitudServicioComponent implements OnInit {
         });
         const fir = [...this.originalData];
         this.data = this.pagina.paginate(fir, this.collSize, this.page);
+        this.filterData = [...this.originalData];
       }
       this.spinner.hide();
     }, err => { this.spinner.hide(); });
@@ -427,11 +441,33 @@ export class SolicitudServicioComponent implements OnInit {
       }
     });
   }
-  paginado(evt: any = null): void {
+  filtrado(): void{
 
-    this.data = this.pagina.paginate(this.originalData, 10, this.page);
+    this.page = 1;
+    if(this.criterio && this.buscador){
+      this.filtro = true;
+      this.filterData = this.originalData.filter((item: any) =>{
+         return item[this.criterio].toLowerCase().includes(this.buscador.toLowerCase());
+      })
+      this.total = this.filterData.length;
+      this.paginado();
+    }else{
+      this.filtro = false;
+      this.total = this.originalData.length;
+      this.paginado();
+    }
+    
+  }
+
+  paginado(evt: any = null): void {
+    if(this.filtro){
+      this.data = this.pagina.paginate(this.filterData, 10, this.page);
+    }else{
+      this.data = this.pagina.paginate(this.originalData, 10, this.page);
+    }
     this.descripcionPaginado();
   }
+
   descripcionPaginado(): void {
     var numberOfPages = Math.floor((this.total + this.collSize - 1) / this.collSize);
     var start = (this.page * this.collSize) - (this.collSize - 1);

@@ -500,7 +500,7 @@
     <div class="row">
         <div class="form-group col-md-4">
             <label>Número Pedimento</label>
-            <input type="text" class="form-control" name="numeroPedimento" [(ngModel)]="numeroPedimento">
+            <input type="text" class="form-control" name="numeroPedimento" mask="00-00-0000-0000000" [dropSpecialCharacters]="false" placeholder="00-00-0000-0000000" [(ngModel)]="numeroPedimento" required>
         </div>
         <div class="form-group col-md-4">
             <label>Tipo de Cambio</label>
