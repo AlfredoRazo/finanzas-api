@@ -173,6 +173,11 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     public http: HttpClient) { }
 
   ngOnInit(): void {
+    $('#fecha-servicio').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaServ = date } });
+    $('#fecha-arribo').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaArribo = date } });
+    $('#fecha-inicio-operaciones').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaInicioOp = date } });
+    $('#fecha-termino-operaciones').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaTerminoOp = date } });
+    $('#fecha-zarpe').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaZarpe = date } });
     const user = this.auth.getSession().userData;
     this.getAgenciaAduanal();
     //this.getBuques();
@@ -181,11 +186,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     this.getAgenciaConsignataria();
     this.getRecinto();
     this.getClavePedimentos();
-    $('#fecha-servicio').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaServ = date } });
-    $('#fecha-arribo').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaArribo = date } });
-    $('#fecha-inicio-operaciones').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaInicioOp = date } });
-    $('#fecha-termino-operaciones').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaTerminoOp = date } });
-    $('#fecha-zarpe').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaZarpe = date } });
+    
   }
 
   consulta(): void {
@@ -337,8 +338,14 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
+    let id = 0;
+    if(!this.agenciaAduanal.id){
+      id = this.auth.getSession().userData.empresaid
+    }else{
+      id = this.agenciaAduanal.id
+    }
     
-    this.http.get(`${environment.endpointEmpresas}api/empresas/${this.agenciaAduanal.id}/patente`, { headers: header }).subscribe((res: any) => {
+    this.http.get(`${environment.endpointEmpresas}api/empresas/${id}/patente`, { headers: header }).subscribe((res: any) => {
       if(res.valor){
         this.patentes = res.valor;
       }
