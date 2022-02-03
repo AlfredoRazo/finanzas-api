@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
           }
         }, error => { this.spinner.hide() });
     }else{
-      let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiNDI5IiwiaWRBcHAiOiIxOSIsIm5vbUFwcCI6IlJlY2ludG8gQVBJIiwiaWRSb2wiOiI2IiwiaWRSb2xBcHAiOiIyMDAxIiwiaWRQZXJzb25hIjoiNDQ2MSIsImlkRW1wcmVzYSI6Ijg1IiwiaWRDb250cmF0byI6IjEiLCJpZEFQSSI6IjciLCJhdXRvcmlkYWQiOiIwIiwibmJmIjoxNjQzNzc0Nzc3LCJleHAiOjE2NDM4MDM1NzcsImlhdCI6MTY0Mzc3NDc3NywiaXNzIjoiUElTIiwiYXVkIjoiQVBJTUFOIn0.xIOdAvqjNRM0gGE817Ra3m4XRw7knUxk5Qef8D3SJYY';
+      let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9tZWRpbmFAem9uYXplcm8uaW5mbyIsImlkVXN1IjoiNDI5IiwiaWRBcHAiOiIxOSIsIm5vbUFwcCI6IlJlY2ludG8gQVBJIiwiaWRSb2wiOiI2IiwiaWRSb2xBcHAiOiIyMDAxIiwiaWRQZXJzb25hIjoiNDQ2MSIsImlkRW1wcmVzYSI6Ijg1IiwiaWRDb250cmF0byI6IjEiLCJpZEFQSSI6IjciLCJhdXRvcmlkYWQiOiIwIiwibmJmIjoxNjQzOTEwODYwLCJleHAiOjE2NDM5Mzk2NjAsImlhdCI6MTY0MzkxMDg2MCwiaXNzIjoiUElTIiwiYXVkIjoiQVBJTUFOIn0.nKc62Nr6Slj4CFf0XxBw9pEvSCBwcJBdX_624CX9F2A';
       this.tokenLogin(token);
     }
   }
