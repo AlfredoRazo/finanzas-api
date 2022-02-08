@@ -12,6 +12,7 @@ import { AuthService } from '@serv/auth.service';
 })
 export class InventarioComponent implements OnInit {
   total = 0;
+  payloadInventario: any = {};
   originalData: any[] = [];
   data: any[] = [];
   page = 1;

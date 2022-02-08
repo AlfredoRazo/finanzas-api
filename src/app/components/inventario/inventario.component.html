@@ -7,75 +7,124 @@
     </div>
 </div>
 <ng-container *ngIf="data.length > 0">
-<div class="table-responsive" style="max-height: 500px; font-size: 0.8em;">
-    <table class="table table-bordered table-striped table-hover">
-        <thead style="white-space: nowrap;">
-            <tr>
-                
-                <th>B/L</th>
-                <th>Fecha Inventario</th>
-                <th>Tipo Entrada</th>
-                <th>Piezas</th>
-                <th>Peso</th>
-                <th>Piezas Disponibles</th>
-                <th>Peso Disponibles</th>
-                <th>Unidad</th>
-                <th>Fecha Entrada</th>
-                <th>Fecha Salida</th>
-                <th>Fecha Abandono</th>
-                <th>Recinto</th>
-                <th>Área</th>
-                <th>Recinto Destino</th>
-                <th>C. Aduana</th>
-                <th>A. Aduana</th>
-                <th>Agencia Aduanal</th>
-                <th>Cliente</th>
-                <th>Usuario</th>
-                <th>Manifiesto</th>
-                <th>Buque</th>
-                <th>Viaje</th>
-                <th>Fecha Arribo</th>
-                <th>Fecha Termino Operaciones</th>
-                <th>Linea Naviera</th>
-                <th>Agencia Consignataria</th>
-            </tr>
-        </thead>
-        <tbody style="white-space: nowrap;">
-            <tr *ngFor="let item of data">
-                <td>{{item.BL}}</td>
-                <td>{{item.inventarioFecha | date: 'dd/MM/yyyy HH:mm'}}</td>
-                <td>{{item.tipoEntrada}}</td>
-                <td>{{item.piezas}}</td>
-                <td>{{item.peso}}</td>
-                <td>{{item.piezasDisponibles}}</td>
-                <td>{{item.pesoDisponible}}</td>
-                <td>{{item.unidades}}</td>
-                <td>{{item.fechaEntrada| date: 'dd/MM/yyyy HH:mm'}}</td>
-                <td>{{item.fechaSalida | date: 'dd/MM/yyyy HH:mm'}}</td>
-                <td>{{item.fechaAbandono | date: 'dd/MM/yyyy HH:mm'}}</td>
-                <td>{{item.recintoOrigen}}</td>
-                <td>{{item.Area}}</td>
-                <td>{{item.Recinto}}</td>
-                <td>{{item.cAduana}}</td>
-                <td>{{item.aAduana}}</td>
-                <td>{{item.agenciaAduanal}}</td>
-            
-                <td>{{item.Cliente}}</td>
-                <td>{{item.usuario}}</td>
-                
-                <td>{{item.manifiesto}}</td>
-                <td>{{item.manifiestoBuque}}</td>
-                <td>{{item.manifiestoViaje}}</td>
-                <td>{{item.fechaArribo | date: 'dd/MM/yyyy HH:mm'}}</td>
-                <td>{{item.fechaTerminoOperaciones | date: 'dd/MM/yyyy HH:mm'}}</td>
-                <td>{{item.lineaNaviera}}</td>
-                <td>{{item.agenciaCOnsignataria}}</td>
-            </tr>
-        </tbody>
+    
+    <div class="table-responsive" style="max-height: 500px; font-size: 0.8em;">
+        <table class="table table-bordered table-striped table-hover">
+            <thead style="white-space: nowrap;">
+                <tr>
+<th></th>
+                    <th>B/L</th>
+                    <th>Tipo</th>
+                    <th>Piezas</th>
+                    <th>Peso</th>
+                    <th>Piezas Disponibles</th>
+                    <th>Peso Disponibles</th>
+                    <th>Unidad</th>
+                    <th>Fecha Entrada</th>
+                    <th>Fecha Salida</th>
+                    <th>Fecha Abandono</th>
+                    <th>Fecha Inventario</th>
+                    <th>Zona</th>
+                    <th>Área</th>
+                    <th>Recinto Destino</th>
+                    <th>C. Aduana</th>
+                    <th>A. Aduana</th>
+                    <th>Agencia Aduanal</th>
+                    <th>Cliente</th>
+                    <th>Usuario</th>
+                    <th>Manifiesto</th>
+                    <th>Buque</th>
+                    <th>Viaje</th>
+                    <th>Fecha Arribo</th>
+                    <th>Fecha Termino Operaciones</th>
+                    <th>Linea Naviera</th>
+                    <th>Agencia Consignataria</th>
+                </tr>
+            </thead>
+            <tbody style="white-space: nowrap;">
+                <tr *ngFor="let item of data">
+                    <td><button class="btn btn-primary btn-sm" data-toggle="modal"
+                        data-target="#send-inventario">Salida de inventario</button></td>
+                    <td>{{item.bl ? item.bl : item.BL ? item.BL : '' }}</td>
+                    <td>{{item.TSalida ? item.TSalida : item.tipoEntrada ? item.tipoEntrada: '' }}</td>
+                    <td>{{item.piezas}}</td>
+                    <td>{{item.peso}}</td>
+                    <td>{{item.piezasDisponibles}}</td>
+                    <td>{{item.pesoDisponible}}</td>
+                    <td>{{item.unidades}}</td>
+                    <td>{{item.fechaEntrada| date: 'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{item.fechaSalida | date: 'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{item.fechaAbandono | date: 'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{item.inventarioFecha | date: 'dd/MM/yyyy HH:mm'}} </td>
+                    <td>{{item.zona}}</td>
+                    <td>{{item.Area}}</td>
+                    <td>{{item.Recinto}}</td>
+                    <td>{{item.cAduana}}</td>
+                    <td>{{item.aAduana}}</td>
+                    <td>{{item.agenciaAduanal}}</td>
+                    <td>{{item.Cliente}}</td>
+                    <td>{{item.inventarioUsuario}}</td>
+                    <td>{{item.manifiesto}}</td>
+                    <td>{{item.manifiestoBuque}}</td>
+                    <td>{{item.manifiestoViaje}}</td>
+                    <td>{{item.fechaArribo | date: 'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{item.fechaTerminoOperaciones | date: 'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{item.lineaNaviera}}</td>
+                    <td>{{item.agenciaCOnsignataria}}</td>
+                </tr>
+            </tbody>
 
-    </table>
-</div>
-<p>Registros encontrados: <b>{{total}}</b></p>
-<ngb-pagination [collectionSize]="total" [pageSize]="collSize" [(page)]="page" (pageChange)="paginado($event)"
-    [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
+        </table>
+    </div>
+    <p>Registros encontrados: <b>{{total}}</b></p>
+    <ngb-pagination [collectionSize]="total" [pageSize]="collSize" [(page)]="page" (pageChange)="paginado($event)"
+        [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
 </ng-container>
+
+<div class="modal fade" id="send-inventario">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Inventario</h4>
+        </div>
+        <div class="modal-body">
+         
+          <div class="row">
+            <div class="col-md-12">
+              <label class="control-label">Piezas</label>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="" [(ngModel)]="payloadInventario.piezas"
+                  name="fechaInventario">
+              </div>
+            </div>
+     
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label class="control-label">Peso</label>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="" [(ngModel)]="payloadInventario.peso"
+                  name="fechaInventario">
+              </div>
+            </div>
+     
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label class="control-label">Nota</label>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="" [(ngModel)]="payloadInventario.nota"
+                  name="fechaInventario">
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cerrar</button>
+          <button class="btn btn-sm btn-primary"
+            >Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>

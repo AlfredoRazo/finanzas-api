@@ -28,7 +28,7 @@
   data-target="#send-inventario" style="margin-right: 10px ;">Inventario</button>
 <br>
 <br>
-<div class="table-responsive" style="max-height: 500px;">
+<div class="table-responsive" style="max-height: 500px; font-size: 0.8em;">
   <table class="table table-bordered">
     <thead style="white-space: nowrap;">
       <tr style="cursor: pointer;">
@@ -48,6 +48,8 @@
             class="glyphicon glyphicon-sort"></span></th>
         <th scope="col" [appSort]="data" data-order="desc" data-name="bl">BL <span
             class="glyphicon glyphicon-sort"></span></th>
+            <th scope="col" [appSort]="data" data-order="desc" data-name="usuAlta">Usuario alta <span
+              class="glyphicon glyphicon-sort"></span></th>
       </tr>
     </thead>
     <tbody style="white-space: nowrap;">
@@ -56,7 +58,7 @@
           <button class="btn btn-xs btn-primary" (click)="visualizar(item)" data-toggle="modal"
             data-target="#show-data">Revisar detalle</button><br>
             <ng-container *ngIf="puedeAutorizar">
-              <button class="btn btn-xs btn-warning" *ngIf="item.estatus != 100 && item.estatus != 20" (click)="editMode(item)" data-toggle="modal"
+              <button class="btn btn-xs btn-warning" (click)="editMode(item)" data-toggle="modal"
               data-target="#edit-data">Editar</button>
             </ng-container>
         </td>
@@ -83,6 +85,7 @@
         <td>{{item.fechaServicio | date: 'yyyy-MM-dd HH:mm'}}</td>
         <td>{{item.nombre}}</td>
         <td>{{item.bl}}</td>
+        <td>{{item.usuAlta}}</td>
       </tr>
     </tbody>
   </table>

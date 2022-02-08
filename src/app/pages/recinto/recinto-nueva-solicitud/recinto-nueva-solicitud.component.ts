@@ -206,7 +206,6 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       if (!res.error) {
         if (res[0][0]) {
           this.bls = res[0];
-          console.log(this.bls);
           if (this.bls[0].estatus || this.tipoSoli == '1') {
             this.ismultiplebl = this.bls.length > 1;
             if(this.ismultiplebl){
