@@ -21,7 +21,7 @@ export class RecintoComponent implements OnInit {
   consultarManifiesto(): void {
     this.spinner.show();
     let apiid = this.auth.getSession().userData.idAPI;
-    this.http.get(`${environment.endpointRecinto}manifiesto/v1/num/${this.manifiesto}?idAPI=${apiid}`).subscribe((res: any) => {
+    this.http.get(`${environment.endpointRecinto}/api/manifiesto/v1/num/${this.manifiesto}?idAPI=${apiid}`).subscribe((res: any) => {
       this.manifiestoData = res.datos;
       this.spinner.hide();
     }, err => {

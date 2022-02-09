@@ -12,7 +12,7 @@
         <table class="table table-bordered table-striped table-hover">
             <thead style="white-space: nowrap;">
                 <tr>
-<th></th>
+                    <!--<th></th>-->
                     <th>B/L</th>
                     <th>Tipo</th>
                     <th>Piezas</th>
@@ -20,13 +20,12 @@
                     <th>Piezas Disponibles</th>
                     <th>Peso Disponibles</th>
                     <th>Unidad</th>
-                    <th>Fecha Entrada</th>
-                    <th>Fecha Salida</th>
+                    <th>Fecha Servicio</th>
+                   
                     <th>Fecha Abandono</th>
                     <th>Fecha Inventario</th>
                     <th>Zona</th>
                     <th>Área</th>
-                    <th>Recinto Destino</th>
                     <th>C. Aduana</th>
                     <th>A. Aduana</th>
                     <th>Agencia Aduanal</th>
@@ -43,8 +42,8 @@
             </thead>
             <tbody style="white-space: nowrap;">
                 <tr *ngFor="let item of data">
-                    <td><button class="btn btn-primary btn-sm" data-toggle="modal"
-                        data-target="#send-inventario">Salida de inventario</button></td>
+                    <!--<td><button class="btn btn-primary btn-sm" data-toggle="modal"
+                        data-target="#send-inventario">Salida de inventario</button></td>-->
                     <td>{{item.bl ? item.bl : item.BL ? item.BL : '' }}</td>
                     <td>{{item.TSalida ? item.TSalida : item.tipoEntrada ? item.tipoEntrada: '' }}</td>
                     <td>{{item.piezas}}</td>
@@ -53,12 +52,10 @@
                     <td>{{item.pesoDisponible}}</td>
                     <td>{{item.unidades}}</td>
                     <td>{{item.fechaEntrada| date: 'dd/MM/yyyy HH:mm'}}</td>
-                    <td>{{item.fechaSalida | date: 'dd/MM/yyyy HH:mm'}}</td>
                     <td>{{item.fechaAbandono | date: 'dd/MM/yyyy HH:mm'}}</td>
                     <td>{{item.inventarioFecha | date: 'dd/MM/yyyy HH:mm'}} </td>
                     <td>{{item.zona}}</td>
                     <td>{{item.Area}}</td>
-                    <td>{{item.Recinto}}</td>
                     <td>{{item.cAduana}}</td>
                     <td>{{item.aAduana}}</td>
                     <td>{{item.agenciaAduanal}}</td>

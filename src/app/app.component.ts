@@ -17,10 +17,10 @@ export class AppComponent {
     private auth: AuthService
    
     ) { // initiate it in your component constructor
-    this.bnIdle.startWatching(3600).subscribe((res) => {
+    /*this.bnIdle.startWatching(3600).subscribe((res) => {
       if(res) {
         this.auth.closeSession();
       }
-    })
+    })*/
   }
 }

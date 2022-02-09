@@ -63,7 +63,7 @@
             </ng-container>
         </td>
         <td style="vertical-align: middle; text-align: center;" *ngIf="puedeAutorizar">
-          <ng-container *ngIf="item.estatus == 100 && item.enInventario != 1">
+          <ng-container *ngIf="item.estatus == 100 && item.enInventario != 1 && (item.tipoSolicitud == 'Entrada' || item.tipoSolicitud == 'Salida')">
             <input type="checkbox" [(ngModel)]="item.selectedhechos">
           </ng-container>
         </td>
@@ -604,7 +604,7 @@
           </select>
         </div>
         <div class="row">
-          <div class="col-md-9">
+          <div class="col-md-12">
             <label class="control-label">Fecha</label>
             <div class="form-group datepicker-group">
               <input type="text" class="form-control" id="fecha-inventario" placeholder="" [(ngModel)]="fechaInventario"
@@ -612,7 +612,7 @@
               <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
             </div>
           </div>
-          <div class="col-md-3">
+          <!--div class="col-md-3">
             <label class="control-label">Hora</label>
             <div class="input-group">
               <input type="text" class="form-control" required name="hora" [patterns]="patternshours"
@@ -621,13 +621,13 @@
                 <span class="glyphicon glyphicon-time"></span>
               </span>
             </div>
-          </div>
+          </div-->
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cerrar</button>
         <button class="btn btn-sm btn-primary" (click)="inventario()"
-          [disabled]="!areaInventario || !zonaInventario || !fechaInventario || !hora">Guardar</button>
+          [disabled]="!areaInventario || !zonaInventario || !fechaInventario">Guardar</button>
       </div>
     </div>
   </div>

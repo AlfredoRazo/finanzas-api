@@ -406,7 +406,7 @@ export class SolicitudServicioComponent implements OnInit {
         area: this.zonaInventario,
         //area:this.areaInventario,
         //zona: this.zonaInventario,
-        fecha: this.fechaInventario + ' ' + this.hora + ':00'
+        fecha: this.fechaInventario + ' ' + '00:00:00'
       };
     });
     const payload = {
