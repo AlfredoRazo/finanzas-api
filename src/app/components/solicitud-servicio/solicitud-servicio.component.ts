@@ -413,6 +413,7 @@ export class SolicitudServicioComponent implements OnInit {
       appkey: "c53ea43376d653a43e10711de2da2d9b6f156ead",
       registros: reg
     }
+    
     let apiid = this.auth.getSession().userData.idAPI;
     this.http.post(`${environment.endpointRecinto}/api/solicitudInventario?idAPI=${apiid}`, payload).subscribe((res: any) => {
       if (!res.error) {
