@@ -12,7 +12,7 @@ export const environment = {
   endpointDoc: 'https://pis-api-documentacion-qa.azurewebsites.net/api/Documentos/v1/',
   endpointAuth: 'https://pis-api-autenticacion-federado-qa.azurewebsites.net/api/',
   endpointEmpresas : 'https://pis-api-empresas-federado-qa.azurewebsites.net/',
-  
+  endpointEstadoHechos: 'http://pis-api-estadohechos.azurewebsites.net/api/',
   appKey: 'c53ea43376d653a43e10711de2da2d9b6f156ead',
   googleCaptchaKey: '6LcZ7w4bAAAAAAcogck-Te91o6SPDZYuNcWBlmHX',
   santanderEndpoint: 'https://www.santander.com.mx/Supernet2007/homeMicrositio.jsp',
@@ -27,7 +27,8 @@ export const environment = {
     password: "API-MAN-PIS-20!0M3d1n$4!",
     guid: "A7A87580-232A-4E38-ADFC-A78899C9CE8F"
   },
-  isEmbeded: false
+  isEmbeded: false,
+  isQa: true
 };
 
 /*

@@ -62,7 +62,8 @@
                     <td>{{item.Cliente}}</td>
                     <td>{{item.inventarioUsuario}}</td>
                     <td>{{item.manifiesto}}</td>
-                    <td>{{item.manifiestoBuque}}</td>
+                    <td>{{item.manifiestoBuque}} <button class="btn btn-sm" data-toggle="modal"
+                      data-target="#show-detalle-buque" (click)="getDetalleBuque(item.manifiestoBuque,item.manifiestoViaje)"> <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>
                     <td>{{item.manifiestoViaje}}</td>
                     <td>{{item.fechaArribo | date: 'dd/MM/yyyy HH:mm'}}</td>
                     <td>{{item.fechaTerminoOperaciones | date: 'dd/MM/yyyy HH:mm'}}</td>
@@ -121,6 +122,24 @@
           <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cerrar</button>
           <button class="btn btn-sm btn-primary"
             >Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="show-detalle-buque">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Detalle buque</h4>
+        </div>
+        <div class="modal-body">
+         
+         
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cerrar</button>
+         
         </div>
       </div>
     </div>

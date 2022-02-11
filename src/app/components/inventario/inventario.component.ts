@@ -19,6 +19,7 @@ export class InventarioComponent implements OnInit {
   collSize: any = 10;
   descPaginado = '';
   bl: any;
+  buqueDetalle: any = {};
   fechaini: any;
   fechafin: any;
   opcionesInventario = [
@@ -86,6 +87,7 @@ export class InventarioComponent implements OnInit {
         this.spinner.hide();
         break;
     }
+    
     /*let query = '';
     if (this.bl) {
       query += `&BL=${this.bl}`;
@@ -112,6 +114,13 @@ export class InventarioComponent implements OnInit {
     var start = (this.page * this.collSize) - (this.collSize - 1);
     var end = Math.min(start + this.collSize - 1, this.total);
     this.descPaginado = `Registros del <b>${start}</b> al <b>${end}</b>`;
+  }
+  getDetalleBuque(buque: string , viaje: string):void{
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointEstadoHechos}Buques?buque=${buque}&viaje=${viaje}&idAPI=${apiid}`).subscribe(
+      (res: any) => {
+        console.log(res);
+      },(err: any) =>{});
   }
 
 }

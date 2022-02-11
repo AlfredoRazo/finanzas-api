@@ -7,6 +7,7 @@ export const environment = {
   endpointAuth: ' https://pis-api-autenticacion-federado-prod.azurewebsites.net/api/',
   endpointEmpresas: 'https://pis-api-empresas-federado-prod.azurewebsites.net/',
   endpointDoc: 'https://pis-api-documentacion-qa.azurewebsites.net/api/Documentos/v1/',
+  endpointEstadoHechos: 'http://pis-api-estadohechos.azurewebsites.net/api/',
   appKey: 'c53ea43376d653a43e10711de2da2d9b6f156ead',
   googleCaptchaKey: '6LcZ7w4bAAAAAAcogck-Te91o6SPDZYuNcWBlmHX',
   santanderEndpoint: 'https://www.santander.com.mx/Supernet2007/homeMicrositio.jsp',
@@ -21,5 +22,6 @@ export const environment = {
     password: "API-MAN-PIS-20!0M3d1n$4!",
     guid: "A7A87580-232A-4E38-ADFC-A78899C9CE8F"
   },
-  isEmbeded: true
+  isEmbeded: true,
+  isQa: false
 };
