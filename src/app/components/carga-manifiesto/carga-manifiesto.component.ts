@@ -125,7 +125,7 @@ export class CargaManifiestoComponent implements OnInit {
     this.hasError = false;
     this.hasSuccess = false;
     let apiid = this.auth.getSession().userData.idAPI;
-    let service = environment.isQa ? `${environment.endpointRecinto}/api/insertarManifiesto?idAPI=${apiid}` : `${environment.endpointRecinto}/api/manifiesto/v1?idAPI=${apiid}`;
+    let service = environment.isQa ? `${environment.endpointAlt}/api/insertarManifiesto?idAPI=${apiid}` : `${environment.endpointRecinto}/api/manifiesto/v1?idAPI=${apiid}`;
     
     this.http.post(service, payload).subscribe((response: any) => {
       if (!response.error) {
