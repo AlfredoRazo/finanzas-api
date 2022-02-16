@@ -106,20 +106,23 @@ export class CargaManifiestoComponent implements OnInit {
   }
 
   cargarManifiesto(): void {
-    const payload = {
 
+    const payload = {
+      appKey: 'c53ea43376d653a43e10711de2da2d9b6f156ead',
+      UsuAlta: this.auth.getSession().userData.username,
       nuManifiesto: this.manifiesto,
       buque: this.buque?.nombre ? this.buque?.nombre : this.buque,
       viaje: this.viaje,
       acuse: '',
       barcoNacionalidad: '',
       barcoCapitan: '',
-      fechaEntradaSalida: this.fechaarribo + 'T00:00:00.923Z',
-
+      fechaEntradaSalida: this.fechaarribo + ' 00:00:00',
       tipo: 0,
       bls: this.data,
       modificado: true
     };
+    
+
     this.spinner.show();
     this.msj = '';
     this.hasError = false;

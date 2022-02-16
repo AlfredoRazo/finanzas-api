@@ -14,8 +14,8 @@
           class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
     </div>
     <div class="col-sm-2">
-      <button (click)="buscador = ''; criterio = '';getSolicitudesServicios()" class="btn btn-primary btn-block btn-sm" type="button">Limpiar <span
-          class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+      <button (click)="buscador = ''; criterio = '';getSolicitudesServicios()" class="btn btn-primary btn-block btn-sm"
+        type="button">Limpiar <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
     </div>
   </div>
 </form>
@@ -48,8 +48,8 @@
             class="glyphicon glyphicon-sort"></span></th>
         <th scope="col" [appSort]="data" data-order="desc" data-name="bl">BL <span
             class="glyphicon glyphicon-sort"></span></th>
-            <th scope="col" [appSort]="data" data-order="desc" data-name="usuAlta">Usuario alta <span
-              class="glyphicon glyphicon-sort"></span></th>
+        <th scope="col" [appSort]="data" data-order="desc" data-name="usuAlta">Usuario alta <span
+            class="glyphicon glyphicon-sort"></span></th>
       </tr>
     </thead>
     <tbody style="white-space: nowrap;">
@@ -57,13 +57,14 @@
         <td>
           <button class="btn btn-xs btn-primary" (click)="visualizar(item)" data-toggle="modal"
             data-target="#show-data">Revisar detalle</button><br>
-            <ng-container *ngIf="puedeAutorizar">
-              <button class="btn btn-xs btn-warning" (click)="editMode(item)" data-toggle="modal"
+          <ng-container *ngIf="puedeAutorizar">
+            <button class="btn btn-xs btn-warning" (click)="editMode(item)" data-toggle="modal"
               data-target="#edit-data">Editar</button>
-            </ng-container>
+          </ng-container>
         </td>
         <td style="vertical-align: middle; text-align: center;" *ngIf="puedeAutorizar">
-          <ng-container *ngIf="item.estatus == 100 && item.enInventario != 1 && (item.tipoSolicitud == 'Entrada' || item.tipoSolicitud == 'Salida')">
+          <ng-container
+            *ngIf="item.estatus == 100 && item.enInventario != 1 && (item.tipoSolicitud == 'Entrada' || item.tipoSolicitud == 'Salida')">
             <input type="checkbox" [(ngModel)]="item.selectedhechos">
           </ng-container>
         </td>
@@ -210,37 +211,43 @@
           </div>
           <button class="btn btn-sm btn-primary" (click)="saveEditBL()">Guardar BL</button>
         </ng-container>
-        <ng-container *ngIf="editLiberacion.solicitudBL">
+        <!--ng-container *ngIf="editLiberacion.solicitudBL">
           <h4>Liberación</h4>
           <hr class="red">
           <div class="row">
             <div class="form-group col-md-6">
               <label class="control-label">Clave Pedimento</label>
-              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudClavePedimento" name="solicitudClavePedimento">
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudClavePedimento"
+                name="solicitudClavePedimento">
             </div>
             <div class="form-group col-md-6">
               <label class="control-label">Tipo Pedimento</label>
-              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudTipoPedimento" name="solicitudTipoPedimento">
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudTipoPedimento"
+                name="solicitudTipoPedimento">
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
               <label class="control-label">Número Pedimento</label>
-              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudNumPedimento" name="solicitudNumPedimento">
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudNumPedimento"
+                name="solicitudNumPedimento">
             </div>
             <div class="form-group col-md-6">
               <label class="control-label">Tipo Cambio</label>
-              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudtipoCambio" name="solicitudTipoPedimento">
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudtipoCambio"
+                name="solicitudTipoPedimento">
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
               <label class="control-label">Valor Aduana</label>
-              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudValorAduana" name="solicitudValorAduana">
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudValorAduana"
+                name="solicitudValorAduana">
             </div>
             <div class="form-group col-md-6">
               <label class="control-label">Piezas</label>
-              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudPiezas" name="solicitudPiezas">
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudPiezas"
+                name="solicitudPiezas">
             </div>
           </div>
           <div class="row">
@@ -250,18 +257,70 @@
             </div>
             <div class="form-group col-md-6">
               <label class="control-label">Número de Partes</label>
-              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudNumPartes" name="solicitudNumPartes">
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudNumPartes"
+                name="solicitudNumPartes">
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
               <label class="control-label">Número de Copias</label>
-              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudNumCopias" name="solicitudNumCopias">
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudNumCopias"
+                name="solicitudNumCopias">
             </div>
             <div class="form-group col-md-6">
               <label class="control-label">Coves</label>
-              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudNumCopias" name="solicitudNumCopias">
+              <input type="text" class="form-control" [(ngModel)]="editLiberacion.solicitudNumCopias"
+                name="solicitudNumCopias">
             </div>
+          </div>
+        </ng-container> -->
+        <ng-container *ngIf="blliberacionEdit.length > 0">
+          <h4>Liberación</h4>
+          <hr class="red">
+          <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th style="white-space: nowrap;">BL</th>
+                  <th style="white-space: nowrap;">Número de Pedimento</th>
+                  <th style="white-space: nowrap;">Clave Pedimento</th>
+                  <th style="white-space: nowrap;">Tipo Pedimento</th>
+                  <th style="white-space: nowrap;">Tipo Cambio</th>
+                  <th style="white-space: nowrap;">Valor Aduana</th>
+                  <th style="white-space: nowrap;">Piezas</th>
+                  <th style="white-space: nowrap;">Peso</th>
+                  <th style="white-space: nowrap;">Tipo Liberacion</th>
+                  <th style="white-space: nowrap;">Número de Partes</th>
+                  <th style="white-space: nowrap;">Número de Copias</th>
+                  <th style="white-space: nowrap;">COVE</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of blliberacionEdit; let i = index">
+                  <td>{{item.solicitudBL}}<br><b>Liberación</b></td>
+                  <td><input class="form-control" style="width: 150px;" type="text" name="{{i}}solicitudNumPedimento" [(ngModel)]="item.solicitudNumPedimento"/></td>
+                  <td>
+                    <select class="form-control" name="{{i}}solicitudClavePedimento" [(ngModel)]="item.solicitudClavePedimento">
+                      <option *ngFor="let item of clavesPedimento" [value]="item.catalogoDetNombre">{{item.catalogoDetNombre}}
+                      </option>
+                  </select>
+                  </td>
+                  <td>
+                    <select class="form-control" name="{{i}}tipoPedimento" [(ngModel)]="item.solicitudTipoPedimentoID">
+                      <option *ngFor="let item of tiposPedimentos" [value]="item.id">{{item.descripcion}}</option>
+                  </select>
+                  </td>
+                  <td><input class="form-control" style="width: 150px;" type="text" name="{{i}}solicitudtipoCambio" [(ngModel)]="item.solicitudtipoCambio"/></td>
+                  <td><input class="form-control" style="width: 150px;" type="text" name="{{i}}solicitudValorAduana" [(ngModel)]="item.solicitudValorAduana"/></td>
+                  <td><input class="form-control" style="width: 150px;" type="text" name="{{i}}solicitudPiezas" [(ngModel)]="item.solicitudPiezas"/></td>
+                  <td><input class="form-control" style="width: 150px;" type="text" name="{{i}}solicitudPeso" [(ngModel)]="item.solicitudPeso"/></td>
+                  <td><input class="form-control" style="width: 150px;" type="text" name="{{i}}solicitudTipoLiberacion" [(ngModel)]="item.solicitudTipoLiberacion"/></td>
+                  <td><input class="form-control" style="width: 150px;" type="text" name="{{i}}solicitudNumPartes" [(ngModel)]="item.solicitudNumPartes"/></td>
+                  <td><input class="form-control" style="width: 150px;" type="text" name="{{i}}solicitudNumCopias" [(ngModel)]="item.solicitudNumCopias"/></td>
+                  <td><input class="form-control" style="width: 150px;" type="text" name="{{i}}solicitudCoves" [(ngModel)]="item.solicitudCoves"/></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <button class="btn btn-sm btn-primary" (click)="saveEditLiberacion()">Guardar Liberación</button>
         </ng-container>

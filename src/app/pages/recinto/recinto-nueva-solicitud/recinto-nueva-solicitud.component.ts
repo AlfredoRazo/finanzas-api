@@ -598,14 +598,15 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     let error = 0;
     if (this.blmovimiento.length > 0) {
       if (this.indexBl == -1) {
-        if (parseInt(this.restantes.disponibleCantidad) > parseInt(this.liberacionPiezas)) {
+        if (parseInt(this.restantes.disponibleCantidad) < parseInt(this.liberacionPiezas)) {
           error++;
         }
-        if (parseFloat(this.restantes.disponiblePeso) > parseFloat(this.liberacionPeso)) {
+        if (parseFloat(this.restantes.disponiblePeso) < parseFloat(this.liberacionPeso)) {
           error++;
         }
       } else {
         if (this.liberacion.length > 0) {
+         
           let totalCant = 0
           let totalPeso = 0;
           this.liberacion.forEach(item => {

@@ -32,6 +32,7 @@ export class SolicitudServicioComponent implements OnInit {
   visualDetalleBL: any;
   blmovimiento: any[] = [];
   blliberacion: any[] = [];
+  blliberacionEdit: any[] = [];
   blliberacionDocs: any[] = [];
   formatobls: any[] = [];
   blsalidaDocs: any[] = [];
@@ -43,6 +44,13 @@ export class SolicitudServicioComponent implements OnInit {
   imgheader: any;
   criterio = 'bl';
   buscador = '';
+  clavesPedimento:any[] = [];
+  tiposPedimentos = [
+    { id: 1, descripcion: 'Normal' },
+    { id: 2, descripcion: 'Parte 2' },
+    { id: 3, descripcion: 'Copia Simple' },
+    { id: 4, descripcion: 'Pedimento Consolidado' }
+  ];
   criteriosB = [
     {desc: 'bl', descripcion: 'BL'},
     {desc: 'idSolicitud', descripcion: 'ID Solicitud'},
@@ -88,6 +96,7 @@ export class SolicitudServicioComponent implements OnInit {
 
   editMode(item: any): void {
     this.spinner.show();
+    let apiid = this.auth.getSession().userData.idAPI;
     this.editData = { ...item };
     this.editData.fechaServicio = this.editData.fechaServicio.substring(0,10);
     this.editData.fechaArribo = this.editData.fechaArribo.substring(0,10);
@@ -97,8 +106,35 @@ export class SolicitudServicioComponent implements OnInit {
     $('#fecha-arribo').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.editData.fechaArribo = date } });
     $('#fecha-zarpe').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.editData.fechaZarpe = date } });
     $('#fecha-iniop').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.editData.fechaIniOperaciones = date } });
-  
-    let apiid = this.auth.getSession().userData.idAPI;
+    switch (item.tipoSolicitud) {
+      case 'Entrada':
+        break;
+      case 'Liberación':
+        this.getClavePedimentos();
+        this.http.get<any>(`${environment.endpointRecinto}/api/solicitudLiberacion?idAPI=${apiid}&referencia=${this.editData.bl}&idLiberacion=${item.idSolicitud}`).subscribe(res => {
+
+          if (res.length == 3) {
+            this.blliberacionEdit = res[0];
+     
+          }
+          if (res.length == 2) {
+            if (res[0][0].archivo) {
+              this.blliberacionEdit = res[0];
+            } else {
+              this.blliberacionEdit = res[0];
+            }
+          }
+    
+        }, error => {
+          this.blliberacionEdit = [];
+        });
+        break
+      default:
+
+        break;
+
+    }
+   
     this.http.get(`${environment.endpointRecinto}/api/bl/${this.editData.idBl}?idAPI=${apiid}`).subscribe((res: any) => {
       this.editBL = res[0][0];
       this.spinner.hide();
@@ -125,9 +161,11 @@ export class SolicitudServicioComponent implements OnInit {
   saveEditSolicitud(): void {
     this.spinner.show();
     let apiid = this.auth.getSession().userData.idAPI;
+    
     const payload = {
       appKey: "prueba202201",
-      solicitudDatos: [{
+      solicitudDatos: [
+        {
         idSolicitud: this.editData.idSolicitud,
         buque: this.editData.buque,
         patente: this.editData.patente,
@@ -136,7 +174,8 @@ export class SolicitudServicioComponent implements OnInit {
         fechaArribo: this.editData.fechaArribo + ' 00:00:00',
         fechaIniOperaciones: this.editData.fechaIniOperaciones+ ' 00:00:00',
         fechaZarpe: this.editData.fechaZarpe+ ' 00:00:00'
-      }]
+      }
+    ]
     };
     this.http.post(`${environment.endpointRecinto}/api/solicitudEditar?idAPI=${apiid}`, payload).subscribe((res: any) => {
       this.spinner.hide();
@@ -202,26 +241,29 @@ export class SolicitudServicioComponent implements OnInit {
   }
 
   saveEditLiberacion(): void {
+  
     this.spinner.show();
     let apiid = this.auth.getSession().userData.idAPI;
     const payload = {
-      appKey: 'prueba202201',
-      datostblSol: [{
-        idSolicitudMovimento: this.editLiberacion.solicitudId,
-        solicitudFechaAlta: this.editLiberacion.solicitudFechaAlta.substring(0,10) + ' 00:00:00',
-        solicitudUsuario:'',
-        solicitudBL:this.editLiberacion.solicitudBL,
-        solicitudClavePedimento:this.editLiberacion.solicitudClavePedimento,
-        solicitudTipoPedimento: this.editLiberacion.solicitudTipoPedimento,
-        solicitudNumPedimento:this.editLiberacion.solicitudNumPedimento,
-        solicitudtipoCambio:this.editLiberacion.solicitudClavePedimento,
-        solicitudValorAduana:this.editLiberacion.solicitudValorAduana,
-        solicitudPiezas:this.editLiberacion.solicitudPiezas,
-        solicitudPeso:this.editLiberacion.solicitudPeso,
-        solicitudNumPartes:this.editLiberacion.solicitudNumPartes,
-        solicitudNumCopias:this.editLiberacion.solicitudNumCopias,
-        solicitudCoves:this.editLiberacion.solicitudCoves
-	}]
+      appKey: 'c53ea43376d653a43e10711de2da2d9b6f156ead',
+      datostblSol: this.blliberacionEdit.map((item:any)=>{
+        return {
+          idSolicitudMovimento: item.solicitudId,
+          solicitudFechaAlta: this.editLiberacion.solicitudFechaAlta.substring(0,10) + ' 00:00:00',
+          solicitudUsuario:this.auth.getSession().userData.username,
+          solicitudBL:item.solicitudBL,
+          solicitudClavePedimento:item.solicitudClavePedimento,
+          solicitudTipoPedimento: item.solicitudTipoPedimentoID,
+          solicitudNumPedimento:item.solicitudNumPedimento,
+          solicitudtipoCambio:item.solicitudClavePedimento,
+          solicitudValorAduana:item.solicitudValorAduana,
+          solicitudPiezas:item.solicitudPiezas,
+          solicitudPeso:item.solicitudPeso,
+          solicitudNumPartes:item.solicitudNumPartes,
+          solicitudNumCopias:item.solicitudNumCopias,
+          solicitudCoves:item.solicitudCoves
+    }
+      })
     };
     this.http.post(`${environment.endpointRecinto}/api/tblSolEditar?idAPI=${apiid}`, payload).subscribe((res: any) => {
       this.spinner.hide();
@@ -443,12 +485,11 @@ export class SolicitudServicioComponent implements OnInit {
     });
   }
   filtrado(): void{
-
     this.page = 1;
     if(this.criterio && this.buscador){
       this.filtro = true;
       this.filterData = this.originalData.filter((item: any) =>{
-         return item[this.criterio].toLowerCase().includes(this.buscador.toLowerCase());
+         return String(item[this.criterio]).toLowerCase().includes(this.buscador.toLowerCase());
       })
       this.total = this.filterData.length;
       this.paginado();
@@ -587,4 +628,11 @@ export class SolicitudServicioComponent implements OnInit {
       this.blliberacionDocs = [];
     });
   }
+  getClavePedimentos(): void {
+    let apiid = this.auth.getSession().userData.idAPI;
+    this.http.get(`${environment.endpointRecinto}/api/catalogos?idAPI=${apiid}&catalogo=pedimentos`).subscribe((res: any) => {
+      this.clavesPedimento = res[0];
+    }, err => { });
+  }
+
 }
