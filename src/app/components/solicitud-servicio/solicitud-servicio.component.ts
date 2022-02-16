@@ -247,7 +247,9 @@ export class SolicitudServicioComponent implements OnInit {
       appKey: 'c53ea43376d653a43e10711de2da2d9b6f156ead',
       datostblSol: this.blliberacionEdit.map((item:any)=>{
         return {
-          idSolicitudMovimento: item.solicitudId,
+          idAPI: apiid,
+          solicitudId: this.editData.solicitudId,
+          idSolicitudMovimento: item.idSolicitudMovimiento,
           solicitudFechaAlta: this.editLiberacion.solicitudFechaAlta.substring(0,10) + ' 00:00:00',
           solicitudUsuario:this.auth.getSession().userData.username,
           solicitudBL:item.solicitudBL,
