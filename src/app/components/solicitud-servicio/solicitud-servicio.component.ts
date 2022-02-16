@@ -241,7 +241,6 @@ export class SolicitudServicioComponent implements OnInit {
   }
 
   saveEditLiberacion(): void {
-  
     this.spinner.show();
     let apiid = this.auth.getSession().userData.idAPI;
     const payload = {
@@ -255,7 +254,7 @@ export class SolicitudServicioComponent implements OnInit {
           solicitudClavePedimento:item.solicitudClavePedimento,
           solicitudTipoPedimento: item.solicitudTipoPedimentoID,
           solicitudNumPedimento:item.solicitudNumPedimento,
-          solicitudtipoCambio:item.solicitudClavePedimento,
+          solicitudtipoCambio:item.solicitudtipoCambio,
           solicitudValorAduana:item.solicitudValorAduana,
           solicitudPiezas:item.solicitudPiezas,
           solicitudPeso:item.solicitudPeso,
