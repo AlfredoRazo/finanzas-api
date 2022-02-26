@@ -5,6 +5,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { AuthService } from '@serv/auth.service';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { EstadoHechosService } from 'src/app/estado-hechos.service';
 declare var $: any;
 export interface BLFile {
   bl: string;
@@ -85,9 +86,10 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   buscarEmp = '';
   cantidadSalida = '';
   pesoSalida = '';
-  blsalida:any [] = [];
+  blsalida: any[] = [];
   ismultiplebl = false;
-  multiplebl:any;
+  multiplebl: any;
+  buqueViaje: any;
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -139,6 +141,30 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   recintoDestino: any;
   totalPesoSalida = 0;
   totalCantidadSalida = 0;
+  exportacionPayload: any = {};
+  tipoDocumentos = [
+    { id: 1, descripcion: 'Número de factura' },
+    { id: 2, descripcion: 'Lista de empaque' },
+    { id: 3, descripcion: 'Carta Porte' },
+    { id: 4, descripcion: 'Registro de Salida de Inventario' },
+    { id: 5, descripcion: 'Consolidación de Carga' }
+  ];
+  tipoSolicitante = [
+    { id: 1, descripcion: 'Agente Aduanal' },
+    { id: 2, descripcion: 'Línea Naviera' },
+    { id: 3, descripcion: 'Exportador' },
+    { id: 4, descripcion: 'Agente Consolidador de Carga' }
+  ]
+  tipoTransporte = [
+    { id: 1, descripcion: 'Contenedor' },
+    { id: 2, descripcion: 'Caja Seca' },
+    { id: 3, descripcion: 'Refrigerado' },
+    { id: 4, descripcion: 'Góndola' },
+    { id: 5, descripcion: 'Vehículo carga ligero' },
+    { id: 6, descripcion: 'Tolvas' },
+    { id: 7, descripcion: 'Planas' },
+    { id: 8, descripcion: 'Pipas' }
+  ];
   tipoServicio = [
     { id: 1, descripcion: 'Contenedores' },
     { id: 2, descripcion: 'Carga suelta' }
@@ -167,30 +193,37 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     { id: 4, descripcion: 'Pedimento Consolidado' }
   ];
 
+  tiposFolio = [
+    { id: 1, descripcion: 'Sencillo' },
+    { id: 2, descripcion: 'Consolidado' },
+    { id: 3, descripcion: 'Carga Directa' }
+  ];
+
   constructor(
     private auth: AuthService,
+    private estadoHechos: EstadoHechosService,
     private spinner: NgxSpinnerService,
     public http: HttpClient) { }
 
   ngOnInit(): void {
- 
+
     const user = this.auth.getSession().userData;
     this.getAgenciaAduanal();
-    //this.getBuques();
+    this.getBuques();
     //this.getClientes();
     this.getLineaNaviera();
     this.getAgenciaConsignataria();
     this.getRecinto();
     this.getClavePedimentos();
-    setTimeout(() =>{
+    setTimeout(() => {
       $('#fecha-servicio').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaServ = date } });
       $('#fecha-arribo').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaArribo = date } });
       $('#fecha-inicio-operaciones').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaInicioOp = date } });
       $('#fecha-termino-operaciones').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaTerminoOp = date } });
       $('#fecha-zarpe').datepicker({ dateFormat: 'yy-mm-dd', onSelect: (date: any) => { this.fechaZarpe = date } });
-    },1000);
+    }, 1000);
 
-    
+
   }
 
   consulta(): void {
@@ -208,19 +241,21 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           this.bls = res[0];
           if (this.bls[0].estatus || this.tipoSoli == '1') {
             this.ismultiplebl = this.bls.length > 1;
-            if(this.ismultiplebl){
+            if (this.ismultiplebl) {
               this.bls = [];
               this.bls.push(res[0][0]);
               this.blsdesc = res[0];
             }
             this.buque = this.bls[0]?.buque;
             this.viaje = this.bls[0]?.viaje;
-            this.http.get<any>(`${environment.endpointRecinto}/api/solicitudLiberacion?idAPI=${apiid}&Referencia=${this.bl}`).subscribe(resP => {
-              if(!resP[0].error){
+           if(res[1][0].idSolicitudMovimiento){
+            this.http.get<any>(`${environment.endpointRecinto}/api/solicitudLiberacion?idAPI=${apiid}&Referencia=${this.bl}&idLiberacion=${res[1][0]?.idSolicitudMovimiento}`).subscribe(resP => {
+              if (!resP[0].error) {
                 this.blliber = resP[0];
               }
             }, error => {
             });
+          }
             this.http.get<any>(`${environment.endpointRecinto}/api/solicitudSalida?idAPI=${apiid}&referencia=${this.bl}`).subscribe(res => {
               if (res.length == 3) {
                 this.blsalida = res[0];
@@ -228,12 +263,12 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
               if (res.length == 2) {
                 this.blsalida = res[0];
               }
-                this.blsalida.forEach(item =>{
-                  this.totalCantidadSalida += item.salidaCantidad;
-                  this.totalPesoSalida += item.salidaPeso;
-                });
-                this.totalCantidadSalida =  this.bls[0]?.cantidad -this.totalCantidadSalida;
-                this.totalPesoSalida = this.bls[0]?.pesoBruto - this.totalPesoSalida;
+              this.blsalida.forEach(item => {
+                this.totalCantidadSalida += item.salidaCantidad;
+                this.totalPesoSalida += item.salidaPeso;
+              });
+              this.totalCantidadSalida = this.bls[0]?.cantidad - this.totalCantidadSalida;
+              this.totalPesoSalida = this.bls[0]?.pesoBruto - this.totalPesoSalida;
             }, error => {
               this.blsalida = [];
             });
@@ -278,7 +313,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       this.spinner.hide();
     });
   }
-  selectbl(): void{
+  selectbl(): void {
     this.buque = this.multiplebl?.buque;
     this.viaje = this.multiplebl?.viaje;
     this.bls = [];
@@ -291,12 +326,12 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       if (res.length == 2) {
         this.blsalida = res[0];
       }
-        this.blsalida.forEach(item =>{
-          this.totalCantidadSalida += item.salidaCantidad;
-          this.totalPesoSalida += item.salidaPeso;
-        });
-        this.totalCantidadSalida =  this.bls[0]?.cantidad -this.totalCantidadSalida;
-        this.totalPesoSalida = this.bls[0]?.pesoBruto - this.totalPesoSalida;
+      this.blsalida.forEach(item => {
+        this.totalCantidadSalida += item.salidaCantidad;
+        this.totalPesoSalida += item.salidaPeso;
+      });
+      this.totalCantidadSalida = this.bls[0]?.cantidad - this.totalCantidadSalida;
+      this.totalPesoSalida = this.bls[0]?.pesoBruto - this.totalPesoSalida;
     }, error => {
       this.blsalida = [];
     });
@@ -342,26 +377,41 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
       'Authorization': `Bearer ${this.auth.getSession().token}`,
     });
     let id = 0;
-    if(!this.agenciaAduanal.id){
+    if (!this.agenciaAduanal.id) {
       id = this.auth.getSession().userData.empresaid
-    }else{
+    } else {
       id = this.agenciaAduanal.id
     }
-    
+
     this.http.get(`${environment.endpointEmpresas}api/empresas/${id}/patente`, { headers: header }).subscribe((res: any) => {
-      if(res.valor){
+      if (res.valor) {
         this.patentes = res.valor;
       }
     }, error => { });
   }
   getRecinto(): void {
     let apiid = this.auth.getSession().userData.idAPI;
-    
+
     this.http.get(`${environment.endpointApi}catRecintos?idAPI=${apiid}`).subscribe((res: any) => {
       this.recintos = res;
     }, error => {
 
     });
+  }
+  buscarBuqueViaje(): void{
+    this.estadoHechos.getByBuqueViaje(this.exportacionPayload.buque, this.exportacionPayload.viaje).subscribe(
+      (res:any) =>{
+        if(res[0][0]){
+          this.buqueViaje = res[0][0];
+        }else{
+          this.buqueViaje = null;
+        }
+      },
+      (err)=>{
+
+      }
+    );
+
   }
   getAgenciaConsignataria(): void {
     const header = new HttpHeaders({
@@ -427,15 +477,15 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
         }
       ]
     };
-    
-    if((this.tipoSoli == '2' && this.tipoSalida == '91') && (this.indexLib != undefined && this.blliber.length > 0)){
-      if(this.pesoSalida != this.blliber[this.indexLib].solicitudPeso && this.cantidadSalida != this.blliber[this.indexLib].solicitudPiezas){
-      this.msjErrorpesos = 'La cantidad de salida ó el peso de salida debe ser igual al peso ó salida de la liberación';
-      this.hasErrorPesos = true;
-      return;
+
+    if ((this.tipoSoli == '2' && this.tipoSalida == '91') && (this.indexLib != undefined && this.blliber.length > 0)) {
+      if (this.pesoSalida != this.blliber[this.indexLib].solicitudPeso && this.cantidadSalida != this.blliber[this.indexLib].solicitudPiezas) {
+        this.msjErrorpesos = 'La cantidad de salida ó el peso de salida debe ser igual al peso ó salida de la liberación';
+        this.hasErrorPesos = true;
+        return;
       }
     }
-    if(this.tipoSoli == '2' && (+this.cantidadSalida > this.totalCantidadSalida || +this.pesoSalida > this.totalPesoSalida)){
+    if (this.tipoSoli == '2' && (+this.cantidadSalida > this.totalCantidadSalida || +this.pesoSalida > this.totalPesoSalida)) {
       this.msjErrorpesos = 'La cantidad de salida o el peso de salida no pueden ser mayores a lo sobrante';
       this.hasErrorPesos = true;
       return;
@@ -449,7 +499,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
           case 2:
             this.spinner.show();
             let liberacionId = 0
-            if(this.tipoSalida == '91'){
+            if (this.tipoSalida == '91') {
               liberacionId = this.blliber.length > 0 ? this.blliber[this.indexLib].solicitudId : 0;
             }
             let payloadSalida: any = {
@@ -472,8 +522,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
               ]
 
             };
-            
-            this.http.post(`${environment.endpointRecinto}/api/solicitudSalida?idAPI=${apiid}`, payloadSalida).subscribe((resmo: any) => { this.spinner.hide(); }, err => { this.spinner.hide();});
+
+            this.http.post(`${environment.endpointRecinto}/api/solicitudSalida?idAPI=${apiid}`, payloadSalida).subscribe((resmo: any) => { this.spinner.hide(); }, err => { this.spinner.hide(); });
             break;
           case 3:
             this.spinner.show();
@@ -500,8 +550,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
                 payloadMov.documentos.push({ nombre: this.solicitudFile.nombre, archivo: this.solicitudFile.archivo });
               }
             }
-      
-            this.http.post(`${environment.endpointRecinto}/api/Movimientos?idAPI=${apiid}`, payloadMov).subscribe((resmo: any) => {this.spinner.hide(); }, err => { this.spinner.hide();});
+
+            this.http.post(`${environment.endpointRecinto}/api/Movimientos?idAPI=${apiid}`, payloadMov).subscribe((resmo: any) => { this.spinner.hide(); }, err => { this.spinner.hide(); });
             break;
           case 4:
             this.spinner.show();
@@ -513,7 +563,8 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
               appkey: "046965ea2db6a892359ed2c4cd9f957b",
               liberaciones: liber
             };
-            this.http.post(`${environment.endpointRecinto}/api/solicitudLiberacion?idAPI=${apiid}`, payloadLib).subscribe((resLib: any) => { this.spinner.hide();
+            this.http.post(`${environment.endpointRecinto}/api/solicitudLiberacion?idAPI=${apiid}`, payloadLib).subscribe((resLib: any) => {
+              this.spinner.hide();
             }, err => { this.spinner.hide(); });
             break;
         }
@@ -587,7 +638,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     }
   }
 
-  salidaLiberacion(){
+  salidaLiberacion() {
     this.pesoSalida = this.blliber[this.indexLib].solicitudPeso;
     this.cantidadSalida = this.blliber[this.indexLib].solicitudPiezas;
   }
@@ -606,7 +657,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
         }
       } else {
         if (this.liberacion.length > 0) {
-         
+
           let totalCant = 0
           let totalPeso = 0;
           this.liberacion.forEach(item => {

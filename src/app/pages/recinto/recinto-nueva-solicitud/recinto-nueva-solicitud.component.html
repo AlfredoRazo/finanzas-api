@@ -7,79 +7,369 @@
 </ul-->
 <br>
 <br>
-<form role="form">
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label class="control-label">Tipo de servicio</label>
-            <select class="form-control" name="tiposervicio" [(ngModel)]="tipoServ">
-                <option *ngFor="let item of tipoServicio" [value]="item.id">{{item.descripcion}}</option>
-            </select>
-        </div>
-        <div class="form-group col-md-4">
-            <label class="control-label">Tipo de trámite</label>
-            <select class="form-control" name="tipotram" [(ngModel)]="tipoTram">
-                <option *ngFor="let item of tipoTramite" [value]="item.id">{{item.descripcion}}</option>
-            </select>
-        </div>
-        <div class="form-group col-md-4">
-            <label class="control-label">Tipo de solicitud</label>
-            <select class="form-control" name="tiposolicitud" [(ngModel)]="tipoSoli">
-                <option *ngFor="let item of tipoSolicitud" [value]="item.id">{{item.descripcion}}</option>
-            </select>
-        </div>
 
+<div class="row">
+    <div class="form-group col-md-4">
+        <label class="control-label">Tipo de servicio</label>
+        <select class="form-control" name="tiposervicio" [(ngModel)]="tipoServ">
+            <option *ngFor="let item of tipoServicio" [value]="item.id">{{item.descripcion}}</option>
+        </select>
     </div>
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label class="control-label">Tipo de transporte</label>
-            <select class="form-control" name="tipoTrans" [(ngModel)]="tipoTrans">
-                <option *ngFor="let item of medioTransporte" [value]="item.id">{{item.descripcion}}</option>
-            </select>
+    <div class="form-group col-md-4">
+        <label class="control-label">Tipo de trámite</label>
+        <select class="form-control" name="tipotram" [(ngModel)]="tipoTram">
+            <option *ngFor="let item of tipoTramite" [value]="item.id">{{item.descripcion}}</option>
+        </select>
+    </div>
+    <div class="form-group col-md-4">
+        <label class="control-label">Tipo de solicitud</label>
+        <select class="form-control" name="tiposolicitud" [(ngModel)]="tipoSoli">
+            <option *ngFor="let item of tipoSolicitud" [value]="item.id">{{item.descripcion}}</option>
+        </select>
+    </div>
+
+</div>
+<div [style.display]="tipoTram && tipoTram == '2' ? 'block' : 'none'">
+    <form #formExportacion="ngForm">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">Tipo Folio</label>
+                <select class="form-control" name="tipo_folio" [(ngModel)]="exportacionPayload.tipo_folio" required>
+                    <option *ngFor="let item of tiposFolio" [value]="item.id">{{item.descripcion}}</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Num. Documento </label>
+                <input type="text" class="form-control" name="num_documento" maxlength="50"
+                    [(ngModel)]="exportacionPayload.num_documento" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Tipo Documento</label>
+                <select class="form-control" name="tipo_documento" [(ngModel)]="exportacionPayload.tipo_documento"
+                    required>
+                    <option *ngFor="let item of tipoDocumentos" [value]="item.id">{{item.descripcion}}</option>
+                </select>
+            </div>
+
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group datepicker-group">
-                <label class="control-label">Fecha de servicio</label>
-                <input type="text" class="form-control" id="fecha-servicio">
-                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label class="control-label">Booking </label>
+                <input type="text" class="form-control" name="booking" maxlength="50"
+                    [(ngModel)]="exportacionPayload.booking" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="control-label">Puerto Descarga </label>
+                <input type="text" class="form-control" name="puerto_descarga" maxlength="50"
+                    [(ngModel)]="exportacionPayload.puerto_descarga" required>
             </div>
         </div>
-        <div class="form-group col-md-8">
-            <label class="control-label">Agencia aduanal</label>
-            <select class="form-control" name="agenciaAduanal" [(ngModel)]="agenciaAduanal" (change)="getPatente()">
-                <option *ngFor="let item of agenciasaduanales" [ngValue]="item">{{item.valor}}</option>
-            </select>
+        <div class="row">
+
+            <ng-template #rt let-r="result" let-t="term">
+                <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
+            </ng-template>
+            <div class="form-group col-md-5">
+                <label class="control-label">Buque</label>
+                <input type="text" class="form-control" name="buque" maxlength="50"
+                    [(ngModel)]="exportacionPayload.buque" [ngbTypeahead]="search" [inputFormatter]="formatter"
+                    [resultTemplate]="rt">
+            </div>
+            <div class="form-group col-md-5">
+                <label class="control-label">Viaje </label>
+                <input type="text" class="form-control" name="buque" maxlength="50"
+                    [(ngModel)]="exportacionPayload.viaje" required>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-sm btn-primary" (click)="buscarBuqueViaje()"
+                    style="margin-top: 30px;">Buscar</button>
+            </div>
         </div>
-        <div class="form-group col-md-4">
-            <label class="control-label">Patente</label>
-            <input type="text" class="form-control" name="patente" [(ngModel)]="patente" *ngIf="patentes.length <= 1">
-            <select class="form-control" *ngIf="patentes.length > 1" name="patente" [(ngModel)]="patente">
-                <option *ngFor="let item of patentes" [value]="item">{{item}}</option>
-            </select>
+        <table *ngIf="buqueViaje" class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <td><b>Buque</b></td>
+                    <td>{{buqueViaje.nBuque}}</td>
+                    <td><b>Viaje</b></td>
+                    <td>{{buqueViaje.numero_viaje}}</td>
+                </tr>
+                <tr>
+                    <td><b>Tipo Buque</b></td>
+                    <td>{{buqueViaje.tipoBuque}}</td>
+                    <td><b>Tipo Navegación</b></td>
+                    <td>{{buqueViaje.tipoNavegacion}}</td>
+                </tr>
+                <tr>
+                    <td><b>Fecha Arribo</b></td>
+                    <td>{{buqueViaje.fechaArrivo | date: 'dd/MM/yyyy'}}</td>
+                    <td><b>Fecha Zarpe</b></td>
+                    <td>{{buqueViaje.fechaZarpe | date: 'dd/MM/yyyy'}}</td>
+                </tr>
+                <tr>
+                    <td><b>Fecha Inicio de Operaciones</b></td>
+                    <td>{{buqueViaje.inicio_operaciones | date: 'dd/MM/yyyy'}}</td>
+                    <td><b>Fecha Termino de Operaciones</b></td>
+                    <td>{{buqueViaje.termino_operaciones | date: 'dd/MM/yyyy'}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="control-label">Razón Social Exportador </label>
+                <input type="text" class="form-control" name="razon_social_exportador" maxlength="255"
+                    [(ngModel)]="exportacionPayload.razon_social_exportador" required>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="control-label">Dirección Exportador </label>
+                <input type="text" class="form-control" name="direccion_social_exportador" maxlength="500"
+                    [(ngModel)]="exportacionPayload.direccion_social_exportador" required>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label class="control-label">C.P. Exportador </label>
+                <input type="text" class="form-control" name="cp_exportador" maxlength="5" mask="00000"
+                    [(ngModel)]="exportacionPayload.cp_exportador" required>
+            </div>
+            <div class="form-group col-md-9">
+                <label class="control-label">Ciudad Exportador </label>
+                <input type="text" class="form-control" name="ciudad_exportador" maxlength="255"
+                    [(ngModel)]="exportacionPayload.ciudad_exportador" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label class="control-label">RFC Exportador </label>
+                <input type="text" class="form-control" name="rfc_exportador" maxlength="13"
+                    [(ngModel)]="exportacionPayload.rfc_exportador" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label class="control-label">Razón Social Transportista </label>
+                <input type="text" class="form-control" name="razon_social_transportista" maxlength="255"
+                    [(ngModel)]="exportacionPayload.razon_social_transportista" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="control-label">Línea Transporte </label>
+                <input type="text" class="form-control" name="linea_transporte" maxlength="150"
+                    [(ngModel)]="exportacionPayload.linea_transporte" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label class="control-label">Placas</label>
+                <input type="text" class="form-control" name="placas" maxlength="15"
+                    [(ngModel)]="exportacionPayload.placas" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="control-label">Núm. Economico </label>
+                <input type="text" class="form-control" name="num_economico" maxlength="15"
+                    [(ngModel)]="exportacionPayload.num_economico" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-8">
+                <label class="control-label">Nombre Chofer</label>
+                <input type="text" class="form-control" name="nombre_chofer" maxlength="255"
+                    [(ngModel)]="exportacionPayload.nombre_chofer" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Núm. CAAT </label>
+                <input type="text" class="form-control" name="num_caat" maxlength="20"
+                    [(ngModel)]="exportacionPayload.num_caat" required>
+            </div>
         </div>
 
-    </div>
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label class="control-label">Buscar Cliente </label>
-            <input type="text" class="form-control" name="buscarEmp" [(ngModel)]="buscarEmp">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">Tipo Solicitante</label>
+                <select class="form-control" name="tipo_solicitante" [(ngModel)]="exportacionPayload.tipo_solicitante"
+                    required>
+                    <option *ngFor="let item of tipoSolicitante" [value]="item.id">{{item.descripcion}}</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Nombre Solicitante</label>
+                <input type="text" class="form-control" name="nombre_solicitante" maxlength="255"
+                    [(ngModel)]="exportacionPayload.nombre_solicitante" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Patente Solicitante </label>
+                <input type="text" class="form-control" name="patente_solicitante" maxlength="4" mask="0000"
+                    [(ngModel)]="exportacionPayload.patente_solicitante" required>
+            </div>
         </div>
-        <div class="col-sm-1">
-            <button class="btn btn-sm btn-primary" style="margin-top: 35px;" (click)="buscarEmpresa()">Buscar</button>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">RFC Solicitante</label>
+                <input type="text" class="form-control" name="rfc_solicitante" maxlength="13"
+                    [(ngModel)]="exportacionPayload.rfc_solicitante" required>
+            </div>
+            <div class="form-group col-md-8">
+                <label class="control-label">Domicilio Solicitante </label>
+                <input type="text" class="form-control" name="domicilio_solicitante" maxlength="500"
+                    [(ngModel)]="exportacionPayload.domicilio_solicitante" required>
+            </div>
         </div>
-        <div class="form-group col-md-7">
-            <label class="control-label">Cliente </label>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">C.P. Solicitante</label>
+                <input type="text" class="form-control" maxlength="5" mask="00000" name="cp_solicitante"
+                    [(ngModel)]="exportacionPayload.cp_solicitante" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Teléfono Solicitante</label>
+                <input type="text" class="form-control" maxlength="11" mask="000-0000000"
+                    [dropSpecialCharacters]="false" name="tel_solicitante"
+                    [(ngModel)]="exportacionPayload.tel_solicitante" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Clave Usuario</label>
+                <input type="text" class="form-control" maxlength="50" name="clave_usuario"
+                    [(ngModel)]="exportacionPayload.clave_usuario" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">Pedimento</label>
+                <input type="text" class="form-control" name="pedimento" [(ngModel)]="exportacionPayload.pedimento"
+                    required>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Cantidad Registros</label>
+                <input type="text" class="form-control" maxlength="3" mask="000" name="cantidad_registros"
+                    [(ngModel)]="exportacionPayload.cantidad_registros" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Tipo Transporte</label>
+                <select class="form-control" name="tipo_transporte" [(ngModel)]="exportacionPayload.tipo_transporte"
+                    required>
+                    <option *ngFor="let item of tipoTransporte" [value]="item.id">{{item.descripcion}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">Número Transporte</label>
+                <input type="text" class="form-control" maxlength="15" name="num_transporte"
+                    [(ngModel)]="exportacionPayload.num_transporte" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Capacidad Transporte</label>
+                <input type="text" class="form-control" maxlength="150" mask="0*.00" [dropSpecialCharacters]="false"
+                    name="capacidad_transporte" [(ngModel)]="exportacionPayload.capacidad_transporte" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Descripción Mercancía</label>
+                <input type="text" class="form-control" maxlength="500" name="desc_mercancia"
+                    [(ngModel)]="exportacionPayload.desc_mercancia" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">Cantidad</label>
+                <input type="text" class="form-control" maxlength="15" mask="0*" name="cantidad"
+                    [(ngModel)]="exportacionPayload.cantidad" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Unidad Medida</label>
+                <input type="text" class="form-control" mask="00" [dropSpecialCharacters]="false" name="unidad_medida"
+                    [(ngModel)]="exportacionPayload.unidad_medida" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Peso Neto</label>
+                <input type="text" class="form-control" maxlength="100" mask="0*.00" [dropSpecialCharacters]="false"
+                    name="peso_neto" [(ngModel)]="exportacionPayload.peso_neto" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label class="control-label">Candado</label>
+                <input type="text" class="form-control" name="candado" maxlength="63"
+                    [(ngModel)]="exportacionPayload.candado" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="control-label">IMO </label>
+                <input type="text" class="form-control" name="imo" maxlength="15" [(ngModel)]="exportacionPayload.imo">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label class="control-label">UN</label>
+                <input type="text" class="form-control" name="un" maxlength="13" [(ngModel)]="exportacionPayload.un">
+            </div>
+            <div class="form-group col-md-6">
+                <label class="control-label">CAS </label>
+                <input type="text" class="form-control" name="cas" maxlength="15" [(ngModel)]="exportacionPayload.cas">
+            </div>
+        </div>
+    </form>
+    <button type="button" class="btn btn-default" routerLink="/recinto">Regresar</button>
+    <button type="button" class="btn btn-primary" style="margin-left: 15px;"
+        [disabled]="formExportacion.invalid">Guardar</button>
+</div>
+<div [style.display]="tipoTram && tipoTram != '2' ? 'block' : 'none'">
+    <form role="form">
 
-            <select name="solicitados" [(ngModel)]="cliente" (change)="buscarDetalleEmpresa()" class="form-control"
-                name="solicitado" #solicitado="ngModel" [disabled]="clientes.length == 0">
-                <option *ngFor="let item of clientes" [ngValue]="item">{{item.nombre}}</option>
 
-            </select>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">Tipo de transporte</label>
+                <select class="form-control" name="tipoTrans" [(ngModel)]="tipoTrans">
+                    <option *ngFor="let item of medioTransporte" [value]="item.id">{{item.descripcion}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group datepicker-group">
+                    <label class="control-label">Fecha de servicio</label>
+                    <input type="text" class="form-control" id="fecha-servicio">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-8">
+                <label class="control-label">Agencia aduanal</label>
+                <select class="form-control" name="agenciaAduanal" [(ngModel)]="agenciaAduanal" (change)="getPatente()">
+                    <option *ngFor="let item of agenciasaduanales" [ngValue]="item">{{item.valor}}</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Patente</label>
+                <input type="text" class="form-control" name="patente" [(ngModel)]="patente"
+                    *ngIf="patentes.length <= 1">
+                <select class="form-control" *ngIf="patentes.length > 1" name="patente" [(ngModel)]="patente">
+                    <option *ngFor="let item of patentes" [value]="item">{{item}}</option>
+                </select>
+            </div>
 
         </div>
-    </div>
-    <!--<div class="row">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">Buscar Cliente </label>
+                <input type="text" class="form-control" name="buscarEmp" [(ngModel)]="buscarEmp">
+            </div>
+            <div class="col-sm-1">
+                <button class="btn btn-sm btn-primary" style="margin-top: 35px;"
+                    (click)="buscarEmpresa()">Buscar</button>
+            </div>
+            <div class="form-group col-md-7">
+                <label class="control-label">Cliente </label>
+
+                <select name="solicitados" [(ngModel)]="cliente" (change)="buscarDetalleEmpresa()" class="form-control"
+                    name="solicitado" #solicitado="ngModel" [disabled]="clientes.length == 0">
+                    <option *ngFor="let item of clientes" [ngValue]="item">{{item.nombre}}</option>
+
+                </select>
+
+            </div>
+        </div>
+        <!--<div class="row">
         <ng-template #rt2 let-r="result" let-t="term">
             <ngb-highlight [result]="r.rfc" [term]="t"></ngb-highlight>
         </ng-template>
@@ -96,485 +386,495 @@
                 (selectItem)="selected($event)">
         </div>
     </div>-->
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label class="control-label">B/L</label>
-            <input type="text" class="form-control" name="bl" [(ngModel)]="bl">
-        </div>
-        <div class="col-md-1">
-            <button class="btn btn-primary btn-sm" style="margin-top: 30px;" (click)="consulta()"
-                [disabled]="!bl || !tipoSoli">Buscar</button>
-        </div>
-       
-        <div class="form-group col-md-4" *ngIf="ismultiplebl">
-            <label class="control-label">Seleccione...</label>
-            <select (change)="selectbl()" class="form-control" name="multiplebl" [(ngModel)]="multiplebl">
-                <option *ngFor="let item of blsdesc" [ngValue]="item">{{item.buque}} {{item.viaje}} {{item.cantidad}} {{item.pesoBruto}}</option>
-            </select>
-            
-        </div>
-    </div>
-    <ng-template #rt let-r="result" let-t="term">
-        <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
-    </ng-template>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">B/L</label>
+                <input type="text" class="form-control" name="bl" [(ngModel)]="bl">
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-primary btn-sm" style="margin-top: 30px;" (click)="consulta()"
+                    [disabled]="!bl || !tipoSoli">Buscar</button>
+            </div>
 
-    <div class="row">
-        <div class="form-group col-md-12">
-            <label class="control-label">Nombre de buque</label>
-            <input type="text" class="form-control" [(ngModel)]="buque" name="buque" readonly>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label class="control-label">Número de viaje</label>
-            <input type="text" class="form-control" name="viaje" [(ngModel)]="viaje" readonly>
+            <div class="form-group col-md-4" *ngIf="ismultiplebl">
+                <label class="control-label">Seleccione...</label>
+                <select (change)="selectbl()" class="form-control" name="multiplebl" [(ngModel)]="multiplebl">
+                    <option *ngFor="let item of blsdesc" [ngValue]="item">{{item.buque}} {{item.viaje}}
+                        {{item.cantidad}} {{item.pesoBruto}}</option>
+                </select>
 
-        </div>
-        <div class="col-md-4">
-            <div class="form-group datepicker-group">
-                <label class="control-label">Fecha de arribo</label>
-                <input type="text" class="form-control" id="fecha-arribo">
-                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="form-group datepicker-group">
-                <label class="control-label">Fecha de inicio de operaciones</label>
-                <input type="text" class="form-control" id="fecha-inicio-operaciones">
-                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        <ng-template #rt let-r="result" let-t="term">
+            <ngb-highlight [result]="r.nombre" [term]="t"></ngb-highlight>
+        </ng-template>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="control-label">Nombre de buque</label>
+                <input type="text" class="form-control" [(ngModel)]="buque" name="buque" readonly>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group datepicker-group">
-                <label class="control-label">Fecha de termino de operaciones</label>
-                <input type="text" class="form-control" id="fecha-termino-operaciones">
-                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">Número de viaje</label>
+                <input type="text" class="form-control" name="viaje" [(ngModel)]="viaje" readonly>
+
+            </div>
+            <div class="col-md-4">
+                <div class="form-group datepicker-group">
+                    <label class="control-label">Fecha de arribo</label>
+                    <input type="text" class="form-control" id="fecha-arribo">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group datepicker-group">
+                    <label class="control-label">Fecha de inicio de operaciones</label>
+                    <input type="text" class="form-control" id="fecha-inicio-operaciones">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group datepicker-group">
-                <label class="control-label">Fecha de zarpe</label>
-                <input type="text" class="form-control" id="fecha-zarpe">
-                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group datepicker-group">
+                    <label class="control-label">Fecha de termino de operaciones</label>
+                    <input type="text" class="form-control" id="fecha-termino-operaciones">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group datepicker-group">
+                    <label class="control-label">Fecha de zarpe</label>
+                    <input type="text" class="form-control" id="fecha-zarpe">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Linea naviera</label>
+                <select class="form-control" name="lineanaviera" [(ngModel)]="lineanaviera">
+                    <option *ngFor="let item of lineasnavieras" [ngValue]="item">{{item.valor}}</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Agencia consignataria</label>
+                <select class="form-control" [(ngModel)]="agenciaconsig" name="agenciaconsig">
+                    <option *ngFor="let item of agenciasconsig" [ngValue]="item">{{item.valor}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="tipoSoli == '1'">
+            <div class="checkbox col-md-6">
+                <label>
+                    <input type="checkbox" [(ngModel)]="infoRelativa" name="infoRelativa"> Información relativa a la
+                    violación, daño o extravío de los bultos o mercancías almacenados.
+                </label>
+            </div>
+        </div>
+        <div class="alert alert-warning" *ngIf="msjConsulta">
+            {{msjConsulta}}
+        </div>
+    </form>
+    <ng-container *ngIf="tipoSoli == '2'">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">Tipo Salida</label>
+                <select class="form-control" name="tipoSalida" [(ngModel)]="tipoSalida">
+                    <option value="91">Normal</option>
+                    <option value="92">Transferencia</option>
+                </select>
+            </div>
+            <div class="form-group col-md-8" *ngIf="tipoSalida == '92'">
+                <label class="control-label">Recinto Origen</label>
+                <select class="form-control" name="recintoOrigen" [(ngModel)]="recintoOrigen" disabled>
+                    <option *ngFor="let item of recintos" [value]="item.clave">{{item.nombre}}</option>
+                </select>
+            </div>
+            <div class="form-group col-md-12" *ngIf="tipoSalida == '92'">
+                <label class="control-label">Recinto Destino</label>
+                <select class="form-control" name="recintoDestino" [(ngModel)]="recintoDestino">
+                    <option *ngFor="let item of recintos" [value]="item.clave">{{item.nombre}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row" *ngIf="tipoSalida == '92'">
+            <div class="form-group col-md-6">
+                <label>B/L Revalidado</label>
+                <input type="file" (change)="handleUpload($event, 'bl_revalidado')">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Tarja</label>
+                <input type="file" (change)="handleUpload($event, 'tarja')">
+
+            </div>
+            <div class="form-group col-md-6">
+                <label>Solicitud</label>
+                <input type="file" (change)="handleUpload($event, 'solicitud')">
+            </div>
+        </div>
+    </ng-container>
+    <div class="row" *ngIf="tipoSoli == '3' && bls.length > 0">
         <div class="form-group col-md-4">
-            <label class="control-label">Linea naviera</label>
-            <select class="form-control" name="lineanaviera" [(ngModel)]="lineanaviera">
-                <option *ngFor="let item of lineasnavieras" [ngValue]="item">{{item.valor}}</option>
-            </select>
-        </div>
-        <div class="form-group col-md-4">
-            <label class="control-label">Agencia consignataria</label>
-            <select class="form-control" [(ngModel)]="agenciaconsig" name="agenciaconsig">
-                <option *ngFor="let item of agenciasconsig" [ngValue]="item">{{item.valor}}</option>
+            <label class="control-label">Tipo Movimiento</label>
+            <select class="form-control" name="tipoMov" [disabled]="isSeparacion" [(ngModel)]="tipoMov">
+                <option value="13">Previo</option>
+                <option value="14">Separación</option>
             </select>
         </div>
     </div>
 
-    <div class="row" *ngIf="tipoSoli == '1'">
-        <div class="checkbox col-md-6">
-            <label>
-                <input type="checkbox" [(ngModel)]="infoRelativa" name="infoRelativa"> Información relativa a la
-                violación, daño o extravío de los bultos o mercancías almacenados.
-            </label>
-        </div>
-    </div>
-    <div class="alert alert-warning" *ngIf="msjConsulta">
-        {{msjConsulta}}
-    </div>
-</form>
-<ng-container *ngIf="tipoSoli == '2'">
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label class="control-label">Tipo Salida</label>
-            <select class="form-control" name="tipoSalida" [(ngModel)]="tipoSalida">
-                <option value="91">Normal</option>
-                <option value="92">Transferencia</option>
-            </select>
-        </div>
-        <div class="form-group col-md-8" *ngIf="tipoSalida == '92'">
-            <label class="control-label">Recinto Origen</label>
-            <select class="form-control" name="recintoOrigen" [(ngModel)]="recintoOrigen" disabled>
-                <option *ngFor="let item of recintos" [value]="item.clave">{{item.nombre}}</option>
-            </select>
-        </div>
-        <div class="form-group col-md-12" *ngIf="tipoSalida == '92'">
-            <label class="control-label">Recinto Destino</label>
-            <select class="form-control" name="recintoDestino" [(ngModel)]="recintoDestino">
-                <option *ngFor="let item of recintos" [value]="item.clave">{{item.nombre}}</option>
-            </select>
-        </div>
-    </div>
-    <div class="row" *ngIf="tipoSalida == '92'">
+    <div class="row" *ngIf="tipoMov == '13'">
         <div class="form-group col-md-6">
             <label>B/L Revalidado</label>
             <input type="file" (change)="handleUpload($event, 'bl_revalidado')">
-        </div>
-        <div class="form-group col-md-6">
-            <label>Tarja</label>
-            <input type="file" (change)="handleUpload($event, 'tarja')">
-
         </div>
         <div class="form-group col-md-6">
             <label>Solicitud</label>
             <input type="file" (change)="handleUpload($event, 'solicitud')">
         </div>
     </div>
-</ng-container>
-<div class="row" *ngIf="tipoSoli == '3' && bls.length > 0">
-    <div class="form-group col-md-4">
-        <label class="control-label">Tipo Movimiento</label>
-        <select class="form-control" name="tipoMov" [disabled]="isSeparacion" [(ngModel)]="tipoMov">
-            <option value="13">Previo</option>
-            <option value="14">Separación</option>
-        </select>
-    </div>
-</div>
 
-<div class="row" *ngIf="tipoMov == '13'">
-    <div class="form-group col-md-6">
-        <label>B/L Revalidado</label>
-        <input type="file" (change)="handleUpload($event, 'bl_revalidado')">
-    </div>
-    <div class="form-group col-md-6">
-        <label>Solicitud</label>
-        <input type="file" (change)="handleUpload($event, 'solicitud')">
-    </div>
-</div>
-
-<ng-container *ngIf="blliber.length > 0 && tipoSoli == '2' && tipoSalida == '91'">
-    <h4>Liberación</h4>
-    <hr class="red" />
-    <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
+    <ng-container *ngIf="blliber.length > 0 && tipoSoli == '2' && tipoSalida == '91'">
+        <h4>Liberación</h4>
+        <hr class="red" />
+        <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr style="cursor: pointer">
+                        <th></th>
+                        <th style="white-space: nowrap;">BL </th>
+                        <th style="white-space: nowrap;">Clave Pedimento </th>
+                        <th style="white-space: nowrap;">Tipo Pedimento</th>
+                        <th style="white-space: nowrap;">Número de Pedimento</th>
+                        <th style="white-space: nowrap;">Tipo Cambio</th>
+                        <th style="white-space: nowrap;">Valor Aduana </th>
+                        <th style="white-space: nowrap;">Piezas </th>
+                        <th style="white-space: nowrap;">Peso </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of blliber; let i = index">
+                        <td style="vertical-align: middle; text-align: center;"> <input type="radio" name="selectbl"
+                                [(ngModel)]="indexLib" (change)="salidaLiberacion()" [value]="i"></td>
+                        <td>{{item.solicitudBL}}</td>
+                        <td>{{item.solicitudClavePedimento}}</td>
+                        <td>{{item.solicitudTipoPedimento}}</td>
+                        <td>{{item.solicitudNumPedimento}}</td>
+                        <td>{{item.solicitudtipoCambio}}</td>
+                        <td>{{item.solicitudValorAduana}}</td>
+                        <td>{{item.solicitudPiezas}}</td>
+                        <td>{{item.solicitudPeso}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="blliber.length == 0 && tipoSoli == '2' && tipoSalida == '91'">
+        <div class="alert alert-warning">
+            El bl debe tener una liberación previa
+        </div>
+    </ng-container>
+    <ng-container *ngIf="blmovimiento.length > 0 && (tipoSoli == '3' || tipoSoli == '4')">
+        <h4>Movimientos Separación</h4>
+        <hr class="red" />
+        <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr style="cursor: pointer">
+                        <th *ngIf="tipoSoli == '4'"></th>
+                        <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                            data-name="bl">BL <span class="glyphicon glyphicon-sort"></span></th>
+                        <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                            data-name="embarcador">Embarcador <span class="glyphicon glyphicon-sort"></span></th>
+                        <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                            data-name="consignatario">Consignatario
+                            <span class="glyphicon glyphicon-sort"></span>
+                        </th>
+                        <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                            data-name="notificarA">Notificar a <span class="glyphicon glyphicon-sort"></span></th>
+                        <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                            data-name="marcasNumeros">Marcas y Números
+                            <span class="glyphicon glyphicon-sort"></span>
+                        </th>
+                        <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                            data-name="cantidad">Cantidad <span class="glyphicon glyphicon-sort"></span></th>
+                        <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                            data-name="unidad">Unidad <span class="glyphicon glyphicon-sort"></span></th>
+                        <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                            data-name="descripcion">Descripción <span class="glyphicon glyphicon-sort"></span></th>
+                        <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                            data-name="pesoBruto">Peso Bruto (KG) <span class="glyphicon glyphicon-sort"></span></th>
+                        <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
+                            data-name="volumen">Volumen <span class="glyphicon glyphicon-sort"></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of blmovimiento; let i = index">
+                        <td *ngIf="tipoSoli == '4'" style="vertical-align: middle; text-align: center;"> <input
+                                type="radio" name="selectbl" [(ngModel)]="indexBl" [value]="i"></td>
+                        <td>{{item.bl}}<br><b>{{item.Tipo}}</b></td>
+                        <td>{{item.embarcador}}</td>
+                        <td>{{item.consignatario}}</td>
+                        <td>{{item.notificarA}}</td>
+                        <td>{{item.marcasNumeros}}</td>
+                        <td>{{item.movimientoCant}}</td>
+                        <td>{{item.unidad}}</td>
+                        <td>{{item.descripcion}}</td>
+                        <td>{{item.movimientoPeso}}</td>
+                        <td>{{item.movimientovolumen}}</td>
+                    </tr>
+                    <tr *ngIf="tipoSoli == '4'">
+                        <td style="vertical-align: middle; text-align: center;"> <input type="radio" name="selectbl"
+                                [(ngModel)]="indexBl" [value]="-1"></td>
+                        <td>{{restantes.bl}}<br><b>Restante</b></td>
+                        <td>{{blmovimiento[0]?.embarcador}}</td>
+                        <td>{{blmovimiento[0]?.consignatario}}</td>
+                        <td>{{blmovimiento[0]?.notificarA}}</td>
+                        <td>{{blmovimiento[0]?.marcasNumeros}}</td>
+                        <td><b>Cantidad Disponible</b><br>{{restantes.disponibleCantidad}}<br><b>Total
+                                Cantidad</b><br>{{restantes.totalMovimientoCantidad}}</td>
+                        <td>{{blmovimiento[0]?.unidad}}</td>
+                        <td>{{blmovimiento[0]?.descripcion}}</td>
+                        <td><b>Peso Disponible</b><br>{{restantes.disponiblePeso}}<br><b>Total
+                                Peso</b><br>{{restantes.totalMovimientoPeso}}</td>
+                        <td><b>Total Volumen</b><br>{{restantes.totalMovimientoVolumen}}<br><b>Total
+                                Volumen</b><br>{{restantes.totalMovimientoVolumen}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-container>
+    <br>
+    <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;" *ngIf="bls.length>0">
         <table class="table table-bordered table-striped">
             <thead>
                 <tr style="cursor: pointer">
-                    <th></th>
                     <th style="white-space: nowrap;">BL </th>
-                    <th style="white-space: nowrap;">Clave Pedimento </th>
-                    <th style="white-space: nowrap;">Tipo Pedimento</th>
-                    <th style="white-space: nowrap;">Número de Pedimento</th>
-                    <th style="white-space: nowrap;">Tipo Cambio</th>
-                    <th style="white-space: nowrap;">Valor Aduana </th>
-                    <th style="white-space: nowrap;">Piezas </th>
-                    <th style="white-space: nowrap;">Peso </th>
+                    <th style="white-space: nowrap;">Embarcador </th>
+                    <th style="white-space: nowrap;">Consignatario</th>
+                    <th style="white-space: nowrap;">Notificar a </th>
+                    <th style="white-space: nowrap;">Marcas y Números</th>
+                    <th style="white-space: nowrap;">Cantidad </th>
+                    <th style="white-space: nowrap;">Unidad </th>
+                    <th style="white-space: nowrap;">Descripción </th>
+                    <th style="white-space: nowrap;">Peso Bruto (KG) </th>
+                    <th style="white-space: nowrap;">Volumen </th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of blliber; let i = index">
-                    <td style="vertical-align: middle; text-align: center;"> <input type="radio" name="selectbl"
-                            [(ngModel)]="indexLib" (change)="salidaLiberacion()" [value]="i"></td>
-                    <td>{{item.solicitudBL}}</td>
-                    <td>{{item.solicitudClavePedimento}}</td>
-                    <td>{{item.solicitudTipoPedimento}}</td>
-                    <td>{{item.solicitudNumPedimento}}</td>
-                    <td>{{item.solicitudtipoCambio}}</td>
-                    <td>{{item.solicitudValorAduana}}</td>
-                    <td>{{item.solicitudPiezas}}</td>
-                    <td>{{item.solicitudPeso}}</td>     
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</ng-container>
-<ng-container *ngIf="blliber.length == 0 && tipoSoli == '2' && tipoSalida == '91'">
-<div class="alert alert-warning">
-    El bl debe tener una liberación previa
-</div>
-</ng-container>
-<ng-container *ngIf="blmovimiento.length > 0 && (tipoSoli == '3' || tipoSoli == '4')">
-    <h4>Movimientos Separación</h4>
-    <hr class="red" />
-    <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr style="cursor: pointer">
-                    <th *ngIf="tipoSoli == '4'"></th>
-                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                        data-name="bl">BL <span class="glyphicon glyphicon-sort"></span></th>
-                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                        data-name="embarcador">Embarcador <span class="glyphicon glyphicon-sort"></span></th>
-                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                        data-name="consignatario">Consignatario
-                        <span class="glyphicon glyphicon-sort"></span>
-                    </th>
-                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                        data-name="notificarA">Notificar a <span class="glyphicon glyphicon-sort"></span></th>
-                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                        data-name="marcasNumeros">Marcas y Números
-                        <span class="glyphicon glyphicon-sort"></span>
-                    </th>
-                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                        data-name="cantidad">Cantidad <span class="glyphicon glyphicon-sort"></span></th>
-                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                        data-name="unidad">Unidad <span class="glyphicon glyphicon-sort"></span></th>
-                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                        data-name="descripcion">Descripción <span class="glyphicon glyphicon-sort"></span></th>
-                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                        data-name="pesoBruto">Peso Bruto (KG) <span class="glyphicon glyphicon-sort"></span></th>
-                    <th style="white-space: nowrap;" scope="col" [appSort]="blmovimiento" data-order="desc"
-                        data-name="volumen">Volumen <span class="glyphicon glyphicon-sort"></span></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of blmovimiento; let i = index">
-                    <td *ngIf="tipoSoli == '4'" style="vertical-align: middle; text-align: center;"> <input type="radio"
-                            name="selectbl" [(ngModel)]="indexBl" [value]="i"></td>
-                    <td>{{item.bl}}<br><b>{{item.Tipo}}</b></td>
+                <tr *ngFor="let item of bls; let i = index"
+                    [ngStyle]="{'background-color': i > 0 ? '#A9A9A9' : '#FFF'}">
+                    <td>{{item.bl}}</td>
                     <td>{{item.embarcador}}</td>
                     <td>{{item.consignatario}}</td>
                     <td>{{item.notificarA}}</td>
                     <td>{{item.marcasNumeros}}</td>
-                    <td>{{item.movimientoCant}}</td>
+                    <td>{{item.cantidad}}</td>
                     <td>{{item.unidad}}</td>
                     <td>{{item.descripcion}}</td>
-                    <td>{{item.movimientoPeso}}</td>
-                    <td>{{item.movimientovolumen}}</td>
+                    <td>{{item.pesoBruto}}</td>
+                    <td>{{item.volumen}}</td>
                 </tr>
-                <tr *ngIf="tipoSoli == '4'">
-                    <td style="vertical-align: middle; text-align: center;"> <input type="radio" name="selectbl"
-                            [(ngModel)]="indexBl" [value]="-1"></td>
-                    <td>{{restantes.bl}}<br><b>Restante</b></td>
-                    <td>{{blmovimiento[0]?.embarcador}}</td>
-                    <td>{{blmovimiento[0]?.consignatario}}</td>
-                    <td>{{blmovimiento[0]?.notificarA}}</td>
-                    <td>{{blmovimiento[0]?.marcasNumeros}}</td>
-                    <td><b>Cantidad Disponible</b><br>{{restantes.disponibleCantidad}}<br><b>Total
-                            Cantidad</b><br>{{restantes.totalMovimientoCantidad}}</td>
-                    <td>{{blmovimiento[0]?.unidad}}</td>
-                    <td>{{blmovimiento[0]?.descripcion}}</td>
-                    <td><b>Peso Disponible</b><br>{{restantes.disponiblePeso}}<br><b>Total
-                            Peso</b><br>{{restantes.totalMovimientoPeso}}</td>
-                    <td><b>Total Volumen</b><br>{{restantes.totalMovimientoVolumen}}<br><b>Total
-                            Volumen</b><br>{{restantes.totalMovimientoVolumen}}</td>
-                </tr>
+
+
             </tbody>
         </table>
     </div>
-</ng-container>
-<br>
-<div class="table-responsive" style="font-size: 0.65em; max-height: 500px;" *ngIf="bls.length>0">
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr style="cursor: pointer">
-                <th style="white-space: nowrap;">BL </th>
-                <th style="white-space: nowrap;">Embarcador </th>
-                <th style="white-space: nowrap;">Consignatario</th>
-                <th style="white-space: nowrap;">Notificar a </th>
-                <th style="white-space: nowrap;">Marcas y Números</th>
-                <th style="white-space: nowrap;">Cantidad </th>
-                <th style="white-space: nowrap;">Unidad </th>
-                <th style="white-space: nowrap;">Descripción </th>
-                <th style="white-space: nowrap;">Peso Bruto (KG) </th>
-                <th style="white-space: nowrap;">Volumen </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of bls; let i = index" [ngStyle]="{'background-color': i > 0 ? '#A9A9A9' : '#FFF'}">
-                <td>{{item.bl}}</td>
-                <td>{{item.embarcador}}</td>
-                <td>{{item.consignatario}}</td>
-                <td>{{item.notificarA}}</td>
-                <td>{{item.marcasNumeros}}</td>
-                <td>{{item.cantidad}}</td>
-                <td>{{item.unidad}}</td>
-                <td>{{item.descripcion}}</td>
-                <td>{{item.pesoBruto}}</td>
-                <td>{{item.volumen}}</td>
-            </tr>
+    <br>
+
+    <div *ngIf="tipoSoli == '2' && tipoSalida == '91'">
+        <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th style="white-space: nowrap;">BL</th>
+                        <th style="white-space: nowrap;">Tipo Salida</th>
+                        <th style="white-space: nowrap;">Recinto Origen</th>
+                        <th style="white-space: nowrap;">Recinto Destino</th>
+                        <th style="white-space: nowrap;">Cantidad</th>
+                        <th style="white-space: nowrap;">Peso</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of blsalida; let i = index">
+                        <td>{{item.BL}}</td>
+                        <td>{{item.salidaTipo == '91'? 'Normal' : 'Transferencia'}}</td>
+                        <td>{{item.salidaRecintoOrigen}}</td>
+                        <td>{{item.salidaRecintoDestino}}</td>
+                        <td>{{item.salidaCantidad}}</td>
+                        <td>{{item.salidaPeso}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td><b>Cantidad sobrante: </b> {{totalCantidadSalida}}</td>
+                        <td colspan="2"><b>Peso Sobrante: </b> {{totalPesoSalida}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
 
-        </tbody>
-    </table>
-</div>
-<br>
+    </div>
+    <div class="row" *ngIf="tipoSoli == '2'">
 
-<div *ngIf="tipoSoli == '2' && tipoSalida == '91'">
-    <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
-        <table class="table table-bordered table-striped">
-          <thead>
-            <tr>
-              <th style="white-space: nowrap;">BL</th>
-              <th style="white-space: nowrap;">Tipo Salida</th>
-              <th style="white-space: nowrap;">Recinto Origen</th>
-              <th style="white-space: nowrap;">Recinto Destino</th>
-              <th style="white-space: nowrap;">Cantidad</th>
-              <th style="white-space: nowrap;">Peso</th>
+        <div class="form-group col-md-4">
+            <label class="control-label">Cantidad Salida</label>
+            <input type="text" class="form-control" name="cantidadSalida" [(ngModel)]="cantidadSalida" mask="0*.00">
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Peso Salida</label>
+            <input type="text" class="form-control" name="pesoSalida" [(ngModel)]="pesoSalida" mask="0*.00">
+        </div>
+    </div>
+    <div class="row" *ngIf="tipoSoli == '3' && tipoMov == '14'">
 
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of blsalida; let i = index">
-              <td>{{item.BL}}</td>
-              <td>{{item.salidaTipo == '91'? 'Normal' : 'Transferencia'}}</td>
-              <td>{{item.salidaRecintoOrigen}}</td>
-              <td>{{item.salidaRecintoDestino}}</td>
-              <td>{{item.salidaCantidad}}</td>
-              <td>{{item.salidaPeso}}</td>
-            </tr>
-            <tr>
-                <td colspan="3"></td>
-                <td><b>Cantidad sobrante: </b> {{totalCantidadSalida}}</td>
-                <td colspan="2"><b>Peso Sobrante: </b> {{totalPesoSalida}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      
-      
-</div>
-<div class="row" *ngIf="tipoSoli == '2'">
-
-    <div class="form-group col-md-4">
-        <label class="control-label">Cantidad Salida</label>
-        <input type="text" class="form-control" name="cantidadSalida" [(ngModel)]="cantidadSalida"  mask="0*.00">
-    </div>
-    <div class="form-group col-md-4">
-        <label class="control-label">Peso Salida</label>
-        <input type="text" class="form-control" name="pesoSalida" [(ngModel)]="pesoSalida"  mask="0*.00">
-    </div>
-</div>
-<div class="row" *ngIf="tipoSoli == '3' && tipoMov == '14'">
-
-    <div class="form-group col-md-4">
-        <label class="control-label">Cantidad Salida</label>
-        <input type="text" class="form-control" name="nuevacantidad" [(ngModel)]="nuevacantidad">
-    </div>
-    <div class="form-group col-md-4">
-        <label class="control-label">Peso Salida</label>
-        <input type="text" class="form-control" name="nuevopeso" [(ngModel)]="nuevopeso">
-    </div>
-    <div class="col-md-4">
-        <button type="button" class="btn btn-sm btn-primary" style="margin-top: 33px;" (click)="addNuevosDatosBL()"
-            [disabled]="!nuevopeso || !nuevacantidad|| bls.length > 1">Agregar</button>
-    </div>
-</div>
-<ng-container *ngIf="tipoSoli == '4'">
-    <div class="row">
-        <div class="form-group col-md-6">
-            <label>Pedimento Simplificado</label>
-            <input type="file" (change)="handleUpload($event, 'pedimento_simplificado')" name="pedSim"
-                [(ngModel)]="pedSim">
-        </div>
-        <div class="form-group col-md-6">
-            <label>Pedimento Completo</label>
-            <input type="file" (change)="handleUpload($event, 'pedimento_completo')" name="pedCom" [(ngModel)]="pedCom">
-        </div>
-        <div class="form-group col-md-6">
-            <label>B/L Revalidado</label>
-            <input type="file" (change)="handleUpload($event, 'bl_revalidado')" name="blRev" [(ngModel)]="blRev">
-        </div>
-    </div>
-    <div class="row">
         <div class="form-group col-md-4">
-            <label>Clave Pedimento</label>
-            <select class="form-control" name="clavePedimento" [(ngModel)]="clavePedimento">
-                <option *ngFor="let item of clavesPedimento" [value]="item.catalogoDetNombre">{{item.catalogoDetNombre}}
-                </option>
-            </select>
+            <label class="control-label">Cantidad Salida</label>
+            <input type="text" class="form-control" name="nuevacantidad" [(ngModel)]="nuevacantidad">
         </div>
         <div class="form-group col-md-4">
-            <label>Tipo Pedimento</label>
-            <select class="form-control" name="tipoPedimento" [(ngModel)]="tipoPedimento">
-                <option *ngFor="let item of tiposPedimentos" [value]="item.id">{{item.descripcion}}</option>
-            </select>
-        </div>
-        <div class="form-group col-md-4" *ngIf="tipoPedimento == 2">
-            <label>Número de Partes</label>
-            <input type="text" class="form-control" name="numeroPartes" [(ngModel)]="numeroPartes">
-        </div>
-        <div class="form-group col-md-4" *ngIf="tipoPedimento == 3">
-            <label>Número de Copias</label>
-            <input type="text" class="form-control" name="numeroCopias" [(ngModel)]="numeroCopias">
-        </div>
-        <div class="form-group col-md-4" *ngIf="tipoPedimento == 4">
-            <label>COVE</label>
-            <input type="text" class="form-control" name="cove" [(ngModel)]="cove">
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label>Número Pedimento</label>
-            <input type="text" class="form-control" name="numeroPedimento" mask="00-00-0000-0000000" [dropSpecialCharacters]="false" placeholder="00-00-0000-0000000" [(ngModel)]="numeroPedimento" required>
-        </div>
-        <div class="form-group col-md-4">
-            <label>Tipo de Cambio</label>
-            <input type="text" class="form-control" name="tipoCambio" [(ngModel)]="tipoCambio">
-        </div>
-        <div class="form-group col-md-4">
-            <label>Valor en Aduana</label>
-            <input type="text" class="form-control" name="valorAduana" [(ngModel)]="valorAduana">
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label>Piezas</label>
-            <input type="text" class="form-control" name="liberacionPiezas" [(ngModel)]="liberacionPiezas">
-        </div>
-        <div class="form-group col-md-4">
-            <label>Peso</label>
-            <input type="text" class="form-control" name="liberacionPeso" [(ngModel)]="liberacionPeso">
+            <label class="control-label">Peso Salida</label>
+            <input type="text" class="form-control" name="nuevopeso" [(ngModel)]="nuevopeso">
         </div>
         <div class="col-md-4">
-
-            <button class="btn btn-sm btn-primary" style="margin-top: 32px;" (click)="addLiberacion()" [disabled]="blmovimiento.length > 0 && indexBl == undefined">Agregar</button>
+            <button type="button" class="btn btn-sm btn-primary" style="margin-top: 33px;" (click)="addNuevosDatosBL()"
+                [disabled]="!nuevopeso || !nuevacantidad|| bls.length > 1">Agregar</button>
         </div>
     </div>
-    <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
-        <table class="table table-striped table-bordered" *ngIf="liberacion.length > 0">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Archivos</th>
-                    <th>Clave Pedimento</th>
-                    <th>Tipo Pedimento</th>
-                    <th>Número Pedimento</th>
-                    <th>Tipo Cambio</th>
-                    <th>Valor Aduana</th>
-                    <th>Piezas</th>
-                    <th>Peso</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of liberacion; let i = index">
-                    <td><button class="btn btn-xs btn-primary" (click)="liberacion.splice(i, 1)">Eliminar</button></td>
-                    <td>{{item.docPedimentoSimplificado?.nombre}}<br>{{item.docPedimentoCompleto?.nombre}}<br>{{item.documentoBLRevalidado?.nombre}}
-                    </td>
-                    <td>{{item.clavePedimento}}</td>
-                    <td>{{item.tipoPedimento}}</td>
-                    <td>{{item.numeroPedimento}}</td>
-                    <td>{{item.tipoCambio}}</td>
-                    <td>{{item.valorAduana}}</td>
-                    <td>{{item.piezas}}</td>
-                    <td>{{item.peso}}</td>
-                </tr>
-            </tbody>
-        </table>
+    <ng-container *ngIf="tipoSoli == '4'">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Pedimento Simplificado</label>
+                <input type="file" (change)="handleUpload($event, 'pedimento_simplificado')" name="pedSim"
+                    [(ngModel)]="pedSim">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Pedimento Completo</label>
+                <input type="file" (change)="handleUpload($event, 'pedimento_completo')" name="pedCom"
+                    [(ngModel)]="pedCom">
+            </div>
+            <div class="form-group col-md-6">
+                <label>B/L Revalidado</label>
+                <input type="file" (change)="handleUpload($event, 'bl_revalidado')" name="blRev" [(ngModel)]="blRev">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label>Clave Pedimento</label>
+                <select class="form-control" name="clavePedimento" [(ngModel)]="clavePedimento">
+                    <option *ngFor="let item of clavesPedimento" [value]="item.catalogoDetNombre">
+                        {{item.catalogoDetNombre}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label>Tipo Pedimento</label>
+                <select class="form-control" name="tipoPedimento" [(ngModel)]="tipoPedimento">
+                    <option *ngFor="let item of tiposPedimentos" [value]="item.id">{{item.descripcion}}</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4" *ngIf="tipoPedimento == 2">
+                <label>Número de Partes</label>
+                <input type="text" class="form-control" name="numeroPartes" [(ngModel)]="numeroPartes">
+            </div>
+            <div class="form-group col-md-4" *ngIf="tipoPedimento == 3">
+                <label>Número de Copias</label>
+                <input type="text" class="form-control" name="numeroCopias" [(ngModel)]="numeroCopias">
+            </div>
+            <div class="form-group col-md-4" *ngIf="tipoPedimento == 4">
+                <label>COVE</label>
+                <input type="text" class="form-control" name="cove" [(ngModel)]="cove">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label>Número Pedimento</label>
+                <input type="text" class="form-control" name="numeroPedimento" mask="00-00-0000-0000000"
+                    [dropSpecialCharacters]="false" placeholder="00-00-0000-0000000" [(ngModel)]="numeroPedimento"
+                    required>
+            </div>
+            <div class="form-group col-md-4">
+                <label>Tipo de Cambio</label>
+                <input type="text" class="form-control" name="tipoCambio" [(ngModel)]="tipoCambio">
+            </div>
+            <div class="form-group col-md-4">
+                <label>Valor en Aduana</label>
+                <input type="text" class="form-control" name="valorAduana" [(ngModel)]="valorAduana">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label>Piezas</label>
+                <input type="text" class="form-control" name="liberacionPiezas" [(ngModel)]="liberacionPiezas">
+            </div>
+            <div class="form-group col-md-4">
+                <label>Peso</label>
+                <input type="text" class="form-control" name="liberacionPeso" [(ngModel)]="liberacionPeso">
+            </div>
+            <div class="col-md-4">
+
+                <button class="btn btn-sm btn-primary" style="margin-top: 32px;" (click)="addLiberacion()"
+                    [disabled]="blmovimiento.length > 0 && indexBl == undefined">Agregar</button>
+            </div>
+        </div>
+        <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
+            <table class="table table-striped table-bordered" *ngIf="liberacion.length > 0">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Archivos</th>
+                        <th>Clave Pedimento</th>
+                        <th>Tipo Pedimento</th>
+                        <th>Número Pedimento</th>
+                        <th>Tipo Cambio</th>
+                        <th>Valor Aduana</th>
+                        <th>Piezas</th>
+                        <th>Peso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of liberacion; let i = index">
+                        <td><button class="btn btn-xs btn-primary" (click)="liberacion.splice(i, 1)">Eliminar</button>
+                        </td>
+                        <td>{{item.docPedimentoSimplificado?.nombre}}<br>{{item.docPedimentoCompleto?.nombre}}<br>{{item.documentoBLRevalidado?.nombre}}
+                        </td>
+                        <td>{{item.clavePedimento}}</td>
+                        <td>{{item.tipoPedimento}}</td>
+                        <td>{{item.numeroPedimento}}</td>
+                        <td>{{item.tipoCambio}}</td>
+                        <td>{{item.valorAduana}}</td>
+                        <td>{{item.piezas}}</td>
+                        <td>{{item.peso}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-container>
+
+    <br>
+    <div class="alert alert-success" *ngIf="hasSuccessBL">
+        {{blmsj}}
     </div>
-</ng-container>
+    <div class="alert alert-warning" *ngIf="hasErrorPesos">
+        {{msjErrorpesos}}
+    </div>
+    <div class="alert alert-success" *ngIf="msjSuccess">
+        {{msjSuccess}}
+    </div>
+    <div class="alert alert-danger" *ngIf="msjerror">
+        {{msjSuccess}}
+    </div>
+    <div class="alert alert-warning" *ngIf="msjWarn">
+        {{msjWarn}}
+    </div>
 
-<br>
-<div class="alert alert-success" *ngIf="hasSuccessBL">
-    {{blmsj}}
+    <button type="button" class="btn btn-default" routerLink="/recinto">Regresar</button>
+    <button type="button" class="btn btn-primary" style="margin-left: 15px;" (click)="guardarSolicitud()"
+        [disabled]="bls.length < 1 || (tipoSoli == '4' && liberacion.length < 0) || (tipoSoli == '2' && blliber.length == 0 && tipoSalida == '91')">
+        Guardar</button>
 </div>
-<div class="alert alert-warning" *ngIf="hasErrorPesos">
-    {{msjErrorpesos}}
-</div>
-<div class="alert alert-success" *ngIf="msjSuccess">
-    {{msjSuccess}}
-</div>
-<div class="alert alert-danger" *ngIf="msjerror">
-    {{msjSuccess}}
-</div>
-<div class="alert alert-warning" *ngIf="msjWarn">
-    {{msjWarn}}
-</div>
-
-<button type="button" class="btn btn-default" routerLink="/recinto">Regresar</button>
-<button type="button" class="btn btn-primary" style="margin-left: 15px;" (click)="guardarSolicitud()"
-    [disabled]="bls.length < 1 || (tipoSoli == '4' && liberacion.length < 0) || (tipoSoli == '2' && blliber.length == 0 && tipoSalida == '91')"> Guardar</button>

@@ -45,6 +45,7 @@ export class SolicitudServicioComponent implements OnInit {
   criterio = 'bl';
   buscador = '';
   clavesPedimento:any[] = [];
+ 
   tiposPedimentos = [
     { id: 1, descripcion: 'Normal' },
     { id: 2, descripcion: 'Parte 2' },
