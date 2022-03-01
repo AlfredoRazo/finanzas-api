@@ -31,6 +31,12 @@ export class PagosTableComponent implements OnInit {
   collSize = 10;
   descPaginado = '';
   data: any = [];
+  datosContribuyente = {
+    cp: '',
+    rfc: '',
+    nombre_razonsocial: '',
+    regimen: ''
+  };
   isPagar = false;
   filtrarpor: any;
   filter: any[] = [

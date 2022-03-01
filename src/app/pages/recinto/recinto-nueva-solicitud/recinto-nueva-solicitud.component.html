@@ -6,7 +6,6 @@
     <li role="presentation" class="active"><a>Solicitudes de servicio</a></li>
 </ul-->
 <br>
-<br>
 
 <div class="row">
     <div class="form-group col-md-4">
@@ -81,7 +80,7 @@
                     [(ngModel)]="exportacionPayload.viaje" required>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-sm btn-primary" (click)="buscarBuqueViaje()"
+                <button class="btn btn-sm btn-primary" (click)="buscarBuqueViaje()" [disabled]="!exportacionPayload.buque || !exportacionPayload.viaje"
                     style="margin-top: 30px;">Buscar</button>
             </div>
         </div>
@@ -424,14 +423,14 @@
             <div class="col-md-4">
                 <div class="form-group datepicker-group">
                     <label class="control-label">Fecha de arribo</label>
-                    <input type="text" class="form-control" id="fecha-arribo">
+                    <input type="text" class="form-control" id="fecha-arribo" [(ngModel)]="fechaArribo" name="farribo" [disabled]="disabledBV">
                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group datepicker-group">
                     <label class="control-label">Fecha de inicio de operaciones</label>
-                    <input type="text" class="form-control" id="fecha-inicio-operaciones">
+                    <input type="text" class="form-control" id="fecha-inicio-operaciones" name="ffinop" [(ngModel)]="fechaInicioOp" [disabled]="disabledBV">
                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                 </div>
             </div>
@@ -440,7 +439,7 @@
             <div class="col-md-4">
                 <div class="form-group datepicker-group">
                     <label class="control-label">Fecha de termino de operaciones</label>
-                    <input type="text" class="form-control" id="fecha-termino-operaciones">
+                    <input type="text" class="form-control" id="fecha-termino-operaciones" name="fterminoop" [(ngModel)]="fechaTerminoOp" [disabled]="disabledBV">
                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                 </div>
             </div>
@@ -449,7 +448,7 @@
             <div class="col-md-4">
                 <div class="form-group datepicker-group">
                     <label class="control-label">Fecha de zarpe</label>
-                    <input type="text" class="form-control" id="fecha-zarpe">
+                    <input type="text" class="form-control" id="fecha-zarpe" name="fechazarpee" [(ngModel)]="fechaZarpe" [disabled]="disabledBV">
                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                 </div>
             </div>
@@ -459,11 +458,15 @@
                     <option *ngFor="let item of lineasnavieras" [ngValue]="item">{{item.valor}}</option>
                 </select>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-4" *ngIf="!disabledBV">
                 <label class="control-label">Agencia consignataria</label>
                 <select class="form-control" [(ngModel)]="agenciaconsig" name="agenciaconsig">
-                    <option *ngFor="let item of agenciasconsig" [ngValue]="item">{{item.valor}}</option>
+                    <option *ngFor="let item of agenciasconsig" name="agenciacons" [ngValue]="item">{{item.valor}}</option>
                 </select>
+            </div>
+            <div class="form-group col-md-4" *ngIf="disabledBV">
+                <label class="control-label">Agencia consignataria</label>
+                <input type="text" class="form-control" [(ngModel)]="agenciaconsig.valor" name="agenciaShow" [disabled]="disabledBV">
             </div>
         </div>
 

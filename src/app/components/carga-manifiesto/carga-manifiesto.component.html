@@ -3,29 +3,62 @@
 </ng-template>
 
 <div class="row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-5">
         <label class="control-label">Nombre de buque</label>
         <input type="text" class="form-control" [(ngModel)]="buque" name="buque" [ngbTypeahead]="search"
             [inputFormatter]="formatter" [resultTemplate]="rt">
     </div>
-    <div class="form-group col-md-6">
-        <label class="control-label">Manifiesto</label>
-        <input type="text" class="form-control" name="manifiesto" [(ngModel)]="manifiesto">
+    <div class="form-group col-md-5">
+        <label class="control-label">Viaje</label>
+        <input type="text" class="form-control" name="viaje" [(ngModel)]="viaje">
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-sm btn-primary" (click)="buscarBuqueViaje()" [disabled]="!buque || !viaje"
+            style="margin-top: 30px;">Buscar</button>
     </div>
 </div>
 <div class="row">
     <div class="col-md-6 form-group ">
         <div class="datepicker-group">
             <label class="control-label">Fecha de arribo</label>
-            <input type="text" class="form-control" id="fecha" [(ngModel)]="fechaarribo" name="fechaarribo">
+            <input type="text" class="form-control" id="fecha" [(ngModel)]="fechaarribo" name="fechaarribo" [disabled]="disabledFechaArribo"> 
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
     </div>
     <div class="form-group col-md-6">
-        <label class="control-label">Viaje</label>
-        <input type="text" class="form-control" name="viaje" [(ngModel)]="viaje">
+        <label class="control-label">Manifiesto</label>
+        <input type="text" class="form-control" name="manifiesto" [(ngModel)]="manifiesto">
     </div>
+ 
 </div>
+<table *ngIf="buqueViaje" class="table table-bordered table-striped">
+    <tbody>
+        <tr>
+            <td><b>Buque</b></td>
+            <td>{{buqueViaje.nBuque}}</td>
+            <td><b>Viaje</b></td>
+            <td>{{buqueViaje.numero_viaje}}</td>
+        </tr>
+        <tr>
+            <td><b>Tipo Buque</b></td>
+            <td>{{buqueViaje.tipoBuque}}</td>
+            <td><b>Tipo Navegación</b></td>
+            <td>{{buqueViaje.tipoNavegacion}}</td>
+        </tr>
+        <tr>
+            <td><b>Fecha Arribo</b></td>
+            <td>{{buqueViaje.fechaArrivo | date: 'dd/MM/yyyy'}}</td>
+            <td><b>Fecha Zarpe</b></td>
+            <td>{{buqueViaje.fechaZarpe | date: 'dd/MM/yyyy'}}</td>
+        </tr>
+        <tr>
+            <td><b>Fecha Inicio de Operaciones</b></td>
+            <td>{{buqueViaje.inicio_operaciones | date: 'dd/MM/yyyy'}}</td>
+            <td><b>Fecha Termino de Operaciones</b></td>
+            <td>{{buqueViaje.termino_operaciones | date: 'dd/MM/yyyy'}}</td>
+        </tr>
+    </tbody>
+</table>
 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregar-data">Agregar <span
         class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
 <br>

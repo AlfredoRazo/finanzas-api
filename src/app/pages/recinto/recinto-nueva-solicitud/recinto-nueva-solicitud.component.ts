@@ -6,6 +6,7 @@ import { AuthService } from '@serv/auth.service';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { EstadoHechosService } from 'src/app/estado-hechos.service';
+import { format, parseISO } from 'date-fns';
 declare var $: any;
 export interface BLFile {
   bl: string;
@@ -45,6 +46,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   clientesRFC: any[] = [];
   cliente: any;
   clienteDetalle: any;
+  disabledBV = false;
   msjConsulta = '';
   msjSuccess = '';
   msjError = '';
@@ -90,6 +92,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   ismultiplebl = false;
   multiplebl: any;
   buqueViaje: any;
+  bvPayload: any = {};
   search: any = (text$: Observable<any>) =>
     text$.pipe(
       debounceTime(200),
@@ -248,14 +251,35 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
             }
             this.buque = this.bls[0]?.buque;
             this.viaje = this.bls[0]?.viaje;
-           if(res[1][0].idSolicitudMovimiento){
-            this.http.get<any>(`${environment.endpointRecinto}/api/solicitudLiberacion?idAPI=${apiid}&Referencia=${this.bl}&idLiberacion=${res[1][0]?.idSolicitudMovimiento}`).subscribe(resP => {
-              if (!resP[0].error) {
-                this.blliber = resP[0];
+            this.estadoHechos.getByBuqueViaje(this.buque, this.viaje).subscribe(
+              (res: any) => {
+                if (res[0][0]) {
+                  this.disabledBV = true;
+                  this.fechaArribo = format(parseISO(res[0][0].fechaArrivo), 'yyyy-MM-dd');
+                  this.fechaZarpe = format(parseISO(res[0][0].fechaZarpe), 'yyyy-MM-dd');
+                  this.fechaInicioOp = format(parseISO(res[0][0].inicio_operaciones), 'yyyy-MM-dd');
+                  this.fechaTerminoOp = format(parseISO(res[0][0].termino_operaciones), 'yyyy-MM-dd');
+                  this.agenciaconsig = { id: res[0][0].id_consignataria, valor: res[0][0].consignatariaStr, extra: null }
+                } else {
+
+                  this.disabledBV = false;
+                }
+              },
+              (err) => {
+
+                this.disabledBV = false;
               }
-            }, error => {
-            });
-          }
+            );
+            if (res[1][0]) {
+              if (res[1][0].idSolicitudMovimiento) {
+                this.http.get<any>(`${environment.endpointRecinto}/api/solicitudLiberacion?idAPI=${apiid}&Referencia=${this.bl}&idLiberacion=${res[1][0]?.idSolicitudMovimiento}`).subscribe(resP => {
+                  if (!resP[0].error) {
+                    this.blliber = resP[0];
+                  }
+                }, error => {
+                });
+              }
+            }
             this.http.get<any>(`${environment.endpointRecinto}/api/solicitudSalida?idAPI=${apiid}&referencia=${this.bl}`).subscribe(res => {
               if (res.length == 3) {
                 this.blsalida = res[0];
@@ -398,17 +422,17 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
 
     });
   }
-  buscarBuqueViaje(): void{
+  buscarBuqueViaje(): void {
     this.estadoHechos.getByBuqueViaje(this.exportacionPayload.buque, this.exportacionPayload.viaje).subscribe(
-      (res:any) =>{
-        if(res[0][0]){
+      (res: any) => {
+        if (res[0][0]) {
           this.buqueViaje = res[0][0];
-        }else{
+        } else {
           this.buqueViaje = null;
         }
       },
-      (err)=>{
-
+      (err) => {
+        this.buqueViaje = null;
       }
     );
 

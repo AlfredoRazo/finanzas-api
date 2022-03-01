@@ -5,6 +5,8 @@ import { AuthService } from '@serv/auth.service';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { EstadoHechosService } from 'src/app/estado-hechos.service';
+import {format, parseISO} from 'date-fns';
 declare var $: any;
 
 export interface CargaManifiesto {
@@ -47,6 +49,9 @@ export class CargaManifiestoComponent implements OnInit {
   catalogos = environment.endpoint + 'sapCatalogos?catalogo=';
   indexEdit: any;
   viaje: any;
+  disabledFechaArribo = false;
+  buqueViaje: any;
+
 
   search: any = (text$: Observable<any>) =>
     text$.pipe(
@@ -60,6 +65,7 @@ export class CargaManifiestoComponent implements OnInit {
   formatter = (x: { nombre: string }) => x.nombre;
 
   constructor(private auth: AuthService,
+    private estadoHechos: EstadoHechosService,
     private spinner: NgxSpinnerService,
     private http: HttpClient) { }
 
@@ -144,5 +150,24 @@ export class CargaManifiestoComponent implements OnInit {
       this.msj = err.error.mensaje;
       this.hasError = true;
     });
+  }
+  buscarBuqueViaje(): void{
+    this.estadoHechos.getByBuqueViaje(this.buque, this.viaje).subscribe(
+      (res:any) =>{
+        if(res[0][0]){
+          this.disabledFechaArribo = true;
+          this.buqueViaje = res[0][0];
+          this.fechaarribo = format(parseISO(this.buqueViaje.fechaArrivo), 'yyyy-MM-dd');
+        }else{
+          this.buqueViaje = null;
+          this.disabledFechaArribo = false;
+        }
+      },
+      (err)=>{
+        this.buqueViaje = null;
+        this.disabledFechaArribo = false;
+      }
+    );
+
   }
 }
