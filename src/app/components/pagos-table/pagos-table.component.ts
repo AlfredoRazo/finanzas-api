@@ -122,7 +122,7 @@ export class PagosTableComponent implements OnInit {
   }
 
   getCatalogoCFDI(): void{
-    let apiid = this.auth.getSession().userData.idAPI
+    let apiid = this.auth.getSession().userData.idAPI;
     this.http.get(`${environment.endpointApi}catUsoCFDI?idAPI=${apiid}`).subscribe((res: any)=> {
       this.catCFDI = res;
     });
@@ -194,6 +194,7 @@ export class PagosTableComponent implements OnInit {
   sendPago(banco: string, total: string): void {
    const monto = total.replace(/\$/g, '').replace(/\,/g, '');
    this.sendUsoCfdi();
+   this.sendDatosEmpresa();
    if (banco == 'santander') {
       const multiPagosform = document.createElement('form');
       const convenio = document.createElement('input');
@@ -330,6 +331,25 @@ export class PagosTableComponent implements OnInit {
     }
     let apiid = this.auth.getSession().userData.idAPI
     this.http.post(`${environment.endpointApi}catUsoCFDI?idAPI=${apiid}`, payload).subscribe((res: any)=>{
+      if(res.error == 0){
+      }
+    },error=>{});
+  }
+
+  sendDatosEmpresa(): void{
+    const val = this.catCFDI.filter(item =>{ return item.clave === this.cfdi });
+    const payload = 
+    {
+      appKey:environment.appKey,
+      idUsuario: this.auth.getSession().userData.idusuario,
+      rfc: this.datosContribuyente.rfc,
+      nombre:this.datosContribuyente.nombre_razonsocial,
+      cp: this.datosContribuyente.cp,
+      claveregimen: this.datosContribuyente.regimen,
+      tipoEmpresa: 601
+    }
+    let apiid = this.auth.getSession().userData.idAPI
+    this.http.post(`${environment.endpointApi}datosEmpresa?idAPI=${apiid}`, payload).subscribe((res: any)=>{
       if(res.error == 0){
       }
     },error=>{});
