@@ -5,7 +5,6 @@
 <!--ul class="nav nav-tabs">
     <li role="presentation" class="active"><a>Solicitudes de servicio</a></li>
 </ul-->
-<br>
 
 <div class="row">
     <div class="form-group col-md-4">
@@ -112,9 +111,11 @@
                 </tr>
             </tbody>
         </table>
+        <h4>Exportador</h4>
+        <hr class="red">
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="control-label">Razón Social Exportador </label>
+                <label class="control-label">Razón Social </label>
                 <input type="text" class="form-control" name="razon_social_exportador" maxlength="255"
                     [(ngModel)]="exportacionPayload.razon_social_exportador" required>
             </div>
@@ -122,7 +123,7 @@
         </div>
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="control-label">Dirección Exportador </label>
+                <label class="control-label">Dirección </label>
                 <input type="text" class="form-control" name="direccion_social_exportador" maxlength="500"
                     [(ngModel)]="exportacionPayload.direccion_social_exportador" required>
             </div>
@@ -130,26 +131,28 @@
         </div>
         <div class="row">
             <div class="form-group col-md-3">
-                <label class="control-label">C.P. Exportador </label>
+                <label class="control-label">C.P. </label>
                 <input type="text" class="form-control" name="cp_exportador" maxlength="5" mask="00000"
                     [(ngModel)]="exportacionPayload.cp_exportador" required>
             </div>
             <div class="form-group col-md-9">
-                <label class="control-label">Ciudad Exportador </label>
+                <label class="control-label">Ciudad </label>
                 <input type="text" class="form-control" name="ciudad_exportador" maxlength="255"
                     [(ngModel)]="exportacionPayload.ciudad_exportador" required>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-6">
-                <label class="control-label">RFC Exportador </label>
+                <label class="control-label">RFC </label>
                 <input type="text" class="form-control" name="rfc_exportador" maxlength="13"
                     [(ngModel)]="exportacionPayload.rfc_exportador" required>
             </div>
         </div>
+        <h4>Transportista</h4>
+        <hr class="red">
         <div class="row">
             <div class="form-group col-md-6">
-                <label class="control-label">Razón Social Transportista </label>
+                <label class="control-label">Razón Social </label>
                 <input type="text" class="form-control" name="razon_social_transportista" maxlength="255"
                     [(ngModel)]="exportacionPayload.razon_social_transportista" required>
             </div>
@@ -183,46 +186,47 @@
                     [(ngModel)]="exportacionPayload.num_caat" required>
             </div>
         </div>
-
+        <h4>Solicitante</h4>
+        <hr class="red">
         <div class="row">
             <div class="form-group col-md-4">
-                <label class="control-label">Tipo Solicitante</label>
+                <label class="control-label">Tipo</label>
                 <select class="form-control" name="tipo_solicitante" [(ngModel)]="exportacionPayload.tipo_solicitante"
                     required>
                     <option *ngFor="let item of tipoSolicitante" [value]="item.id">{{item.descripcion}}</option>
                 </select>
             </div>
             <div class="form-group col-md-4">
-                <label class="control-label">Nombre Solicitante</label>
+                <label class="control-label">Nombre</label>
                 <input type="text" class="form-control" name="nombre_solicitante" maxlength="255"
                     [(ngModel)]="exportacionPayload.nombre_solicitante" required>
             </div>
             <div class="form-group col-md-4">
-                <label class="control-label">Patente Solicitante </label>
+                <label class="control-label">Patente </label>
                 <input type="text" class="form-control" name="patente_solicitante" maxlength="4" mask="0000"
                     [(ngModel)]="exportacionPayload.patente_solicitante" required>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4">
-                <label class="control-label">RFC Solicitante</label>
+                <label class="control-label">RFC</label>
                 <input type="text" class="form-control" name="rfc_solicitante" maxlength="13"
                     [(ngModel)]="exportacionPayload.rfc_solicitante" required>
             </div>
             <div class="form-group col-md-8">
-                <label class="control-label">Domicilio Solicitante </label>
+                <label class="control-label">Domicilio </label>
                 <input type="text" class="form-control" name="domicilio_solicitante" maxlength="500"
                     [(ngModel)]="exportacionPayload.domicilio_solicitante" required>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4">
-                <label class="control-label">C.P. Solicitante</label>
+                <label class="control-label">C.P.</label>
                 <input type="text" class="form-control" maxlength="5" mask="00000" name="cp_solicitante"
                     [(ngModel)]="exportacionPayload.cp_solicitante" required>
             </div>
             <div class="form-group col-md-4">
-                <label class="control-label">Teléfono Solicitante</label>
+                <label class="control-label">Teléfono</label>
                 <input type="text" class="form-control" maxlength="11" mask="000-0000000"
                     [dropSpecialCharacters]="false" name="tel_solicitante"
                     [(ngModel)]="exportacionPayload.tel_solicitante" required>
@@ -233,6 +237,8 @@
                     [(ngModel)]="exportacionPayload.clave_usuario" required>
             </div>
         </div>
+        <h4></h4>
+        <hr class="red">
         <div class="row">
             <div class="form-group col-md-4">
                 <label class="control-label">Pedimento</label>

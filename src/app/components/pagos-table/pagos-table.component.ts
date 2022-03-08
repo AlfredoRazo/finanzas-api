@@ -59,7 +59,7 @@ export class PagosTableComponent implements OnInit {
   catCFDI:any[] = [];
   criterio: string = '';
   cfdi:any;
-
+  version:any;
   constructor(private http: HttpClient,
     private pagina: PaginateService,
     private help: HelpersService,
@@ -68,6 +68,7 @@ export class PagosTableComponent implements OnInit {
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
+    this.datosContribuyente.rfc = this.auth.getSession().userData.rfc
     this.getData();
     this.getCatalogoCFDI();
   }
