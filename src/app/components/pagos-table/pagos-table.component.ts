@@ -26,6 +26,7 @@ export class PagosTableComponent implements OnInit {
   totalPago = 0;
   pagePago = 0;
   filtro = false;
+  regimenes:any = [];
   filterData:any = [];
   originalData : any = [];
   collSize = 10;
@@ -194,7 +195,7 @@ export class PagosTableComponent implements OnInit {
   sendPago(banco: string, total: string): void {
    const monto = total.replace(/\$/g, '').replace(/\,/g, '');
    this.sendUsoCfdi();
-   this.sendDatosEmpresa();
+   //this.sendDatosEmpresa();
    if (banco == 'santander') {
       const multiPagosform = document.createElement('form');
       const convenio = document.createElement('input');
@@ -337,7 +338,6 @@ export class PagosTableComponent implements OnInit {
   }
 
   sendDatosEmpresa(): void{
-    const val = this.catCFDI.filter(item =>{ return item.clave === this.cfdi });
     const payload = 
     {
       appKey:environment.appKey,
@@ -353,6 +353,16 @@ export class PagosTableComponent implements OnInit {
       if(res.error == 0){
       }
     },error=>{});
+  }
+
+  getCatalogosRegimen(): void{
+    this.http.get(`${environment.endpointApi}catalogos?ncat=REGIMEN FISCAL`).subscribe((res: any) => {
+      this.regimenes = res;
+    },error =>{
+      this.regimenes = [];
+
+    })
+    
   }
 
 }

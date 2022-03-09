@@ -163,34 +163,40 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label class="control-label">Nombre / Razón Social</label>
-                    <input name="rfc" class="form-control" maxlength="250"
+                    <input name="nombre_razon" class="form-control" maxlength="250"
                         [(ngModel)]="datosContribuyente.nombre_razonsocial" />
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
                     <label class="control-label">C.P.</label>
-                    <input name="rfc" class="form-control" maxlength="5" mask="00000"
+                    <input name="cp" class="form-control" maxlength="5" mask="00000"
                         [(ngModel)]="datosContribuyente.cp" />
                 </div>
                 <div class="form-group col-md-6">
                     <label class="control-label">Regimen</label>
-                    <input name="rfc" class="form-control" maxlength="250" [(ngModel)]="datosContribuyente.regimen" />
+                    
+                    <select class="form-control" name="regimen" [(ngModel)]="datosContribuyente.regimen">
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let item of regimenes" [value]="item.cdetallekey">{{item.cdetallenombre}}</option>
+                    </select>
                 </div>
             </div>
+            <br>
+
         </ng-container>
         <div *ngIf="cfdi">
             <h4>Selecciona el banco a pagar: </h4>
             <br>
             <table style="width: 100%;">
                 <tr>
-                    <td><img style="cursor: pointer;" (click)="sendPago('santander',totalApagar.toString())"
+                    <td><img style="cursor: pointer;" (click)="sendDatosEmpresa();sendPago('santander',totalApagar.toString());"
                             src="assets/img/bancos/santander.gif" /></td>
                     <td><img style="cursor: pointer;" data-toggle="modal"
-                            (click)="sendPago('bbva',totalApagar.toString())" src="assets/img/bancos/bbva.gif" /></td>
-                    <td><img style="cursor: pointer;" (click)="sendPago('pispay',totalApagar.toString())" data-toggle="modal" data-target="#alerta"
+                            (click)="sendDatosEmpresa(); sendPago('bbva',totalApagar.toString());" src="assets/img/bancos/bbva.gif" /></td>
+                    <td><img style="cursor: pointer;" (click)="sendDatosEmpresa(); sendPago('pispay',totalApagar.toString());" data-toggle="modal" data-target="#alerta"
                             src="assets/img/bancos/pispay.jpeg" /></td>
-                    <td><img style="cursor: pointer;" (click)="sendPago('visamaster',totalApagar.toString())" data-toggle="modal" data-target="#alerta"
+                    <td><img style="cursor: pointer;" (click)="sendDatosEmpresa();sendPago('visamaster',totalApagar.toString());" data-toggle="modal" data-target="#alerta"
                             src="assets/img/bancos/visa-master.gif" /></td>
 
                 </tr>
