@@ -1,4 +1,23 @@
-<div *ngIf="!isPagar">
+<div [ngStyle]="{'display': isPagar ? 'hidden' : 'block' }">
+    <div class="row">
+        <label class="col-sm-2 control-label" style="text-align: left !important;">Filtrar: </label>
+        <div class="col-md-4">
+          <div class="form-group datepicker-group col-md-12">
+            <input type="text" class="form-control" id="fecha-inis" placeholder="Fecha Inicio" [(ngModel)]="fechaini" name="fechaini">
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group datepicker-group col-md-12">
+            <input type="text" class="form-control" id="fecha-fins" placeholder="Fecha Fin" [(ngModel)]="fechafin" name="fechafin">
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </div>
+        </div>
+        <div class="col-sm-2">
+          <button class="btn btn-danger btn-block btn-sm" type="button" (click)="getData()">Consultar <span class="glyphicon glyphicon-search"
+              aria-hidden="true"></span></button>
+        </div>
+      </div>
     <form class="form-horizontal">
         <div class="form-group">
             <label class="col-sm-2 control-label" style="text-align: left !important;">Filtrar por: </label>

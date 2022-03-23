@@ -7,6 +7,7 @@ import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { EstadoHechosService } from 'src/app/estado-hechos.service';
 import { format, parseISO } from 'date-fns';
+import { FinanzasService } from '@serv/finanzas.service';
 declare var $: any;
 export interface BLFile {
   bl: string;
@@ -206,6 +207,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
     private auth: AuthService,
     private estadoHechos: EstadoHechosService,
     private spinner: NgxSpinnerService,
+    private httpf: FinanzasService,
     public http: HttpClient) { }
 
   ngOnInit(): void {
@@ -416,7 +418,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
   getRecinto(): void {
     let apiid = this.auth.getSession().userData.idAPI;
 
-    this.http.get(`${environment.endpointApi}catRecintos?idAPI=${apiid}`).subscribe((res: any) => {
+    this.httpf.get(`catRecintos?idAPI=${apiid}`).subscribe((res: any) => {
       this.recintos = res;
     }, error => {
 
@@ -450,7 +452,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
 
   getClientes(): void {
     this.spinner.show();
-    this.http.get(`${environment.endpoint}clientes`).subscribe((res: any) => {
+    this.httpf.get2(`clientes`).subscribe((res: any) => {
       this.clientes = res[0];
       this.spinner.hide();
     }, error => { this.spinner.hide(); })
@@ -603,7 +605,7 @@ export class RecintoNuevaSolicitudComponent implements OnInit {
 
   saveFiles(payload: BLFile): void {
     let apiid = this.auth.getSession().userData.idAPI;
-    this.http.post(`${environment.endpointApi}recintoDocumentos?idAPI=${apiid}`, payload).subscribe(res => {
+    this.httpf.post(`recintoDocumentos?idAPI=${apiid}`, payload).subscribe(res => {
     });
   }
 

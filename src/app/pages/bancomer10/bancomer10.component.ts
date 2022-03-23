@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '@env/environment';
 import { AuthService } from '@serv/auth.service';
+import { FinanzasService } from '@serv/finanzas.service';
 
 @Component({
   selector: 'app-bancomer10',
@@ -13,7 +14,7 @@ export class Bancomer10Component implements OnInit {
 
   catCFDI: any[] = [];
   sendCFDI = false;
-  constructor(private activeRoute: ActivatedRoute, private http: HttpClient, private auth: AuthService) { }
+  constructor(private activeRoute: ActivatedRoute, private http: HttpClient, private auth: AuthService, private httpf: FinanzasService,) { }
   data = {
     appkey: environment.appKey,
     banco: 'Santander',
@@ -46,14 +47,14 @@ export class Bancomer10Component implements OnInit {
             this.data.fecha = `${params?.val_10}`;
             this.data.importe = params?.t_importe;
             let apiid = this.auth.getSession().userData.idAPI;
-            this.http.post(`${environment.endpointApi}bancosRespuesta?idAPI=${apiid}`, this.data).subscribe((resBanco: any) => {
+            this.httpf.post(`bancosRespuesta?idAPI=${apiid}`, this.data).subscribe((resBanco: any) => {
             });
       });
   }
 
   getCatalogoCFDI(): void{
     let apiid = this.auth.getSession().userData.idAPI;
-    this.http.get(`${environment.endpointApi}catUsoCFDI?idAPI=${apiid}`).subscribe((res: any)=> {
+    this.httpf.get(`catUsoCFDI?idAPI=${apiid}`).subscribe((res: any)=> {
       this.catCFDI = res;
     });
   }
@@ -68,7 +69,7 @@ export class Bancomer10Component implements OnInit {
     }
     let apiid = this.auth.getSession().userData.idAPI;
     
-    this.http.post(`${environment.endpointApi}catUsoCFDI?idAPI=${apiid}`, payload).subscribe((res: any)=>{
+    this.httpf.post(`catUsoCFDI?idAPI=${apiid}`, payload).subscribe((res: any)=>{
       if(res.error == 0){
         this.sendCFDI = true;
       }

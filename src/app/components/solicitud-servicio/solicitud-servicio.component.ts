@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 declare var $: any;
 import Swal from 'sweetalert2'
+import { FinanzasService } from '@serv/finanzas.service';
 
 @Component({
   selector: 'app-solicitud-servicio',
@@ -86,6 +87,7 @@ export class SolicitudServicioComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private pdf: PdfService,
     private pagina: PaginateService,
+    private httpf: FinanzasService,
     private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -478,7 +480,7 @@ export class SolicitudServicioComponent implements OnInit {
 
   getDocumentos(bl: string) {
     let apiid = this.auth.getSession().userData.idAPI;
-    this.http.get(`${environment.endpointApi}recintoDocumentos?idAPI=${apiid}&bl=${bl}`).subscribe((res: any) => {
+    this.httpf.get(`recintoDocumentos?idAPI=${apiid}&bl=${bl}`).subscribe((res: any) => {
       if (res) {
         this.documentosVisual = res;
       } else {

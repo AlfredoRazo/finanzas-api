@@ -4,6 +4,7 @@ import { environment } from '@env/environment';
 import { AuthService } from '@serv/auth.service';
 import { PaginateService } from '@serv/paginate.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FinanzasService } from '@serv/finanzas.service';
 
 @Component({
   selector: 'app-bl-inventario',
@@ -43,6 +44,7 @@ export class BlInventarioComponent implements OnInit {
     private auth: AuthService,
     private pagina: PaginateService,
     private spinner: NgxSpinnerService,
+    private httpf: FinanzasService,
     private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -129,7 +131,7 @@ export class BlInventarioComponent implements OnInit {
 
   getDocumentos(bl: string) {
     let apiid = this.auth.getSession().userData.idAPI
-    this.http.get(`${environment.endpointApi}recintoDocumentos?idAPI=${apiid}&bl=${bl}`).subscribe((res: any) => {
+    this.httpf.get(`recintoDocumentos?idAPI=${apiid}&bl=${bl}`).subscribe((res: any) => {
       if (res) {
         this.documentosVisual = res;
       } else {

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { AuthService } from '@serv/auth.service';
+import { FinanzasService } from '@serv/finanzas.service';
 import { HelpersService } from '@serv/helpers.service';
 import { PaginateService } from '@serv/paginate.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -32,6 +33,7 @@ export class TablaBuquesComponent implements OnInit {
     private pagina: PaginateService,
     private help: HelpersService,
     private auth: AuthService,
+    private httpf: FinanzasService,
     private spinner: NgxSpinnerService) { }
   
   ngOnInit(): void {
@@ -41,7 +43,7 @@ export class TablaBuquesComponent implements OnInit {
   getData(): void {
     this.spinner.show();
     let apiid = this.auth.getSession().userData.idAPI;
-    this.http.get(`${environment.endpointApi}buquesSolicitud?idAPI=${apiid}`).subscribe((res: any) => {
+    this.httpf.get(`buquesSolicitud?idAPI=${apiid}`).subscribe((res: any) => {
       this.pageData = 1;
       this.spinner.hide();
       this.totalData = res.length;

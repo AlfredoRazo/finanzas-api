@@ -7,7 +7,9 @@ import { PaginateService } from '@serv/paginate.service';
 import { PdfService } from '@serv/pdf.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { sha256 } from 'js-sha256';
-
+import { FinanzasService } from '@serv/finanzas.service';
+import { format, startOfMonth, endOfMonth } from 'date-fns';
+declare var $: any;
 @Component({
   selector: 'app-pagos-table',
   templateUrl: './pagos-table.component.html',
@@ -61,16 +63,25 @@ export class PagosTableComponent implements OnInit {
   criterio: string = '';
   cfdi:any;
   version:any;
+  fechaini:any;
+  fechafin:any;
   constructor(private http: HttpClient,
     private pagina: PaginateService,
     private help: HelpersService,
     private auth: AuthService,
     private pdf: PdfService,
+    private httpf: FinanzasService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    this.datosContribuyente.rfc = this.auth.getSession().userData.rfc
+    this.datosContribuyente.rfc = this.auth.getSession().userData.rfc;
+    this.fechaini = this.help.today();
+    this.fechafin = this.help.today();
+    $('#fecha-inis').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fechaini = date } });
+    $('#fecha-fins').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fechafin = date } });
+
     this.getData();
+    this.getCatalogosRegimen();
     this.getCatalogoCFDI();
   }
 
@@ -124,7 +135,7 @@ export class PagosTableComponent implements OnInit {
 
   getCatalogoCFDI(): void{
     let apiid = this.auth.getSession().userData.idAPI;
-    this.http.get(`${environment.endpointApi}catUsoCFDI?idAPI=${apiid}`).subscribe((res: any)=> {
+    this.httpf.get(`catUsoCFDI?idAPI=${apiid}`).subscribe((res: any)=> {
       this.catCFDI = res;
     });
   }
@@ -133,9 +144,12 @@ export class PagosTableComponent implements OnInit {
     this.spinner.show();
     let query = '';
     //if(this.parent != 'facturacion'){
+      
       query = '?rfc=' + encodeURIComponent(this.auth.getSession().userData.rfc);
+      query += `&fechaini=${this.fechaini}`;
+      query += `&fechafin=${this.fechafin}`;
     //}
-    this.http.get(`${environment.endpoint}consultasDetalle${query}`).subscribe((res: any) => {
+    this.httpf.get(`consultasDetalle${query}`).subscribe((res: any) => {
       this.spinner.hide();
       this.originalData = res[0].map((item: any) => {
         item.selected = false;
@@ -176,7 +190,7 @@ export class PagosTableComponent implements OnInit {
       }
       this.spinner.show();
       let apiid = this.auth.getSession().userData.idAPI
-      this.http.post(`${environment.endpointApi}referenciaGenerar?idAPI=${apiid}`, payload).subscribe((res: any) =>{
+      this.httpf.post(`referenciaGenerar?idAPI=${apiid}`, payload).subscribe((res: any) =>{
         this.spinner.hide();
         this.isPagar = true;
         this.referencia = res[0].referencia;
@@ -331,7 +345,7 @@ export class PagosTableComponent implements OnInit {
       uso: val[0].valor
     }
     let apiid = this.auth.getSession().userData.idAPI
-    this.http.post(`${environment.endpointApi}catUsoCFDI?idAPI=${apiid}`, payload).subscribe((res: any)=>{
+    this.httpf.post(`catUsoCFDI?idAPI=${apiid}`, payload).subscribe((res: any)=>{
       if(res.error == 0){
       }
     },error=>{});
@@ -349,14 +363,14 @@ export class PagosTableComponent implements OnInit {
       tipoEmpresa: 601
     }
     let apiid = this.auth.getSession().userData.idAPI
-    this.http.post(`${environment.endpointApi}datosEmpresa?idAPI=${apiid}`, payload).subscribe((res: any)=>{
+    this.httpf.post(`datosEmpresa?idAPI=${apiid}`, payload).subscribe((res: any)=>{
       if(res.error == 0){
       }
     },error=>{});
   }
 
   getCatalogosRegimen(): void{
-    this.http.get(`${environment.endpointApi}catalogos?ncat=REGIMEN FISCAL`).subscribe((res: any) => {
+    this.httpf.get(`catalogos?ncat=REGIMEN FISCAL`).subscribe((res: any) => {
       this.regimenes = res;
     },error =>{
       this.regimenes = [];

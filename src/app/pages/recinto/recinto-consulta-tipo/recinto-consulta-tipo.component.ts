@@ -8,6 +8,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 declare var $: any;
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
+import { FinanzasService } from '@serv/finanzas.service';
 
 export interface FacturaForm {
   material: string;
@@ -91,6 +92,7 @@ export class RecintoConsultaTipoComponent implements OnInit {
 
   constructor(private http: HttpClient,
     private auth: AuthService,
+    private httpf: FinanzasService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
@@ -104,14 +106,14 @@ export class RecintoConsultaTipoComponent implements OnInit {
 
   getClientes(): void {
     this.spinner.show();
-    this.http.get(`${environment.endpoint}clientes`).subscribe((res: any) => {
+    this.httpf.get2(`clientes`).subscribe((res: any) => {
       this.clientes = res[0];
       this.spinner.hide();
     }, err => { this.spinner.hide() });
   }
   getConceptos(): void {
 
-    this.http.get(`${environment.endpoint}sapcatalogos?catalogo=materiales`).subscribe((res: any) => {
+    this.httpf.get2(`sapcatalogos?catalogo=materiales`).subscribe((res: any) => {
       this.conceptos = res.valores;
     }, err => { this.spinner.hide() });
   }
@@ -286,7 +288,7 @@ export class RecintoConsultaTipoComponent implements OnInit {
     };
     let apiid = this.auth.getSession().userData.idAPI;
     
-    this.http.post(`${environment.endpointApi}facturacionGenerarOrden?idAPI=${apiid}`, payload).subscribe((res: any) => {
+    this.httpf.post(`facturacionGenerarOrden?idAPI=${apiid}`, payload).subscribe((res: any) => {
       this.spinner.hide();
       if (res[0]?.error == 1) {
         this.hasError = true;
