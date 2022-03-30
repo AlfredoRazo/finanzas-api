@@ -73,16 +73,17 @@ export class PagosTableComponent implements OnInit {
     private httpf: FinanzasService,
     private spinner: NgxSpinnerService) { }
 
-  ngOnInit(): void {
+   ngOnInit(): void {
     this.datosContribuyente.rfc = this.auth.getSession().userData.rfc;
     this.fechaini = this.help.today();
     this.fechafin = this.help.today();
-    $('#fecha-inis').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fechaini = date } });
-    $('#fecha-fins').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fechafin = date } });
+  
 
     this.getData();
     this.getCatalogosRegimen();
     this.getCatalogoCFDI();
+    this.addRefPicker();
+    
   }
 
   checks(): void {
@@ -377,6 +378,12 @@ export class PagosTableComponent implements OnInit {
 
     })
     
+  }
+  addRefPicker(): void{
+    setTimeout(()=>{
+      $('#fecha-inis').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fechaini = date } });
+      $('#fecha-fins').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fechafin = date } });
+    },1000);
   }
 
 }

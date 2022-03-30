@@ -1,16 +1,21 @@
-<div [ngStyle]="{'display': isPagar ? 'hidden' : 'block' }">
+<div *ngIf="!isPagar">
+    
     <div class="row">
         <label class="col-sm-2 control-label" style="text-align: left !important;">Filtrar: </label>
         <div class="col-md-4">
-          <div class="form-group datepicker-group col-md-12">
-            <input type="text" class="form-control" id="fecha-inis" placeholder="Fecha Inicio" [(ngModel)]="fechaini" name="fechaini">
-            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+          <div class="form-group col-md-12">
+              <div class="datepicker-group">
+                  <input type="text" class="form-control" id="fecha-inis" placeholder="Fecha Inicio" [(ngModel)]="fechaini" name="fechaini">
+                  <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+              </div>
         </div>
         </div>
         <div class="col-md-4">
-          <div class="form-group datepicker-group col-md-12">
+          <div class="form-group col-md-12">
+            <div class="datepicker-group">
             <input type="text" class="form-control" id="fecha-fins" placeholder="Fecha Fin" [(ngModel)]="fechafin" name="fechafin">
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+            </div>
         </div>
         </div>
         <div class="col-sm-2">
@@ -55,6 +60,7 @@
         <table class="table table-bordered table-striped">
             <thead style="white-space: nowrap;">
                 <tr style="cursor: pointer;">
+                    <th></th>
                     <th><input type="checkbox" [(ngModel)]="checkAll" (change)="checks()"></th>
                     <th scope="col" [appSort]="data" data-order="desc" data-name="estatus">Estatus <span
                             class="glyphicon glyphicon-sort"></span></th>
@@ -96,6 +102,19 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of data">
+                    <td>
+                        <div class="btn-group">
+     
+                            <button class="btn btn-primary btn-sm dropdown-toggle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="glyphicon glyphicon-cog"></span></button>
+                            <ul class="dropdown-menu">
+                              <li><a href="#">Editar</a></li>
+                              <li><a href="#">Habilitar pago</a></li>
+                              <li><a href="#">Deshabilitar pago</a></li>
+                              <!--<li role="separator" class="divider"></li>-->
+                              <li><a href="#">Actualizar</a></li>
+                            </ul>
+                          </div>
+                    </td>
                     <td style="vertical-align: middle;">
                         <ng-container *ngIf="item.estatus == 'Nuevo'">
                             <input type="checkbox" [(ngModel)]="item.selected">
@@ -225,7 +244,7 @@
         <br>
         <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#recibo">Imprimir</button>
         <button class="btn btn-primary btn-sm" style="margin-left: 10px;"
-            (click)="isPagar=false; apagar=[]; referencia = ''; vigencia = ''; totalApagar=0;">Cancelar</button>
+            (click)="isPagar=false; apagar=[]; referencia = ''; vigencia = ''; totalApagar=0;addRefPicker();">Cancelar</button>
         <div class="modal fade bs-example-modal-lg" id="recibo" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
