@@ -34,6 +34,7 @@ export class PagosTableComponent implements OnInit {
   collSize = 10;
   descPaginado = '';
   data: any = [];
+  isPisPay = false;
   datosContribuyente = {
     cp: '',
     rfc: '',

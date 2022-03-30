@@ -228,11 +228,11 @@
             <br>
             <table style="width: 100%;">
                 <tr>
-                    <td><img style="cursor: pointer;" (click)="sendDatosEmpresa();sendPago('santander',totalApagar.toString());"
+                    <td><img style="cursor: pointer;" (click)="isPisPay = false;sendDatosEmpresa();sendPago('santander',totalApagar.toString());"
                             src="assets/img/bancos/santander.gif" /></td>
                     <td><img style="cursor: pointer;" data-toggle="modal"
-                            (click)="sendDatosEmpresa(); sendPago('bbva',totalApagar.toString());" src="assets/img/bancos/bbva.gif" /></td>
-                    <td><img style="cursor: pointer;" (click)="sendDatosEmpresa(); sendPago('pispay',totalApagar.toString());" data-toggle="modal" data-target="#alerta"
+                            (click)="isPisPay = false; sendDatosEmpresa(); sendPago('bbva',totalApagar.toString());" src="assets/img/bancos/bbva.gif" /></td>
+                    <td><img style="cursor: pointer;" (click)="isPisPay = true" data-toggle="modal" data-target="#recibo"
                             src="assets/img/bancos/pispay.jpeg" /></td>
                     <td><img style="cursor: pointer;" (click)="sendDatosEmpresa();sendPago('visamaster',totalApagar.toString());" data-toggle="modal" data-target="#alerta"
                             src="assets/img/bancos/visa-master.gif" /></td>
@@ -252,6 +252,7 @@
                         <h4 class="modal-title">Recibo</h4>
                     </div>
                     <div class="modal-body">
+                        <div *ngIf="!isPisPay">
                         <div id="contenido-imprimir" style="font-size: 0.8em">
                             <img src="assets/logoAPI.jpeg" style="width: 100%;">
                             <h4 style="text-align: center;">Referencia de Pago</h4>
@@ -322,6 +323,40 @@
                             <p><b>Fecha limite de pago {{vigencia}}</b></p>
                         </div>
                     </div>
+                    <div *ngIf="isPisPay">
+                        <div id="contenido-imprimir" style="font-size: 0.8em">
+                            <img src="assets/logoAPI.jpeg" style="width: 100%;">
+
+                            <br>
+                            <br>
+                            <table style="width: 100%;">
+                            <tr>
+                                <td><b>Empresa</b>
+                                    <br>
+                                    
+                                </td>
+                                <td><b>Fecha</b><br>
+                                    {{hoy | date:'yyyy-MM-dd'}}</td>
+                            </tr>
+                            </table>
+                            <h3>DATOS DE PAGO</h3>
+                            <table style="width: 100%;">
+                            <tr>
+                                <td><b>CLABE</b><br>646180257900000101</td>
+                                <td><b>NOMBRE</b><br>ADMINISTRACIÓN DEL SISTEMA PORTUARIO</td>
+                                <td><b>BANCO</b><br>STP</td>
+                                
+                            </tr>
+                            <tr>
+                                <td><b>TOTAL</b><br>{{totalApagar}}</td>
+                                <td><b>CONCEPTO</b><br>AMN1070101032202228VXX34409270</td>
+                                <td><b>FECHA LÍMITE</b><br>{{vigencia}}</td>
+                                
+                            </tr>
+                            </table>
+                            
+                        </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                         <button type="button" class="btn btn-primary" (click)="imprimir()">Imprimir</button>
@@ -340,6 +375,24 @@
                     <div class="alert alert-info">
                         Próximamente
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade bs-example-modal-lg" id="alerta" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Visa / MasterCard</h4>
+                </div>
+                <div class="modal-body">
+                    <form #formVisaMaster>
+
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
