@@ -19,7 +19,7 @@
         </div>
         </div>
         <div class="col-sm-2">
-          <button class="btn btn-danger btn-block btn-sm" type="button" (click)="getData()">Consultar <span class="glyphicon glyphicon-search"
+          <button class="btn btn-primary btn-block btn-sm" type="button" (click)="getData()">Consultar <span class="glyphicon glyphicon-search"
               aria-hidden="true"></span></button>
         </div>
       </div>
@@ -35,7 +35,7 @@
                 <input type="text" class="form-control" placeholder="Criterio" name="criterio" [(ngModel)]="criterio">
             </div>
             <div class="col-sm-2">
-                <button class="btn btn-danger btn-block btn-sm" type="button" (click)="filtrado()">Buscar <span
+                <button class="btn btn-primary btn-block btn-sm" type="button" (click)="filtrado()">Buscar <span
                         class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
             </div>
         </div>
@@ -56,7 +56,7 @@
 
     <br>
     <br>
-    <div class="table-responsive" style="font-size: 0.65em; max-height: 500px;">
+    <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <thead style="white-space: nowrap;">
                 <tr style="cursor: pointer;">
@@ -105,7 +105,7 @@
                     <td>
                         <div class="btn-group">
      
-                            <button class="btn btn-primary btn-sm dropdown-toggle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="glyphicon glyphicon-cog"></span></button>
+                            <button class="btn btn-icon btn-sm dropdown-toggle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="glyphicon glyphicon-cog"></span></button>
                             <ul class="dropdown-menu">
                               <li><a href="#">Editar</a></li>
                               <li><a href="#">Habilitar pago</a></li>
@@ -234,7 +234,7 @@
                             (click)="isPisPay = false; sendDatosEmpresa(); sendPago('bbva',totalApagar.toString());" src="assets/img/bancos/bbva.gif" /></td>
                     <td><img style="cursor: pointer;" (click)="isPisPay = true" data-toggle="modal" data-target="#recibo"
                             src="assets/img/bancos/pispay.jpeg" /></td>
-                    <td><img style="cursor: pointer;" (click)="sendDatosEmpresa();sendPago('visamaster',totalApagar.toString());" data-toggle="modal" data-target="#alerta"
+                    <td><img style="cursor: pointer;" (click)="sendDatosEmpresa();sendPago('visamaster',totalApagar.toString());" data-toggle="modal" data-target="#pagoVisa"
                             src="assets/img/bancos/visa-master.gif" /></td>
 
                 </tr>
@@ -242,7 +242,7 @@
         </div>
         <br>
         <br>
-        <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#recibo">Imprimir</button>
+        <!--<button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#recibo">Imprimir</button>-->
         <button class="btn btn-primary btn-sm" style="margin-left: 10px;"
             (click)="isPagar=false; apagar=[]; referencia = ''; vigencia = ''; totalApagar=0;addRefPicker();">Cancelar</button>
         <div class="modal fade bs-example-modal-lg" id="recibo" tabindex="-1" role="dialog">
@@ -329,10 +329,11 @@
 
                             <br>
                             <br>
-                            <table style="width: 100%;">
+                            <table style="width: 100%;" class="pago">
                             <tr>
                                 <td><b>Empresa</b>
                                     <br>
+                                    {{empresa}}
                                     
                                 </td>
                                 <td><b>Fecha</b><br>
@@ -340,7 +341,7 @@
                             </tr>
                             </table>
                             <h3>DATOS DE PAGO</h3>
-                            <table style="width: 100%;">
+                            <table style="width: 100%;" class="pago">
                             <tr>
                                 <td><b>CLABE</b><br>646180257900000101</td>
                                 <td><b>NOMBRE</b><br>ADMINISTRACIÓN DEL SISTEMA PORTUARIO</td>
@@ -348,7 +349,7 @@
                                 
                             </tr>
                             <tr>
-                                <td><b>TOTAL</b><br>{{totalApagar}}</td>
+                                <td><b>TOTAL</b><br>{{totalApagar | currency}}</td>
                                 <td><b>CONCEPTO</b><br>AMN1070101032202228VXX34409270</td>
                                 <td><b>FECHA LÍMITE</b><br>{{vigencia}}</td>
                                 
@@ -383,19 +384,40 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <div class="modal fade bs-example-modal-lg" id="alerta" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="pagoVisa" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Visa / MasterCard</h4>
+                    <h4 class="modal-title">Pago</h4>
                 </div>
                 <div class="modal-body">
-                    <form #formVisaMaster>
-
+                    <form #formPagoVisa="ngForm" autocomplete="off">
+                        <div class="form-group col-md-12">
+                            <label class="control-label">Tipo</label>
+                            <select class="form-control" name="tipo" [(ngModel)]="pagoVisaMaster.tipo" required>
+                                <option value="">Seleccione</option>
+                                <option>Visa</option>
+                                <option>Master Card</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="control-label">Número de Tarjeta</label>
+                            <input type="text" mask="0000-0000-0000-0000" class="form-control" name="numTarjeta" [(ngModel)]="pagoVisaMaster.numTarjeta" required/>   
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label class="control-label">Fecha de Vencimiento</label>
+                            <input type="text" mask="00/0000" [dropSpecialCharacters]="false" placeholder="00/0000" class="form-control" name="fechaVencimiento" [(ngModel)]="pagoVisaMaster.fechaVencim" required/>   
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Código de Seguridad</label>
+                            <input type="password" maxlength="3" class="form-control" name="cvs" [(ngModel)]="pagoVisaMaster.cvs" required/>   
+                        </div>
+                       
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Pagar</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

@@ -170,7 +170,7 @@
 </form>
 <br>
 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregar-data"
-    [disabled]="formConsulta.invalid">Agregar <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+    [disabled]="formConsulta.invalid"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Agregar </button>
 <br>
 <br>
 <div class="table-responsive" style="max-height: 500px;">
@@ -226,8 +226,8 @@
 </div>
 <div class="row top-buffer">
     <div class="col-md-12">
-        <button type="button" class="btn btn-default" routerLink="/facturacion">Regresar</button>
-        <button type="button" class="btn btn-primary" (click)="generarPago()" style="margin-left: 15px;"
+        <button type="button" class="btn btn-danger btn-sm" routerLink="/facturacion"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Regresar</button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="generarPago()" style="margin-left: 15px;"
             [disabled]="data.length == 0">Generar Pago</button>
     </div>
 </div>

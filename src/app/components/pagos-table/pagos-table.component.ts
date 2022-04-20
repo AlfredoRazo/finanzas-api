@@ -16,7 +16,7 @@ declare var $: any;
   styleUrls: ['./pagos-table.component.css']
 })
 export class PagosTableComponent implements OnInit {
-  @Input() parent= 'facturacion';
+  @Input() parent = 'facturacion';
   checkAll = false;
   apagar: any = [];
   referencia = '';
@@ -28,9 +28,9 @@ export class PagosTableComponent implements OnInit {
   totalPago = 0;
   pagePago = 0;
   filtro = false;
-  regimenes:any = [];
-  filterData:any = [];
-  originalData : any = [];
+  regimenes: any = [];
+  filterData: any = [];
+  originalData: any = [];
   collSize = 10;
   descPaginado = '';
   data: any = [];
@@ -41,31 +41,38 @@ export class PagosTableComponent implements OnInit {
     nombre_razonsocial: '',
     regimen: ''
   };
+  pagoVisaMaster = {
+    numTarjeta: '',
+    tipo: '',
+    fechaVencim: '',
+    cvs: ''
+  }
   isPagar = false;
   filtrarpor: any;
   filter: any[] = [
-    {key:'estatus' ,descripcion: 'Estatus'},
-    {key:'noConsulta' ,descripcion: 'Consulta de pago'},
-    {key:'fechaConsulta' ,descripcion: 'Fecha de la consulta'},
-    {key:'tipoServicio' ,descripcion: 'Tipo de Servicio'},
-    {key:'factura' ,descripcion: 'Factura'},
-    {key:'fechafactura' ,descripcion: 'Fecha de la factura'},
-    {key:'cliente' ,descripcion: 'Cliente'},
-    {key:'solicitante' ,descripcion: 'Solicitante'},
-    {key:'UUID' ,descripcion: 'UUID'},
-    {key:'subtotal' ,descripcion: 'Subtotal'},
-    {key:'descuentos' ,descripcion: 'Descuentos'},
-    {key:'iva' ,descripcion: 'IVA'},
-    {key:'total' ,descripcion: 'Total'},
-    {key:'fechaPago' ,descripcion: 'Fecha de pago'},
-    {key:'referenciaPago' ,descripcion: 'Referencia de pago'}
+    { key: 'estatus', descripcion: 'Estatus' },
+    { key: 'noConsulta', descripcion: 'Consulta de pago' },
+    { key: 'fechaConsulta', descripcion: 'Fecha de la consulta' },
+    { key: 'tipoServicio', descripcion: 'Tipo de Servicio' },
+    { key: 'factura', descripcion: 'Factura' },
+    { key: 'fechafactura', descripcion: 'Fecha de la factura' },
+    { key: 'cliente', descripcion: 'Cliente' },
+    { key: 'solicitante', descripcion: 'Solicitante' },
+    { key: 'UUID', descripcion: 'UUID' },
+    { key: 'subtotal', descripcion: 'Subtotal' },
+    { key: 'descuentos', descripcion: 'Descuentos' },
+    { key: 'iva', descripcion: 'IVA' },
+    { key: 'total', descripcion: 'Total' },
+    { key: 'fechaPago', descripcion: 'Fecha de pago' },
+    { key: 'referenciaPago', descripcion: 'Referencia de pago' }
   ];
-  catCFDI:any[] = [];
+  catCFDI: any[] = [];
   criterio: string = '';
-  cfdi:any;
-  version:any;
-  fechaini:any;
-  fechafin:any;
+  cfdi: any;
+  version: any;
+  fechaini: any;
+  fechafin: any;
+  empresa: any;
   constructor(private http: HttpClient,
     private pagina: PaginateService,
     private help: HelpersService,
@@ -74,70 +81,73 @@ export class PagosTableComponent implements OnInit {
     private httpf: FinanzasService,
     private spinner: NgxSpinnerService) { }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
+    this.empresa = this.auth.getSession().userData.empresa
     this.datosContribuyente.rfc = this.auth.getSession().userData.rfc;
     this.fechaini = this.help.today();
     this.fechafin = this.help.today();
-  
+
 
     this.getData();
     this.getCatalogosRegimen();
     this.getCatalogoCFDI();
     this.addRefPicker();
-    
+
   }
 
   checks(): void {
-    if(this.criterio && this.filtrarpor){
-    
-      this.filterData = this.filterData.map((item: any) => { 
-        if(item.estatus == 'Nuevo'){
-          item.selected = this.checkAll; 
+    if (this.criterio && this.filtrarpor) {
+
+      this.filterData = this.filterData.map((item: any) => {
+        if (item.estatus == 'Nuevo') {
+          item.selected = this.checkAll;
         }
-        return item; });
+        return item;
+      });
       this.data = this.pagina.paginate(this.filterData, this.collSize, this.pagePago);
-    }else{
-      this.originalData = this.originalData.map((item: any) => { 
-        if(item.estatus == 'Nuevo'){
-          item.selected = this.checkAll; 
+    } else {
+      this.originalData = this.originalData.map((item: any) => {
+        if (item.estatus == 'Nuevo') {
+          item.selected = this.checkAll;
         }
-        return item; });
+        return item;
+      });
       this.data = this.pagina.paginate(this.originalData, this.collSize, this.pagePago);
     }
-    
-    
+
+
   }
 
-  filtrado(): void{
+  filtrado(): void {
 
     this.pagePago = 1;
-    if(this.criterio && this.filtrarpor){
+    if (this.criterio && this.filtrarpor) {
       this.filtro = true;
-      this.filterData = this.originalData.filter((item: any) =>{
-         return item[this.filtrarpor].toLowerCase().includes(this.criterio.toLowerCase());
+      this.filterData = this.originalData.filter((item: any) => {
+        return item[this.filtrarpor].toLowerCase().includes(this.criterio.toLowerCase());
       })
       this.totalPago = this.filterData.length;
       this.paginado();
-    }else{
+    } else {
       this.filtro = false;
       this.totalPago = this.originalData.length;
       this.paginado();
     }
-    
+
   }
 
   paginado(evt: any = null): void {
-    if(this.filtro){
+    if (this.filtro) {
       this.data = this.pagina.paginate(this.filterData, this.collSize, this.pagePago);
-    }else{
+    } else {
       this.data = this.pagina.paginate(this.originalData, this.collSize, this.pagePago);
     }
     this.descripcionPaginado();
   }
 
-  getCatalogoCFDI(): void{
+  getCatalogoCFDI(): void {
     let apiid = this.auth.getSession().userData.idAPI;
-    this.httpf.get(`catUsoCFDI?idAPI=${apiid}`).subscribe((res: any)=> {
+    this.httpf.get(`catUsoCFDI?idAPI=${apiid}`).subscribe((res: any) => {
       this.catCFDI = res;
     });
   }
@@ -146,10 +156,10 @@ export class PagosTableComponent implements OnInit {
     this.spinner.show();
     let query = '';
     //if(this.parent != 'facturacion'){
-      
-      query = '?rfc=' + encodeURIComponent(this.auth.getSession().userData.rfc);
-      query += `&fechaini=${this.fechaini}`;
-      query += `&fechafin=${this.fechafin}`;
+
+    query = '?rfc=' + encodeURIComponent(this.auth.getSession().userData.rfc);
+    query += `&fechaini=${this.fechaini}`;
+    query += `&fechafin=${this.fechafin}`;
     //}
     this.httpf.get(`consultasDetalle${query}`).subscribe((res: any) => {
       this.spinner.hide();
@@ -174,10 +184,10 @@ export class PagosTableComponent implements OnInit {
   }
 
   pagarMode(): void {
-    
-    if(this.filtro){
+
+    if (this.filtro) {
       this.apagar = this.filterData.filter((item: any) => item.selected);
-    }else{
+    } else {
       this.apagar = this.originalData.filter((item: any) => item.selected);
     }
     if (this.apagar.length > 0) {
@@ -185,34 +195,36 @@ export class PagosTableComponent implements OnInit {
         const monto = Number(element.total.replace(/\$/g, '').replace(/\,/g, ''));
         //this.totalApagar = this.totalApagar + monto;
       });
-      
+
       const payload = {
-        appkey : environment.appKey,
-        numconsultaSAP: this.apagar.map((item: any) => {return item.noConsulta})
+        appkey: environment.appKey,
+        numconsultaSAP: this.apagar.map((item: any) => { return item.noConsulta })
       }
       this.spinner.show();
       let apiid = this.auth.getSession().userData.idAPI
-      this.httpf.post(`referenciaGenerar?idAPI=${apiid}`, payload).subscribe((res: any) =>{
+      this.httpf.post(`referenciaGenerar?idAPI=${apiid}`, payload).subscribe((res: any) => {
         this.spinner.hide();
         this.isPagar = true;
         this.referencia = res[0].referencia;
         this.totalApagar = res[0].total;
         this.vigencia = res[0].vigencia;
-        this.pagobbva = res [1];
+        this.pagobbva = res[1];
         this.pagosantander = res[2];
-      }, error => {this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
         this.referencia = '';
         this.totalApagar = 0;
-        this.vigencia = ''});
-      
+        this.vigencia = ''
+      });
+
     }
   }
 
   sendPago(banco: string, total: string): void {
-   const monto = total.replace(/\$/g, '').replace(/\,/g, '');
-   this.sendUsoCfdi();
-   //this.sendDatosEmpresa();
-   if (banco == 'santander') {
+    const monto = total.replace(/\$/g, '').replace(/\,/g, '');
+    this.sendUsoCfdi();
+    //this.sendDatosEmpresa();
+    if (banco == 'santander') {
       const multiPagosform = document.createElement('form');
       const convenio = document.createElement('input');
       const referencia = document.createElement('input');
@@ -241,150 +253,150 @@ export class PagosTableComponent implements OnInit {
     }
     if (banco === 'bbva') {
       const multiPagosform = document.createElement('form');
-        multiPagosform.method = 'POST';
-        multiPagosform.target = '_blank';
-        multiPagosform.action = environment.bbvaEndpoint;
-        multiPagosform.style.cssText = 'display:none;'
+      multiPagosform.method = 'POST';
+      multiPagosform.target = '_blank';
+      multiPagosform.action = environment.bbvaEndpoint;
+      multiPagosform.style.cssText = 'display:none;'
 
-        const s_transm = document.createElement('input');
-        const c_referencia = document.createElement('input');
-        const t_servicio = document.createElement('input');
-        const t_importe = document.createElement('input');
-        const t_pago = document.createElement('input');
-        const n_autoriz = document.createElement('input');
-        const val_1 = document.createElement('input');
-        const val_2 = document.createElement('input');
-        const val_3 = document.createElement('input');
-        const val_4 = document.createElement('input');
-        const val_5 = document.createElement('input');
-        const val_6 = document.createElement('input');
-        const val_11 = document.createElement('input');
-        const val_12 = document.createElement('input');
-        const val_13 = document.createElement('input');
-        
-        s_transm.value = this.pagobbva?.s_transm;
-        s_transm.name = 's_transm';
-        multiPagosform.appendChild(s_transm);
-        c_referencia.value = this.pagobbva?.c_referencia;
-        c_referencia.name = 'c_referencia';
-        multiPagosform.appendChild(c_referencia);
+      const s_transm = document.createElement('input');
+      const c_referencia = document.createElement('input');
+      const t_servicio = document.createElement('input');
+      const t_importe = document.createElement('input');
+      const t_pago = document.createElement('input');
+      const n_autoriz = document.createElement('input');
+      const val_1 = document.createElement('input');
+      const val_2 = document.createElement('input');
+      const val_3 = document.createElement('input');
+      const val_4 = document.createElement('input');
+      const val_5 = document.createElement('input');
+      const val_6 = document.createElement('input');
+      const val_11 = document.createElement('input');
+      const val_12 = document.createElement('input');
+      const val_13 = document.createElement('input');
 
-        val_1.value = this.pagobbva?.val_1;
-        val_1.name = 'val_1';
-        multiPagosform.appendChild(val_1);
+      s_transm.value = this.pagobbva?.s_transm;
+      s_transm.name = 's_transm';
+      multiPagosform.appendChild(s_transm);
+      c_referencia.value = this.pagobbva?.c_referencia;
+      c_referencia.name = 'c_referencia';
+      multiPagosform.appendChild(c_referencia);
 
-        t_servicio.value = this.pagobbva?.t_servicio;
-        t_servicio.name = 't_servicio';
-        multiPagosform.appendChild(t_servicio);
+      val_1.value = this.pagobbva?.val_1;
+      val_1.name = 'val_1';
+      multiPagosform.appendChild(val_1);
 
-        t_importe.value = this.pagobbva?.t_importe?.toFixed(2).toString();
-        t_importe.name = 't_importe';
-        multiPagosform.appendChild(t_importe);
+      t_servicio.value = this.pagobbva?.t_servicio;
+      t_servicio.name = 't_servicio';
+      multiPagosform.appendChild(t_servicio);
 
-        val_2.value = this.pagobbva?.val_2;
-        val_2.name = 'val_2';
-        multiPagosform.appendChild(val_2);
+      t_importe.value = this.pagobbva?.t_importe?.toFixed(2).toString();
+      t_importe.name = 't_importe';
+      multiPagosform.appendChild(t_importe);
 
-        val_3.value = this.pagobbva?.val_3;
-        val_3.name = 'val_3';
-        multiPagosform.appendChild(val_3);
+      val_2.value = this.pagobbva?.val_2;
+      val_2.name = 'val_2';
+      multiPagosform.appendChild(val_2);
 
-        val_4.value = this.pagobbva?.val_4;
-        val_4.name = 'val_4';
-        multiPagosform.appendChild(val_4);
+      val_3.value = this.pagobbva?.val_3;
+      val_3.name = 'val_3';
+      multiPagosform.appendChild(val_3);
 
-        val_5.value = this.pagobbva?.val_5;
-        val_5.name = 'val_5';
-        multiPagosform.appendChild(val_5);
+      val_4.value = this.pagobbva?.val_4;
+      val_4.name = 'val_4';
+      multiPagosform.appendChild(val_4);
 
-        val_6.value = '';
-        val_6.name = 'val_6';
-        multiPagosform.appendChild(val_6);
+      val_5.value = this.pagobbva?.val_5;
+      val_5.name = 'val_5';
+      multiPagosform.appendChild(val_5);
 
-        val_11.value = '';
-        val_11.name = 'val_11';
-        multiPagosform.appendChild(val_11);
-  
-        val_12.value = '';
-        val_12.name = 'val_12';
-        multiPagosform.appendChild(val_12);
+      val_6.value = '';
+      val_6.name = 'val_6';
+      multiPagosform.appendChild(val_6);
 
-        const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
-       
-        val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
-        //val_13.value = this.pagobbva?.val_13;
-        val_13.name = 'val_13';
-        
-        multiPagosform.appendChild(val_13);
+      val_11.value = '';
+      val_11.name = 'val_11';
+      multiPagosform.appendChild(val_11);
 
-        const mp_urlsuccess = document.createElement('input');
-        mp_urlsuccess.value = environment.bbvaSuccessRes;
-        mp_urlsuccess.name = 'mp_urlsuccess';
-        multiPagosform.appendChild(mp_urlsuccess);
+      val_12.value = '';
+      val_12.name = 'val_12';
+      multiPagosform.appendChild(val_12);
 
-        const mp_urlfailure = document.createElement('input');
-        mp_urlfailure.value = environment.bbvaFailRes;
-        mp_urlfailure.name = 'mp_urlfailure';
-        multiPagosform.appendChild(mp_urlfailure);
-      
-        document.body.appendChild(multiPagosform);
-        multiPagosform.submit();
+      const cadenaValidacion = s_transm.value + c_referencia.value + t_importe.value;
+
+      val_13.value = sha256.hmac(environment.bbvaKey, cadenaValidacion);
+      //val_13.value = this.pagobbva?.val_13;
+      val_13.name = 'val_13';
+
+      multiPagosform.appendChild(val_13);
+
+      const mp_urlsuccess = document.createElement('input');
+      mp_urlsuccess.value = environment.bbvaSuccessRes;
+      mp_urlsuccess.name = 'mp_urlsuccess';
+      multiPagosform.appendChild(mp_urlsuccess);
+
+      const mp_urlfailure = document.createElement('input');
+      mp_urlfailure.value = environment.bbvaFailRes;
+      mp_urlfailure.name = 'mp_urlfailure';
+      multiPagosform.appendChild(mp_urlfailure);
+
+      document.body.appendChild(multiPagosform);
+      multiPagosform.submit();
     }
   }
 
   imprimir(): void {
     this.spinner.show();
     const DATA = document.getElementById('contenido-imprimir');
-    this.pdf.downloadPdf(DATA,this.spinner);
+    this.pdf.downloadPdf(DATA, this.spinner);
 
   }
-  sendUsoCfdi(): void{
-    const val = this.catCFDI.filter(item =>{ return item.clave === this.cfdi });
+  sendUsoCfdi(): void {
+    const val = this.catCFDI.filter(item => { return item.clave === this.cfdi });
     const payload = {
-      appkey : environment.appKey,
+      appkey: environment.appKey,
       referencia: this.referencia,
       clave: val[0].clave,
       uso: val[0].valor
     }
     let apiid = this.auth.getSession().userData.idAPI
-    this.httpf.post(`catUsoCFDI?idAPI=${apiid}`, payload).subscribe((res: any)=>{
-      if(res.error == 0){
+    this.httpf.post(`catUsoCFDI?idAPI=${apiid}`, payload).subscribe((res: any) => {
+      if (res.error == 0) {
       }
-    },error=>{});
+    }, error => { });
   }
 
-  sendDatosEmpresa(): void{
-    const payload = 
+  sendDatosEmpresa(): void {
+    const payload =
     {
-      appKey:environment.appKey,
+      appKey: environment.appKey,
       idUsuario: this.auth.getSession().userData.idusuario,
       rfc: this.datosContribuyente.rfc,
-      nombre:this.datosContribuyente.nombre_razonsocial,
+      nombre: this.datosContribuyente.nombre_razonsocial,
       cp: this.datosContribuyente.cp,
       claveregimen: this.datosContribuyente.regimen,
       tipoEmpresa: 601
     }
     let apiid = this.auth.getSession().userData.idAPI
-    this.httpf.post(`datosEmpresa?idAPI=${apiid}`, payload).subscribe((res: any)=>{
-      if(res.error == 0){
+    this.httpf.post(`datosEmpresa?idAPI=${apiid}`, payload).subscribe((res: any) => {
+      if (res.error == 0) {
       }
-    },error=>{});
+    }, error => { });
   }
 
-  getCatalogosRegimen(): void{
+  getCatalogosRegimen(): void {
     this.httpf.get(`catalogos?ncat=REGIMEN FISCAL`).subscribe((res: any) => {
       this.regimenes = res;
-    },error =>{
+    }, error => {
       this.regimenes = [];
 
     })
-    
+
   }
-  addRefPicker(): void{
-    setTimeout(()=>{
+  addRefPicker(): void {
+    setTimeout(() => {
       $('#fecha-inis').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fechaini = date } });
       $('#fecha-fins').datepicker({ dateFormat: 'dd-mm-yy', onSelect: (date: any) => { this.fechafin = date } });
-    },1000);
+    }, 1000);
   }
 
 }

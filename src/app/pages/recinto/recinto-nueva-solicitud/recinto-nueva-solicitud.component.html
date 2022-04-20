@@ -314,8 +314,8 @@
             </div>
         </div>
     </form>
-    <button type="button" class="btn btn-default" routerLink="/recinto">Regresar</button>
-    <button type="button" class="btn btn-primary" style="margin-left: 15px;"
+    <button type="button" class="btn btn-danger btn-sm" routerLink="/recinto"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Regresar</button>
+    <button type="button" class="btn btn-primary btn-sm" style="margin-left: 15px;"
         [disabled]="formExportacion.invalid">Guardar</button>
 </div>
 <div [style.display]="tipoTram && tipoTram != '2' ? 'block' : 'none'">
@@ -752,7 +752,7 @@
         </div>
         <div class="col-md-4">
             <button type="button" class="btn btn-sm btn-primary" style="margin-top: 33px;" (click)="addNuevosDatosBL()"
-                [disabled]="!nuevopeso || !nuevacantidad|| bls.length > 1">Agregar</button>
+                [disabled]="!nuevopeso || !nuevacantidad|| bls.length > 1"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar</button>
         </div>
     </div>
     <ng-container *ngIf="tipoSoli == '4'">

@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
   endpoint: ' https://web.zonazero.cloud/sicrefis/api/',
+  dashboardLink: 'https://pis-portal-federado-qa.azurewebsites.net/#/home/dashboard',
   endpointAlt: 'https://pis-api-recinto-finanzas-qa.azurewebsites.net/api/',
   endpointApi: 'https://pis-api-finanzas-federado.azurewebsites.net/api/',
   endpointRecinto : 'https://pis-api-recinto-federado-qa.azurewebsites.net',

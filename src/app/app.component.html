@@ -1,2 +1,4 @@
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "line-scale-party" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" [fullScreen] = "true" template="<img src='assets/loading01.gif' width='300' />"> 
+   
+</ngx-spinner>
 <router-outlet (activate)="onActivate($event)"></router-outlet>
