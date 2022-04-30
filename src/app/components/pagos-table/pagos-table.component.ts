@@ -73,6 +73,7 @@ export class PagosTableComponent implements OnInit {
   fechaini: any;
   fechafin: any;
   empresa: any;
+  rolAdm = false;
   constructor(private http: HttpClient,
     private pagina: PaginateService,
     private help: HelpersService,
@@ -84,6 +85,7 @@ export class PagosTableComponent implements OnInit {
   ngOnInit(): void {
     this.empresa = this.auth.getSession().userData.empresa
     this.datosContribuyente.rfc = this.auth.getSession().userData.rfc;
+    this.rolAdm = this.auth.getSession().userData.idRol == 1001;
     this.fechaini = this.help.today();
     this.fechafin = this.help.today();
 
@@ -209,7 +211,7 @@ export class PagosTableComponent implements OnInit {
         this.totalApagar = res[0].total;
         this.vigencia = res[0].vigencia;
         this.pagobbva = res[1];
-        this.pagosantander = res[2];
+        //this.pagosantander = res[2];
       }, error => {
         this.spinner.hide();
         this.referencia = '';

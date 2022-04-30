@@ -22,6 +22,10 @@ export class FacturacionComponent implements OnInit {
     
   }
 
+  regresarDash(): void {
+    window.parent.location.href = this.link; 
+  }
+
   
 
 }

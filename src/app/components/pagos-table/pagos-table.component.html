@@ -60,7 +60,7 @@
         <table class="table table-bordered table-striped">
             <thead style="white-space: nowrap;">
                 <tr style="cursor: pointer;">
-                    <th></th>
+                    <th *ngIf="rolAdm"></th>
                     <th><input type="checkbox" [(ngModel)]="checkAll" (change)="checks()"></th>
                     <th scope="col" [appSort]="data" data-order="desc" data-name="estatus">Estatus <span
                             class="glyphicon glyphicon-sort"></span></th>
@@ -102,7 +102,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of data">
-                    <td>
+                    <td *ngIf="rolAdm">
                         <div class="btn-group">
      
                             <button class="btn btn-icon btn-sm dropdown-toggle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="glyphicon glyphicon-cog"></span></button>
@@ -149,11 +149,12 @@
         (pageChange)="paginado($event)" [maxSize]="3" [rotate]="true" [boundaryLinks]="true"></ngb-pagination><br>
 </div>
 <div *ngIf="isPagar">
-
     <br>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
+                <th>No. Consulta</th>
+                <th>Concepto</th>
                 <th>Subtotal</th>
                 <th>Descuento</th>
                 <th>IVA</th>
@@ -162,13 +163,15 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of apagar">
+                <td>{{item.noConsulta}}</td>
+                <td>{{item.tipoServicio}}</td>
                 <td>{{item.subtotal}}</td>
                 <td>{{item.descuentos}}</td>
                 <td>{{item.iva}}</td>
                 <td>{{item.total}}</td>
             </tr>
             <tr>
-                <td colspan="3">Total acumulado:</td>
+                <td colspan="5">Total acumulado:</td>
                 <td>{{totalApagar | currency}}</td>
             </tr>
         </tbody>
@@ -228,14 +231,14 @@
             <br>
             <table style="width: 100%;">
                 <tr>
-                    <td><img style="cursor: pointer;" (click)="isPisPay = false;sendDatosEmpresa();sendPago('santander',totalApagar.toString());"
+                    <!--<td><img style="cursor: pointer;" (click)="isPisPay = false;sendDatosEmpresa();sendPago('santander',totalApagar.toString());"
                             src="assets/img/bancos/santander.gif" /></td>
                     <td><img style="cursor: pointer;" data-toggle="modal"
-                            (click)="isPisPay = false; sendDatosEmpresa(); sendPago('bbva',totalApagar.toString());" src="assets/img/bancos/bbva.gif" /></td>
+                            (click)="isPisPay = false; sendDatosEmpresa(); sendPago('bbva',totalApagar.toString());" src="assets/img/bancos/bbva.gif" /></td>-->
                     <td><img style="cursor: pointer;" (click)="isPisPay = true" data-toggle="modal" data-target="#recibo"
                             src="assets/img/bancos/pispay.jpeg" /></td>
-                    <td><img style="cursor: pointer;" (click)="sendDatosEmpresa();sendPago('visamaster',totalApagar.toString());" data-toggle="modal" data-target="#pagoVisa"
-                            src="assets/img/bancos/visa-master.gif" /></td>
+                    <!--<td><img style="cursor: pointer;" (click)="sendDatosEmpresa();sendPago('visamaster',totalApagar.toString());" data-toggle="modal" data-target="#pagoVisa"
+                            src="assets/img/bancos/visa-master.gif" /></td>-->
 
                 </tr>
             </table>
@@ -282,7 +285,8 @@
                                     <td><b>Estatus</b></td>
                                     <td>En proceso...</td>
                                     <td><b>Referencia</b></td>
-                                    <td>{{pagosantander?.refSantander}}</td>
+                                    <td></td>
+                                    <!--<td>{{pagosantander?.refSantander}}</td>-->
                                 </tr>
                             </table>
 
@@ -317,7 +321,7 @@
                             <br>
                             <h4>Información de pago</h4>
                             <p><b>Válido para pagar únicamente en Santander</b></p>
-                            <p><b>Referencia {{pagosantander?.refSantander}}</b></p>
+                            <p><b>Referencia <!--{{pagosantander?.refSantander}} --></b></p>
                             <p><b>Convenio 7164</b></p>
                             <p><b>Importe {{totalApagar}}</b></p>
                             <p><b>Fecha limite de pago {{vigencia}}</b></p>
@@ -343,17 +347,44 @@
                             <h3>DATOS DE PAGO</h3>
                             <table style="width: 100%;" class="pago">
                             <tr>
-                                <td><b>CLABE</b><br>646180257900000101</td>
-                                <td><b>NOMBRE</b><br>ADMINISTRACIÓN DEL SISTEMA PORTUARIO</td>
+                                <td><b>CLABE</b><br>646180305700000004</td>
+                                <td><b>NOMBRE</b><br>ASIPONA MANZANILLO</td>
                                 <td><b>BANCO</b><br>STP</td>
                                 
                             </tr>
                             <tr>
                                 <td><b>TOTAL</b><br>{{totalApagar | currency}}</td>
-                                <td><b>CONCEPTO</b><br>AMN1070101032202228VXX34409270</td>
+                                <td><b>REFERENCIA</b><br>{{this.referencia}}</td>
                                 <td><b>FECHA LÍMITE</b><br>{{vigencia}}</td>
                                 
                             </tr>
+                            </table>
+                            <br>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No. Consulta</th>
+                                        <th>Concepto</th>
+                                        <th>Subtotal</th>
+                                        <th>Descuento</th>
+                                        <th>IVA</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of apagar">
+                                        <td>{{item.noConsulta}}</td>
+                                        <td>{{item.tipoServicio}}</td>
+                                        <td>{{item.subtotal}}</td>
+                                        <td>{{item.descuentos}}</td>
+                                        <td>{{item.iva}}</td>
+                                        <td>{{item.total}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5">Total acumulado:</td>
+                                        <td>{{totalApagar | currency}}</td>
+                                    </tr>
+                                </tbody>
                             </table>
                             
                         </div>
